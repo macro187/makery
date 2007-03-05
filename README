@@ -1,0 +1,164 @@
+
+
+    README
+
+    "What is this thing?"
+
+
+--------------------------------------------------------------------------------
+
+
+    Copyright (c) 2007 Ron MacNeil
+    <macro187 AT users DOT sourceforge DOT net>
+
+    Permission to use, copy, modify, and distribute this software for any
+    purpose with or without fee is hereby granted, provided that the above
+    copyright notice and this permission notice appear in all copies.
+
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+    WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+    MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+    ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+    ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+    OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+    Copyright (c) 2007 Ron MacNeil
+
+
+--------------------------------------------------------------------------------
+
+
+x.  README Index
+
+    x.  README (this file)
+
+        ...gives a conceptual overview of what Makery is, and how to use it
+        to build things.
+
+    x.  README.INSTALL
+
+        ...explains how to install Makery and Makery Packages on your
+        system.
+
+    x.  README.GNUMAKE
+
+        ...is a quick review of how GNU Make works, a prerequisite for...
+
+    x.  README.HACKING
+
+        ...which explains how Makery works and how to hack it or modules for
+        it.
+
+
+x.  Introduction
+
+    Makery is a structured and modular build system framework on top of GNU
+    Make.
+
+    GNU Make provides the basic building blocks:
+
+    x.  Functions
+
+        Built-in and user-defined, providing conditionals, loops, and access
+        to the shell.
+
+    x.  Variables
+
+        In two flavors:  Evaluate-at-declaration and evaluate-at-use.
+
+    x.  Rules
+
+        Which can be constructed using functions and variables.
+
+    Makery takes these basic "elements" and divides them along two lines:
+    Structural and modular.
+
+
+x.  Structure
+
+    Structure divides elements by context, or what they apply to.
+
+    x.  Global
+
+        Elements that apply to the entire build are "global" elements.
+
+
+    x.  Projects
+
+        The most visible structural division is the "project".  Makery
+        encourages relatively fine-grained projects, usually one program
+        or library to a project.  All projects involved in a build are
+        processed within the same Make invocation.  (Makery eschews
+        recursive make)  Among other benefits, this allows projects to
+        access each others' variables for use in creating fine-grained
+        cross-project dependencies.  To enable this, Makery provides a
+        mechanism for insulating different projects' variables from each
+        other.
+
+        "Projects" are the logical units that one builds with Makery.
+        Makery is not limited to building one kind of project, so what
+        exactly defines a "project" can vary.  Typical examples of
+        "projects" might be:
+
+        - A docbook book
+        - A .NET library written in C#
+        - A program written in C
+        - A suite of C# programs (each of which is implemented in it's
+          own project)
+
+        Often, projects depend on other projects.  For example, a program
+        may require one or more libraries.  Those libraries may themselves
+        require other libraries, and so on.
+
+        In Makery, a project declares a list of other projects it directly
+        requires, and Makery takes care of recursively sourcing all required
+        projects into the build.
+
+
+    x.  Configs
+
+        A given project can take on slightly different flavours depending
+        on build options or conditions under which the build occurs.  Each
+        project can be thought of as having multiple instances, one for
+        each different configuration.
+
+        Makery provides a framework for defining different config "fields",
+        available options for each, masks for currently-unavailable options,
+        etc.  At build time, default options are computed for each field,
+        resulting in a default config, which is used for the build.*  Config
+        values can, of course, be overridden per-build on the command line.
+
+        * Currently, only a single config for each project is computed and
+        used per-build.  This may change in future, allowing for multiple
+        permutations of the same project in the same build.
+
+
+x.  Modules
+
+    Module divisions cut across the above structural divisions, grouping
+    related elements.
+
+    A module generally implements a particular step of a build process.
+    At the global level, it may provide functions or global constants
+    applicable across different projects.  At the project level, it defines
+    related variables which then uses to generate rules.
+
+    For example, different modules might:
+
+    - Locate source code files
+    - Create rules that perform preprocessing on source code files
+    - Locate compiler(s), and create rules that use them to compile source
+      code files
+    - Locate linker(s), and create rules that use them to link object files
+      into programs or libraries
+    - Locate TeX program(s), and create rules that use them to generate
+      documents
+    - Create a runnable version of the project by pulling required libraries
+      from other projects
+    - Package multiple programs/libraries from other projects into an
+      archive for distribution
+
+    Modules may depend on functionality in other modules to their job.
+    Makery allows each module to declare a list of other modules it
+    requires.  Makery then recursively sources all required modules.
+

@@ -1,0 +1,233 @@
+
+
+    REVIEW
+
+    "What is Make anyways?"
+
+
+--------------------------------------------------------------------------------
+
+
+    Copyright (c) 2007 Ron MacNeil
+    <macro187 AT users DOT sourceforge DOT net>
+
+    Permission to use, copy, modify, and distribute this software for any
+    purpose with or without fee is hereby granted, provided that the above
+    copyright notice and this permission notice appear in all copies.
+
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+    WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+    MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+    ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+    ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+    OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+--------------------------------------------------------------------------------
+
+
+x.  Introduction
+
+    What make does is simple.  You give it a bunch of rules about how
+    different things get built out of other things.  Then you ask it for
+    something.  Based on the rules you gave it, it figures out what to do to
+    give you what you asked for.
+
+
+x.  Rules
+
+    "Rules" are contained in "makefiles" and take the following form:
+
+        <target>: <prerequisites>
+            <commands>
+
+    A rule is like a recipe.  The "target" is what a rule explains how
+    to make.  "Prerequisites" are the ingredients used.  "Commands" are
+    the steps to make the target out of the prerequisites.  For example,
+    here are some rules:
+
+        b: a
+            foo a > b
+
+        c: b
+            bar -out c b
+
+        d:
+            mkdir -p d
+
+        d/e: c | d
+            oof c > d/e
+            chmod u+x d/e
+
+    The first rule says, "To make b you need a, and running this command
+    will do it."
+
+    The second rule says, "To make c you need b,
+    and running this command will do it."
+
+    This third rule says, "To make d you don't need anything, just run
+    this command."
+
+    The fourth rule says, "To make d/e you need d and c, and running
+    these commands will do it."  The reason d comes after a
+    pipe character '|' will be discussed later.
+
+
+x.  Asking for something
+
+    After explaining rules to make, you can ask it for something.
+    Suppose we've given make the above rules, and that the only existing
+    thing is a, and we ask for b:
+
+        $ make b
+
+    Make will realize it has information on how to create b out of a, so
+    will execute the command in the first rule and stop:
+
+        foo a > b
+
+    Now you have what you asked for.  Make will only use the rules it
+    decides it needs to get you what you asked for.
+
+
+x.  Chains of prerequisites
+
+    Often there is not a direct way to build what you want; there may be
+    so-called "intermediate" things required that don't exist yet.
+    Let's say we'd asked for c in the situation above.  Make realizes
+    it knows how to make c from b.  But b doesn't exist, so it checks to
+    see if it knows how to make b.  It does, so it makes b first and
+    then makes c:
+
+        $ make c
+        foo a > b
+        bar -out c b
+
+
+x.  Up-to-date
+
+    When you ask make for something, you're not only asking for that
+    thing to exist, you're also asking for it to be "up-to-date".  An
+    up-to-date target is one that is as new or newer than it's
+    prerequisites.  Continuing with our example rules, the first time
+    you ask make for b, make takes action because b doesn't exist:
+
+        $ make b
+        foo a > b
+
+    If you ask make for b again, it won't do anything because b already
+    exists and is newer than it's prequisites (because we just
+    made it):
+
+        $ make b
+
+    Now let's say a changes, making it newer than b.  The next time you
+    ask for b, make will consider it "out-of-date" and assume it needs
+    to be re-created to reflect any changes that may have been made to
+    a:
+
+        $ touch a
+
+        $ make b
+        foo a > b
+
+    Make has no way of knowing whether particular changes to
+    prerequisites have a meaningful impact or not on the target, so it
+    always assumes they do.  In fact, make doesn't even care if the
+    prerequisite has actually changed at all (as in the example above)
+    because it works strictly on time stamps.
+
+    This behavior holds for chains of prerequisites.  Using our example
+    rules, we can make c and then try again straight away:
+
+        $ make c
+        foo a > b
+        bar -out c b
+
+        $ make c
+
+    Nothing happens the second time.  According to the rules, everything
+    is up-to-date.  That is, c is as new or newer than b, which is as
+    new or newer than a.  However, updating a (which isn't one of c's
+    prerequisites) has a cascading effect which triggers a rebuild of b.
+    Because b, which is a prerequisite of c, is now newer than c, c
+    then gets rebuilt as well:
+
+        $ touch a
+
+        $ make c
+        foo a > b
+        bar -out c b
+
+
+x.  Order-only prerequisites
+
+    Make supports a second kind of prerequisite called an "order-only
+    prerequisite".  A regular prerequisite says two things:
+
+    1.  I'm required to build the target
+    2   If I'm newer than the target, it's out-of-date
+
+    An order-only prerequisite just says the first.
+
+    Order-only prerequisites are listed after regular prerequisites (if
+    there are any) and are separated from them by a pipe character '|'.
+    Referring back to our example rules, d in the final rule is an
+    order-only prerequisite.
+
+    Order-only prerequisites are commonly used if the prerequisite is a
+    directory, so that unrelated changes in the directory don't trigger
+    rebuilds of the target.
+
+
+x.  Variables
+
+    Make provides the ability to define "variables" containing strings
+    for later use in writing rules:
+
+        var1 := this is an immediate variable
+        var2 = this is a deferred variable
+
+    The value of a variable is everything from the first
+    non-whitespace character after the equals '=' up to the end of the
+    line.  This includes trailing whitespace, but not the end-of-line
+    character.
+
+    There are two kinds of variables in make, referred to as
+    "simply-expanded" and "recursively-expanded" in the literature.
+    That terminology is misleading because the difference between them
+    isn't in _how_ they are expanded, but _when_ they are expanded.
+    Therefore, we use alternate terms which more accurately reflect the
+    difference:  "Immediate" and "deferred".
+
+
+    x.  Immediate Variables
+
+        Immediate variables work like variables in most programming
+        languages in that the final value of the variable is computed
+        "immediately" at the time of the assignment.  In the following
+        example, var2's value stays the same even though we later change
+        var1:
+
+            var1 := hello
+            var2 := $(var1) world
+            var1 := something else
+
+
+    x.  Deferred Variables
+
+        Deferred variables work more like functions.  Their final values are
+        not computed at the time of assignment.  Their evaluation is
+        "deferred" until you actually use them, and that final value may
+        change in subsequent uses if referenced variables change:
+
+            var2 = $(var1) world
+            # var2 is now " world"
+
+            var1 = hello
+            # var2 is now "hello world"
+
+            var1 = goodbye
+            # var2 is now "goodbye world"
+

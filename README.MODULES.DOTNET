@@ -1,0 +1,100 @@
+
+
+    README.DOTNET
+
+    The dotnet Makery modules
+
+
+--------------------------------------------------------------------------------
+
+
+    Copyright (c) 2007 Ron MacNeil
+    <macro187 AT users DOT sourceforge DOT net>
+
+    Permission to use, copy, modify, and distribute this software for any
+    purpose with or without fee is hereby granted, provided that the above
+    copyright notice and this permission notice appear in all copies.
+
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+    WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+    MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+    ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+    ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+    OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+    Copyright (c) 2007 Ron MacNeil
+
+
+--------------------------------------------------------------------------------
+
+
+x.  Introduction
+
+    These Makery modules provide support for building .NET-related things.
+
+
+x.  Modules
+
+    x.  dotnet
+
+    Represents creation of a .dll library or .exe program from some source
+    code files.  Because you can program .NET in different languages, this
+    module captures the lowest common subset.  You are required to
+    MODULES_use an appropriate language-specific module in addition to
+    dotnet.  Also note that because .NET compilers are responsible for
+    compiling AND linking, the dotnet module doesn't provide any rules
+    itself - the entire task of compiling and linking is left to the
+    language-specific module to implement.
+
+
+    x.  dotnet.c
+
+    Language-specific module for compiling C to dotnet using Portable.NET's
+    "cscc".
+
+
+    x.  dotnet.copylibs
+
+    Pulls a projects' binaries plus those of all required library projects
+    into one place.  If the project is an .exe, this enables it be run
+    in-place.
+
+
+    x.  dotnet.csharp
+
+    Language-specific module for compiling C#.  Supports Microsoft's "csc",
+    Mono's "mcs", and Portable.NET's "cscc".
+
+
+    x.  dotnet.exe.project
+
+    Meta module that pulls together everything you usually want for a
+    dotnet .exe program.  You must still additionally specify a
+    language-specific module appropriate for the language your program is
+    written in.
+
+
+    x.  dotnet.lib.project
+
+    Meta module that pulls together everything you usually want for a
+    dotnet .dll library.  You must still additionally specify a
+    language-specific module appropriate for the language your library is
+    written in.
+
+
+    x.  dotnet.resbian
+
+    Support for compiling various kind of files into .resources files using
+    the "Resbian" tool.  Also arranges for those .resources files to be
+    linked into the final output binary.
+
+    See Net.Sourceforge.Resbian/README for more details.
+
+
+    x.  dotnet.runnable
+
+    Hooks an .exe-producing dotnet project to the generic "runnable" target,
+    allowing it to be run in a generic fashion with the "run" target or the
+    RUNNABLE_run shell command.  Arranges for the program to be run using
+    "mono" or "ilrun" if appropriate.
+

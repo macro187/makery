@@ -1,0 +1,72 @@
+
+
+    Resbian
+
+    "A command-line .NET resource tool that doesn't suck"
+
+
+--------------------------------------------------------------------------------
+
+
+    Copyright (c) 2007 Ron MacNeil
+    <macro187 AT users DOT sourceforge DOT net>
+
+    Permission to use, copy, modify, and distribute this software for any
+    purpose with or without fee is hereby granted, provided that the above
+    copyright notice and this permission notice appear in all copies.
+
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+    WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+    MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+    ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+    ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+    OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+--------------------------------------------------------------------------------
+
+
+x.  Definitions
+
+
+    Resource
+      Named, external .NET objects of any type, retrievable by name at
+      runtime.
+
+
+    Resource set
+      In the abstract, a collection of resources within which resource names
+      are unique.  Represented in code by System.Resources.ResourceSet.
+
+
+    .resources file
+      Binary file format containing a resource set, usually with the
+      filename extension ".resources".  System.Resources.ResourceWriter
+      writes these files, and System.Resources.ResourceReader reads them.
+
+
+    Embedded file
+      A file of any kind embedded into an assembly via the linker's
+      /embed switch or the compiler's (confusingly-named) /resource
+      switch.
+
+
+    ResourceManager
+      An object that retrieves resources that apply to a particular class
+      while allowing for culture-specific versions of each resource.  You
+      ask it for a resource of a particular name, and it provides the most
+      culture-specific version available for the currently-active (or a
+      specified) culture.
+
+      ResourceManager retrieves resources from embedded .resources files,
+      each containing resources for one class in one language.  The
+      embedded files adhere to a filename convention...
+
+        <Namespace>.<Type>[.<culture>].resources
+
+      ...which indicates the class and culture that the contained
+      resources apply to, eg. "Com.MyNameSpace.MyType.en_US.resources".
+      Omitting a culture from the filename indicates the neutral/invariant
+      culture.
+

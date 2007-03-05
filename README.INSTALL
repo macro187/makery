@@ -1,0 +1,59 @@
+
+
+    INSTALL
+
+    "How do you install this thing?"
+
+
+--------------------------------------------------------------------------------
+
+
+    Copyright (c) 2007 Ron MacNeil
+    <macro187 AT users DOT sourceforge DOT net>
+
+    Permission to use, copy, modify, and distribute this software for any
+    purpose with or without fee is hereby granted, provided that the above
+    copyright notice and this permission notice appear in all copies.
+
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+    WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+    MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+    ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+    ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+    OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+    Copyright (c) 2007 Ron MacNeil
+
+
+--------------------------------------------------------------------------------
+
+
+x.  Installation
+
+
+    1.  Get Makery and put it somewhere
+
+            Unpack it from an archive, check it out from source control,
+            whatever.
+
+
+    2.  Set an environment variable
+
+            Set the MAKERY environment variable to where Makery is:
+
+                $ export MAKERY=/wherever/you/put/makery
+
+            You might want to add that to your .profile (or whatever) so it
+            sticks around.
+
+
+    3.  Create a config file
+
+            Create a .makeryrc.mk file in your home directory.
+
+                $ touch ~/.makeryrc.mk
+
+            You can set often-used config options here rather than
+            specifying them on the command line each time.  Consult modules
+            for information on config fields and options.
+

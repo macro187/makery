@@ -1,0 +1,198 @@
+
+
+    HACKING
+
+    "How does this thing work?"
+
+
+--------------------------------------------------------------------------------
+
+
+    Copyright (c) 2007 Ron MacNeil
+    <macro187 AT users DOT sourceforge DOT net>
+
+    Permission to use, copy, modify, and distribute this software for any
+    purpose with or without fee is hereby granted, provided that the above
+    copyright notice and this permission notice appear in all copies.
+
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+    WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+    MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+    ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+    ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+    OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+--------------------------------------------------------------------------------
+
+
+    NOTE: This document is a work-in-progress and is a mess
+
+
+
+x.  Introduction
+
+    This document provides information on how to create modules to extend
+    Makery's functionality, as well as how to hack on Makery itself.
+
+
+
+x.  Project Makefiles
+
+    Here's the general form a project Makefile takes:
+
+        # The Makery module(s) the project needs
+        MODULES_use += <modulename>
+        ...
+
+        # Project-specific settings
+        <varname> = <value>
+        ...
+
+        # Invoke Makery
+        include $(MAKERY)/makery.mk
+
+    Consult the package/modules you're using for details on which modules
+    you might want to use as well as available project-specific settings.
+
+
+
+x.  Building projects
+
+        $ cd <project>
+        $ make <target>
+
+    Consult the package/modules you're using for details on available
+    targets.
+
+
+
+
+
+
+
+
+    Let's look at a simplified example.  Here are three Makery Makefiles
+    for three imaginary projects...
+
+
+        +------------------------------------------+
+        |                                          |
+        |  MODULES_use = ModuleA                   |
+        |  PROJ_requires = ../project2             |
+        |                                          |
+        |  include $(MAKERY)/makery.mk             |
+        |                                          |
+        +------------------------------------------+
+
+        Fig.X - project1/Makefile
+
+
+        +------------------------------------------+
+        |                                          |
+        |  MODULES_use = ModuleB                   |
+        |  PROJ_requires = ../project3             |
+        |                                          |
+        |  include $(MAKERY)/makery.mk             |
+        |                                          |
+        +------------------------------------------+
+
+        Fig.X - project2/Makefile
+
+
+        +------------------------------------------+
+        |                                          |
+        |  MODULES_use = ModuleC                   |
+        |                                          |
+        |  include $(MAKERY)/makery.mk             |
+        |                                          |
+        +------------------------------------------+
+
+        Fig.X - project3/Makefile
+
+
+    ...which say:
+
+    - Project1 uses ModuleA to build, and requires project2
+    - Project2 uses ModuleB to build, and requires project3
+    - Project3 uses ModuleC to build, and doesn't require any other projects
+
+    Let's further assume that:
+
+    - ModuleA requires functionality from ModuleC to work
+    - ModuleB also requires functionality from ModuleC to work
+    - ModuleC doesn't require any other modules
+
+
+
+                | Global |   project1   |   project2   |   project3   |
+                |        +------+-------+------+-------+------+-------+
+                |        | Vars | Rules | Vars | Rules | Vars | Rules |
+        --------+--------+------+-------+------+-------+------+-------+
+        ModuleA |        |      |       |||||||||||||||||||||||||||||||
+        --------+--------+------+-------+------+-------+------+-------+
+        ModuleB |        ||||||||||||||||      |       ||||||||||||||||
+        --------+--------+------+-------+------+-------+------+-------+
+        ModuleC |        |      |       |      |       |      |       |
+        --------+--------+------+-------+------+-------+------+-------+
+
+        Fig.X - A Makery "build" broken up by project and module
+
+
+
+
+
+
+
+
+
+
+        Modules are split into 3 parts, all of which are optional:
+
+        x.  Project
+
+            Define variables, perform operations 
+
+        x.  Rules
+        x.  Global
+
+            Things that only have to happen
+
+        Group related functionality
+        Declarative inter-module dependencies
+
+
+
+
+
+
+        A project specifies what other projects it requires as a list of
+        relative paths to other project directories.  Makery recursively
+        resolves all indirectly-required projects during builds.
+
+        Once a required project is resolved, it's project variables can be
+        examined for specific information about it, which can be used files
+        to use in rules.
+
+        Makery is designed to process everything in a particular build in a
+        single make instance.  This includes
+
+
+
+
+
+
+    x.  Plug holes in make
+
+
+
+
+            Words with spaces
+            To shell encoding
+            From shell encoding
+            Targets & prereqs with spaces
+        Project abstraction
+            Uniquely identified by absolute path of project dir
+            Compartmentalized per-project variables
+
