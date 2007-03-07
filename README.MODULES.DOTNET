@@ -88,7 +88,53 @@ x.  Modules
     the "Resbian" tool.  Also arranges for those .resources files to be
     linked into the final output binary.
 
-    See Net.Sourceforge.Resbian/README for more details.
+    [TODO Support for satellite assemblies?]
+
+    The localization classes in the .NET class library expect resources to
+    be broken up by culture and by the .NET type they apply to, which means
+    a separate .resources file embedded per culture/type combination.  In
+    addition, the resource items themselves can be of different types (eg.
+    strings, images, etc.).  The dotnet.resbian module can handle all this
+    for you automatically by way of a subdirectory and filename convention
+    for your resource source files:
+
+    x.  All resource source files should be located under a subdirectory in
+        the project. (the res/ subdirectory is assumed by default)
+
+    x.  Files directly under that top-level resource directory apply to the
+        so-called "neutral culture".  Generally, the framework uses these
+        when no culture-specific version exists.
+
+    x.  Further subdirectories are named according to culture code and
+        contain resource source files for each specific culture.
+
+    x.  The resource source files themselves adhere to the following overall
+        naming pattern:
+
+            [<SubNamespace>.]<TypeName>__<filename>
+
+        x.  Specify <SubNamespace> if the type the resource applies to is
+            in a sub-namespace of the project's overall namespace (which is
+            the same as your project's directory name unless you've
+            overridden it in your Makefile)
+
+        x.  <TypeName> is the name of the .NET type within your project that
+            the resource applies to
+
+        x.  <filename> will depend on what type of resource(s) the file
+            contains.  <filename> patterns currently supported by the
+            Resbian tool are:
+
+            x.  <name>.string.txt - The entire contents of the file will
+                be a single string resource named <name>.
+
+            x.  strings.txt - A text file containing multiple key/string
+                pairs, each of which becomes a single string resource named
+                the same as the key, plus a double-underscore "__" prefix.
+                For libraries of localizable strings.
+
+    Refer to the "examples/CSharp Test Lib" project for an illustrative
+    example.
 
 
     x.  dotnet.runnable
