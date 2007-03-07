@@ -151,7 +151,8 @@ $(MAKE_Heading)
 # with $(warning)
 # $1 - Variable name
 MAKE_DumpVar = \
-$(1) = '$($(1))'
+$(1) = '$($(1))'$(if $($(1)_DESC),$(MAKE_CHAR_NEWLINE)    $($(1)_DESC))
+#$(1) = '$($(1))'
 
 #$(1)$(MAKE_CHAR_NEWLINE)$(if $($(1)_DESC),$(MAKE_CHAR_TAB)$($(1)_DESC)$(MAKE_CHAR_NEWLINE))$(MAKE_CHAR_TAB)'$($(1))'
 

@@ -16,11 +16,11 @@
 
 
 $(call PROJ_DeclareVar,MODULES_use)
-MODULES_use_DESC = Modules that the project says will build it (list)
-MODULES_use_DESC += (set in project makefile only, please)
+MODULES_use_DESC ?= \
+Modules that the project says will build it (list) (set in project makefile only, please)
 
 
 $(call PROJ_DeclareVar,MODULES_proj)
-MODULES_proj_DESC = (internal) List of modules that have been processed for
-MODULES_proj_DESC += this project so far
+MODULES_proj_DESC ?= \
+(internal) List of modules that have been processed for this project so far
 

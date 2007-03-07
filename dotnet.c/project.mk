@@ -29,27 +29,27 @@ find $(call SHELL_Escape,$(DOTNET_srcdir_abs)) -type f -name \*.c \
 
 
 $(call PROJ_DeclareVar,DOTNET_C_defines)
-DOTNET_C_defines_DESC = Preprocessor variables to define (list)
+DOTNET_C_defines_DESC ?= Preprocessor variables to define (list)
 
 
 $(call PROJ_DeclareVar,DOTNET_C_debug)
-DOTNET_C_debug_DESC = Enable debug info and DEBUG preprocessor var? (0|1)
+DOTNET_C_debug_DESC ?= Enable debug info and DEBUG preprocessor var? (0|1)
 DOTNET_C_debug_DEFAULT = 1
 
 DOTNET_C_defines += $(if $(filter 1,$(DOTNET_C_debug)),DEBUG)
 
 
 $(call PROJ_DeclareVar,DOTNET_C_checked)
-DOTNET_C_checked_DESC = Enable runtime arithmetic bounds checking? (0|1)
+DOTNET_C_checked_DESC ?= Enable runtime arithmetic bounds checking? (0|1)
 DOTNET_C_checked_DEFAULT = 1
 
 
 $(call PROJ_DeclareVar,DOTNET_C_warn)
-DOTNET_C_warn_DESC = Compiler warning level (0-4)
+DOTNET_C_warn_DESC ?= Compiler warning level (0-4)
 DOTNET_C_warn_DEFAULT = 4
 
 
 $(call PROJ_DeclareVar,DOTNET_C_werror)
-DOTNET_C_werror_DESC = Treat compiler warnings as errors? (0|1)
+DOTNET_C_werror_DESC ?= Treat compiler warnings as errors? (0|1)
 DOTNET_C_werror_DEFAULT = 1
 

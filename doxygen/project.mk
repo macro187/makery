@@ -16,23 +16,23 @@
 
 
 $(call PROJ_DeclareVar,DOXYGEN_target)
-DOXYGEN_target_DESC = The doxygen phony target
+DOXYGEN_target_DESC ?= The doxygen phony target
 DOXYGEN_target_DEFAULT = $(PROJ_dir)/doxygen
 
 
 $(call PROJ_DeclareVar,DOXYGEN_depends)
-DOXYGEN_depends_DESC = \
+DOXYGEN_depends_DESC ?= \
 (append-only) Prerequisites for generating doxygen documentation (list)
 
 
 $(call PROJ_DeclareVar,DOXYGEN_srcs)
-DOXYGEN_srcs_DESC = Source code files to document (list)
+DOXYGEN_srcs_DESC ?= Source code files to document (list)
 
 DOXYGEN_depends += $(DOXYGEN_srcs)
 
 
 $(call PROJ_DeclareVar,DOXYGEN_defines)
-DOXYGEN_defines_DESC = \
+DOXYGEN_defines_DESC ?= \
 Preprocessor vars to treat as defined when parsing source files (list)
 
 PROJ_vars += $(foreach d,$(DOXYGEN_defines),DOXYGEN_define_$(d))
@@ -44,14 +44,14 @@ PROJ_vars += $(foreach d,$(DOXYGEN_defines),DOXYGEN_define_$(d))
 
 
 $(call PROJ_DeclareVar,DOXYGEN_outdir)
-DOXYGEN_outdir_DESC = Directory to output documentation to
+DOXYGEN_outdir_DESC ?= Directory to output documentation to
 DOXYGEN_outdir_DEFAULT = $(OUTDIRS_base)/doxygen
 
 OUTDIRS_all += $(call MAKE_EncodeWord,$(DOXYGEN_outdir))
 
 
 $(call PROJ_DeclareVar,DOXYGEN_configfile)
-DOXYGEN_configfile_DESC = (read-only) Output doxygen config file
+DOXYGEN_configfile_DESC ?= (read-only) Output doxygen config file
 DOXYGEN_configfile_DEFAULT = \
 $(if $(DOXYGEN_srcs),$(DOXYGEN_outdir)/doxygen.config)
 

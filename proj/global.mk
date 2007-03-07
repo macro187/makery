@@ -106,8 +106,6 @@ PROJ_DeclareVar = \
 $(eval $(call PROJ_DeclareVar_TEMPLATE,$(1)))
 
 define PROJ_DeclareVar_TEMPLATE
-PROJ_vars += $(1)_DESC
-PROJ_vars += $(1)_DEFAULT
 PROJ_vars += $(1)
 ifeq ($$($(1)),)
 $(1) = $$($(1)_DEFAULT)
@@ -125,7 +123,7 @@ $(eval $(PROJ_TEMPLATE_CLEARVARS))
 
 define \
 PROJ_TEMPLATE_CLEARVARS
-$(foreach varname,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(varname) =#)
+$(foreach varname,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(varname) =#$(MAKE_CHAR_NEWLINE)$(varname)_DEFAULT =#)
 endef
 
 
@@ -322,10 +320,10 @@ Prerequisite of:$(if $(RULE_REQDBYS)$(RULE_REQDBY),$(foreach r,$(RULE_REQDBYS) $
 Commands:
 $(if $(RULE_COMMANDS),$(RULE_COMMANDS),(none))
 
-Rule code:
-$(call PROJ_Rule_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET))))
-
 endef
+
+#Rule code:
+#$(call PROJ_Rule_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET))))
 
 
 # Generate the Make code for the rule

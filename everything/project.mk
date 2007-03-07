@@ -16,10 +16,10 @@
 
 
 $(call PROJ_DeclareVar,EVERYTHING_target)
-EVERYTHING_target_DESC = The phony everything target, which builds everything possible
+EVERYTHING_target_DESC ?= The phony everything target, which builds everything possible
 EVERYTHING_target_DEFAULT = $(PROJ_dir)/everything
 
 
 $(call PROJ_DeclareVar,EVERYTHING_reqs)
-EVERYTHING_reqs_DESC = Targets to hook to the everything target
+EVERYTHING_reqs_DESC ?= Targets to hook to the everything target
 

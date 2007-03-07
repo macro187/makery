@@ -43,18 +43,18 @@
 
 
 $(call PROJ_DeclareVar,OUTDIRS_all)
-OUTDIRS_all_DESC = All output directories (list)
+OUTDIRS_all_DESC ?= All output directories (list)
 
 
 $(call PROJ_DeclareVar,OUTDIRS_base)
-OUTDIRS_base_DESC = Base output directory
+OUTDIRS_base_DESC ?= Base output directory
 OUTDIRS_base_DEFAULT = $(PROJ_dir)/out
 
 OUTDIRS_all += $(call MAKE_EncodeWord,$(OUTDIRS_base))
 
 
 $(call PROJ_DeclareVar,OUTDIRS_cleantarget)
-OUTDIRS_cleantarget_DESC = The phony target to clean all output directories
+OUTDIRS_cleantarget_DESC ?= The phony target to clean all output directories
 OUTDIRS_cleantarget_DEFAULT = $(PROJ_dir)/outdirs-clean
 
 # Hook to clean target

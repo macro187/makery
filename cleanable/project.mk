@@ -16,10 +16,10 @@
 
 
 $(call PROJ_DeclareVar,CLEANABLE_target)
-CLEANABLE_target_DESC = The phony clean target, which cleans everything in the project
+CLEANABLE_target_DESC ?= The phony clean target, which cleans everything in the project
 CLEANABLE_target_DEFAULT = $(PROJ_dir)/clean
 
 
 $(call PROJ_DeclareVar,CLEANABLE_reqs)
-CLEANABLE_reqs_DESC = Targets to be hooked to the clean target
+CLEANABLE_reqs_DESC ?= Targets to be hooked to the clean target
 

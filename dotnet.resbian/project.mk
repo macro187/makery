@@ -20,12 +20,12 @@ PROJ_required += $(call MAKE_EncodeWord,$(DOTNET_RESBIAN_PROJ))
 
 
 $(call PROJ_DeclareVar,DOTNET_RESBIAN_srcdir)
-DOTNET_RESBIAN_srcdir_DESC = Resource source directory, absolute
+DOTNET_RESBIAN_srcdir_DESC ?= Resource source directory, absolute
 DOTNET_RESBIAN_srcdir_DEFAULT = $(PROJ_dir)/res
 
 
 $(call PROJ_DeclareVar,DOTNET_RESBIAN_srcs)
-DOTNET_RESBIAN_srcs_DESC = Resource source files (relative to source dir) (list)
+DOTNET_RESBIAN_srcs_DESC ?= Resource source files (relative to source dir) (list)
 DOTNET_RESBIAN_srcs_DEFAULT = \
 $(shell \
 test -d $(call SHELL_Escape,$(DOTNET_RESBIAN_srcdir)) \
@@ -37,27 +37,27 @@ test -d $(call SHELL_Escape,$(DOTNET_RESBIAN_srcdir)) \
 
 
 $(call PROJ_DeclareVar,DOTNET_RESBIAN_srcs_abs)
-DOTNET_RESBIAN_srcs_abs_DESC = (read-only) Resource source files (absolute) (list)
+DOTNET_RESBIAN_srcs_abs_DESC ?= (read-only) Resource source files (absolute) (list)
 DOTNET_RESBIAN_srcs_abs = \
 $(foreach src,$(DOTNET_RESBIAN_srcs),$(call MAKE_EncodeWord,$(DOTNET_RESBIAN_srcdir))/$(src))
 
 
 $(call PROJ_DeclareVar,DOTNET_RESBIAN_cultures)
-DOTNET_RESBIAN_cultures_DESC = \
+DOTNET_RESBIAN_cultures_DESC ?= \
 (read-only) Cultures for which resource sources exist (. = neutral) (list)
 DOTNET_RESBIAN_cultures = \
 $(sort $(filter-out %/%,$(patsubst %/,%,$(dir $(DOTNET_RESBIAN_srcs)))))
 
 
 $(call PROJ_DeclareVar,DOTNET_RESBIAN_outdir)
-DOTNET_RESBIAN_outdir_DESC = Directory to output .resources files to
+DOTNET_RESBIAN_outdir_DESC ?= Directory to output .resources files to
 DOTNET_RESBIAN_outdir_DEFAULT = $(OUTDIRS_base)/dotnet_resources
 
 OUTDIRS_all += $(call MAKE_EncodeWord,$(DOTNET_RESBIAN_outdir))
 
 
 $(call PROJ_DeclareVar,DOTNET_RESBIAN_outfiles)
-DOTNET_RESBIAN_outfiles_DESC = (read-only) Output .resources files (list)
+DOTNET_RESBIAN_outfiles_DESC ?= (read-only) Output .resources files (list)
 DOTNET_RESBIAN_outfiles = \
 $(foreach c,$(DOTNET_RESBIAN_cultures),$(foreach t,$(call DOTNET_RESBIAN_GetTypes,$(c)),$(call MAKE_EncodeWord,$(call DOTNET_RESBIAN_GetOutfile,$(c),$(t)))))
 

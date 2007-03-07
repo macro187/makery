@@ -16,16 +16,16 @@
 
 
 $(call PROJ_DeclareVar,RUNNABLE_target)
-RUNNABLE_target_DESC = The phony runnable target
+RUNNABLE_target_DESC ?= The phony runnable target
 RUNNABLE_target_DEFAULT = $(PROJ_dir)/runnable
 
 
 $(call PROJ_DeclareVar,RUNNABLE_reqs)
-RUNNABLE_reqs_DESC = Prerequisites for the project to be runnable in-place (list)
+RUNNABLE_reqs_DESC ?= Prerequisites for the project to be runnable in-place (list)
 
 
 $(call PROJ_DeclareVar,RUNNABLE_run)
-RUNNABLE_run_DESC = Pre-escaped shell command to run the project in-place
+RUNNABLE_run_DESC ?= Pre-escaped shell command to run the project in-place
 
 
 # Hook "runnable" to "everything"

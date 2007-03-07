@@ -21,10 +21,10 @@ $(eval $(call CONFIG_DeclareField_TEMPLATE,$(1)))
 
 define CONFIG_DeclareField_TEMPLATE
 CONFIG_fields += $(1)
-$$(call PROJ_DeclareVar,$(1))
+
 PROJ_vars += $(1)_ALL
 PROJ_vars += $(1)_MASKS
-PROJ_vars += $$(foreach v,$$($(1)_MASKS),$(1)_MASK_$$(v)_DESC $(1)_MASK_$$(v))
+PROJ_vars += $$(foreach v,$$($(1)_MASKS),$(1)_MASK_$$(v))
 
 PROJ_vars += $(1)_MASK
 $(1)_MASK = $$(foreach m,$$($(1)_MASKS),$$($(1)_MASK_$$(m)))
@@ -32,7 +32,8 @@ $(1)_MASK = $$(foreach m,$$($(1)_MASKS),$$($(1)_MASK_$$(m)))
 PROJ_vars += $(1)_AVAIL
 $(1)_AVAIL = $$(filter-out $$($(1)_MASK),$$($(1)_ALL))
 
-$(1)_DEFAULT = $$(if $$(if $$($(call uc,$(1))),$$(filter $$($(call uc,$(1))),$$($(1)_AVAIL))),$$($(call uc,$(1))),$$(firstword $$($(1)_AVAIL)))
+$$(call PROJ_DeclareVar,$(1))
+$(1) = $$(if $$(if $$($(call uc,$(1))),$$(filter $$($(call uc,$(1))),$$($(1)_AVAIL))),$$($(call uc,$(1))),$$(firstword $$($(1)_AVAIL)))
 
 # TODO Declare and use all-uppercase global var (how to uppercase name?)
 endef

@@ -16,14 +16,14 @@
 
 
 $(call PROJ_DeclareVar,BUILDABLE_target)
-BUILDABLE_target_DESC = The phony build target, which builds a default set of \
+BUILDABLE_target_DESC ?= The phony build target, which builds a default set of \
 targets for the project
 
 BUILDABLE_target_DEFAULT = $(PROJ_dir)/build
 
 
 $(call PROJ_DeclareVar,BUILDABLE_reqs)
-BUILDABLE_reqs_DESC = Targets to be hooked to the build target
+BUILDABLE_reqs_DESC ?= Targets to be hooked to the build target
 
 
 # Hook "build" to "everything"

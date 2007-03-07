@@ -20,27 +20,27 @@
 # ------------------------------------------------------------------------------
 
 $(call CONFIG_DeclareField,DOTNET_generation)
-DOTNET_generation_DESC = .NET generation
+DOTNET_generation_DESC ?= .NET generation
 DOTNET_generation_ALL = 20 11 10
 
 
 $(call CONFIG_DeclareField,DOTNET_implementation)
-DOTNET_implementation_DESC = .NET implementation
+DOTNET_implementation_DESC ?= .NET implementation
 DOTNET_implementation_ALL = ms mono pnet
 
 DOTNET_implementation_MASK_MSWINONLY = $(if $(OS_ISWINDOWS),,ms)
-DOTNET_implementation_MASK_MSWINONLY_DESC = MS.NET only available on Windows
+DOTNET_implementation_MASK_MSWINONLY_DESC ?= MS.NET only available on Windows
 DOTNET_implementation_MASKS += MSWINONLY
 
 DOTNET_implementation_MASK_NOTFOUND = $(if $(shell which mono),,mono)
 DOTNET_implementation_MASK_NOTFOUND += $(if $(shell which ilrun),,pnet)
 # TODO actually make sure ms is available if on windows
-DOTNET_implementation_MASK_NOTFOUND_DESC = Not found on system
+DOTNET_implementation_MASK_NOTFOUND_DESC ?= Not found on system
 DOTNET_implementation_MASKS += NOTFOUND
 
 DOTNET_implementation_MASK_PNETNO20 = \
 $(if $(filter 20,$(DOTNET_generation)),pnet)
-DOTNET_implementation_MASK_PNETNO20_DESC = PNet can not do .NET 2.0 (or newer)
+DOTNET_implementation_MASK_PNETNO20_DESC ?= PNet can not do .NET 2.0 (or newer)
 DOTNET_implementation_MASKS += PNETNO20
 
 
@@ -53,33 +53,33 @@ DOTNET_implementation_MASKS += PNETNO20
 # ------------------------------------------------------------------------------
 
 $(call PROJ_DeclareVar,DOTNET_exec)
-DOTNET_exec_DESC = Program used to run .NET binaries
+DOTNET_exec_DESC ?= Program used to run .NET binaries
 DOTNET_exec_DEFAULT = $(if $(filter $(DOTNET_implementation),mono),mono --debug)
 DOTNET_exec_DEFAULT += $(if $(filter $(DOTNET_implementation),pnet),ilrun)
 
 
 $(call PROJ_DeclareVar,DOTNET_namespace)
-DOTNET_namespace_DESC = Projects root .NET namespace
+DOTNET_namespace_DESC ?= Projects root .NET namespace
 DOTNET_namespace_DEFAULT = \
 $(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(PROJ_dir))))
 
 
 $(call PROJ_DeclareVar,DOTNET_srcdir)
-DOTNET_srcdir_DESC = Root source code directory, path relative to project dir
+DOTNET_srcdir_DESC ?= Root source code directory, path relative to project dir
 DOTNET_srcdir_DEFAULT = .
 
 
 $(call PROJ_DeclareVar,DOTNET_srcdir_abs)
-DOTNET_srcdir_abs_DESC = (internal) Root source code directory, absolute
+DOTNET_srcdir_abs_DESC ?= (internal) Root source code directory, absolute
 DOTNET_srcdir_abs_DEFAULT = $(call SHELL_RelDirToAbs,$(DOTNET_srcdir),$(PROJ_dir))
 
 
 $(call PROJ_DeclareVar,DOTNET_excludesrcs)
-DOTNET_excludesrcs_DESC = Source code filename patterns to exclude (list)
+DOTNET_excludesrcs_DESC ?= Source code filename patterns to exclude (list)
 
 
 $(call PROJ_DeclareVar,DOTNET_srcs)
-DOTNET_srcs_DESC = Initial list of source code files (list)
+DOTNET_srcs_DESC ?= Initial list of source code files (list)
 # Populated with autodetected list of source code files by language modules,
 # as appropriate for each language
 
@@ -92,33 +92,33 @@ DOTNET_srcs_DESC = Initial list of source code files (list)
 #   - YOURMOD_outfiles = ...
 #   - DOTNET_srcs_pipeline += $(YOURMOD_outfiles)
 $(call PROJ_DeclareVar,DOTNET_srcs_pipeline)
-DOTNET_srcs_pipeline_DESC = \
+DOTNET_srcs_pipeline_DESC ?= \
 Names of srcs variables for each step of preprocessing pipeline (list)
 DOTNET_srcs_pipeline := DOTNET_srcs
 
 
 $(call PROJ_DeclareVar,DOTNET_srcs_final)
-DOTNET_srcs_final_DESC = Final preprocessed source code files (list)
+DOTNET_srcs_final_DESC ?= Final preprocessed source code files (list)
 DOTNET_srcs_final_DEFAULT = $($(lastword $(DOTNET_srcs_pipeline)))
 
 
 $(call PROJ_DeclareVar,DOTNET_resources)
-DOTNET_resources_DESC = Resource files to embed into the output binary (list)
+DOTNET_resources_DESC ?= Resource files to embed into the output binary (list)
 
 
 $(call PROJ_DeclareVar,DOTNET_libs)
-DOTNET_libs_DESC = .NET libraries (.dll files) to link to (list)
+DOTNET_libs_DESC ?= .NET libraries (.dll files) to link to (list)
 # Include extension and, if not framework-provided, full path
 
 
 $(call PROJ_DeclareVar,DOTNET_projlibs)
-DOTNET_projlibs_DESC = \
+DOTNET_projlibs_DESC ?= \
 Relative paths to .NET library projects to build and link to (list)
 # Automatically added to PROJ_required for you
 
 
 $(call PROJ_DeclareVar,DOTNET_projlibs_abs)
-DOTNET_projlibs_abs_DESC = \
+DOTNET_projlibs_abs_DESC ?= \
 (read-only) Absolute paths to .NET library projects to build and link to (list)
 DOTNET_projlibs_abs_DEFAULT = \
 $(foreach proj,$(DOTNET_projlibs),$(call MAKE_EncodeWord,$(call SHELL_RelDirToAbs,$(call MAKE_DecodeWord,$(proj)),$(PROJ_dir))))
@@ -127,22 +127,22 @@ PROJ_required += $(DOTNET_projlibs_abs)
 
 
 $(call PROJ_DeclareVar,DOTNET_outbase)
-DOTNET_outbase_DESC = Output binary filename base
+DOTNET_outbase_DESC ?= Output binary filename base
 DOTNET_outbase_DEFAULT = $(DOTNET_namespace)
 
 
 $(call PROJ_DeclareVar,DOTNET_outtype)
-DOTNET_outtype_DESC = Output binary type (lib|exe)
+DOTNET_outtype_DESC ?= Output binary type (lib|exe)
 DOTNET_outtype_DEFAULT = lib
 
 
 $(call PROJ_DeclareVar,DOTNET_outext)
-DOTNET_outext_DESC = (read-only) Output binary filename extension
+DOTNET_outext_DESC ?= (read-only) Output binary filename extension
 DOTNET_outext_DEFAULT = $(if $(filter exe,$(DOTNET_outtype)),exe,dll)
 
 
 $(call PROJ_DeclareVar,DOTNET_outdir)
-DOTNET_outdir_DESC = Directory to put output binary file(s) in
+DOTNET_outdir_DESC ?= Directory to put output binary file(s) in
 DOTNET_outdir_DEFAULT = $(OUTDIRS_base)/dotnet
 
 # Tell OUTDIRS module to handle the output directory
@@ -150,16 +150,16 @@ OUTDIRS_all += $(call MAKE_EncodeWord,$(DOTNET_outdir))
 
 
 $(call PROJ_DeclareVar,DOTNET_outbase_abs)
-DOTNET_outbase_abs_DESC = (read-only) Final output binary path+filename, no extension
+DOTNET_outbase_abs_DESC ?= (read-only) Final output binary path+filename, no extension
 DOTNET_outbase_abs_DEFAULT = $(DOTNET_outdir)/$(DOTNET_outbase)
 
 
 $(call PROJ_DeclareVar,DOTNET_outfiles)
-DOTNET_outfiles_DESC = (append-only) Output binary and associated files (list)
+DOTNET_outfiles_DESC ?= (append-only) Output binary and associated files (list)
 
 
 $(call PROJ_DeclareVar,DOTNET_outfiles_main)
-DOTNET_outfiles_main_DESC = (read-only) Primary output binary file
+DOTNET_outfiles_main_DESC ?= (read-only) Primary output binary file
 DOTNET_outfiles_main_DEFAULT = \
 $(if $(DOTNET_srcs_final),$(DOTNET_outbase_abs).$(DOTNET_outext))
 

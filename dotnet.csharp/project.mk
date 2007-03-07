@@ -29,11 +29,11 @@ find $(call SHELL_Escape,$(DOTNET_srcdir_abs)) -type f -name \*.cs \
 
 
 $(call PROJ_DeclareVar,DOTNET_CS_defines)
-DOTNET_CS_defines_DESC = Preprocessor variables to define (list)
+DOTNET_CS_defines_DESC ?= Preprocessor variables to define (list)
 
 
 $(call PROJ_DeclareVar,DOTNET_CS_debug)
-DOTNET_CS_debug_DESC = \
+DOTNET_CS_debug_DESC ?= \
 Enable debug info compilation and DEBUG preprocessor var? (0|1)
 DOTNET_CS_debug_DEFAULT = 1
 
@@ -41,29 +41,29 @@ DOTNET_CS_defines += $(if $(DOTNET_CS_debug),DEBUG)
 
 
 $(call PROJ_DeclareVar,DOTNET_CS_trace)
-DOTNET_CS_trace_DESC = Define TRACE preprocessor var? (0|1)
+DOTNET_CS_trace_DESC ?= Define TRACE preprocessor var? (0|1)
 DOTNET_CS_trace_DEFAULT = 1
 
 DOTNET_CS_defines += $(if $(DOTNET_CS_trace),TRACE)
 
 
 $(call PROJ_DeclareVar,DOTNET_CS_checked)
-DOTNET_CS_checked_DESC = Enable runtime arithmetic bounds checking? (0|1)
+DOTNET_CS_checked_DESC ?= Enable runtime arithmetic bounds checking? (0|1)
 DOTNET_CS_checked_DEFAULT = 1
 
 
 $(call PROJ_DeclareVar,DOTNET_CS_warn)
-DOTNET_CS_warn_DESC = Compiler warning level (0-4)
+DOTNET_CS_warn_DESC ?= Compiler warning level (0-4)
 DOTNET_CS_warn_DEFAULT = 4
 
 
 $(call PROJ_DeclareVar,DOTNET_CS_werror)
-DOTNET_CS_werror_DESC = Treat compiler warnings as errors? (0|1)
+DOTNET_CS_werror_DESC ?= Treat compiler warnings as errors? (0|1)
 DOTNET_CS_werror_DEFAULT = 1
 
 
 $(call PROJ_DeclareVar,DOTNET_CS_out_debug)
-DOTNET_CS_out_debug_DESC = (read-only) Debug information output file
+DOTNET_CS_out_debug_DESC ?= (read-only) Debug information output file
 DOTNET_CS_out_debug = \
 $(if $(filter mono,$(DOTNET_implementation)),$(if $(DOTNET_srcs_final),$(if $(filter 1,$(DOTNET_CS_debug)),$(DOTNET_outfiles_main).mdb)))$(if $(filter ms,$(DOTNET_implementation)),$(if $(DOTNET_srcs_final),$(if $(filter 1,$(DOTNET_CS_debug)),$(DOTNET_outbase_abs).pdb)))
 
