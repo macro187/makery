@@ -63,7 +63,7 @@ x.  Introduction
 
     x.  Variables
 
-        In two flavors:  Evaluate-at-declaration and evaluate-at-use.
+        In two flavors:  Evaluate-at-assignment and evaluate-at-use.
 
     x.  Rules
 
