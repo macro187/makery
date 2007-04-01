@@ -19,7 +19,7 @@
 # List of Projects Processed
 # ------------------------------------------------------------------------------
 
-PROJ_PROJECTS :=
+PROJ_PROJECTS := $(PROJ_PROJECTS)
 
 
 
@@ -211,6 +211,20 @@ $(eval $(PROJ_TEMPLATE_CLEARTMPVARS))
 define \
 PROJ_TEMPLATE_CLEARTMPVARS
 $(foreach varname,$(filter TMP_%,$(.VARIABLES)),$(MAKE_CHAR_NEWLINE)$(varname) :=#)
+endef
+
+
+
+# ------------------------------------------------------------------------------
+# Template for including rules.mk for modules involved in the current
+# ------------------------------------------------------------------------------
+
+PROJ_GenerateRules = \
+$(eval $(PROJ_RULES_TEMPLATE))
+
+define PROJ_RULES_TEMPLATE
+$(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MODULES_Locate,$(module))/rules.mk)
+$$(call PROJ_ClearTmpVars)
 endef
 
 

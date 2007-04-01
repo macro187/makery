@@ -23,139 +23,90 @@
 
 
 # ------------------------------------------------------------------------------
-# Bootstrap
-# - Only happens once, at the very beginning
+# One-time bootstrap
 # ------------------------------------------------------------------------------
 
-ifndef MAKERY_BOOTSTRAP
+ifndef MAKERY_BOOTSTRAPPED
 
-
-# $MAKERY variable check
-ifndef MAKERY
-$(error The MAKERY variable has not been set, how did you include this file?)
-endif
-
-
-# Source per-user preferences from .makeryrc.mk if available
 -include ~/.makeryrc.mk
 
-
-# Global variable list
-MAKERY_GLOBALS :=
-
-# Debug flag
-MAKERY_DEBUG ?=
-MAKERY_GLOBALS += MAKERY_DEBUG
-
-
-# Bootstrap system modules
+include $(MAKERY)/makery/global.mk
+MODULES_GLOBAL += makery
 include $(MAKERY)/gmsl/global.mk
 MODULES_GLOBAL += gmsl
-
 include $(MAKERY)/make/global.mk
 MODULES_GLOBAL += make
-
 include $(MAKERY)/shell/global.mk
 MODULES_GLOBAL += shell
-
 include $(MAKERY)/os/global.mk
 MODULES_GLOBAL += os
-
+include $(MAKERY)/modules/global.mk
+MODULES_GLOBAL += modules
 include $(MAKERY)/proj/global.mk
 MODULES_GLOBAL += proj
 
-include $(MAKERY)/modules/global.mk
-MODULES_GLOBAL += modules
-
-
-MAKERY_BOOTSTRAP := 1
-endif #ndef MAKERY_BOOTSTRAP
+MAKERY_BOOTSTRAPPED := 1
+endif #ndef MAKERY_BOOTSTRAPPED
 
 
 
 # ------------------------------------------------------------------------------
-# System modules
+# Per-project processing starts here
 # ------------------------------------------------------------------------------
 
+$(call MODULES_Use,makery)
 $(call MODULES_Use,gmsl)
 $(call MODULES_Use,make)
 $(call MODULES_Use,shell)
 $(call MODULES_Use,os)
+$(call MODULES_Use,modules)
 $(call MODULES_Use,proj)
 
-$(warning $(call MAKE_Message,Project ('$(PROJ_dir)')))
-
-$(call MODULES_Use,modules)
 $(call MODULES_Use,config)
 
 
 
-# ------------------------------------------------------------------------------
-# Pull in modules specified in project's MODULES_use
-# ------------------------------------------------------------------------------
+$(warning $(call MAKE_Message,Project ('$(PROJ_dir)')))
 
+
+
+ifneq ($(MAKERY_DEBUG),)
+$(warning $(call MAKE_Message,Module search paths$(foreach path,$(MODULES_PATHS),$(MAKE_CHAR_NEWLINE)$(call MAKE_DecodeWord,$(path)))))
+endif
+
+
+# Pull modules specified by the project
 ifneq ($(MAKERY_DEBUG),)
 $(warning $(call MAKE_Message,Processing modules...))
 endif
-
 $(foreach mod,$(MODULES_use),$(call MODULES_Use,$(mod)))
 
-
-
-# ------------------------------------------------------------------------------
-# Debug print project variables
-# ------------------------------------------------------------------------------
 
 ifneq ($(MAKERY_DEBUG),)
 $(warning $(call MAKE_Message,Project Variables ('$(PROJ_dir)')$(call MAKE_DumpVars,$(PROJ_vars))))
 endif
 
 
-
-# ------------------------------------------------------------------------------
-# Per-project variable checks
-# ------------------------------------------------------------------------------
-
 $(call MODULES_ValidateAll)
 
 
-
-# ------------------------------------------------------------------------------
-# Process required projects
-# - Restarts this whole process for each one (recursive)
-# ------------------------------------------------------------------------------
-
+# Flatten project vars, stow them, and recurse into required projects
 $(call PROJ_ProcessRequired)
 
-
-
-# ------------------------------------------------------------------------------
-# Generate targets
-# ------------------------------------------------------------------------------
 
 ifneq ($(MAKERY_DEBUG),)
 $(warning $(call MAKE_Message,Generating rules... ('$(PROJ_dir)')))
 endif
-
-$(call MODULES_GenerateRules)
-
+$(call PROJ_GenerateRules)
 
 
-# ------------------------------------------------------------------------------
-# Debug print globals
-# ------------------------------------------------------------------------------
-
+# Debug: Globals
 ifneq ($(MAKERY_DEBUG),)
 ifneq ($(PROJ_ismain),)
 $(warning $(call MAKE_Message,Global Variables$(call MAKE_DumpVars,$(MAKERY_GLOBALS))))
 endif
 endif
 
-
-
-# ------------------------------------------------------------------------------
-# Clear project variables
-# ------------------------------------------------------------------------------
 
 $(call PROJ_ClearVars)
 

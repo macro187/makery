@@ -22,9 +22,8 @@
 # Paths to search for modules in
 # - You can do the following in your ~/.makeryrc.mk:
 #   MODULES_PATHS += $(call MAKE_EncodeWord,/path/to/my/modules)
-MODULES_PATHS := $(MODULES_PATHS) $(call MAKE_EncodeWord,$(MAKERY))
+MODULES_PATHS := $(call MAKE_EncodeWord,$(MAKERY)) $(MODULES_PATHS)
 
-$(warning $(call MAKE_Message,Module search paths$(foreach path,$(MODULES_PATHS),$(MAKE_CHAR_NEWLINE)$(call MAKE_DecodeWord,$(path)))))
 
 
 # Locate a given module's dir in MODULES_PATHS
@@ -39,6 +38,9 @@ $(call MAKE_DecodeWord,$(firstword $(foreach dir,$(MODULES_PATHS),$(if $(shell t
 # ------------------------------------------------------------------------------
 
 MODULES_GLOBAL := $(MODULES_GLOBAL)
+MODULES_GLOBAL_DESC ?= \
+(internal) Modules whose global.mk has been processed (list)
+MAKERY_GLOBALS += MODULES_GLOBAL
 
 
 
@@ -56,7 +58,9 @@ define MODULES_USE_TEMPLATE
 $(if $(2),,$(error Unable to locate module '$(1)'))
 -include $(2)/requires.mk
 ifeq ($$(filter $(call MAKE_EncodeWord,$(1)),$$(MODULES_GLOBAL)),)
+#ifneq ($$(MAKERY_DEBUG),)
 #$$(warning $$(call MAKE_Message,Sourcing module '$(1)' from '$(2)'))
+#endif
 -include $(2)/global.mk
 MODULES_GLOBAL += $(call MAKE_EncodeWord,$(1))
 endif
@@ -81,17 +85,4 @@ $(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MODULES_Loc
 endef
 
 
-
-# ------------------------------------------------------------------------------
-# Template for including rules.mk for modules involved in the current
-# project
-# ------------------------------------------------------------------------------
-
-MODULES_GenerateRules = \
-$(eval $(MODULES_RULES_TEMPLATE))
-
-define MODULES_RULES_TEMPLATE
-$(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MODULES_Locate,$(module))/rules.mk)
-$$(call PROJ_ClearTmpVars)
-endef
 
