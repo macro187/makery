@@ -20,7 +20,7 @@ DOTNET_srcs_DEFAULT = \
 $(if $(DOTNET_srcdir_abs), \
 $(filter-out $(DOTNET_excludesrcs), \
 $(shell \
-find $(call SHELL_Escape,$(DOTNET_srcdir_abs)) -type f -name \*.c \
+find $(call SHELL_Escape,$(DOTNET_srcdir_abs)) $(if $(DOTNET_recursivesrcs),, -maxdepth 1 )-type f -name \*.c \
 | $(SHELL_CLEANPATH) \
 | $(SHELL_ENCODEWORD) \
 ) \

@@ -74,6 +74,11 @@ DOTNET_srcdir_abs_DESC ?= (internal) Root source code directory, absolute
 DOTNET_srcdir_abs_DEFAULT = $(call SHELL_RelDirToAbs,$(DOTNET_srcdir),$(PROJ_dir))
 
 
+$(call PROJ_DeclareVar,DOTNET_recursivesrcs)
+DOTNET_recursivesrcs_DESC ?= Should srcs be searched for recursively?
+DOTNET_recursivesrcs_DEFAULT = $(call not,$(call seq,$(DOTNET_srcdir_abs),$(PROJ_dir)))
+
+
 $(call PROJ_DeclareVar,DOTNET_excludesrcs)
 DOTNET_excludesrcs_DESC ?= Source code filename patterns to exclude (list)
 
