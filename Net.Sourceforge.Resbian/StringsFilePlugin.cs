@@ -54,7 +54,7 @@ Net.Sourceforge.Resbian
 /// </remarks>
 public class
 StringsFilePlugin
-	: FilePlugin
+    : FilePlugin
 {
 
 
@@ -67,88 +67,88 @@ RESNAME_PREFIX = "__";
 
 public override bool
 Process(
-	string filename,
-	ResourceWriter writer
+    string filename,
+    ResourceWriter writer
 )
 {
-	// Handle "<type>__strings.txt" only
-	string local = this.GetLocalFilename( filename );
-	if( local != FILENAME )
-		return false;
+    // Handle "<type>__strings.txt" only
+    string local = this.GetLocalFilename( filename );
+    if( local != FILENAME )
+        return false;
 
-	// Grab lines from the text file
-	string[] lines = File.ReadAllLines( filename );
+    // Grab lines from the text file
+    string[] lines = File.ReadAllLines( filename );
 
-	// Loop through lines
-	int added = 0;
-	int linenum = 0;
-	string s = "";
-	string l = "";
-	string state = "s";  // what are we expecting? "s", "l", or ""
-	foreach( string line in lines ) {
-		linenum++;
+    // Loop through lines
+    int added = 0;
+    int linenum = 0;
+    string s = "";
+    string l = "";
+    string state = "s";  // what are we expecting? "s", "l", or ""
+    foreach( string line in lines ) {
+        linenum++;
 
-		// Skip comments
-		if( line.StartsWith( "#" ) ) continue;
+        // Skip comments
+        if( line.StartsWith( "#" ) ) continue;
 
-		bool isblank = (line.Trim() == "" );
+        bool isblank = (line.Trim() == "" );
 
-		switch( state ) {
+        switch( state ) {
 
-		// Expecting: Source string
-		case "s":
-			if( isblank ) continue;
-			s = line;
-			state = "l";
-			break;
+        // Expecting: Source string
+        case "s":
+            if( isblank ) continue;
+            s = line;
+            state = "l";
+            break;
 
-		// Expecting: Localized string
-		case "l":
-			if( isblank ) {
-				WriteLine( "Warning: Missing localized version of string" );
-				WriteLine( String.Format(
-					"File: {0}\n" +
-					"Line: {1}\n" +
-					"String: '{2}'",
-					filename,
-					linenum,
-					s
-				), 1 );
-				state = "s";
-				continue;
-			}
-			l = line;
-			// TODO: maintain already-added list and don't add if in there 
-			string name = RESNAME_PREFIX + s;
-			writer.AddResource( name, l );
-			added++;
-			state = "";
-			break;
+        // Expecting: Localized string
+        case "l":
+            if( isblank ) {
+                WriteLine( "Warning: Missing localized version of string" );
+                WriteLine( String.Format(
+                    "File: {0}\n" +
+                    "Line: {1}\n" +
+                    "String: '{2}'",
+                    filename,
+                    linenum,
+                    s
+                ), 1 );
+                state = "s";
+                continue;
+            }
+            l = line;
+            // TODO: maintain already-added list and don't add if in there 
+            string name = RESNAME_PREFIX + s;
+            writer.AddResource( name, l );
+            added++;
+            state = "";
+            break;
 
-		// Expecting: Blank line
-		case "":
-			if( !isblank ) {
-				WriteLine( "Error: Too many lines in a row, ignoring extra" );
-				WriteLine( String.Format(
-					"File: {0}\n" +
-					"Line: {1}\n" +
-					filename,
-					linenum
-				), 1 );
-				continue;
-			}
-			state = "s";
-			break;
+        // Expecting: Blank line
+        case "":
+            if( !isblank ) {
+                WriteLine( "Error: Too many lines in a row, ignoring extra" );
+                WriteLine( String.Format(
+                    "File: {0}\n" +
+                    "Line: {1}\n" +
+                    filename,
+                    linenum
+                ), 1 );
+                continue;
+            }
+            state = "s";
+            break;
 
-		default:
-			throw new Exception( "BUG: Invalid state" );
-		}
+        default:
+            throw new Exception( "BUG: Invalid state" );
+        }
 
-	}
+    }
 
-	WriteLine( String.Format( "Added {0} string resources", added ) );
+    WriteLine( String.Format( "Added {0} string resources", added ) );
 
-	return true;
+    return true;
 }
 
 

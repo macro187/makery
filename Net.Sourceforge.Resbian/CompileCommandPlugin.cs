@@ -33,7 +33,7 @@ Net.Sourceforge.Resbian
 /// </summary>
 public class
 CompileCommandPlugin
-	: CommandPlugin
+    : CommandPlugin
 {
 
 
@@ -46,11 +46,11 @@ plugins = new ArrayList();
 public
 CompileCommandPlugin()
 {
-	// Initialize filetype plugin list
-	this.plugins.Add( new DefaultFilePlugin() );
-	this.plugins.Add( new StringFilePlugin() );
-	this.plugins.Add( new StringsFilePlugin() );
-	//this.plugins.Add( new ImageFilePlugin() );
+    // Initialize filetype plugin list
+    this.plugins.Add( new DefaultFilePlugin() );
+    this.plugins.Add( new StringFilePlugin() );
+    this.plugins.Add( new StringsFilePlugin() );
+    //this.plugins.Add( new ImageFilePlugin() );
 }
 
 
@@ -58,82 +58,82 @@ CompileCommandPlugin()
 public override string
 Help()
 {
-	return
-	"<infiles> <outfile>\n" +
-	"	<infiles> - files to compile as resources\n" +
-	"	<outfile> - .resources file to output to\n" +
-	"";
+    return
+    "<infiles> <outfile>\n" +
+    "   <infiles> - files to compile as resources\n" +
+    "   <outfile> - .resources file to output to\n" +
+    "";
 }
 
 
 
 public override bool
 Process(
-	string[] args
+    string[] args
 )
 {
-	// Grab args
-	ArrayList infiles = new ArrayList();
-	string outfile;
+    // Grab args
+    ArrayList infiles = new ArrayList();
+    string outfile;
 
-	if( args.Length < 1 ) {
-		throw new CmdArgException( "No <infiles> specified" );
-	}
-	for( int i = 0; i < args.Length-1; i++ ) {
-		infiles.Add( args[i] );
-	}
+    if( args.Length < 1 ) {
+        throw new CmdArgException( "No <infiles> specified" );
+    }
+    for( int i = 0; i < args.Length-1; i++ ) {
+        infiles.Add( args[i] );
+    }
 
-	if( args.Length < 2 ) {
-		throw new CmdArgException( "No <outfile> specified" );
-	}
-	outfile = args[ args.Length-1 ];
+    if( args.Length < 2 ) {
+        throw new CmdArgException( "No <outfile> specified" );
+    }
+    outfile = args[ args.Length-1 ];
 
-	Resbian.WriteLine( String.Format( "Output file: '{0}'", outfile ) );
-
-
-	// Create a ResourceWriter writing to the outfile
-	ResourceWriter writer = new ResourceWriter( File.OpenWrite( outfile ) );
+    Resbian.WriteLine( String.Format( "Output file: '{0}'", outfile ) );
 
 
-	// Process each input file, adding it's contents to the ResourceWriter
-	foreach( string infile in infiles ) {
-
-		if( !File.Exists( infile ) )
-			throw new CmdArgException( String.Format(
-				"Input file '{0}' doesn't exist", infile ) );
-
-		Resbian.WriteLine( infile );
+    // Create a ResourceWriter writing to the outfile
+    ResourceWriter writer = new ResourceWriter( File.OpenWrite( outfile ) );
 
 
-		// Try each filetype plugin until one works
-		bool processed = false;
-		for( int i = this.plugins.Count-1; i >= 0; i-- ) {
-			FilePlugin plugin = (FilePlugin) this.plugins[ i ];
+    // Process each input file, adding it's contents to the ResourceWriter
+    foreach( string infile in infiles ) {
 
-			if( plugin.Process( infile, writer ) ) {
-				Resbian.WriteLine( String.Format(
-					"({0})", plugin.GetType().Name ), 1 );
-				processed = true;
-				break;
-			}
+        if( !File.Exists( infile ) )
+            throw new CmdArgException( String.Format(
+                "Input file '{0}' doesn't exist", infile ) );
 
-		}
-		
-		if( !processed ) {
-			throw new ApplicationException( String.Format(
-				"Don't know how to process '{0}'", infile ) );
-		}
+        Resbian.WriteLine( infile );
 
 
-	}
+        // Try each filetype plugin until one works
+        bool processed = false;
+        for( int i = this.plugins.Count-1; i >= 0; i-- ) {
+            FilePlugin plugin = (FilePlugin) this.plugins[ i ];
+
+            if( plugin.Process( infile, writer ) ) {
+                Resbian.WriteLine( String.Format(
+                    "({0})", plugin.GetType().Name ), 1 );
+                processed = true;
+                break;
+            }
+
+        }
+
+        if( !processed ) {
+            throw new ApplicationException( String.Format(
+                "Don't know how to process '{0}'", infile ) );
+        }
 
 
-	// Tell the ResourceWriter to write out to the outfile then close it
-	writer.Generate();
-	writer.Close();
+    }
 
 
-	return true;
+    // Tell the ResourceWriter to write out to the outfile then close it
+    writer.Generate();
+    writer.Close();
+
+
+    return true;
 }
 
 

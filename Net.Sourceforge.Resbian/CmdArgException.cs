@@ -30,20 +30,20 @@ Net.Sourceforge.Resbian
 /// </summary>
 public class
 CmdArgException
-	: Exception
+    : Exception
 {
-	
+
 public
 CmdArgException()
-	: this( "Invalid command-line argument(s)" )
+    : this( "Invalid command-line argument(s)" )
 {
 }
 
 public
 CmdArgException(
-	string message
+    string message
 )
-	: base( message )
+    : base( message )
 {
 }
 

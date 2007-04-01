@@ -36,24 +36,24 @@ Net.Sourceforge.Resbian
 /// </remarks>
 public class
 DefaultFilePlugin
-	: FilePlugin
+    : FilePlugin
 {
 
 
 
 public override bool
 Process(
-	string filename,
-	ResourceWriter writer
+    string filename,
+    ResourceWriter writer
 )
 {
-	string name = this.GetLocalFilename( filename );
-	byte[] data = File.ReadAllBytes( filename );
+    string name = this.GetLocalFilename( filename );
+    byte[] data = File.ReadAllBytes( filename );
 
-	WriteLine( String.Format( "Adding as byte[] named '{0}'", name ) );
-	writer.AddResource( name, data );
+    WriteLine( String.Format( "Adding as byte[] named '{0}'", name ) );
+    writer.AddResource( name, data );
 
-	return true;
+    return true;
 }
 
 

@@ -37,7 +37,7 @@ Net.Sourceforge.Resbian
 /// </remarks>
 public class
 StringFilePlugin
-	: FilePlugin
+    : FilePlugin
 {
 
 
@@ -47,22 +47,22 @@ SUFFIX = ".string.txt";
 
 public override bool
 Process(
-	string filename,
-	ResourceWriter writer
+    string filename,
+    ResourceWriter writer
 )
 {
-	string name;
-	string local = this.GetLocalFilename( filename );
-	if( !local.EndsWith( SUFFIX ) )
-		return false;
-	name = local.Substring( 0, (local.Length-SUFFIX.Length) );
+    string name;
+    string local = this.GetLocalFilename( filename );
+    if( !local.EndsWith( SUFFIX ) )
+        return false;
+    name = local.Substring( 0, (local.Length-SUFFIX.Length) );
 
-	string data = File.ReadAllText( filename );
+    string data = File.ReadAllText( filename );
 
-	WriteLine( String.Format( "Adding as string named '{0}'", name ) );
-	writer.AddResource( name, data );
+    WriteLine( String.Format( "Adding as string named '{0}'", name ) );
+    writer.AddResource( name, data );
 
-	return true;
+    return true;
 }
 
 

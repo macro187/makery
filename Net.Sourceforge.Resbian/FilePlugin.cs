@@ -48,8 +48,8 @@ FilePlugin
 /// </returns>
 public abstract bool
 Process(
-	string filename,
-	ResourceWriter writer
+    string filename,
+    ResourceWriter writer
 );
 
 
@@ -59,20 +59,20 @@ Process(
 /// </summary>
 protected void
 WriteLine(
-	string message
+    string message
 )
 {
-	WriteLine( message, 0 );
+    WriteLine( message, 0 );
 }
 
 protected void
 WriteLine(
-	string message,
-	int indent
+    string message,
+    int indent
 )
 {
-	if( message == null ) message = "";
-	Resbian.WriteLine( message, indent+1 );
+    if( message == null ) message = "";
+    Resbian.WriteLine( message, indent+1 );
 }
 
 
@@ -90,18 +90,18 @@ WriteLine(
 /// </returns>
 protected string
 GetLocalFilename(
-	string filename
+    string filename
 )
 {
-	string result;
-	string filenameonly = Path.GetFileName( filename );
-	int pos = filenameonly.IndexOf( "__" );
-	if( pos >= 0 ) {
-		result = filenameonly.Substring( pos + 2 );
-	} else {
-		result = filenameonly;
-	}
-	return result;
+    string result;
+    string filenameonly = Path.GetFileName( filename );
+    int pos = filenameonly.IndexOf( "__" );
+    if( pos >= 0 ) {
+        result = filenameonly.Substring( pos + 2 );
+    } else {
+        result = filenameonly;
+    }
+    return result;
 }
 
 
