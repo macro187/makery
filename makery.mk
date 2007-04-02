@@ -87,7 +87,7 @@ $(warning $(call MAKE_Message,Project Variables ('$(PROJ_dir)')$(call MAKE_DumpV
 endif
 
 
-$(call MODULES_ValidateAll)
+$(call PROJ_Validate)
 
 
 # Flatten project vars, stow them, and recurse into required projects

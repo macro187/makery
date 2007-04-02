@@ -70,19 +70,3 @@ MODULES_proj += $(call MAKE_EncodeWord,$(1))
 endif
 endef
 
-
-
-# ------------------------------------------------------------------------------
-# Template for validating all project variables for the current project by
-# sourcing all modules' validate.mk
-# ------------------------------------------------------------------------------
-
-MODULES_ValidateAll = \
-$(eval $(MODULES_ValidateAll_TEMPLATE))
-
-define MODULES_ValidateAll_TEMPLATE
-$(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MODULES_Locate,$(module))/validate.mk)
-endef
-
-
-

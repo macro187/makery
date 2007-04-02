@@ -185,6 +185,19 @@ endef
 
 
 # ------------------------------------------------------------------------------
+# Validate project variables
+# ------------------------------------------------------------------------------
+
+PROJ_Validate = \
+$(eval $(PROJ_Validate_TEMPLATE))
+
+define PROJ_Validate_TEMPLATE
+$(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MODULES_Locate,$(module))/validate.mk)
+endef
+
+
+
+# ------------------------------------------------------------------------------
 # Template for creating target-specific versions of project variables.
 # This is because variables in targets are not expanded until the target is
 # actually run, at which time the global versions will not exist anymore.
