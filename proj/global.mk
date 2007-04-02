@@ -185,15 +185,29 @@ endef
 
 
 # ------------------------------------------------------------------------------
-# Validate project variables
+# Project Variable Validation
 # ------------------------------------------------------------------------------
 
+# Run validations
 PROJ_Validate = \
 $(eval $(PROJ_Validate_TEMPLATE))
 
 define PROJ_Validate_TEMPLATE
 $(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MODULES_Locate,$(module))/validate.mk)
 endef
+
+
+# Throw a validation error
+# $1 Variable name
+# $2 Reason
+PROJ_ValidationError = \
+$(error $(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_NEWLINE)$(2)$(MAKE_CHAR_NEWLINE)Project: $(PROJ_dir)$(MAKE_CHAR_NEWLINE)Variable: $(1)$(MAKE_CHAR_NEWLINE)Value: '$($(1))'$(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_NEWLINE))
+
+
+# Validation:  A value is required
+# $1 Variable name
+PROJ_ValidateRequired = \
+$(if $($(1)),,$(call PROJ_ValidationError,$(1),Value required))
 
 
 
