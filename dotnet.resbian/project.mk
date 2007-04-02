@@ -46,7 +46,7 @@ $(call PROJ_DeclareVar,DOTNET_RESBIAN_cultures)
 DOTNET_RESBIAN_cultures_DESC ?= \
 (read-only) Cultures for which resource sources exist (. = neutral) (list)
 DOTNET_RESBIAN_cultures = \
-$(sort $(filter-out %/%,$(patsubst %/,%,$(dir $(DOTNET_RESBIAN_srcs)))))
+$(sort $(call MAKE_PathParentName,$(DOTNET_RESBIAN_srcs)))
 
 
 $(call PROJ_DeclareVar,DOTNET_RESBIAN_outdir)

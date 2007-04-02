@@ -132,6 +132,18 @@ MAKE_CleanPath = \
 $(subst \,/,$(1))
 
 
+# Get a path's parent dir name (not full path)
+# $1 MAKE_EncodeWord'ed path(s)
+MAKE_PathParentName = \
+$(notdir $(patsubst %/,%,$(dir $(patsubst %/,%,$(1)))))
+
+#$(notdir
+#$(patsubst %/,%,
+#$(dir
+#$(patsubst %/,%,
+#$(1)
+
+
 
 # ------------------------------------------------------------------------------
 # Messages
