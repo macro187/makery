@@ -185,16 +185,22 @@ endef
 
 
 # ------------------------------------------------------------------------------
-# Project Variable Validation
+# Variable Validation
 # ------------------------------------------------------------------------------
 
 # Run validations
 PROJ_Validate = \
+$(foreach var,$(PROJ_vars),$(foreach val,$($(var)_VALIDATE),$(call PROJ_DeclValidate,$(var),$(subst |, ,$(val)))))\
 $(eval $(PROJ_Validate_TEMPLATE))
 
 define PROJ_Validate_TEMPLATE
 $(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MODULES_Locate,$(module))/validate.mk)
 endef
+
+# $1 Variable name
+# $2 Pre-split validation declaration item
+PROJ_DeclValidate = \
+$(call PROJ_Validator$(firstword $(2)),$(1),$(wordlist 2,99,$(2)))
 
 
 # Throw a validation error
@@ -204,10 +210,45 @@ PROJ_ValidationError = \
 $(error $(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_NEWLINE)$(2)$(MAKE_CHAR_NEWLINE)Project: $(PROJ_dir)$(MAKE_CHAR_NEWLINE)Variable: $(1)$(MAKE_CHAR_NEWLINE)Value: '$($(1))'$(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_NEWLINE))
 
 
-# Validation:  A value is required
-# $1 Variable name
-PROJ_ValidateRequired = \
-$(if $($(1)),,$(call PROJ_ValidationError,$(1),Value required))
+# Throw a validation error if a condition is true
+# $1 Condition
+# $2 Variable name
+# $3 Reason
+PROJ_ValidationErrorIf = \
+$(if $(1),$(call PROJ_ValidationError,$(2),$(3)))
+
+
+# Declarative Validation
+#
+# Example:
+#   MYMODULE_myvar_VALIDATE = Required Between|1|10
+#
+# Declares that MYMODULES_myvar is required and must be between 1 and 10.
+# Each item in the *_VALIDATE list is the last part of the validation function
+# name, eg. PROJ_ValidateRequired and PROJ_ValidateBetween, optionally
+# followed by a pipe-separated list of parameters to the validation function.
+#
+# Validators must adhere to a pattern so that declarative validation works:
+# PROJ_Validate<name>
+# $1 is always the variable name
+# $2 is always the parameter list
+
+# Required
+PROJ_ValidatorRequired = \
+$(call PROJ_ValidationErrorIf,$(call not,$($(1))),$(1),A value is required)
+
+# Min|<mininclusive>
+PROJ_ValidatorMin = \
+$(if $($(1)),$(call PROJ_ValidationErrorIf,$(call lt,$($(1)),$(word 1,$(2))),$(1),Minimum value is $(word 1,$(2))))
+
+# Max|<maxinclusive>
+PROJ_ValidatorMax = \
+$(if $($(1)),$(call PROJ_ValidationErrorIf,$(call gt,$($(1)),$(word 1,$(2))),$(1),Maximum value is $(word 1,$(2))))
+
+# Between|<mininclusive>|<maxinclusive>
+PROJ_ValidatorBetween = \
+$(if $($(1)),$(call PROJ_ValidationErrorIf,$(call lt,$($(1)),$(word 1,$(2)))$(call gt,$($(1)),$(word 2,$(2))),$(1),Must be between $(word 1,$(2)) and $(word 2,$(2))))
+
 
 
 
