@@ -90,7 +90,6 @@ endif
 $(call PROJ_Validate)
 
 
-# Flatten project vars, stow them, and recurse into required projects
 $(call PROJ_ProcessRequired)
 
 

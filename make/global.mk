@@ -37,6 +37,22 @@ endef
 
 
 # ------------------------------------------------------------------------------
+# Variables
+# ------------------------------------------------------------------------------
+
+# Clear variables with a particular prefix
+# $1 Prefix
+MAKE_ClearVarsWithPrefix = \
+$(if $(1),$(eval $(call MAKE_ClearVarsWithPrefix_TEMPLATE,$(1))),$(error No prefix provided))
+
+define \
+MAKE_ClearVarsWithPrefix_TEMPLATE
+$(foreach v,$(filter $(1)%,$(.VARIABLES)),$(MAKE_CHAR_NEWLINE)$(v) :=#)
+endef
+
+
+
+# ------------------------------------------------------------------------------
 # Special Character Encoding
 # - Encodes/decodes special characters in Make words
 # ------------------------------------------------------------------------------

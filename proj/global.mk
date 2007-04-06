@@ -24,7 +24,32 @@ PROJ_PROJECTS := $(PROJ_PROJECTS)
 
 
 # ------------------------------------------------------------------------------
-# Support for persistent project variables
+# "Declare" a project variable
+# $1 - Variable name
+#
+# Remarks:
+#   This function is only valid in a module's project.mk
+#
+# Usage:
+#   $(call PROJ_DeclareVar,PKGNAME_varname)
+#   PKGNAME_varname_DEFAULT = (default value) (optional)
+#   PKGNAME_varname_DESC = (description) (optional)
+# ------------------------------------------------------------------------------
+
+PROJ_DeclareVar = \
+$(eval $(call PROJ_DeclareVar_TEMPLATE,$(1)))
+
+define PROJ_DeclareVar_TEMPLATE
+PROJ_vars += $(1)
+ifeq ($$($(1)),)
+$(1) = $$($(1)_DEFAULT)
+endif
+endef
+
+
+
+# ------------------------------------------------------------------------------
+# Persistent (stashed) variables
 # ------------------------------------------------------------------------------
 
 # Generate a persistent variable name a specified variable from a specified
@@ -90,90 +115,86 @@ $(call PROJ_GetMultiRecursive,$(1),$(2),$(call MAKE_DecodeWord,$(proj))) \
 
 
 # ------------------------------------------------------------------------------
-# "Declare" a project variable
-# $1 - Variable name
-#
-# Remarks:
-#   This function is only valid in a module's project.mk
-#
-# Usage:
-#   $(call PROJ_DeclareVar,PKGNAME_varname)
-#   PKGNAME_varname_DEFAULT = (default value) (optional)
-#   PKGNAME_varname_DESC = (description) (optional)
+# (internal) Variable Management
 # ------------------------------------------------------------------------------
 
-PROJ_DeclareVar = \
-$(eval $(call PROJ_DeclareVar_TEMPLATE,$(1)))
+# Flatten project variables down to immediate variables
+PROJ_FlattenVars = \
+$(eval $(call PROJ_FlattenVars_TEMPLATE))
 
-define PROJ_DeclareVar_TEMPLATE
-PROJ_vars += $(1)
-ifeq ($$($(1)),)
-$(1) = $$($(1)_DEFAULT)
-endif
+define \
+PROJ_FlattenVars_TEMPLATE
+$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) := $$($(v))#)
 endef
 
 
-
-# ------------------------------------------------------------------------------
-# Clear project variables
-# ------------------------------------------------------------------------------
-
-PROJ_ClearVars = \
-$(eval $(PROJ_TEMPLATE_CLEARVARS))
+# Stash project variables
+PROJ_StashVars = \
+$(eval $(call PROJ_StashVars_TEMPLATE))
 
 define \
-PROJ_TEMPLATE_CLEARVARS
+PROJ_StashVars_TEMPLATE
+$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(call PROJ_PersistentNameUnsafe,$(v),$(PROJ_dir_asword)) := $$($(v))#)
+endef
+
+
+# Retrieve vars
+PROJ_RetrieveVars = \
+$(eval $(call PROJ_RetrieveVars_TEMPLATE))
+
+define \
+PROJ_RetrieveVars_TEMPLATE
+$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) := $$($(call PROJ_PersistentNameUnsafe,$(v),$(PROJ_dir_asword)))#)
+endef
+
+
+# Clear project variables
+PROJ_ClearVars = \
+$(eval $(PROJ_ClearVars_TEMPLATE))
+
+define \
+PROJ_ClearVars_TEMPLATE
 $(foreach varname,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(varname) =#$(MAKE_CHAR_NEWLINE)$(varname)_DEFAULT =#)
 endef
 
 
 
 # ------------------------------------------------------------------------------
-# Process required projects
+# (internal) Required Projects
 # ------------------------------------------------------------------------------
 
+# Recursively process required projects
+#
+# Even though there are separate functions for each step, we have to do
+# everything in one chunk otherwise we lose the required variables before we
+# finish!
 PROJ_ProcessRequired = \
 $(eval $(PROJ_TEMPLATE_PROCESSREQUIRED))
-
-#$(if $(MAKERY_DEBUG), \
-#$(warning $(call MAKE_Message,PROCESSREQUIRED$(MAKE_CHAR_NEWLINE)$(PROJ_TEMPLATE_PROCESSREQUIRED))) \
-#) \
-
+#$(warning $(PROJ_TEMPLATE_PROCESSREQUIRED))\
 
 define \
 PROJ_TEMPLATE_PROCESSREQUIRED
-
-# Flatten PROJ_vars
-$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) := $$($(v))#)
-
-# Persist PROJ_vars
-$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(call PROJ_PersistentNameUnsafe,$(v),$(PROJ_dir_asword)) := $$($(v))#)
-
-# Clear vars
-$(PROJ_TEMPLATE_CLEARVARS)
-
-# Make sure all required projects actually exist
-$(PROJ_TEMPLATE_CHECKREQUIRED)
-
-# Include if not already included
-$(foreach p,$(PROJ_required),$(call PROJ_TEMPLATE_IncludeRequired,$(call MAKE_DecodeWord,$(p))))
-
-# Restore vars
-$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) := $$($(call PROJ_PersistentNameUnsafe,$(v),$(PROJ_dir_asword)))#)
-
+$(call PROJ_FlattenVars_TEMPLATE)
+$(call PROJ_StashVars_TEMPLATE)
+$(call PROJ_ClearVars_TEMPLATE)
+$(foreach p,$(PROJ_required),$(call PROJ_IncludeRequired_TEMPLATE,$(call MAKE_DecodeWord,$(p))))
+$(call PROJ_RetrieveVars_TEMPLATE)
 endef
 
 
+# Pull in another project
+#
+# Params
+# $1 Project dir (relative to current project's dir)
+PROJ_IncludeRequired = \
+$(eval $(call PROJ_IncludeRequired_TEMPLATE,$(1)))
+
 define \
-PROJ_TEMPLATE_CHECKREQUIRED
-$(foreach proj,$(PROJ_required),$(MAKE_CHAR_NEWLINE)ifneq ($$(shell ((cd $(call SHELL_Escape,$(PROJ_dir)) && test -d $(call SHELL_Escape,$(call MAKE_DecodeWord,$(proj)))) && echo 1) || echo 0),1)$(MAKE_CHAR_NEWLINE)$$(error Required project '$(call MAKE_DecodeWord,$(proj))' directory does not exist)$(MAKE_CHAR_NEWLINE)endif#)
-endef
-
-
-define \
-PROJ_TEMPLATE_IncludeRequired
-
-PROJ_dir := $(shell cd $(call SHELL_Escape,$(PROJ_dir)) && cd $(call SHELL_Escape,$(call MAKE_DecodeWord,$(1))) && pwd)
+PROJ_IncludeRequired_TEMPLATE
+PROJ_dir := $(call PROJ_Locate,$(1))
+ifeq ($$(PROJ_dir),)
+$$(error Required project '$(1)' does not exist)
+endif
 ifeq ($$(filter $$(call MAKE_EncodeWord,$$(PROJ_dir)),$$(PROJ_PROJECTS)),)
 include $$(call MAKE_EncodePath,$$(PROJ_dir))/Makefile
 else
@@ -181,6 +202,17 @@ $$(warning Refraining from re-processing '$$(PROJ_dir)')
 endif
 
 endef
+
+
+# Locate another project
+#
+# Params
+# $1 The project's dir, relative to the current project's dir
+#
+# Returns
+# The absolute path of the requested project, or blank if it doesn't exist
+PROJ_Locate = \
+$(call SHELL_RelDirToAbs,$(1),$(PROJ_dir))
 
 
 
@@ -251,111 +283,19 @@ $(if $($(1)),$(call PROJ_ValidationErrorIf,$(call lt,$($(1)),$(word 1,$(2)))$(ca
 
 
 
-
-# ------------------------------------------------------------------------------
-# Template for creating target-specific versions of project variables.
-# This is because variables in targets are not expanded until the target is
-# actually run, at which time the global versions will not exist anymore.
-# ------------------------------------------------------------------------------
-
-# target
-define PROJ_TargetVars
-$(eval $(call PROJ_TargetVars_TEMPLATE,$(1)))
-endef
-
-define PROJ_TargetVars_TEMPLATE
-$(foreach varname,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(call MAKE_EncodePath,$(1)): $(varname) := $$($(call PROJ_PersistentName,$(varname),$(PROJ_dir)))#)
-endef
-
-
-
-# ------------------------------------------------------------------------------
-# Template for clearing temporary target variables (TMP_*)
-# ------------------------------------------------------------------------------
-
-PROJ_ClearTmpVars = \
-$(eval $(PROJ_TEMPLATE_CLEARTMPVARS))
-
-define \
-PROJ_TEMPLATE_CLEARTMPVARS
-$(foreach varname,$(filter TMP_%,$(.VARIABLES)),$(MAKE_CHAR_NEWLINE)$(varname) :=#)
-endef
-
-
-
 # ------------------------------------------------------------------------------
 # Template for including rules.mk for modules involved in the current
 # ------------------------------------------------------------------------------
 
 PROJ_GenerateRules = \
-$(eval $(PROJ_RULES_TEMPLATE))
+$(eval $(PROJ_GenerateRules_TEMPLATE))
 
-define PROJ_RULES_TEMPLATE
+define \
+PROJ_GenerateRules_TEMPLATE
+ALLTARGETS :=
 $(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MODULES_Locate,$(module))/rules.mk)
-$$(call PROJ_ClearTmpVars)
-endef
-
-
-
-# ------------------------------------------------------------------------------
-# Target Boilerplate
-#
-# Usage:
-#
-# <copy and paste contents of PROJ_NEWTARGET_BOILERPLATE>
-#
-# TMP_TARGETS := ...
-# TMP_REQS := ...
-# TMP_OREQS := ...
-# TMP_REQDBY := ...
-# TMP_PHONY := ...
-# 
-# <copy and paste contents of PROJ_PRETARGET_BOILERPLATE>
-#
-#   <commands to build targets>
-#
-# <copy and paste contents of PROJ_POSTTARGET_BOILERPLATE>
-#
-# ------------------------------------------------------------------------------
-
-# Copy+paste this inline
-define PROJ_NEWTARGET_BOILERPLATE
-
-# BEGIN NEW TARGET BOILERPLATE
-$(PROJ_ClearTmpVars)
-# END NEW TARGET BOILERPLATE
-
-endef
-
-
-# Copy+paste this inline
-define PROJ_PRETARGET_BOILERPLATE
-
-# BEGIN PRE-TARGET BOILERPLATE
-ifneq ($(TMP_TARGETS),)
-$(call MAKE_CallForEach,PROJ_TargetVars,$(TMP_TARGETS))
-ifneq ($(TMP_REQDBY),)
-$(call MAKE_CallForEach,MAKE_EncodePath,$(TMP_REQDBY)): \
-$(call MAKE_CallForEach,MAKE_EncodePath,$(TMP_TARGETS))
-endif
-ifneq ($(TMP_PHONY),)
-.PHONY: $(call MAKE_CallForEach,MAKE_EncodePath,$(TMP_TARGETS))
-endif
-$(call MAKE_CallForEach,MAKE_EncodePath,$(TMP_TARGETS)): \
-$(call MAKE_CallForEach,MAKE_EncodePath,$(TMP_REQS)) \
-$(if $(TMP_OREQS),| $(call MAKE_CallForEach,MAKE_EncodePath,$(TMP_OREQS)))
-# END PRE-TARGET BOILERPLATE
-
-endef
-
-
-# Copy+paste this inline
-define PROJ_POSTTARGET_BOILERPLATE
-
-# BEGIN POST-TARGET BOILERPLATE
-endif # TMP_TARGETS
-# END POST-TARGET BOILERPLATE
-
+$$(call PROJ_TargetVars,$$(ALLTARGETS))
+ALLTARGETS :=
 endef
 
 
@@ -382,8 +322,38 @@ $(if $(RULE_TARGET)$(RULE_TARGETS), \
 $(if $(MAKERY_DEBUG), \
 $(warning $(call MAKE_Message,Rule$(MAKE_CHAR_NEWLINE)$(PROJ_Rule_DUMP))) \
 ) \
-$(eval $(call PROJ_Rule_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)))))\
+$(eval $(call PROJ_Rule_TEMPLATE,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET))))) \
 )
+#$(warning $(call PROJ_Rule_TEMPLATE,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET))))) \
+
+
+
+# Generate the Make code for the rule
+# $1 All targets
+# $2 All targets, MAKE_EncodePath()ed
+define PROJ_Rule_TEMPLATE
+ALLTARGETS += $$(RULE_TARGETS) $$(call MAKE_EncodeWord,$$(RULE_TARGET))
+
+$(if $(RULE_PHONY),.PHONY: $(2))
+
+$(if $(RULE_REQDBYS)$(RULE_REQDBY), \
+$(foreach r,$(RULE_REQDBYS) $(call MAKE_EncodeWord,$(RULE_REQDBY)),$(MAKE_CHAR_NEWLINE)$(call MAKE_EncodePath,$(call MAKE_DecodeWord,$(r))): $(2)) \
+)
+
+$(2): \
+$(foreach r,$(RULE_REQS) $(call MAKE_EncodeWord,$(RULE_REQ)),\$(MAKE_CHAR_NEWLINE)$(call MAKE_EncodePath,$(call MAKE_DecodeWord,$(r)))) \
+\
+$(if $(RULE_OREQS)$(RULE_OREQ),\$(MAKE_CHAR_NEWLINE)| $(foreach r,$(RULE_OREQS) $(call MAKE_EncodeWord,$(RULE_OREQ)),\$(MAKE_CHAR_NEWLINE)$(call MAKE_EncodePath,$(call MAKE_DecodeWord,$(r)))))
+
+	$$(SHELL_TARGETHEADING)
+ifneq ($$(MAKERY_DEBUG),)
+	@echo $$(call SHELL_Escape,[newer prerequisites: $$(?)])
+endif
+	
+$(RULE_COMMANDS)
+
+$$(call MAKE_ClearVarsWithPrefix,RULE_)
+endef
 
 
 # Generate a dump of information about the rule
@@ -404,43 +374,18 @@ $(if $(RULE_COMMANDS),$(RULE_COMMANDS),(none))
 
 endef
 
-#Rule code:
-#$(call PROJ_Rule_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET))))
 
+# Generate target-specific versions of project variables
+#
+# Params
+# $1 List of targets
+PROJ_TargetVars = \
+$(eval $(call PROJ_TargetVars_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(1))))
 
-# Generate the Make code for the rule
-# $1 Pre-MAKE_EncodePath()d target list
-define PROJ_Rule_TEMPLATE
+# $1 PathEncode()ed list of targets
+define \
+PROJ_TargetVars_TEMPLATE
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(1): $(v) := $$($(call PROJ_PersistentNameUnsafe,$(v),$(PROJ_dir_asword)))#)
-
-$(if $(RULE_PHONY), \
-$(foreach t,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)), \
-$(MAKE_CHAR_NEWLINE).PHONY: $(call MAKE_EncodePath,$(call MAKE_DecodeWord,$(t))) \
-) \
-)
-
-$(if $(RULE_REQDBYS)$(RULE_REQDBY), \
-$(foreach r,$(RULE_REQDBYS) $(call MAKE_EncodeWord,$(RULE_REQDBY)),\$(MAKE_CHAR_NEWLINE)$(call MAKE_EncodePath,$(call MAKE_DecodeWord,$(r)))) \
-\$(MAKE_CHAR_NEWLINE): \
-$(foreach t,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),\$(MAKE_CHAR_NEWLINE)$(call MAKE_EncodePath,$(call MAKE_DecodeWord,$(t)))) \
-)
-
-$(foreach t,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),\$(MAKE_CHAR_NEWLINE)$(call MAKE_EncodePath,$(call MAKE_DecodeWord,$(t)))) \
-\$(MAKE_CHAR_NEWLINE): \
-\
-$(foreach r,$(RULE_REQS) $(call MAKE_EncodeWord,$(RULE_REQ)),\$(MAKE_CHAR_NEWLINE)$(call MAKE_EncodePath,$(call MAKE_DecodeWord,$(r)))) \
-\
-$(if $(RULE_OREQS)$(RULE_OREQ),\$(MAKE_CHAR_NEWLINE)| $(foreach r,$(RULE_OREQS) $(call MAKE_EncodeWord,$(RULE_OREQ)),\$(MAKE_CHAR_NEWLINE)$(call MAKE_EncodePath,$(call MAKE_DecodeWord,$(r)))))
-
-	$$(SHELL_TARGETHEADING)
-ifneq ($$(MAKERY_DEBUG),)
-	@echo $$(call SHELL_Escape,[newer prerequisites: $$(?)])
-endif
-	
-$(RULE_COMMANDS)
-
-$(foreach varname,$(filter RULE_%,$(.VARIABLES)),$(MAKE_CHAR_NEWLINE)$(varname) :=#)
-
 endef
 
 
