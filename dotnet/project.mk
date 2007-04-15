@@ -64,24 +64,6 @@ DOTNET_namespace_DEFAULT = \
 $(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(PROJ_dir))))
 
 
-# (EXPERIMENTAL)
-# Source code preprocessor pipeline
-#   To add a preprocessing step:
-#   - YOURMOD_srcvarname := $(lastword $(DOTNET_srcs_pipeline))
-#   - YOURMOD_srcs = $($(YOURMOD_srcvarname))
-#   - YOURMOD_outfiles = ...
-#   - DOTNET_srcs_pipeline += $(YOURMOD_outfiles)
-#$(call PROJ_DeclareVar,DOTNET_srcs_pipeline)
-#DOTNET_srcs_pipeline_DESC ?= \
-#Names of srcs variables for each step of preprocessing pipeline (list)
-#DOTNET_srcs_pipeline := DOTNET_srcs
-
-
-#$(call PROJ_DeclareVar,DOTNET_srcs_final)
-#DOTNET_srcs_final_DESC ?= Final preprocessed source code files (list)
-#DOTNET_srcs_final_DEFAULT = $($(lastword $(DOTNET_srcs_pipeline)))
-
-
 $(call PROJ_DeclareVar,DOTNET_resources)
 DOTNET_resources_DESC ?= Resource files to embed into the output binary (list)
 
