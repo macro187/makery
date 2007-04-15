@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------------------
 
 
-# Add the Resbian program to required projects
+# Require the Resbian program
 PROJ_required += $(call MAKE_EncodeWord,$(DOTNET_RESBIAN_PROJ))
 
 

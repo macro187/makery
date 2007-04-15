@@ -15,21 +15,9 @@
 # ------------------------------------------------------------------------------
 
 
-# Location of the Resbian project, which will be built as a required
-# project and used to generate .resources files
-
-DOTNET_RESBIAN_PROJ = \
-$(call SHELL_RelDirToAbs,../Net.Sourceforge.Resbian,$(call MODULES_Locate,dotnet.resbian))
-
-
-#$(shell \
-#test -d $(call SHELL_Escape,$(PROJ_dir)) \
-#&& cd $(call SHELL_Escape,$(PROJ_dir)) \
-#&& test -d ../Net.Sourceforge.Resbian \
-#&& cd ../Net.Sourceforge.Resbian \
-#&& pwd \
-#| $(SHELL_CLEANPATH) \
-#)
+DOTNET_RESBIAN_PROJ := $(call PROJ_Locate,Net.Sourceforge.Resbian)
+DOTNET_RESBIAN_PROJ_DESC := Location of the Resbian project
+MAKERY_GLOBALS += DOTNET_RESBIAN_PROJ
 
 
 # Get list of srcs for given culture

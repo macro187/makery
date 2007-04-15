@@ -16,6 +16,29 @@
 
 
 # ------------------------------------------------------------------------------
+# Project paths and location
+# ------------------------------------------------------------------------------
+
+PROJ_PATHS := $(PROJ_PATHS)
+PROJ_PATHS_DESC := Paths that PROJ_Locate() searches for projects in (list)
+MAKERY_GLOBALS += PROJ_PATHS
+
+
+# Locate a project in PROJ_PATHS
+#
+# Params
+# $1 Directory name of project to find
+#
+# Errors
+# TODO If the project can't be found
+PROJ_Locate = \
+$(if $(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1))))),$(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1))))),$(error Can not find project '$(1)' in PROJ_PATHS))
+
+
+
+
+
+# ------------------------------------------------------------------------------
 # List of Projects Processed
 # ------------------------------------------------------------------------------
 
@@ -218,7 +241,7 @@ $(eval $(call PROJ_IncludeRequired_TEMPLATE,$(1)))
 
 define \
 PROJ_IncludeRequired_TEMPLATE
-PROJ_dir := $(call PROJ_Locate,$(1))
+PROJ_dir := $(call PROJ_LocateFromHere,$(1))
 ifeq ($$(PROJ_dir),)
 $$(error Required project '$(1)' does not exist)
 endif
@@ -231,14 +254,14 @@ endif
 endef
 
 
-# Locate another project
+# Locate another project relative to the current project
 #
 # Params
 # $1 The project's dir, relative to the current project's dir
 #
 # Returns
 # The absolute path of the requested project, or blank if it doesn't exist
-PROJ_Locate = \
+PROJ_LocateFromHere = \
 $(call SHELL_RelDirToAbs,$(1),$(PROJ_dir))
 
 

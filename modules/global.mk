@@ -29,7 +29,7 @@ MODULES_PATHS := $(call MAKE_EncodeWord,$(MAKERY)) $(MODULES_PATHS)
 # Locate a given module's dir in MODULES_PATHS
 # $1 - Module name
 MODULES_Locate = \
-$(call MAKE_DecodeWord,$(firstword $(foreach dir,$(MODULES_PATHS),$(if $(shell test -d $(call SHELL_Escape,$(call MAKE_DecodeWord,$(dir))/$(1)) && echo yes),$(dir)/$(1)))))
+$(call MAKE_DecodeWord,$(firstword $(foreach d,$(MODULES_PATHS),$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1)))))
 
 
 

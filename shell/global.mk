@@ -54,6 +54,20 @@ endef
 
 
 # ------------------------------------------------------------------------------
+# Determine a directory's canonical absolute path
+#
+# Parameters
+# $1 - Path
+#
+# Returns
+# Absolute path, or blank if the dir doesn't exist
+# ------------------------------------------------------------------------------
+
+SHELL_DirToAbs = \
+$(shell test -d $(call SHELL_Escape,$(1)) && cd $(call SHELL_Escape,$(1)) && pwd | $(SHELL_CLEANPATH))
+
+
+# ------------------------------------------------------------------------------
 # Determine a directory's absolute path given it's (possibly) relative path 
 # from an origin directory
 #
