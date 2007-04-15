@@ -19,6 +19,10 @@ $(call PROJ_DeclareVar,PROJ_vars)
 PROJ_vars_DESC ?= (internal) Names of all project-specific variables (list)
 
 
+$(call PROJ_DeclareVar,PROJ_targetvars)
+PROJ_targetvars_DESC ?= (internal) Names of all target-time variables (list)
+
+
 $(call PROJ_DeclareVar,PROJ_ismain)
 PROJ_ismain := $(if $(PROJ_PROJECTS),,1)
 PROJ_ismain_DESC ?= Is this the main project? (ie. where make was run)

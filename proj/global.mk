@@ -47,6 +47,32 @@ endif
 endef
 
 
+# ------------------------------------------------------------------------------
+# Declare a target-time project variable
+# $1 - Variable name
+#
+# Remarks:
+#   This function is only valid in a module's project.mk
+#
+# Usage:
+#   $(call PROJ_DeclareVar,PKGNAME_varname)
+#   PKGNAME_varname_DEFAULT = (default value) (optional)
+#   PKGNAME_varname_DESC = (description) (optional)
+# ------------------------------------------------------------------------------
+
+PROJ_DeclareTargetVar = \
+$(eval $(call PROJ_DeclareTargetVar_TEMPLATE,$(1)))
+
+define PROJ_DeclareTargetVar_TEMPLATE
+PROJ_targetvars += $(1)
+ifeq ($$($(1)),)
+$(1) = $$($(1)_DEFAULT)
+endif
+PROJ_vars += $(1)_def
+$(1)_def = $$(value $(1))
+endef
+
+
 
 # ------------------------------------------------------------------------------
 # Persistent (stashed) variables
@@ -154,7 +180,8 @@ $(eval $(PROJ_ClearVars_TEMPLATE))
 
 define \
 PROJ_ClearVars_TEMPLATE
-$(foreach varname,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(varname) =#$(MAKE_CHAR_NEWLINE)$(varname)_DEFAULT =#)
+$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) =#$(MAKE_CHAR_NEWLINE)$(v)_DEFAULT =#)
+$(foreach v,$(PROJ_targetvars),$(MAKE_CHAR_NEWLINE)$(v) =#)
 endef
 
 
@@ -381,11 +408,13 @@ endef
 # $1 List of targets
 PROJ_TargetVars = \
 $(eval $(call PROJ_TargetVars_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(1))))
+#$(warning $(call PROJ_TargetVars_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(1))))\
 
 # $1 PathEncode()ed list of targets
 define \
 PROJ_TargetVars_TEMPLATE
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(1): $(v) := $$($(call PROJ_PersistentNameUnsafe,$(v),$(PROJ_dir_asword)))#)
+$(foreach v,$(PROJ_targetvars),$(MAKE_CHAR_NEWLINE)$(1): $(v) = $($(v)_def)#)
 endef
 
 
