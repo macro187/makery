@@ -66,7 +66,7 @@ $(eval $(call PROJ_DeclareTargetVar_TEMPLATE,$(1)))
 define PROJ_DeclareTargetVar_TEMPLATE
 PROJ_targetvars += $(1)
 ifeq ($$($(1)),)
-$(1) = $$($(1)_DEFAULT)
+$(1) = $(value $(1)_DEFAULT)
 endif
 PROJ_vars += $(1)_def
 $(1)_def = $$(value $(1))
