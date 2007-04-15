@@ -64,31 +64,6 @@ DOTNET_namespace_DEFAULT = \
 $(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(PROJ_dir))))
 
 
-$(call PROJ_DeclareVar,DOTNET_srcdir)
-DOTNET_srcdir_DESC ?= Root source code directory, path relative to project dir
-DOTNET_srcdir_DEFAULT = .
-
-
-$(call PROJ_DeclareVar,DOTNET_srcdir_abs)
-DOTNET_srcdir_abs_DESC ?= (internal) Root source code directory, absolute
-DOTNET_srcdir_abs_DEFAULT = $(call SHELL_RelDirToAbs,$(DOTNET_srcdir),$(PROJ_dir))
-
-
-$(call PROJ_DeclareVar,DOTNET_recursivesrcs)
-DOTNET_recursivesrcs_DESC ?= Should srcs be searched for recursively?
-DOTNET_recursivesrcs_DEFAULT = $(call not,$(call seq,$(DOTNET_srcdir_abs),$(PROJ_dir)))
-
-
-$(call PROJ_DeclareVar,DOTNET_excludesrcs)
-DOTNET_excludesrcs_DESC ?= Source code filename patterns to exclude (list)
-
-
-$(call PROJ_DeclareVar,DOTNET_srcs)
-DOTNET_srcs_DESC ?= Initial list of source code files (list)
-# Populated with autodetected list of source code files by language modules,
-# as appropriate for each language
-
-
 # (EXPERIMENTAL)
 # Source code preprocessor pipeline
 #   To add a preprocessing step:
@@ -96,15 +71,15 @@ DOTNET_srcs_DESC ?= Initial list of source code files (list)
 #   - YOURMOD_srcs = $($(YOURMOD_srcvarname))
 #   - YOURMOD_outfiles = ...
 #   - DOTNET_srcs_pipeline += $(YOURMOD_outfiles)
-$(call PROJ_DeclareVar,DOTNET_srcs_pipeline)
-DOTNET_srcs_pipeline_DESC ?= \
-Names of srcs variables for each step of preprocessing pipeline (list)
-DOTNET_srcs_pipeline := DOTNET_srcs
+#$(call PROJ_DeclareVar,DOTNET_srcs_pipeline)
+#DOTNET_srcs_pipeline_DESC ?= \
+#Names of srcs variables for each step of preprocessing pipeline (list)
+#DOTNET_srcs_pipeline := DOTNET_srcs
 
 
-$(call PROJ_DeclareVar,DOTNET_srcs_final)
-DOTNET_srcs_final_DESC ?= Final preprocessed source code files (list)
-DOTNET_srcs_final_DEFAULT = $($(lastword $(DOTNET_srcs_pipeline)))
+#$(call PROJ_DeclareVar,DOTNET_srcs_final)
+#DOTNET_srcs_final_DESC ?= Final preprocessed source code files (list)
+#DOTNET_srcs_final_DEFAULT = $($(lastword $(DOTNET_srcs_pipeline)))
 
 
 $(call PROJ_DeclareVar,DOTNET_resources)
@@ -166,7 +141,7 @@ DOTNET_outfiles_DESC ?= (append-only) Output binary and associated files (list)
 $(call PROJ_DeclareVar,DOTNET_outfiles_main)
 DOTNET_outfiles_main_DESC ?= (read-only) Primary output binary file
 DOTNET_outfiles_main_DEFAULT = \
-$(if $(DOTNET_srcs_final),$(DOTNET_outbase_abs).$(DOTNET_outext))
+$(DOTNET_outbase_abs).$(DOTNET_outext)
 
 DOTNET_outfiles += $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))
 

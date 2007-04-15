@@ -17,7 +17,7 @@
 
 RULE_TARGETS := $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))
 #RULE_TARGETS += $(call MAKE_EncodeWord,$(DOTNET_C_out_debug))
-RULE_REQS := $(DOTNET_srcs_final)
+RULE_REQS := $(SRCS_preqfiles)
 RULE_REQS += $(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs_abs)
 RULE_REQS += $(DOTNET_resources)
 RULE_OREQS := $(call MAKE_EncodeWord,$(DOTNET_outdir))
@@ -34,7 +34,7 @@ define RULE_COMMANDS
 	$(foreach lib,$(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs_abs),\$(MAKE_CHAR_NEWLINE)	-l$(call SHELL_Escape,$(call MAKE_DecodeWord,$(lib)))) $(MAKE_CHAR_BS)
 	$(foreach lib,$(DOTNET_libs) $(call PROJ_GetMultiRecursive,DOTNET_libs,DOTNET_projlibs_abs),\$(MAKE_CHAR_NEWLINE)	-l$(call SHELL_Escape,$(call MAKE_DecodeWord,$(lib)))) $(MAKE_CHAR_BS)
 	$(foreach res,$(DOTNET_resources),\$(MAKE_CHAR_NEWLINE)	-fresources=$(call SHELL_Escape,$(call MAKE_DecodeWord,$(res)))) $(MAKE_CHAR_BS)
-	$(call MAKE_CallForEach,SHELL_Escape,$(DOTNET_srcs_final))
+	$$(call MAKE_CallForEach,SHELL_Escape,$$(SRCS_files))
 endef
 
 $(call PROJ_Rule)

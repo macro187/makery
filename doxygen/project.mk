@@ -25,10 +25,8 @@ DOXYGEN_depends_DESC ?= \
 (append-only) Prerequisites for generating doxygen documentation (list)
 
 
-$(call PROJ_DeclareVar,DOXYGEN_srcs)
+$(call PROJ_DeclareTargetVar,DOXYGEN_srcs)
 DOXYGEN_srcs_DESC ?= Source code files to document (list)
-
-DOXYGEN_depends += $(DOXYGEN_srcs)
 
 
 $(call PROJ_DeclareVar,DOXYGEN_defines)
@@ -52,8 +50,7 @@ OUTDIRS_all += $(call MAKE_EncodeWord,$(DOXYGEN_outdir))
 
 $(call PROJ_DeclareVar,DOXYGEN_configfile)
 DOXYGEN_configfile_DESC ?= (read-only) Output doxygen config file
-DOXYGEN_configfile_DEFAULT = \
-$(if $(DOXYGEN_srcs),$(DOXYGEN_outdir)/doxygen.config)
+DOXYGEN_configfile_DEFAULT = $(DOXYGEN_outdir)/doxygen.config
 
 
 # Hook doxygen to the everything target

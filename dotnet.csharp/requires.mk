@@ -15,7 +15,9 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,outdirs)
+$(call MODULES_Use,srcs.find)
+$(call MODULES_Use,srcs)
 $(call MODULES_Use,dotnet)
+$(call MODULES_Use,outdirs)
 $(call MODULES_Use,doxygen)
 

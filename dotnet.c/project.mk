@@ -15,17 +15,15 @@
 # ------------------------------------------------------------------------------
 
 
-# Language-specific DOTNET_srcs detection
-DOTNET_srcs_DEFAULT = \
-$(if $(DOTNET_srcdir_abs), \
-$(filter-out $(DOTNET_excludesrcs), \
-$(shell \
-find $(call SHELL_Escape,$(DOTNET_srcdir_abs)) $(if $(DOTNET_recursivesrcs),, -maxdepth 1 )-type f -name \*.c \
-| $(SHELL_CLEANPATH) \
-| $(SHELL_ENCODEWORD) \
-) \
-) \
-)
+# Only pnet can do C, and pnet only implements .NET 1.1
+DOTNET_implementation_MASK_CONLYPNET = $(filter-out pnet,$(DOTNET_implementation_ALL))
+DOTNET_implementation_MASK_CONLYPNET_DESC ?= Only pnet can do C
+DOTNET_implementation_MASKS += CONLYPNET
+
+DOTNET_generation_MASK_PNET11ONLY = \
+$(foreach g,$(DOTNET_generation_ALL),$(if $(call gt,$(g),11),$(g)))
+DOTNET_generation_MASK_PNET11ONLY_DESC ?= Pnet currently only does .NET 1.1
+DOTNET_generation_MASKS += PNET11ONLY
 
 
 $(call PROJ_DeclareVar,DOTNET_C_defines)
@@ -52,4 +50,11 @@ DOTNET_C_warn_DEFAULT = 4
 $(call PROJ_DeclareVar,DOTNET_C_werror)
 DOTNET_C_werror_DESC ?= Treat compiler warnings as errors? (0|1)
 DOTNET_C_werror_DEFAULT = 1
+
+
+# Hook up srcs.find
+# TODO Move somewhere else?
+SRCS_FIND_extension = c
+SRCS_files = $(SRCS_FIND_files)
+SRCS_preqfiles = $(SRCS_FIND_files)
 

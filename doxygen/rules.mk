@@ -64,10 +64,7 @@ endif
 # Input files
 	@echo "INPUT = \\" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-$(foreach src,$(DOXYGEN_srcs),\
-$(MAKE_CHAR_NEWLINE)	@echo "	\"$(call MAKE_DecodeWord,$(src))\" \\" \
-\$(MAKE_CHAR_NEWLINE)		>> $(call SHELL_Escape,$(DOXYGEN_configfile))\
-)
+	$$(foreach src,$$(DOXYGEN_srcs),$$(MAKE_CHAR_NEWLINE)	@echo "	\"$$(call MAKE_DecodeWord,$$(src))\" \\" >> $(call SHELL_Escape,$(DOXYGEN_configfile)))
 	@echo "" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
 

@@ -15,19 +15,6 @@
 # ------------------------------------------------------------------------------
 
 
-# CSharp-specific DOTNET_srcs override
-DOTNET_srcs_DEFAULT = \
-$(if $(DOTNET_srcdir_abs), \
-$(filter-out $(DOTNET_excludesrcs), \
-$(shell \
-find $(call SHELL_Escape,$(DOTNET_srcdir_abs)) $(if $(DOTNET_recursivesrcs),, -maxdepth 1 )-type f -name \*.cs\
-| $(SHELL_CLEANPATH) \
-| $(SHELL_ENCODEWORD) \
-) \
-) \
-)
-
-
 $(call PROJ_DeclareVar,DOTNET_CS_defines)
 DOTNET_CS_defines_DESC ?= Preprocessor variables to define (list)
 
@@ -65,12 +52,21 @@ DOTNET_CS_werror_DEFAULT = 1
 $(call PROJ_DeclareVar,DOTNET_CS_out_debug)
 DOTNET_CS_out_debug_DESC ?= (read-only) Debug information output file
 DOTNET_CS_out_debug = \
-$(if $(filter mono,$(DOTNET_implementation)),$(if $(DOTNET_srcs_final),$(if $(filter 1,$(DOTNET_CS_debug)),$(DOTNET_outfiles_main).mdb)))$(if $(filter ms,$(DOTNET_implementation)),$(if $(DOTNET_srcs_final),$(if $(filter 1,$(DOTNET_CS_debug)),$(DOTNET_outbase_abs).pdb)))
+$(if $(filter mono,$(DOTNET_implementation)),$(if $(filter 1,$(DOTNET_CS_debug)),$(DOTNET_outfiles_main).mdb))$(if $(filter ms,$(DOTNET_implementation)),$(if $(filter 1,$(DOTNET_CS_debug)),$(DOTNET_outbase_abs).pdb))
 
 DOTNET_outfiles += $(call MAKE_EncodeWord,$(DOTNET_CS_out_debug))
 
 
-# Hook up doxygen
-DOXYGEN_srcs += $(DOTNET_srcs)
+# Hook up srcs.find
+# TODO Move somewhere else?
+SRCS_FIND_extension = cs
+SRCS_files = $(SRCS_FIND_files)
+SRCS_preqfiles = $(SRCS_FIND_files)
+
+
+# Hook up Doxygen
+# TODO Move somewhere else?
+DOXYGEN_srcs += $(SRCS_files)
+DOXYGEN_depends += $(SRCS_preqfiles)
 DOXYGEN_depends += $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))
 
