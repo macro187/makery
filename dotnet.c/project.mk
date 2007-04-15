@@ -56,5 +56,5 @@ DOTNET_C_werror_DEFAULT = 1
 # TODO Move somewhere else?
 SRCS_FIND_extension = c
 SRCS_files = $(SRCS_FIND_files)
-SRCS_preqfiles = $(SRCS_FIND_files)
+SRCS_files_preq = $(SRCS_FIND_files)
 

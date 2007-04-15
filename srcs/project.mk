@@ -20,6 +20,6 @@ SRCS_files_DESC ?= Source code files (list)
 
 
 # (may be different because _files is target-time)
-$(call PROJ_DeclareVar,SRCS_preqfiles)
-SRCS_preqfiles_DESC ?= Files to be used as rule prerequisites (list)
+$(call PROJ_DeclareVar,SRCS_files_preq)
+SRCS_files_preq_DESC ?= Files to be used as rule prerequisites (list)
 

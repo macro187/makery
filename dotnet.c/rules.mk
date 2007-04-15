@@ -17,7 +17,7 @@
 
 RULE_TARGETS := $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))
 #RULE_TARGETS += $(call MAKE_EncodeWord,$(DOTNET_C_out_debug))
-RULE_REQS := $(SRCS_preqfiles)
+RULE_REQS := $(SRCS_files_preq)
 RULE_REQS += $(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs_abs)
 RULE_REQS += $(DOTNET_resources)
 RULE_OREQS := $(call MAKE_EncodeWord,$(DOTNET_outdir))

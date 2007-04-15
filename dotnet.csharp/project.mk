@@ -61,12 +61,12 @@ DOTNET_outfiles += $(call MAKE_EncodeWord,$(DOTNET_CS_out_debug))
 # TODO Move somewhere else?
 SRCS_FIND_extension = cs
 SRCS_files = $(SRCS_FIND_files)
-SRCS_preqfiles = $(SRCS_FIND_files)
+SRCS_files_preq = $(SRCS_FIND_files)
 
 
 # Hook up Doxygen
 # TODO Move somewhere else?
 DOXYGEN_srcs += $(SRCS_files)
-DOXYGEN_depends += $(SRCS_preqfiles)
+DOXYGEN_depends += $(SRCS_files_preq)
 DOXYGEN_depends += $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))
 
