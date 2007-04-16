@@ -15,30 +15,25 @@
 # ------------------------------------------------------------------------------
 
 
-# NOTE: SRCS_files and SRCS_files_preq must already be set up before this
-# module gets called
-
-
+#
+# A preprocessor module must implement variables according to the following
+# patten (<PP> is the prefix that the module adds to _pipeline):
+#
+# <PP>_dir      - Common root directory of source code files
+# <PP>_rel      - Source code files relative to <PP>_dir
+#               - Assumed to be target-time
+# <PP>_preq     - Files that represent the source code files for prerequisites
+#                 purposes (absolute paths)
+#
 $(call PROJ_DeclareVar,SRCS_PREPROCESS_pipeline)
-SRCS_PREPROCESS_pipeline_DESC ?= Srcs variable list (append-only list)
+SRCS_PREPROCESS_pipeline_DESC ?= Preprocessor list (append-only list)
 SRCS_PREPROCESS_pipeline_VALIDATE ?= Required
 
 
-# Hook existing SRCS_* to beginning of pipeline
-$(call PROJ_DeclareTargetVar,SRCS_PREPROCESS_infiles)
-SRCS_PREPROCESS_infiles_DESC ?= Input source code files (list)
-$(eval SRCS_PREPROCESS_infiles = $(value SRCS_files))
-
-
-$(call PROJ_DeclareVar,SRCS_PREPROCESS_infiles_preq)
-SRCS_PREPROCESS_infiles_preq_DESC ?= Prerequisite version of _infiles (list)
-$(eval SRCS_PREPROCESS_infiles_preq = $(value SRCS_files_preq))
-
-
-SRCS_PREPROCESS_pipeline += SRCS_PREPROCESS_infiles
-
-
 # Hook the end of the pipeline to SRCS_*
-SRCS_files = $($(lastword $(SRCS_PREPROCESS_pipeline)))
-SRCS_files_preq = $($(lastword $(SRCS_PREPROCESS_pipeline))_preq)
+SRCS_files = \
+$(foreach f,$($(lastword $(SRCS_PREPROCESS_pipeline))_rel),$(call MAKE_EncodeWord,$($(lastword $(SRCS_PREPROCESS_pipeline))_dir))/$(f))
+
+SRCS_files_preq = \
+$($(lastword $(SRCS_PREPROCESS_pipeline))_preq)
 
