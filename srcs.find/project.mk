@@ -36,15 +36,31 @@ $(call PROJ_DeclareVar,SRCS_FIND_exclude)
 SRCS_FIND_exclude_DESC ?= Pattern of source code files to filter-out
 
 
-$(call PROJ_DeclareVar,SRCS_FIND_files)
-SRCS_FIND_files_DESC ?= Located source code files (list) (read-only)
-
-SRCS_FIND_files = \
+$(call PROJ_DeclareVar,SRCS_FIND_rel)
+SRCS_FIND_rel_DESC ?= \
+Located source code files, relative to _dir (list) (read-only)
+SRCS_FIND_rel = \
 $(filter-out $(SRCS_FIND_exclude), \
 $(shell \
-find $(call SHELL_Escape,$(SRCS_FIND_dir))$(if $(SRCS_FIND_recursive),, -maxdepth 1) -type f -name \*.$(SRCS_FIND_extension)\
+test -d $(call SHELL_Escape,$(SRCS_FIND_dir)) && cd $(call SHELL_Escape,$(SRCS_FIND_dir)) && find * $(if $(SRCS_FIND_recursive),, -maxdepth 1) -type f -name \*.$(SRCS_FIND_extension)\
 | $(SHELL_CLEANPATH) \
 | $(SHELL_ENCODEWORD) \
 ) \
 )
+
+
+$(call PROJ_DeclareVar,SRCS_FIND_files)
+SRCS_FIND_files_DESC ?= Located source code files (list) (read-only)
+SRCS_FIND_files = \
+$(foreach f,$(SRCS_FIND_rel),$(call MAKE_EncodeWord,$(SRCS_FIND_dir))/$(f))
+
+
+$(call PROJ_DeclareVar,SRCS_FIND_preq)
+SRCS_FIND_preq_DESC ?= Prerequisite version(s) of _files (list) (read-only)
+SRCS_FIND_preq = $(SRCS_FIND_files)
+
+
+# Hook up to srcs and srcs.preprocess
+SRCS_files = $(SRCS_FIND_files)
+SRCS_PREPROCESS_pipeline += SRCS_FIND
 
