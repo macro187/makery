@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------------------
 
 
-DOTNET_RESBIAN_PROJ := $(call PROJ_Locate,Net.Sourceforge.Resbian)
+DOTNET_RESBIAN_PROJ := $(call PROJ_Locate,Com.Halfdecent.Resbian)
 DOTNET_RESBIAN_PROJ_DESC := Location of the Resbian project
 MAKERY_GLOBALS += DOTNET_RESBIAN_PROJ
 

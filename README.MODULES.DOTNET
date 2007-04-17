@@ -88,6 +88,11 @@ x.  Modules
     the "Resbian" tool.  Also arranges for those .resources files to be
     linked into the final output binary.
 
+    The Resbian tool is available as part of the "halfdecentsharp" tools
+    and libraries at:
+
+        http://sourceforge.net/projects/halfdecentsharp/
+
     [TODO Support for satellite assemblies?]
 
     The localization classes in the .NET class library expect resources to
