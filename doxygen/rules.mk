@@ -31,7 +31,7 @@ RULE_OREQ := $(DOXYGEN_outdir)
 
 define RULE_COMMANDS
 	@echo ""
-	@echo "=> Cleaning..."
+	@echo "=> Cleaning old doxygen output..."
 	rm -f $(call SHELL_Escape,$(DOXYGEN_configfile))
 	rm -rf $(call SHELL_Escape,$(DOXYGEN_outdir))/*
 	@echo "=> ...done"
@@ -44,6 +44,32 @@ define RULE_COMMANDS
 		> $(call SHELL_Escape,$(DOXYGEN_configfile))
 
 # Generation options
+	@echo "CLASS_GRAPH=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "COLLABORATION_GRAPH=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+#	@echo "HTML_DYNAMIC_SECTIONS=YES" $(MAKE_CHAR_BS)
+#		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+#	@echo "GENERATE_TREEVIEW=YES" $(MAKE_CHAR_BS)
+#		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "QUIET=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "SOURCE_BROWSER=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "JAVADOC_AUTOBRIEF=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "OPTIMIZE_OUTPUT_JAVA=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "INLINE_INFO=NO" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "SORT_MEMBER_DOCS=NO" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "SORT_BRIEF_DOCS=NO" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "SHOW_USED_FILES=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "SHOW_DIRECTORIES=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
 	@echo "EXTRACT_ALL=YES" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
 	@echo "SEPARATE_MEMBER_PAGES=YES" $(MAKE_CHAR_BS)
@@ -56,6 +82,15 @@ define RULE_COMMANDS
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
 	@echo "GRAPHICAL_HIERARCHY=YES" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "DOT_MULTI_TARGETS=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "GENERATE_LEGEND=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "DOT_CLEANUP=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "ALWAYS_DETAILED_SEC=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+
 ifneq ($$(DOXYGEN_DOT),)
 	@echo "HAVE_DOT=YES" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
