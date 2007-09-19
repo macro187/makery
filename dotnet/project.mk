@@ -32,8 +32,8 @@ DOTNET_implementation_MASK_MSWINONLY = $(if $(OS_ISWINDOWS),,ms)
 DOTNET_implementation_MASK_MSWINONLY_DESC ?= MS.NET only available on Windows
 DOTNET_implementation_MASKS += MSWINONLY
 
-DOTNET_implementation_MASK_NOTFOUND = $(if $(shell which mono),,mono)
-DOTNET_implementation_MASK_NOTFOUND += $(if $(shell which ilrun),,pnet)
+DOTNET_implementation_MASK_NOTFOUND = $(if $(shell which mono 2>&-),,mono)
+DOTNET_implementation_MASK_NOTFOUND += $(if $(shell which ilrun 2>&-),,pnet)
 # TODO actually make sure ms is available if on windows
 DOTNET_implementation_MASK_NOTFOUND_DESC ?= Not found on system
 DOTNET_implementation_MASKS += NOTFOUND

@@ -20,11 +20,11 @@
 # ------------------------------------------------------------------------------
 
 ifndef DOXYGEN_DOXYGEN
-DOXYGEN_DOXYGEN := $(shell which doxygen)
+DOXYGEN_DOXYGEN := $(shell which doxygen 2>&-)
 endif
 
 ifndef DOXYGEN_DOT
-DOXYGEN_DOT := $(shell which dot)
+DOXYGEN_DOT := $(shell which dot 2>&-)
 endif
 
 
