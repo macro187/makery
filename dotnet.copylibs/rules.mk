@@ -23,10 +23,7 @@ RULE_OREQ := $(DOTNET_COPYLIBS_outdir)
 define RULE_COMMANDS
 	-rm -rf $(call SHELL_Escape,$(DOTNET_COPYLIBS_outdir))/*
 
-	cp -R \
-	$(foreach dir,$(sort $(call MAKE_EncodeWord,$(DOTNET_outdir)) $(call PROJ_GetVarRecursive,DOTNET_outdir,DOTNET_projlibs_abs)),\$(MAKE_CHAR_NEWLINE)	$(call SHELL_Escape,$(call MAKE_DecodeWord,$(dir)))/*) $(MAKE_CHAR_BS)
-	$(MAKE_CHAR_BS)
-	$(call SHELL_Escape,$(DOTNET_COPYLIBS_outdir))
+	$(foreach dir,$(sort $(call MAKE_EncodeWord,$(DOTNET_outdir)) $(call PROJ_GetVarRecursive,DOTNET_outdir,DOTNET_projlibs_abs)),$(MAKE_CHAR_NEWLINE)	cp -R $(call SHELL_Escape,$(call MAKE_DecodeWord,$(dir)))/* $(call SHELL_Escape,$(DOTNET_COPYLIBS_outdir)))
 
 	touch $(call SHELL_Escape,$(DOTNET_COPYLIBS_dotfile))
 endef
