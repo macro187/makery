@@ -32,11 +32,11 @@ define RULE_COMMANDS
 	$(if $(filter 1,$(DOTNET_CS_checked)),-checked) $(MAKE_CHAR_BS)
 	$(if $(DOTNET_CS_warn),-warn:$(DOTNET_CS_warn)) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_werror)),-warnaserror) $(MAKE_CHAR_BS)
-	$(foreach define,$(DOTNET_CS_defines),\$(MAKE_CHAR_NEWLINE)	-define:$(define)) $(MAKE_CHAR_BS)
-	$(foreach lib,$(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs_abs),\$(MAKE_CHAR_NEWLINE)	-r:$(call SHELL_Escape,$(call MAKE_DecodeWord,$(lib)))) $(MAKE_CHAR_BS)
-	$(foreach lib,$(DOTNET_libs) $(call PROJ_GetMultiRecursive,DOTNET_libs,DOTNET_projlibs_abs),\$(MAKE_CHAR_NEWLINE)	-r:$(call SHELL_Escape,$(call MAKE_DecodeWord,$(lib)))) $(MAKE_CHAR_BS)
-	$(foreach res,$(DOTNET_resources),\$(MAKE_CHAR_NEWLINE)	-resource:$(call SHELL_Escape,$(call MAKE_DecodeWord,$(res)))) $(MAKE_CHAR_BS)
-	$$(call MAKE_CallForEach,SHELL_Escape,$$(SRCS_files))
+	$(DOTNET_CS_defines:%=\$(MAKE_CHAR_NEWLINE)	-define:%) $(MAKE_CHAR_BS)
+	$(foreach lib,$(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs_abs),$(call PROJ_RuleNewLine,-r:$(call SHELL_Escape,$(call MAKE_DecodeWord,$(lib))))) $(MAKE_CHAR_BS)
+	$(foreach lib,$(DOTNET_libs) $(call PROJ_GetMultiRecursive,DOTNET_libs,DOTNET_projlibs_abs),$(call PROJ_RuleNewLine,-r:$(call SHELL_Escape,$(call MAKE_DecodeWord,$(lib))))) $(MAKE_CHAR_BS)
+	$(DOTNET_resources:%=$(call PROJ_RuleNewLine,-resource:$(call SHELL_Escape,$(call MAKE_DecodeWord,%)))) $(MAKE_CHAR_BS)
+	$$(SRCS_files:%=$$(call PROJ_RuleNewLine,$$(call SHELL_Escape,$$(call MAKE_DecodeWord,%))))
 endef
 endif
 
