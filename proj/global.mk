@@ -362,7 +362,15 @@ endef
 # RULE_OREQS
 # RULE_REQDBY
 # RULE_REQDBYS
+#
+# RULE_COMMANDS
 # ------------------------------------------------------------------------------
+
+
+# 
+#
+PROJ_RuleNewLine = \
+$(MAKE_CHAR_BS)$(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_TAB)$(1)
 
 
 # Generates a project-specific rule given parameters specified in RULE_*
