@@ -21,7 +21,7 @@
 
 $(call CONFIG_DeclareField,DOTNET_generation)
 DOTNET_generation_DESC ?= .NET generation
-DOTNET_generation_ALL = 20 11 10
+DOTNET_generation_ALL = 35 30 20 11 10
 
 
 $(call CONFIG_DeclareField,DOTNET_implementation)
@@ -39,8 +39,8 @@ DOTNET_implementation_MASK_NOTFOUND_DESC ?= Not found on system
 DOTNET_implementation_MASKS += NOTFOUND
 
 DOTNET_implementation_MASK_PNETNO20 = \
-$(if $(filter 20,$(DOTNET_generation)),pnet)
-DOTNET_implementation_MASK_PNETNO20_DESC ?= PNet can not do .NET 2.0 (or newer)
+$(if $(call gte,$(DOTNET_generation),20),pnet)
+DOTNET_implementation_MASK_PNETNO20_DESC ?= PNet can not do .NET 2.0 or newer
 DOTNET_implementation_MASKS += PNETNO20
 
 

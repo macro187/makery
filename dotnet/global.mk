@@ -22,17 +22,6 @@
 # Overall types of frameworks
 DOTNET_FRAMEWORKS := ms mono pnet
 
-# Framework "version", roughly corresponding to MS's framework versions
-DOTNET_VERSIONS := 11 20
-
-ifndef DOTNET_DEFAULT_FRAMEWORK 
-DOTNET_DEFAULT_FRAMEWORK := $(if $(OS_ISWINDOWS),ms,mono)
-endif
-
-ifndef DOTNET_DEFAULT_VERSION
-DOTNET_DEFAULT_VERSION := 20
-endif
-
 
 # Sniff frameworks on Windows
 ifneq ($(OS_ISWINDOWS),)
@@ -61,6 +50,8 @@ $(call SHELL_Escape,$(DOTNET_FRAMEWORKS_DIR)) \
 -name "v2.0*" \
 | $(SHELL_CLEANPATH) \
 )
+
+# TODO Sniff out the 3.0 and 3.5 frameworks as required
 
 
 endif

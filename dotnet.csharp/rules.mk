@@ -25,7 +25,7 @@ RULE_OREQS := $(call MAKE_EncodeWord,$(DOTNET_outdir))
 
 ifeq ($(DOTNET_implementation),mono)
 define RULE_COMMANDS
-	$(if $(filter 20,$(DOTNET_generation)),gmcs,mcs) $(MAKE_CHAR_BS)
+	$(if $(call gte,$(DOTNET_generation),20),gmcs,mcs) $(MAKE_CHAR_BS)
 	-target:$(if $(filter lib,$(DOTNET_outtype)),library,$(if $(filter exe,$(DOTNET_outtype)),exe)) $(MAKE_CHAR_BS)
 	-out:$(call SHELL_Escape,$(DOTNET_outfiles_main)) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_debug)),-debug) $(MAKE_CHAR_BS)
