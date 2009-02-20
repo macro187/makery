@@ -33,8 +33,14 @@ define RULE_COMMANDS
 	@echo ""
 	@echo "=> Cleaning old doxygen output..."
 	rm -f $(call SHELL_Escape,$(DOXYGEN_configfile))
+	rm -f $(call SHELL_Escape,$(DOXYGEN_layoutfile))
 	rm -rf $(call SHELL_Escape,$(DOXYGEN_outdir))/*
 	@echo "=> ...done"
+
+	@echo ""
+	@echo "=> Copying in doxygen layout file..."
+	cp $(call SHELL_Escape,$(DOXYGEN_MAKERY_MODULE_DIR)/doxygenlayout.xml) $(MAKE_CHAR_BS)
+		$(call SHELL_Escape,$(DOXYGEN_layoutfile))
 
 	@echo ""
 	@echo "=> Generating doxygen config file..."
@@ -78,8 +84,6 @@ define RULE_COMMANDS
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
 	@echo "SEPARATE_MEMBER_PAGES=YES" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-	@echo "DETAILS_AT_TOP=YES" $(MAKE_CHAR_BS)
-		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
 #	@echo "UML_LOOK=YES" $(MAKE_CHAR_BS)
 #		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
 	@echo "TEMPLATE_RELATIONS=YES" $(MAKE_CHAR_BS)
@@ -99,6 +103,10 @@ ifneq ($$(DOXYGEN_DOT),)
 	@echo "HAVE_DOT=YES" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
 endif
+
+# Layout file
+	@echo "LAYOUT_FILE = \"$(DOXYGEN_layoutfile)\"" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
 
 # Input files
 	@echo "INPUT = \\" $(MAKE_CHAR_BS)
