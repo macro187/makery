@@ -68,7 +68,7 @@ $(shell test -d $(call SHELL_Escape,$(1)) && cd $(call SHELL_Escape,$(1)) && pwd
 
 
 # ------------------------------------------------------------------------------
-# Determine a directory's absolute path given it's (possibly) relative path 
+# Determine a directory's absolute path given it's (possibly) relative path
 # from an origin directory
 #
 # Parameters
@@ -79,8 +79,8 @@ $(shell test -d $(call SHELL_Escape,$(1)) && cd $(call SHELL_Escape,$(1)) && pwd
 # $2 doesn't really matter if $1 is not relative, but it still must exist
 #
 # Returns
-# Absolute path, or blank if either argument is blank, or blank if dir specified in
-# either argument does not exist
+# Absolute path, or blank if either argument is blank, or blank if dir
+# specified in either argument does not exist
 # ------------------------------------------------------------------------------
 
 SHELL_RelDirToAbs = \
