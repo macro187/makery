@@ -43,5 +43,5 @@ $(foreach f,$(call DOTNET_RESBIAN_GetFilesC,$(1)),$(if $(filter $(2)__%,$(notdir
 # $1 - culture
 # $2 - type
 DOTNET_RESBIAN_GetOutfile = \
-$(DOTNET_RESBIAN_outdir)/$(DOTNET_namespace).$(2).$(if $(filter .,$(1)),,$(1).)resources
+$(DOTNET_RESBIAN_outdir)/$(DOTNET_namespace)$(if $(DOTNET_namespace),.)$(2).$(if $(filter .,$(1)),,$(1).)resources
 
