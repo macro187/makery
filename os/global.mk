@@ -1,5 +1,6 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007 Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
+# Copyright (c) 2007, 2008, 2009
+# Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -20,17 +21,35 @@
 # ------------------------------------------------------------------------------
 
 OS_NAME := $(shell uname -s)
-OS_ISWINDOWS := $(if $(filter Windows,$(patsubst Windows%,Windows,$(OS_NAME))),1)
+OS_ISWINDOWS := $(findstring Windows,$(OS_NAME))$(findstring CYGWIN,$(OS_NAME))
+OS_ISCYGWIN := $(findstring CYGWIN,$(OS_NAME))
 
 
+# ------------------------------------------------------------------------------
 # Windows-only stuff
-ifeq ($(OS_ISWINDOWS),1)
+# ------------------------------------------------------------------------------
+ifneq ($(OS_ISWINDOWS),)
 
 # Windows directory
 OS_WINDIR := $(call MAKE_CleanPath,$(windir))
 ifeq ($(OS_WINDIR),)
+OS_WINDIR := $(call MAKE_CleanPath,$(WINDIR))
+endif
+ifeq ($(OS_WINDIR),)
 $(error windir environment variable is not set, unable to determine OS_WINDIR)
 endif
 
+endif
+
+
+# Convert a slash-based path to a Windows backslash-based one, for use when
+# calling certain Windows-based programs that can't handle forward-slash paths
+# $1 - A slash-based path
+ifneq ($(OS_ISCYGWIN),)
+OS_WinPath = \
+$(shell cygpath -w $(call SHELL_Escape,$(1)))
+else
+OS_WinPath = \
+$(subst /,\,$(1))
 endif
 

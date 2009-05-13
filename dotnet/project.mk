@@ -1,5 +1,6 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007 Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
+# Copyright (c) 2007, 2008, 2009
+# Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -34,7 +35,7 @@ DOTNET_implementation_MASKS += MSWINONLY
 
 DOTNET_implementation_MASK_NOTFOUND = $(if $(shell which mono 2>&-),,mono)
 DOTNET_implementation_MASK_NOTFOUND += $(if $(shell which ilrun 2>&-),,pnet)
-# TODO actually make sure ms is available if on windows
+DOTNET_implementation_MASK_NOTFOUND += $(if $(DOTNET_MS_FRAMEWORK_$(DOTNET_generation)),,ms)
 DOTNET_implementation_MASK_NOTFOUND_DESC ?= Not found on system
 DOTNET_implementation_MASKS += NOTFOUND
 
@@ -42,10 +43,6 @@ DOTNET_implementation_MASK_PNETNO20 = \
 $(if $(call gte,$(DOTNET_generation),20),pnet)
 DOTNET_implementation_MASK_PNETNO20_DESC ?= PNet can not do .NET 2.0 or newer
 DOTNET_implementation_MASKS += PNETNO20
-
-
-# TODO DOTNET_version  (version of framework implementation)
-
 
 
 # ------------------------------------------------------------------------------

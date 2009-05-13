@@ -1,5 +1,6 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007 Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
+# Copyright (c) 2007, 2008, 2009
+# Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -20,7 +21,7 @@
 
 #CSHARP_CSC_11 := \
 #$(shell find \
-#$(call SHELL_Escape,$(DOTNET_FRAMEWORK_DIR_11)) \
+#$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORK_11)) \
 #-maxdepth 1 \
 #-type f \
 #-name "csc.exe" \
@@ -29,7 +30,7 @@
 
 #CSHARP_CSC_20 := \
 #$(shell find \
-#$(call SHELL_Escape,$(DOTNET_FRAMEWORK_DIR_20)) \
+#$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORK_20)) \
 #-maxdepth 1 \
 #-type f \
 #-name "csc.exe" \

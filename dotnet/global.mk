@@ -1,5 +1,6 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007 Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
+# Copyright (c) 2007, 2008, 2009
+# Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -16,42 +17,62 @@
 
 
 # ------------------------------------------------------------------------------
-# Frameworks, versions, availability
+# Detect available MS frameworks
 # ------------------------------------------------------------------------------
-
-# Overall types of frameworks
-DOTNET_FRAMEWORKS := ms mono pnet
-
-
-# Sniff frameworks on Windows
 ifneq ($(OS_ISWINDOWS),)
 
 
-DOTNET_FRAMEWORKS_DIR := $(OS_WINDIR)/Microsoft.NET/Framework
+DOTNET_MS_FRAMEWORK_GENERATIONS := 35 30 20 11 10
 
-# XXX: These will break if more than one dir for a given ver exists
+DOTNET_MS_FRAMEWORKS_DIR := $(OS_WINDIR)/Microsoft.NET/Framework
 
-# Location of 1.1 framework
-DOTNET_FRAMEWORK_DIR_11 := \
+# XXX These will break if more than one subdirectory for a given version exists
+# XXX The existence of the subdirectory doesn't guarantee it contains the entire framework
+
+DOTNET_MS_FRAMEWORK_35 := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_FRAMEWORKS_DIR)) \
+$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKS_DIR)) \
 -maxdepth 1 \
 -type d \
--name "v1.1*" \
+-name "v3.5*" \
 | $(SHELL_CLEANPATH) \
 )
 
-# Location of 2.0 framework
-DOTNET_FRAMEWORK_DIR_20 := \
+DOTNET_MS_FRAMEWORK_30 := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_FRAMEWORKS_DIR)) \
+$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKS_DIR)) \
+-maxdepth 1 \
+-type d \
+-name "v3.0*" \
+| $(SHELL_CLEANPATH) \
+)
+
+DOTNET_MS_FRAMEWORK_20 := \
+$(shell find \
+$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKS_DIR)) \
 -maxdepth 1 \
 -type d \
 -name "v2.0*" \
 | $(SHELL_CLEANPATH) \
 )
 
-# TODO Sniff out the 3.0 and 3.5 frameworks as required
+DOTNET_MS_FRAMEWORK_11 := \
+$(shell find \
+$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKS_DIR)) \
+-maxdepth 1 \
+-type d \
+-name "v1.1*" \
+| $(SHELL_CLEANPATH) \
+)
+
+DOTNET_MS_FRAMEWORK_10 := \
+$(shell find \
+$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKS_DIR)) \
+-maxdepth 1 \
+-type d \
+-name "v1.0*" \
+| $(SHELL_CLEANPATH) \
+)
 
 
 endif

@@ -1,5 +1,6 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007 Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
+# Copyright (c) 2007, 2008, 2009
+# Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -43,18 +44,18 @@ endif
 
 ifeq ($(DOTNET_implementation),ms)
 define RULE_COMMANDS
-	$(call SHELL_Escape,$(call MAKE_WinPath,$(DOTNET_FRAMEWORK_DIR_$(DOTNET_generation))/csc.exe)) $(MAKE_CHAR_BS)
+	$(call SHELL_Escape,$(call OS_WinPath,$(DOTNET_MS_FRAMEWORK_$(DOTNET_generation))/csc.exe)) $(MAKE_CHAR_BS)
 	/target:$(if $(filter lib,$(DOTNET_outtype)),library,$(if $(filter exe,$(DOTNET_outtype)),exe)) $(MAKE_CHAR_BS)
-	/out:$(call SHELL_Escape,$(call MAKE_WinPath,$(DOTNET_outfiles_main))) $(MAKE_CHAR_BS)
+	/out:$(call SHELL_Escape,$(call OS_WinPath,$(DOTNET_outfiles_main))) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_debug)),/debug) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_checked)),/checked) $(MAKE_CHAR_BS)
 	$(if $(DOTNET_CS_warn),/warn:$(DOTNET_CS_warn)) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_werror)),/warnaserror) $(MAKE_CHAR_BS)
 	$(foreach define,$(DOTNET_CS_defines),$(call PROJ_RuleNewLine,/define:$(define))) $(MAKE_CHAR_BS)
-	$(foreach lib,$(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs_abs),$(call PROJ_RuleNewLine,/r:$(call SHELL_Escape,$(call MAKE_WinPath,$(call MAKE_DecodeWord,$(lib)))))) $(MAKE_CHAR_BS)
-	$(foreach lib,$(DOTNET_libs) $(call PROJ_GetMultiRecursive,DOTNET_libs,DOTNET_projlibs_abs),$(call PROJ_RuleNewLine,/r:$(call SHELL_Escape,$(call MAKE_WinPath,$(call MAKE_DecodeWord,$(lib)))))) $(MAKE_CHAR_BS)
-	$(foreach res,$(DOTNET_resources),$(call PROJ_RuleNewLine,/resource:$(call SHELL_Escape,$(call MAKE_WinPath,$(call MAKE_DecodeWord,$(res)))))) $(MAKE_CHAR_BS)
-	$$(foreach src,$$(SRCS_files),$$(call SHELL_Escape,$$(call MAKE_WinPath,$$(call MAKE_DecodeWord,$$(src)))))
+	$(foreach lib,$(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs_abs),$(call PROJ_RuleNewLine,/r:$(call SHELL_Escape,$(call OS_WinPath,$(call MAKE_DecodeWord,$(lib)))))) $(MAKE_CHAR_BS)
+	$(foreach lib,$(DOTNET_libs) $(call PROJ_GetMultiRecursive,DOTNET_libs,DOTNET_projlibs_abs),$(call PROJ_RuleNewLine,/r:$(call SHELL_Escape,$(call OS_WinPath,$(call MAKE_DecodeWord,$(lib)))))) $(MAKE_CHAR_BS)
+	$(foreach res,$(DOTNET_resources),$(call PROJ_RuleNewLine,/resource:$(call SHELL_Escape,$(call OS_WinPath,$(call MAKE_DecodeWord,$(res)))))) $(MAKE_CHAR_BS)
+	$$(foreach src,$$(SRCS_files),$$(call SHELL_Escape,$$(call OS_WinPath,$$(call MAKE_DecodeWord,$$(src)))))
 endef
 endif
 

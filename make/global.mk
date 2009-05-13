@@ -1,5 +1,6 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007 Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
+# Copyright (c) 2007, 2008, 2009
+# Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -134,13 +135,6 @@ $(foreach word,$(2),$(call $(1),$(call MAKE_DecodeWord,$(word))))
 # $1 - The path
 MAKE_EncodePath = \
 $(subst $(MAKE_CHAR_SPACE),\$(MAKE_CHAR_SPACE),$(1))
-
-
-# Convert a slash-based path to a backslash-based one, for use when
-# calling certain Windows-based programs that can't handle forward-slash paths
-# $1 - A slash-based path
-MAKE_WinPath = \
-$(subst /,\,$(1))
 
 
 # Normalize a path by converting any slashes to backslashes

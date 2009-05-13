@@ -1,5 +1,6 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007 Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
+# Copyright (c) 2007, 2008, 2009
+# Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -32,9 +33,7 @@ MAKERY_GLOBALS += PROJ_PATHS
 # Errors
 # TODO If the project can't be found
 PROJ_Locate = \
-$(if $(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1))))),$(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1))))),$(error Can not find project '$(1)' in PROJ_PATHS))
-
-
+$(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call MAKE_EncodeWord,$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d)/$(1))))))),$(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call MAKE_EncodeWord,$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1)))))),$(error Can not find project '$(1)' in PROJ_PATHS))
 
 
 
