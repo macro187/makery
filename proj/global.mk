@@ -276,7 +276,7 @@ $(foreach var,$(PROJ_vars),$(foreach val,$($(var)_VALIDATE),$(call PROJ_DeclVali
 $(eval $(PROJ_Validate_TEMPLATE))
 
 define PROJ_Validate_TEMPLATE
-$(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MODULES_Locate,$(module))/validate.mk)
+$(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MAKE_EncodePath,$(call MODULES_Locate,$(module))/validate.mk))
 endef
 
 # $1 Variable name
@@ -343,7 +343,7 @@ $(eval $(PROJ_GenerateRules_TEMPLATE))
 define \
 PROJ_GenerateRules_TEMPLATE
 ALLTARGETS :=
-$(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MODULES_Locate,$(module))/rules.mk)
+$(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MAKE_EncodePath,$(call MODULES_Locate,$(module))/rules.mk))
 $$(call PROJ_TargetVars,$$(ALLTARGETS))
 ALLTARGETS :=
 endef

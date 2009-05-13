@@ -29,7 +29,7 @@ MODULES_PATHS := $(call MAKE_EncodeWord,$(MAKERY)) $(MODULES_PATHS)
 # Locate a given module's dir in MODULES_PATHS
 # $1 - Module name
 MODULES_Locate = \
-$(call MAKE_DecodeWord,$(firstword $(foreach d,$(MODULES_PATHS),$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1)))))
+$(call MAKE_DecodeWord,$(firstword $(foreach d,$(MODULES_PATHS),$(call MAKE_EncodeWord,$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1))))))
 
 
 
@@ -56,16 +56,16 @@ $(eval $(call MODULES_USE_TEMPLATE,$(1),$(call MODULES_Locate,$(1))))
 # $2 - Module dir
 define MODULES_USE_TEMPLATE
 $(if $(2),,$(error Unable to locate module '$(1)'))
--include $(2)/requires.mk
+-include $(call MAKE_EncodePath,$(2)/requires.mk)
 ifeq ($$(filter $(call MAKE_EncodeWord,$(1)),$$(MODULES_GLOBAL)),)
-#ifneq ($$(MAKERY_DEBUG),)
-#$$(warning $$(call MAKE_Message,Sourcing module '$(1)' from '$(2)'))
-#endif
--include $(2)/global.mk
+ifneq ($$(MAKERY_DEBUG),)
+$$(warning $$(call MAKE_Message,Sourcing module '$(1)' from '$(2)'))
+endif
+-include $(call MAKE_EncodePath,$(2)/global.mk)
 MODULES_GLOBAL += $(call MAKE_EncodeWord,$(1))
 endif
 ifeq ($$(filter $(call MAKE_EncodeWord,$(1)),$$(MODULES_proj)),)
--include $(2)/project.mk
+-include $(call MAKE_EncodePath,$(2)/project.mk)
 MODULES_proj += $(call MAKE_EncodeWord,$(1))
 endif
 endef
