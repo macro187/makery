@@ -70,41 +70,38 @@ $(warning $(call MAKE_Message,Project ('$(PROJ_dir)')))
 
 
 
-ifneq ($(MAKERY_DEBUG),)
-$(warning $(call MAKE_Message,Module search paths$(foreach path,$(MODULES_PATHS),$(MAKE_CHAR_NEWLINE)$(call MAKE_DecodeWord,$(path)))))
-endif
+$(call MAKERY_Debug,Module search paths$(foreach path,$(MODULES_PATHS),$(MAKE_CHAR_NEWLINE)$(call MAKE_DecodeWord,$(path))))
 
 
-# Pull modules specified by the project
-ifneq ($(MAKERY_DEBUG),)
-$(warning $(call MAKE_Message,Processing modules...))
-endif
+$(call MAKERY_Debug,Processing modules...)
 $(foreach mod,$(MODULES_use),$(call MODULES_Use,$(mod)))
+$(call MAKERY_Debug,...done)
 
 
-ifneq ($(MAKERY_DEBUG),)
-$(warning $(call MAKE_Message,Project Variables ('$(PROJ_dir)')$(call MAKE_DumpVars,$(PROJ_vars))))
-endif
+$(call MAKERY_Debug,Dumping project variables...)
+$(call MAKERY_Debug,Project Variables$(call MAKE_DumpVars,$(PROJ_vars)))
+$(call MAKERY_Debug,...done)
 
 
+$(call MAKERY_Debug,Validating project variables...)
 $(call PROJ_Validate)
+$(call MAKERY_Debug,...done)
 
 
 $(call PROJ_ProcessRequired)
 
 
-ifneq ($(MAKERY_DEBUG),)
-$(warning $(call MAKE_Message,Generating rules... ('$(PROJ_dir)')))
-endif
+$(call MAKERY_Debug,Generating rules... ('$(PROJ_dir)'))
 $(call PROJ_GenerateRules)
+$(call MAKERY_Debug,...done generating rules... ('$(PROJ_dir)'))
 
 
 # Debug: Globals
-ifneq ($(MAKERY_DEBUG),)
-ifneq ($(PROJ_ismain),)
-$(warning $(call MAKE_Message,Global Variables$(call MAKE_DumpVars,$(MAKERY_GLOBALS))))
-endif
-endif
+#ifneq ($(MAKERY_DEBUG),)
+#ifneq ($(PROJ_ismain),)
+#$(warning $(call MAKE_Message,Global Variables$(call MAKE_DumpVars,$(MAKERY_GLOBALS))))
+#endif
+#endif
 
 
 $(call PROJ_ClearVars)

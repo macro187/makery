@@ -147,12 +147,6 @@ $(subst \,/,$(1))
 MAKE_PathParentName = \
 $(notdir $(patsubst %/,%,$(dir $(patsubst %/,%,$(1)))))
 
-#$(notdir
-#$(patsubst %/,%,
-#$(dir
-#$(patsubst %/,%,
-#$(1)
-
 
 
 # ------------------------------------------------------------------------------

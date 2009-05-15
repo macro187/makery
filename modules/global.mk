@@ -29,7 +29,12 @@ MODULES_PATHS := $(call MAKE_EncodeWord,$(MAKERY)) $(MODULES_PATHS)
 # Locate a given module's dir in MODULES_PATHS
 # $1 - Module name
 MODULES_Locate = \
-$(call MAKE_DecodeWord,$(firstword $(foreach d,$(MODULES_PATHS),$(call MAKE_EncodeWord,$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1))))))
+$(MAKERY_Trace1)$(if $(MODULES_LOCATION_$(1)),$(MODULES_LOCATION_$(1)),$(eval $(call MODULES_LOCATE_TEMPLATE,$(1)))$(MODULES_LOCATION_$(1)))
+
+define MODULES_LOCATE_TEMPLATE
+MODULES_LOCATION_$(1) := $$(call MAKE_DecodeWord,$$(firstword $$(foreach d,$$(MODULES_PATHS),$$(call MAKE_EncodeWord,$$(call SHELL_DirToAbs,$$(call MAKE_DecodeWord,$$(d))/$(1))))))
+$$(call MAKERY_Debug,MODULES_LOCATION_$(1) = $$(MODULES_LOCATION_$(1)))
+endef
 
 
 
@@ -50,7 +55,7 @@ MAKERY_GLOBALS += MODULES_GLOBAL
 # ------------------------------------------------------------------------------
 
 MODULES_Use = \
-$(eval $(call MODULES_USE_TEMPLATE,$(1),$(call MODULES_Locate,$(1))))
+$(MAKERY_Trace1)$(eval $(call MODULES_USE_TEMPLATE,$(1),$(call MODULES_Locate,$(1))))
 
 # $1 - Module name
 # $2 - Module dir

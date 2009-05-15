@@ -15,17 +15,49 @@
 # ------------------------------------------------------------------------------
 
 
+# ------------------------------------------------------------------------------
 # Makery's location
+# ------------------------------------------------------------------------------
+
 ifndef MAKERY
 $(error The MAKERY variable is not set, how did you include makery.mk?)
 endif
 
 
+# ------------------------------------------------------------------------------
 # Global variable list
+# ------------------------------------------------------------------------------
+
 MAKERY_GLOBALS := $(MAKERY_GLOBALS)
 
 
-# Debug flag
-MAKERY_DEBUG := $(MAKERY_DEBUG)
+# ------------------------------------------------------------------------------
+# Debugging
+# ------------------------------------------------------------------------------
+
+MAKERY_DEBUG := $(strip $(MAKERY_DEBUG))
 MAKERY_GLOBALS += MAKERY_DEBUG
+
+ifneq ($(MAKERY_DEBUG),)
+MAKERY_Debug = $(warning $(call MAKE_Message,$(1)))
+else
+MAKERY_Debug =
+endif
+
+
+# ------------------------------------------------------------------------------
+# Function Tracing
+# ------------------------------------------------------------------------------
+
+MAKERY_TRACE ?= $(MAKERY_DEBUG)
+MAKERY_GLOBALS += MAKERY_TRACE
+ifneq ($(MAKERY_TRACE),)
+MAKERY_Trace = $(warning $(call MAKE_Message,$(0)()))
+MAKERY_Trace1 = $(warning $(call MAKE_Message,$(0)($(1))))
+MAKERY_Trace2 = $(warning $(call MAKE_Message,$(0)($(1),$(2))))
+else
+MAKERY_Trace =
+MAKERY_Trace1 =
+MAKERY_Trace2 =
+endif
 
