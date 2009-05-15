@@ -375,7 +375,7 @@ $(MAKE_CHAR_BS)$(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_TAB)$(1)
 PROJ_Rule = \
 $(MAKERY_Trace)$(if $(RULE_TARGET)$(RULE_TARGETS), \
 $(call MAKERY_Debug,Rule$(MAKE_CHAR_NEWLINE)$(PROJ_Rule_DUMP)) \
-$(eval $(call PROJ_Rule_TEMPLATE,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET))))) \
+$(eval $(call PROJ_Rule_TEMPLATE,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(call MAKE_EncodePath,$(RULE_TARGET)))))) \
 )
 #$(warning $(call PROJ_Rule_TEMPLATE,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET))))) \
 
@@ -410,6 +410,7 @@ endef
 
 
 # Generate a dump of information about the rule
+ifneq ($(MAKERY_DEBUG),)
 define PROJ_Rule_DUMP
 Targets:$(if $(RULE_TARGETS)(RULE_TARGET),$(foreach t,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(MAKE_CHAR_NEWLINE)$(call MAKE_DecodeWord,$(t))),$(MAKE_CHAR_NEWLINE)(none))
 
@@ -426,6 +427,11 @@ Commands:
 $(if $(RULE_COMMANDS),$(RULE_COMMANDS),(none))
 
 endef
+else
+define PROJ_Rule_DUMP
+endef
+endif
+
 
 
 # Generate target-specific versions of project variables
