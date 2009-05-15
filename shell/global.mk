@@ -64,7 +64,7 @@ endef
 # ------------------------------------------------------------------------------
 
 SHELL_DirToAbs = \
-$(shell test -d $(call SHELL_Escape,$(1)) && cd $(call SHELL_Escape,$(1)) && pwd | $(SHELL_CLEANPATH))
+$(MAKERY_Trace1)$(shell test -d $(call SHELL_Escape,$(1)) && cd $(call SHELL_Escape,$(1)) && pwd | $(SHELL_CLEANPATH))
 
 
 # ------------------------------------------------------------------------------
@@ -84,5 +84,5 @@ $(shell test -d $(call SHELL_Escape,$(1)) && cd $(call SHELL_Escape,$(1)) && pwd
 # ------------------------------------------------------------------------------
 
 SHELL_RelDirToAbs = \
-$(if $(1),$(if $(2),$(shell test -d $(call SHELL_Escape,$(2)) && cd $(call SHELL_Escape,$(2)) && test -d $(call SHELL_Escape,$(1)) && cd $(call SHELL_Escape,$(1)) && pwd | $(SHELL_CLEANPATH))))
+$(MAKERY_Trace2)$(if $(1),$(if $(2),$(shell test -d $(call SHELL_Escape,$(2)) && cd $(call SHELL_Escape,$(2)) && test -d $(call SHELL_Escape,$(1)) && cd $(call SHELL_Escape,$(1)) && pwd | $(SHELL_CLEANPATH))))
 

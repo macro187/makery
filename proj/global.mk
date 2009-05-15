@@ -33,7 +33,7 @@ MAKERY_GLOBALS += PROJ_PATHS
 # Errors
 # TODO If the project can't be found
 PROJ_Locate = \
-$(if $(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call MAKE_EncodeWord,$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d)/$(1))))))),$(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call MAKE_EncodeWord,$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1)))))),$(error Can not find project '$(1)' in PROJ_PATHS))
+$(MAKERY_Trace1)$(if $(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call MAKE_EncodeWord,$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d)/$(1))))))),$(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call MAKE_EncodeWord,$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1)))))),$(error Can not find project '$(1)' in PROJ_PATHS))
 
 
 
@@ -168,7 +168,7 @@ $(call PROJ_GetMultiRecursive,$(1),$(2),$(call MAKE_DecodeWord,$(proj))) \
 
 # Flatten project variables down to immediate variables
 PROJ_FlattenVars = \
-$(eval $(call PROJ_FlattenVars_TEMPLATE))
+$(MAKERY_Trace)$(eval $(call PROJ_FlattenVars_TEMPLATE))
 
 define \
 PROJ_FlattenVars_TEMPLATE
@@ -178,7 +178,7 @@ endef
 
 # Stash project variables
 PROJ_StashVars = \
-$(eval $(call PROJ_StashVars_TEMPLATE))
+$(MAKERY_Trace)$(eval $(call PROJ_StashVars_TEMPLATE))
 
 define \
 PROJ_StashVars_TEMPLATE
@@ -188,7 +188,7 @@ endef
 
 # Retrieve vars
 PROJ_RetrieveVars = \
-$(eval $(call PROJ_RetrieveVars_TEMPLATE))
+$(MAKERY_Trace)$(eval $(call PROJ_RetrieveVars_TEMPLATE))
 
 define \
 PROJ_RetrieveVars_TEMPLATE
@@ -198,7 +198,7 @@ endef
 
 # Clear project variables
 PROJ_ClearVars = \
-$(eval $(PROJ_ClearVars_TEMPLATE))
+$(MAKERY_Trace)$(eval $(PROJ_ClearVars_TEMPLATE))
 
 define \
 PROJ_ClearVars_TEMPLATE
@@ -218,12 +218,10 @@ endef
 # everything in one chunk otherwise we lose the required variables before we
 # finish!
 PROJ_ProcessRequired = \
-$(eval $(PROJ_TEMPLATE_PROCESSREQUIRED))
-#$(warning $(PROJ_TEMPLATE_PROCESSREQUIRED))\
+$(MAKERY_Trace)$(eval $(PROJ_TEMPLATE_PROCESSREQUIRED))
 
 define \
 PROJ_TEMPLATE_PROCESSREQUIRED
-$(call PROJ_FlattenVars_TEMPLATE)
 $(call PROJ_StashVars_TEMPLATE)
 $(call PROJ_ClearVars_TEMPLATE)
 $(foreach p,$(PROJ_required),$(call PROJ_IncludeRequired_TEMPLATE,$(call MAKE_DecodeWord,$(p))))
@@ -236,7 +234,7 @@ endef
 # Params
 # $1 Project dir (relative to current project's dir)
 PROJ_IncludeRequired = \
-$(eval $(call PROJ_IncludeRequired_TEMPLATE,$(1)))
+$(MAKERY_Trace1)$(eval $(call PROJ_IncludeRequired_TEMPLATE,$(1)))
 
 define \
 PROJ_IncludeRequired_TEMPLATE
@@ -261,7 +259,7 @@ endef
 # Returns
 # The absolute path of the requested project, or blank if it doesn't exist
 PROJ_LocateFromHere = \
-$(call SHELL_RelDirToAbs,$(1),$(PROJ_dir))
+$(MAKERY_Trace1)$(call SHELL_RelDirToAbs,$(1),$(PROJ_dir))
 
 
 
@@ -271,7 +269,7 @@ $(call SHELL_RelDirToAbs,$(1),$(PROJ_dir))
 
 # Run validations
 PROJ_Validate = \
-$(foreach var,$(PROJ_vars),$(foreach val,$($(var)_VALIDATE),$(call PROJ_DeclValidate,$(var),$(subst |, ,$(val)))))\
+$(MAKERY_Trace)$(foreach var,$(PROJ_vars),$(foreach val,$($(var)_VALIDATE),$(call PROJ_DeclValidate,$(var),$(subst |, ,$(val)))))\
 $(eval $(PROJ_Validate_TEMPLATE))
 
 define PROJ_Validate_TEMPLATE
@@ -375,10 +373,8 @@ $(MAKE_CHAR_BS)$(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_TAB)$(1)
 # Generates a project-specific rule given parameters specified in RULE_*
 # variables
 PROJ_Rule = \
-$(if $(RULE_TARGET)$(RULE_TARGETS), \
-$(if $(MAKERY_DEBUG), \
-$(warning $(call MAKE_Message,Rule$(MAKE_CHAR_NEWLINE)$(PROJ_Rule_DUMP))) \
-) \
+$(MAKERY_Trace)$(if $(RULE_TARGET)$(RULE_TARGETS), \
+$(call MAKERY_Debug,Rule$(MAKE_CHAR_NEWLINE)$(PROJ_Rule_DUMP)) \
 $(eval $(call PROJ_Rule_TEMPLATE,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET))))) \
 )
 #$(warning $(call PROJ_Rule_TEMPLATE,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET))))) \
@@ -437,7 +433,7 @@ endef
 # Params
 # $1 List of targets
 PROJ_TargetVars = \
-$(eval $(call PROJ_TargetVars_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(1))))
+$(MAKERY_Trace1)$(eval $(call PROJ_TargetVars_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(1))))
 #$(warning $(call PROJ_TargetVars_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(1))))\
 
 # $1 PathEncode()ed list of targets

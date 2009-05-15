@@ -78,6 +78,11 @@ $(foreach mod,$(MODULES_use),$(call MODULES_Use,$(mod)))
 $(call MAKERY_Debug,...done)
 
 
+$(call MAKERY_Debug,Flattening variables... ('$(PROJ_dir)'))
+$(call PROJ_FlattenVars)
+$(call MAKERY_Debug,...done flattening variables ('$(PROJ_dir)'))
+
+
 $(call MAKERY_Debug,Dumping project variables...)
 $(call MAKERY_Debug,Project Variables$(call MAKE_DumpVars,$(PROJ_vars)))
 $(call MAKERY_Debug,...done)
@@ -88,7 +93,9 @@ $(call PROJ_Validate)
 $(call MAKERY_Debug,...done)
 
 
+$(call MAKERY_Debug,Processing required projects... ('$(PROJ_dir)'))
 $(call PROJ_ProcessRequired)
+$(call MAKERY_Debug,...done processing required projects ('$(PROJ_dir)'))
 
 
 $(call MAKERY_Debug,Generating rules... ('$(PROJ_dir)'))
