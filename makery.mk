@@ -100,7 +100,7 @@ $(call MAKERY_Debug,...done processing required projects ('$(PROJ_dir)'))
 
 $(call MAKERY_Debug,Generating rules... ('$(PROJ_dir)'))
 $(call PROJ_GenerateRules)
-$(call MAKERY_Debug,...done generating rules... ('$(PROJ_dir)'))
+$(call MAKERY_Debug,...done generating rules ('$(PROJ_dir)'))
 
 
 # Debug: Globals

@@ -168,7 +168,7 @@ $(call PROJ_GetMultiRecursive,$(1),$(2),$(call MAKE_DecodeWord,$(proj))) \
 
 # Flatten project variables down to immediate variables
 PROJ_FlattenVars = \
-$(MAKERY_Trace)$(eval $(call PROJ_FlattenVars_TEMPLATE))
+$(MAKERY_TraceBegin)$(eval $(call PROJ_FlattenVars_TEMPLATE))$(MAKERY_TraceEnd)
 
 define \
 PROJ_FlattenVars_TEMPLATE
@@ -364,8 +364,6 @@ endef
 # ------------------------------------------------------------------------------
 
 
-# 
-#
 PROJ_RuleNewLine = \
 $(MAKE_CHAR_BS)$(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_TAB)$(1)
 
@@ -373,11 +371,11 @@ $(MAKE_CHAR_BS)$(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_TAB)$(1)
 # Generates a project-specific rule given parameters specified in RULE_*
 # variables
 PROJ_Rule = \
-$(MAKERY_Trace)$(if $(RULE_TARGET)$(RULE_TARGETS), \
+$(MAKERY_TraceBegin) \
+$(if $(RULE_TARGET)$(RULE_TARGETS), \
 $(call MAKERY_Debug,Rule$(MAKE_CHAR_NEWLINE)$(PROJ_Rule_DUMP)) \
-$(eval $(call PROJ_Rule_TEMPLATE,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(call MAKE_EncodePath,$(RULE_TARGET)))))) \
-)
-#$(warning $(call PROJ_Rule_TEMPLATE,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET))))) \
+$(eval $(call PROJ_Rule_TEMPLATE,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET))))) \
+)$(MAKERY_TraceEnd)
 
 
 
