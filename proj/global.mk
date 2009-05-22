@@ -172,7 +172,9 @@ $(MAKERY_TraceBegin)$(eval $(call PROJ_FlattenVars_TEMPLATE))$(MAKERY_TraceEnd)
 
 define \
 PROJ_FlattenVars_TEMPLATE
+$$(call MAKERY_Debug,Begin PROJ_FlattenVars_TEMPLATE)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) := $$($(v))#)
+$$(call MAKERY_Debug,End PROJ_FlattenVars_TEMPLATE)
 endef
 
 
@@ -182,7 +184,9 @@ $(MAKERY_Trace)$(eval $(call PROJ_StashVars_TEMPLATE))
 
 define \
 PROJ_StashVars_TEMPLATE
+$$(call MAKERY_Debug,Begin PROJ_StashVars_TEMPLATE)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(call PROJ_PersistentNameUnsafe,$(v),$(PROJ_dir_asword)) := $$($(v))#)
+$$(call MAKERY_Debug,End PROJ_StashVars_TEMPLATE)
 endef
 
 
@@ -192,18 +196,22 @@ $(MAKERY_Trace)$(eval $(call PROJ_RetrieveVars_TEMPLATE))
 
 define \
 PROJ_RetrieveVars_TEMPLATE
+$$(call MAKERY_Debug,Begin PROJ_RetrieveVars_TEMPLATE)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) := $$($(call PROJ_PersistentNameUnsafe,$(v),$(PROJ_dir_asword)))#)
+$$(call MAKERY_Debug,End PROJ_RetrieveVars_TEMPLATE)
 endef
 
 
 # Clear project variables
 PROJ_ClearVars = \
-$(MAKERY_Trace)$(eval $(PROJ_ClearVars_TEMPLATE))
+$(MAKERY_TraceBegin)$(eval $(PROJ_ClearVars_TEMPLATE))$(MAKERY_TraceEnd)
 
 define \
 PROJ_ClearVars_TEMPLATE
+$$(call MAKERY_Debug,Begin PROJ_ClearVars_TEMPLATE)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) =#$(MAKE_CHAR_NEWLINE)$(v)_DEFAULT =#)
 $(foreach v,$(PROJ_targetvars),$(MAKE_CHAR_NEWLINE)$(v) =#)
+$$(call MAKERY_Debug,End PROJ_ClearVars_TEMPLATE)
 endef
 
 
@@ -218,14 +226,16 @@ endef
 # everything in one chunk otherwise we lose the required variables before we
 # finish!
 PROJ_ProcessRequired = \
-$(MAKERY_Trace)$(eval $(PROJ_TEMPLATE_PROCESSREQUIRED))
+$(MAKERY_TraceBegin)$(eval $(PROJ_TEMPLATE_PROCESSREQUIRED))$(MAKERY_TraceEnd)
 
 define \
 PROJ_TEMPLATE_PROCESSREQUIRED
+$$(call MAKERY_Debug,Begin PROJ_TEMPLATE_PROCESSREQUIRED)
 $(call PROJ_StashVars_TEMPLATE)
 $(call PROJ_ClearVars_TEMPLATE)
 $(foreach p,$(PROJ_required),$(call PROJ_IncludeRequired_TEMPLATE,$(call MAKE_DecodeWord,$(p))))
 $(call PROJ_RetrieveVars_TEMPLATE)
+$$(call MAKERY_Debug,End PROJ_TEMPLATE_PROCESSREQUIRED)
 endef
 
 
@@ -238,6 +248,7 @@ $(MAKERY_Trace1)$(eval $(call PROJ_IncludeRequired_TEMPLATE,$(1)))
 
 define \
 PROJ_IncludeRequired_TEMPLATE
+$$(call MAKERY_Debug,Begin PROJ_IncludeRequired_TEMPLATE)
 PROJ_dir := $(call PROJ_LocateFromHere,$(1))
 ifeq ($$(PROJ_dir),)
 $$(error Required project '$(1)' does not exist)
@@ -246,6 +257,7 @@ ifeq ($$(filter $$(call MAKE_EncodeWord,$$(PROJ_dir)),$$(PROJ_PROJECTS)),)
 include $$(call MAKE_EncodePath,$$(PROJ_dir))/Makefile
 else
 $$(warning Refraining from re-processing '$$(PROJ_dir)')
+$$(call MAKERY_Debug,End PROJ_IncludeRequired_TEMPLATE)
 endif
 
 endef
