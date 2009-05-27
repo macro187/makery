@@ -46,6 +46,8 @@ include $(MAKERY)/proj/global.mk
 MODULES_GLOBAL += proj
 
 MAKERY_BOOTSTRAPPED := 1
+
+$(warning $(call MAKE_Message,Collecting information and generating rules...))
 endif #ndef MAKERY_BOOTSTRAPPED
 
 
@@ -66,7 +68,7 @@ $(call MODULES_Use,config)
 
 
 
-$(warning $(call MAKE_Message,Project ('$(PROJ_dir)')))
+$(call MAKERY_Debug,Project '$(PROJ_dir)')
 
 
 

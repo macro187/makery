@@ -256,7 +256,7 @@ endif
 ifeq ($$(filter $$(call MAKE_EncodeWord,$$(PROJ_dir)),$$(PROJ_PROJECTS)),)
 include $$(call MAKE_EncodePath,$$(PROJ_dir))/Makefile
 else
-$$(warning Refraining from re-processing '$$(PROJ_dir)')
+$$(call MAKERY_Debug,Refraining from re-processing '$$(PROJ_dir)')
 $$(call MAKERY_Debug,End PROJ_IncludeRequired_TEMPLATE)
 endif
 
