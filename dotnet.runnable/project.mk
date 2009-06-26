@@ -27,3 +27,8 @@ RUNNABLE_reqs += $(call MAKE_EncodeWord,$(DOTNET_COPYLIBS_dotfile))
 RUNNABLE_run = \
 $(DOTNET_exec) $(call SHELL_Escape,$(DOTNET_COPYLIBS_outdir)/$(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(DOTNET_outfiles_main)))))
 
+
+# Convert args to Windows paths if we're using the MS runtime on Windows
+RUNNABLE_pathargfunc = \
+$(if $(OS_ISWINDOWS)$(filter $(DOTNET_implementation),ms),OS_WinPath,MAKE_Identity)
+
