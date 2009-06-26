@@ -28,6 +28,12 @@ $(call PROJ_DeclareVar,RUNNABLE_run)
 RUNNABLE_run_DESC ?= Pre-escaped shell command to run the project in-place
 
 
+$(call PROJ_DeclareVar,RUNNABLE_pathargfunc)
+RUNNABLE_pathargfunc_DESC ?= Name of function to be called on all command-line arguments that are paths
+RUNNABLE_pathargfunc_DEFAULT = MAKE_Identity
+
+
+
 # Hook "runnable" to "everything"
 EVERYTHING_reqs += $(call MAKE_EncodeWord,$(RUNNABLE_target))
 
