@@ -125,6 +125,14 @@ $(call MAKE_PostDecode,$(call MAKE_DecodeChar,space,$(MAKE_CHAR_SPACE),$(call MA
 MAKE_CallForEach = \
 $(foreach word,$(2),$(call $(1),$(call MAKE_DecodeWord,$(word))))
 
+# Calls two given functions on each word in a given string after
+# MAKE_DecodeWord'ing it
+# $1 - First function name
+# $2 - Second function name
+# $3 - String containing encoded words
+MAKE_CallForEach2 = \
+$(foreach word,$(3),$(call $(2),$(call $(1),$(call MAKE_DecodeWord,$(word)))))
+
 
 
 # ------------------------------------------------------------------------------
