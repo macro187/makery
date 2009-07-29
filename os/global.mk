@@ -26,30 +26,54 @@ OS_ISCYGWIN := $(findstring CYGWIN,$(OS_NAME))
 
 
 # ------------------------------------------------------------------------------
-# Windows-only stuff
+# Operating system utilities
 # ------------------------------------------------------------------------------
-ifneq ($(OS_ISWINDOWS),)
 
-# Windows directory
-OS_WINDIR := $(call MAKE_CleanPath,$(windir))
-ifeq ($(OS_WINDIR),)
-OS_WINDIR := $(call MAKE_CleanPath,$(WINDIR))
-endif
-ifeq ($(OS_WINDIR),)
-$(error windir environment variable is not set, unable to determine OS_WINDIR)
-endif
-
-endif
-
-
-# Convert a slash-based path to a Windows backslash-based one, for use when
-# calling certain Windows-based programs that can't handle forward-slash paths
-# $1 - A slash-based path
+# Make a Windows path (backslashes, c:\ at the beginning, etc.) out of a posix
+# path (forward-slashes)
+#
+# For use when working with certain Windows-based programs that don't like
+# posix (forward-slash) paths
+#
+# $1 - A posix path
+#
 ifneq ($(OS_ISCYGWIN),)
 OS_WinPath = \
 $(shell cygpath -w $(call SHELL_Escape,$(1)))
 else
 OS_WinPath = \
 $(subst /,\,$(1))
+endif
+
+
+# Make a posix path (forward-slashes)
+# For use when working with certain Windows-based programs that don't like
+# posix (forward-slash) paths
+#
+# $1 - A Windows path
+#
+ifneq ($(OS_ISCYGWIN),)
+OS_PosixPath = \
+$(shell cygpath -u $(call SHELL_Escape,$(1)))
+else
+OS_PosixPath = \
+$(subst \,/,$(1))
+endif
+
+
+# ------------------------------------------------------------------------------
+# Windows
+# ------------------------------------------------------------------------------
+ifneq ($(OS_ISWINDOWS),)
+
+# Windows directory
+ifneq ($(windir),)
+OS_WINDIR := $(call OS_PosixPath,$(windir))
+else ifneq ($(WINDIR),)
+OS_WINDIR := $(call OS_PosixPath,$(WINDIR))
+else
+$(error Running on Windows but windir environment variable is not set)
+endif
+
 endif
 

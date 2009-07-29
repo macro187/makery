@@ -154,11 +154,6 @@ MAKE_EncodePath = \
 $(subst $(MAKE_CHAR_SPACE),\$(MAKE_CHAR_SPACE),$(1))
 
 
-# Normalize a path by converting any slashes to backslashes
-MAKE_CleanPath = \
-$(subst \,/,$(1))
-
-
 # Get a path's parent dir name (not full path)
 # $1 MAKE_EncodeWord'ed path(s)
 MAKE_PathParentName = \
