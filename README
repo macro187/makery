@@ -31,8 +31,8 @@ x.  README Index
 
     x.  README (this file)
 
-        ...gives a conceptual overview of what Makery is, and how to use it
-        to build things.
+        ...gives a conceptual overview of what Makery is, and how to use
+        it to build things.
 
     x.  README.INSTALL
 
@@ -41,12 +41,13 @@ x.  README Index
 
     x.  README.GNUMAKE
 
-        ...is a quick review of how GNU Make works, a prerequisite for...
+        ...is a quick review of how GNU Make works, a prerequisite
+        for...
 
     x.  README.HACKING
 
-        ...which explains how Makery works and how to hack it or modules for
-        it.
+        ...which explains how Makery works and how to hack it or modules
+        for it.
 
 
 x.  Introduction
@@ -58,8 +59,8 @@ x.  Introduction
 
     x.  Functions
 
-        Built-in and user-defined, providing conditionals, loops, and access
-        to the shell.
+        Built-in and user-defined, providing conditionals, loops, and
+        access to the shell.
 
     x.  Variables
 
@@ -105,31 +106,39 @@ x.  Structure
         - A suite of C# programs (each of which is implemented in it's
           own project)
 
-        Often, projects depend on other projects.  For example, a program
-        may require one or more libraries.  Those libraries may themselves
-        require other libraries, and so on.
+        Often, projects depend on other projects.  For example, a
+        program may require one or more libraries.  Those libraries may
+        themselves require other libraries, and so on.
 
-        In Makery, a project declares a list of other projects it directly
-        requires, and Makery takes care of recursively sourcing all required
-        projects into the build.
+        In Makery, a project declares a list of other projects it
+        directly requires, and Makery takes care of recursively sourcing
+        all required projects into the build.
 
 
     x.  Configs
 
-        A given project can take on slightly different flavours depending
-        on build options or conditions under which the build occurs.  Each
-        project can be thought of as having multiple instances, one for
-        each different configuration.
+        A given project can take on slightly different flavours
+        depending on build options or conditions under which the build
+        occurs.  Each project can be thought of as having multiple
+        instances, one for each different configuration.
 
-        Makery provides a framework for defining different config "fields",
-        available options for each, masks for currently-unavailable options,
-        etc.  At build time, default options are computed for each field,
-        resulting in a default config, which is used for the build.*  Config
-        values can, of course, be overridden per-build on the command line.
+        Makery provides a framework for defining different config
+        "fields", available options for each, masks for
+        currently-unavailable options, etc.  At build time, default
+        options are computed for each field, resulting in a default
+        config, which is used for the build.*  Config values can, of
+        course, be overridden per-build on the command line.
 
-        * Currently, only a single config for each project is computed and
-        used per-build.  This may change in future, allowing for multiple
-        permutations of the same project in the same build.
+        Examples of config fields include:
+
+        -   Target operating system
+        -   Target processor architecture
+        -   Brand of compiler
+        -   Whether debug code, symbols, etc. are present
+
+        * Currently, only a single config for each project is computed
+        and used per-build.  This may change in future, allowing for
+        multiple permutations of the same project in the same build.
 
 
 x.  Modules
@@ -139,25 +148,25 @@ x.  Modules
 
     A module generally implements a particular step of a build process.
     At the global level, it may provide functions or global constants
-    applicable across different projects.  At the project level, it defines
-    related variables which then uses to generate rules.
+    applicable across different projects.  At the project level, it
+    defines related variables which then uses to generate rules.
 
     For example, different modules might:
 
-    - Locate source code files
-    - Create rules that perform preprocessing on source code files
-    - Locate compiler(s), and create rules that use them to compile source
-      code files
-    - Locate linker(s), and create rules that use them to link object files
-      into programs or libraries
-    - Locate TeX program(s), and create rules that use them to generate
-      documents
-    - Create a runnable version of the project by pulling required libraries
-      from other projects
-    - Package multiple programs/libraries from other projects into an
-      archive for distribution
+    -   Locate source code files
+    -   Create rules that perform preprocessing on source code files
+    -   Locate compiler(s), and create rules that use them to compile
+        source code files
+    -   Locate linker(s), and create rules that use them to link object
+        files into programs or libraries
+    -   Locate TeX program(s), and create rules that use them to
+        generate documents
+    -   Create a runnable version of the project by pulling required
+        libraries from other projects
+    -   Package multiple programs/libraries from other projects into an
+        archive for distribution
 
-    Modules may depend on functionality in other modules to their job.
-    Makery allows each module to declare a list of other modules it
-    requires.  Makery then recursively sources all required modules.
+    Modules may depend on functionality from other modules to do their job.
+    Each module declares a list of other modules it requires, and Makery
+    takes care of recursively sourcing all required modules.
 
