@@ -33,14 +33,8 @@ define RULE_COMMANDS
 	@echo ""
 	@echo "=> Cleaning old doxygen output..."
 	rm -f $(call SHELL_Escape,$(DOXYGEN_configfile))
-	rm -f $(call SHELL_Escape,$(DOXYGEN_layoutfile))
 	rm -rf $(call SHELL_Escape,$(DOXYGEN_outdir))/*
 	@echo "=> ...done"
-
-	@echo ""
-	@echo "=> Copying in doxygen layout file..."
-	cp $(call SHELL_Escape,$(DOXYGEN_MAKERY_MODULE_DIR)/doxygenlayout.xml) $(MAKE_CHAR_BS)
-		$(call SHELL_Escape,$(DOXYGEN_layoutfile))
 
 	@echo ""
 	@echo "=> Generating doxygen config file..."
@@ -49,20 +43,28 @@ define RULE_COMMANDS
 	@echo "OUTPUT_DIRECTORY = \"$(DOXYGEN_outdir)\"" $(MAKE_CHAR_BS)
 		> $(call SHELL_Escape,$(DOXYGEN_configfile))
 
-# Generation options
-	@echo "CLASS_GRAPH=YES" $(MAKE_CHAR_BS)
-		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-	@echo "COLLABORATION_GRAPH=YES" $(MAKE_CHAR_BS)
-		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-#	@echo "HTML_DYNAMIC_SECTIONS=YES" $(MAKE_CHAR_BS)
-#		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-#	@echo "GENERATE_TREEVIEW=YES" $(MAKE_CHAR_BS)
-#		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+# General options
 	@echo "QUIET=YES" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-	@echo "SOURCE_BROWSER=YES" $(MAKE_CHAR_BS)
+	@echo "CASE_SENSE_NAMES=NO" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+
+# Parsing options
 	@echo "JAVADOC_AUTOBRIEF=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "EXTRACT_ALL=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "EXTRACT_STATIC=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "EXTRACT_LOCAL_CLASSES=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+
+# HTML options
+	@echo "HTML_DYNAMIC_SECTIONS=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "GENERATE_TREEVIEW=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "SOURCE_BROWSER=YES" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
 	@echo "OPTIMIZE_OUTPUT_JAVA=YES" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
@@ -76,37 +78,37 @@ define RULE_COMMANDS
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
 	@echo "SHOW_DIRECTORIES=YES" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-	@echo "EXTRACT_ALL=YES" $(MAKE_CHAR_BS)
-		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-	@echo "EXTRACT_STATIC=YES" $(MAKE_CHAR_BS)
-		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-	@echo "EXTRACT_LOCAL_CLASSES=YES" $(MAKE_CHAR_BS)
+	@echo "HIDE_SCOPE_NAMES=YES" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
 	@echo "SEPARATE_MEMBER_PAGES=YES" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-#	@echo "UML_LOOK=YES" $(MAKE_CHAR_BS)
-#		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-	@echo "TEMPLATE_RELATIONS=YES" $(MAKE_CHAR_BS)
-		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-	@echo "GRAPHICAL_HIERARCHY=YES" $(MAKE_CHAR_BS)
-		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-	@echo "DOT_MULTI_TARGETS=YES" $(MAKE_CHAR_BS)
-		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-	@echo "GENERATE_LEGEND=YES" $(MAKE_CHAR_BS)
-		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-	@echo "DOT_CLEANUP=YES" $(MAKE_CHAR_BS)
-		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-	@echo "ALWAYS_DETAILED_SEC=YES" $(MAKE_CHAR_BS)
+	@echo "ALWAYS_DETAILED_SEC=NO" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
 
+# Graphviz options
 ifneq ($$(DOXYGEN_DOT),)
 	@echo "HAVE_DOT=YES" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
-endif
-
-# Layout file
-	@echo "LAYOUT_FILE = \"$(DOXYGEN_layoutfile)\"" $(MAKE_CHAR_BS)
+	@echo "DOT_MULTI_TARGETS=YES" $(MAKE_CHAR_BS)
 		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "DOT_TRANSPARENT=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "DOT_CLEANUP=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "UML_LOOK=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "CLASS_GRAPH=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "GRAPHICAL_HIERARCHY=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "COLLABORATION_GRAPH=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+	@echo "TEMPLATE_RELATIONS=YES" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+else
+	@echo "HAVE_DOT=NO" $(MAKE_CHAR_BS)
+		>> $(call SHELL_Escape,$(DOXYGEN_configfile))
+endif
 
 # Input files
 	@echo "INPUT = \\" $(MAKE_CHAR_BS)

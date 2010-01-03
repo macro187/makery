@@ -53,11 +53,6 @@ DOXYGEN_configfile_DESC ?= (read-only) Output doxygen config file
 DOXYGEN_configfile_DEFAULT = $(DOXYGEN_outdir)/doxygen.config
 
 
-$(call PROJ_DeclareVar,DOXYGEN_layoutfile)
-DOXYGEN_layoutfile_DESC ?= (read-only) Output doxygen layout file
-DOXYGEN_layoutfile_DEFAULT = $(DOXYGEN_outdir)/doxygenlayout.xml
-
-
 # Hook doxygen to the everything target
 EVERYTHING_reqs += $(call MAKE_EncodeWord,$(DOXYGEN_target))
 
