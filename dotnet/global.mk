@@ -102,42 +102,42 @@ $(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 #
 # Per-generation C# compilers
 #
-DOTNET_MS_40_COMPILER_CS :=
+DOTNET_MS_40_COMPILER_CS := \
 $(shell find \
 $(call SHELL_Escape,$(DOTNET_MS_40_FRAMEWORKDIR)) \
 -name "csc.exe" \
 | $(SHELL_CLEANPATH) \
 )
 
-DOTNET_MS_35_COMPILER_CS :=
+DOTNET_MS_35_COMPILER_CS := \
 $(shell find \
 $(call SHELL_Escape,$(DOTNET_MS_35_FRAMEWORKDIR)) \
 -name "csc.exe" \
 | $(SHELL_CLEANPATH) \
 )
 
-DOTNET_MS_30_COMPILER_CS :=
+DOTNET_MS_30_COMPILER_CS := \
 $(shell find \
 $(call SHELL_Escape,$(DOTNET_MS_30_FRAMEWORKDIR)) \
 -name "csc.exe" \
 | $(SHELL_CLEANPATH) \
 )
 
-DOTNET_MS_20_COMPILER_CS :=
+DOTNET_MS_20_COMPILER_CS := \
 $(shell find \
 $(call SHELL_Escape,$(DOTNET_MS_20_FRAMEWORKDIR)) \
 -name "csc.exe" \
 | $(SHELL_CLEANPATH) \
 )
 
-DOTNET_MS_11_COMPILER_CS :=
+DOTNET_MS_11_COMPILER_CS := \
 $(shell find \
 $(call SHELL_Escape,$(DOTNET_MS_11_FRAMEWORKDIR)) \
 -name "csc.exe" \
 | $(SHELL_CLEANPATH) \
 )
 
-DOTNET_MS_10_COMPILER_CS :=
+DOTNET_MS_10_COMPILER_CS := \
 $(shell find \
 $(call SHELL_Escape,$(DOTNET_MS_10_FRAMEWORKDIR)) \
 -name "csc.exe" \
