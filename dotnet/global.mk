@@ -43,7 +43,6 @@ DOTNET_MS_FRAMEWORKSDIR := $(OS_WINDIR)/Microsoft.NET/Framework
 # XXX The existence of the subdirectory doesn't guarantee it contains the
 #     entire framework
 
-# TODO Untested
 DOTNET_MS_40_FRAMEWORKDIR := \
 $(shell find \
 $(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
