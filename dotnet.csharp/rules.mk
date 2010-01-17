@@ -26,7 +26,7 @@ RULE_OREQS := $(call MAKE_EncodeWord,$(DOTNET_outdir))
 
 ifeq ($(DOTNET_implementation),mono)
 define RULE_COMMANDS
-	$(if $(call gte,$(DOTNET_generation),20),gmcs,mcs) $(MAKE_CHAR_BS)
+	$(DOTNET_CS_compiler) $(MAKE_CHAR_BS)
 	-target:$(if $(filter lib,$(DOTNET_outtype)),library,$(if $(filter exe,$(DOTNET_outtype)),exe)) $(MAKE_CHAR_BS)
 	-out:$(call SHELL_Escape,$(DOTNET_outfiles_main)) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_debug)),-debug) $(MAKE_CHAR_BS)
@@ -44,7 +44,7 @@ endif
 
 ifeq ($(DOTNET_implementation),ms)
 define RULE_COMMANDS
-	$(call SHELL_Escape,$(call OS_WinPath,$(DOTNET_MS_FRAMEWORK_$(DOTNET_generation))/csc.exe)) $(MAKE_CHAR_BS)
+	$(call SHELL_Escape,$(call OS_WinPath,$(DOTNET_CS_compiler))) $(MAKE_CHAR_BS)
 	/nologo $(MAKE_CHAR_BS)
 	/target:$(if $(filter lib,$(DOTNET_outtype)),library,$(if $(filter exe,$(DOTNET_outtype)),exe)) $(MAKE_CHAR_BS)
 	/out:$(call SHELL_Escape,$(call OS_WinPath,$(DOTNET_outfiles_main))) $(MAKE_CHAR_BS)
@@ -63,7 +63,7 @@ endif
 
 ifeq ($(DOTNET_implementation),pnet)
 define RULE_COMMANDS
-	cscc \
+	$(DOTNET_CS_compiler) \
 	$(if $(filter lib,$(DOTNET_outtype)),-shared) \
 	-o $(call SHELL_Escape,$(DOTNET_out_main)) \
 	$(if $(filter 1,$(DOTNET_CS_debug)),-g) \

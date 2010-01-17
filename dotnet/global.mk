@@ -17,57 +17,81 @@
 
 
 # ------------------------------------------------------------------------------
-# Detect available MS frameworks
+# Frameworks
+# ------------------------------------------------------------------------------
+
+DOTNET_FRAMEWORKS := ms mono pnet
+DOTNET_GENERATIONS := 40 35 30 20 11 10
+
+
+
+# ------------------------------------------------------------------------------
+# MS
 # ------------------------------------------------------------------------------
 ifneq ($(OS_ISWINDOWS),)
 
 
-DOTNET_MS_FRAMEWORK_GENERATIONS := 35 30 20 11 10
+#
+# Frameworks parent directory
+#
+DOTNET_MS_FRAMEWORKSDIR := $(OS_WINDIR)/Microsoft.NET/Framework
 
-DOTNET_MS_FRAMEWORKS_DIR := $(OS_WINDIR)/Microsoft.NET/Framework
-
+#
+# Per-generation framework directories
+#
 # XXX These will break if more than one subdirectory for a given version exists
-# XXX The existence of the subdirectory doesn't guarantee it contains the entire framework
+# XXX The existence of the subdirectory doesn't guarantee it contains the
+#     entire framework
 
-DOTNET_MS_FRAMEWORK_35 := \
+# TODO Untested
+DOTNET_MS_40_FRAMEWORKDIR := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKS_DIR)) \
+$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
+-maxdepth 1 \
+-type d \
+-name "v4.0*" \
+| $(SHELL_CLEANPATH) \
+)
+
+DOTNET_MS_35_FRAMEWORKDIR := \
+$(shell find \
+$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
 -name "v3.5*" \
 | $(SHELL_CLEANPATH) \
 )
 
-DOTNET_MS_FRAMEWORK_30 := \
+DOTNET_MS_30_FRAMEWORKDIR := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKS_DIR)) \
+$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
 -name "v3.0*" \
 | $(SHELL_CLEANPATH) \
 )
 
-DOTNET_MS_FRAMEWORK_20 := \
+DOTNET_MS_20_FRAMEWORKDIR := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKS_DIR)) \
+$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
 -name "v2.0*" \
 | $(SHELL_CLEANPATH) \
 )
 
-DOTNET_MS_FRAMEWORK_11 := \
+DOTNET_MS_11_FRAMEWORKDIR := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKS_DIR)) \
+$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
 -name "v1.1*" \
 | $(SHELL_CLEANPATH) \
 )
 
-DOTNET_MS_FRAMEWORK_10 := \
+DOTNET_MS_10_FRAMEWORKDIR := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKS_DIR)) \
+$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
 -name "v1.0*" \
@@ -75,5 +99,82 @@ $(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKS_DIR)) \
 )
 
 
+#
+# Per-generation C# compilers
+#
+DOTNET_MS_40_COMPILER_CS :=
+$(shell find \
+$(call SHELL_Escape,$(DOTNET_MS_40_FRAMEWORKDIR)) \
+-name "csc.exe" \
+| $(SHELL_CLEANPATH) \
+)
+
+DOTNET_MS_35_COMPILER_CS :=
+$(shell find \
+$(call SHELL_Escape,$(DOTNET_MS_35_FRAMEWORKDIR)) \
+-name "csc.exe" \
+| $(SHELL_CLEANPATH) \
+)
+
+DOTNET_MS_30_COMPILER_CS :=
+$(shell find \
+$(call SHELL_Escape,$(DOTNET_MS_30_FRAMEWORKDIR)) \
+-name "csc.exe" \
+| $(SHELL_CLEANPATH) \
+)
+
+DOTNET_MS_20_COMPILER_CS :=
+$(shell find \
+$(call SHELL_Escape,$(DOTNET_MS_20_FRAMEWORKDIR)) \
+-name "csc.exe" \
+| $(SHELL_CLEANPATH) \
+)
+
+DOTNET_MS_11_COMPILER_CS :=
+$(shell find \
+$(call SHELL_Escape,$(DOTNET_MS_11_FRAMEWORKDIR)) \
+-name "csc.exe" \
+| $(SHELL_CLEANPATH) \
+)
+
+DOTNET_MS_10_COMPILER_CS :=
+$(shell find \
+$(call SHELL_Escape,$(DOTNET_MS_10_FRAMEWORKDIR)) \
+-name "csc.exe" \
+| $(SHELL_CLEANPATH) \
+)
+
+
 endif
+
+
+
+# ------------------------------------------------------------------------------
+# Mono
+# ------------------------------------------------------------------------------
+
+DOTNET_MONO := $(shell which mono 2>&-)
+DOTNET_MCS := $(shell which mcs 2>&-)
+DOTNET_GMCS := $(shell which gmcs 2>&-)
+DOTNET_DMCS := $(shell which dmcs 2>&-)
+
+DOTNET_MONO_40_COMPILER_CS := $(DOTNET_DMCS)
+DOTNET_MONO_35_COMPILER_CS := $(DOTNET_GMCS)
+DOTNET_MONO_30_COMPILER_CS := $(DOTNET_GMCS)
+DOTNET_MONO_20_COMPILER_CS := $(DOTNET_GMCS)
+DOTNET_MONO_11_COMPILER_CS := $(DOTNET_MCS)
+DOTNET_MONO_10_COMPILER_CS := $(DOTNET_MCS)
+
+
+
+# ------------------------------------------------------------------------------
+# Pnet
+# ------------------------------------------------------------------------------
+
+DOTNET_ILRUN := $(shell which ilrun 2>&-)
+DOTNET_CSCC := $(shell which cscc 2>&-)
+
+# no support for .NET generation >= 2.0
+DOTNET_PNET_11_COMPILER_CS := $(DOTNET_CSCC)
+DOTNET_PNET_10_COMPILER_CS := $(DOTNET_CSCC)
 

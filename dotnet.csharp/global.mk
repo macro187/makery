@@ -16,26 +16,3 @@
 # ------------------------------------------------------------------------------
 
 
-# Sniff csc(s)
-#ifneq ($(OS_ISWINDOWS),)
-
-#CSHARP_CSC_11 := \
-#$(shell find \
-#$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORK_11)) \
-#-maxdepth 1 \
-#-type f \
-#-name "csc.exe" \
-#| $(SHELL_CLEANPATH) \
-#)
-
-#CSHARP_CSC_20 := \
-#$(shell find \
-#$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORK_20)) \
-#-maxdepth 1 \
-#-type f \
-#-name "csc.exe" \
-#| $(SHELL_CLEANPATH) \
-#)
-
-#endif
-

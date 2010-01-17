@@ -15,6 +15,14 @@
 # ------------------------------------------------------------------------------
 
 
+$(call PROJ_DeclareVar,DOTNET_CS_compiler)
+DOTNET_CS_compiler_DESC ?= C# compiler to use
+DOTNET_CS_compiler_VALIDATE = Required
+
+DOTNET_CS_compiler_DEFAULT = \
+$(DOTNET_$(call uc,$(DOTNET_implementation))_$(DOTNET_generation)_COMPILER_CS)
+
+
 $(call PROJ_DeclareVar,DOTNET_CS_defines)
 DOTNET_CS_defines_DESC ?= Preprocessor variables to define (list)
 

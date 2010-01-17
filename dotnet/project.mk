@@ -20,39 +20,52 @@
 # Configs
 # ------------------------------------------------------------------------------
 
-$(call CONFIG_DeclareField,DOTNET_generation)
-DOTNET_generation_DESC ?= .NET generation
-DOTNET_generation_ALL = 35 30 20 11 10
-
-
 $(call CONFIG_DeclareField,DOTNET_implementation)
 DOTNET_implementation_DESC ?= .NET implementation
-DOTNET_implementation_ALL = ms mono pnet
+DOTNET_implementation_ALL = $(DOTNET_FRAMEWORKS)
+DOTNET_implementation_VALIDATE = Required
 
-DOTNET_implementation_MASK_MSWINONLY = $(if $(OS_ISWINDOWS),,ms)
-DOTNET_implementation_MASK_MSWINONLY_DESC ?= MS.NET only available on Windows
-DOTNET_implementation_MASKS += MSWINONLY
+DOTNET_implementation_MASK_MSNOTFOUND = \
+$(if $(strip $(foreach gen,$(DOTNET_GENERATIONS),$(DOTNET_MS_$(gen)_FRAMEWORKDIR))),,ms)
+DOTNET_implementation_MASK_MSNOTFOUND_DESC ?= Microsoft .NET not found
+DOTNET_implementation_MASKS += MSNOTFOUND
 
-DOTNET_implementation_MASK_NOTFOUND = $(if $(shell which mono 2>&-),,mono)
-DOTNET_implementation_MASK_NOTFOUND += $(if $(shell which ilrun 2>&-),,pnet)
-DOTNET_implementation_MASK_NOTFOUND += $(if $(DOTNET_MS_FRAMEWORK_$(DOTNET_generation)),,ms)
-DOTNET_implementation_MASK_NOTFOUND_DESC ?= Not found on system
-DOTNET_implementation_MASKS += NOTFOUND
+DOTNET_implementation_MASK_MONONOTFOUND = $(if $(DOTNET_MONO),,mono)
+DOTNET_implementation_MASK_MONONOTFOUND_DESC ?= Mono not found
+DOTNET_implementation_MASKS += MONONOTFOUND
 
-DOTNET_implementation_MASK_PNETNO20 = \
-$(if $(call gte,$(DOTNET_generation),20),pnet)
-DOTNET_implementation_MASK_PNETNO20_DESC ?= PNet can not do .NET 2.0 or newer
-DOTNET_implementation_MASKS += PNETNO20
+DOTNET_implementation_MASK_PNETNOTFOUND = $(if $(DOTNET_ILRUN),,pnet)
+DOTNET_implementation_MASK_PNETNOTFOUND_DESC ?= Portable.NET not found
+DOTNET_implementation_MASKS += PNETNOTFOUND
+
+
+$(call CONFIG_DeclareField,DOTNET_generation)
+DOTNET_generation_DESC ?= .NET generation
+DOTNET_generation_ALL = $(DOTNET_GENERATIONS)
+DOTNET_generation_VALIDATE = Required Min|$(DOTNET_min_generation)
+
+DOTNET_generation_MASK_NOCOMPILER = \
+$(foreach gen,$(DOTNET_GENERATIONS),$(if $(DOTNET_$(call uc,$(DOTNET_implementation))_$(gen)_COMPILER_CS),,$(gen)))
+DOTNET_generation_MASK_NOCOMPILER_DESC ?= \
+No compiler for framework/generation found
+DOTNET_generation_MASKS += NOCOMPILER
+
 
 
 # ------------------------------------------------------------------------------
 # Vars
 # ------------------------------------------------------------------------------
 
+$(call PROJ_DeclareVar,DOTNET_min_generation)
+DOTNET_min_generation_DESC ?= Minimum .NET generation this project requires
+DOTNET_min_generation_DEFAULT = $(firstword $(DOTNET_generation_ALL))
+
 $(call PROJ_DeclareVar,DOTNET_exec)
 DOTNET_exec_DESC ?= Program used to run .NET binaries
-DOTNET_exec_DEFAULT = $(if $(filter $(DOTNET_implementation),mono),mono --debug)
-DOTNET_exec_DEFAULT += $(if $(filter $(DOTNET_implementation),pnet),ilrun)
+DOTNET_exec_DEFAULT = \
+$(if $(filter $(DOTNET_implementation),mono),$(DOTNET_MONO) --debug)
+DOTNET_exec_DEFAULT += \
+$(if $(filter $(DOTNET_implementation),pnet),$(DOTNET_ILRUN))
 
 
 $(call PROJ_DeclareVar,DOTNET_namespace)
