@@ -16,7 +16,7 @@
 
 
 $(call PROJ_DeclareVar,DOTNET_CS_compiler)
-DOTNET_CS_compiler_DESC ?= C# compiler to use
+DOTNET_CS_compiler_DESC ?= Csharp compiler to use
 DOTNET_CS_compiler_VALIDATE = Required
 
 DOTNET_CS_compiler_DEFAULT = \
