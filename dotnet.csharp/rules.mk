@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009
+# Copyright (c) 2007, 2008, 2009, 2010
 # Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -27,6 +27,7 @@ RULE_OREQS := $(call MAKE_EncodeWord,$(DOTNET_outdir))
 ifeq ($(DOTNET_implementation),mono)
 define RULE_COMMANDS
 	$(DOTNET_CS_compiler) $(MAKE_CHAR_BS)
+	$(DOTNET_CS_versionswitches) $(MAKE_CHAR_BS)
 	-target:$(if $(filter lib,$(DOTNET_outtype)),library,$(if $(filter exe,$(DOTNET_outtype)),exe)) $(MAKE_CHAR_BS)
 	-out:$(call SHELL_Escape,$(DOTNET_outfiles_main)) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_debug)),-debug) $(MAKE_CHAR_BS)
@@ -45,6 +46,7 @@ endif
 ifeq ($(DOTNET_implementation),ms)
 define RULE_COMMANDS
 	$(call SHELL_Escape,$(call OS_WinPath,$(DOTNET_CS_compiler))) $(MAKE_CHAR_BS)
+	$(DOTNET_CS_versionswitches) $(MAKE_CHAR_BS)
 	/nologo $(MAKE_CHAR_BS)
 	/target:$(if $(filter lib,$(DOTNET_outtype)),library,$(if $(filter exe,$(DOTNET_outtype)),exe)) $(MAKE_CHAR_BS)
 	/out:$(call SHELL_Escape,$(call OS_WinPath,$(DOTNET_outfiles_main))) $(MAKE_CHAR_BS)
@@ -64,6 +66,7 @@ endif
 ifeq ($(DOTNET_implementation),pnet)
 define RULE_COMMANDS
 	$(DOTNET_CS_compiler) \
+	$(DOTNET_CS_versionswitches) \
 	$(if $(filter lib,$(DOTNET_outtype)),-shared) \
 	-o $(call SHELL_Escape,$(DOTNET_out_main)) \
 	$(if $(filter 1,$(DOTNET_CS_debug)),-g) \

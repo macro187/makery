@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009
+# Copyright (c) 2007, 2008, 2009, 2010
 # Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,12 +16,35 @@
 # ------------------------------------------------------------------------------
 
 
+
 # ------------------------------------------------------------------------------
 # Frameworks
 # ------------------------------------------------------------------------------
 
 DOTNET_FRAMEWORKS := ms mono pnet
+
+
+
+# ------------------------------------------------------------------------------
+# Framework Generations
+# ------------------------------------------------------------------------------
+
 DOTNET_GENERATIONS := 40 35 30 20 11 10
+
+
+
+# ------------------------------------------------------------------------------
+# C# Language Versions
+# ------------------------------------------------------------------------------
+
+DOTNET_CSVERSIONS = 40 30 20 10
+
+DOTNET_40_CSVERSION := 40
+DOTNET_35_CSVERSION := 30
+DOTNET_30_CSVERSION := 20
+DOTNET_20_CSVERSION := 20
+DOTNET_11_CSVERSION := 10
+DOTNET_10_CSVERSION := 10
 
 
 
@@ -164,6 +187,10 @@ DOTNET_MONO_20_COMPILER_CS := $(DOTNET_GMCS)
 DOTNET_MONO_11_COMPILER_CS := $(DOTNET_MCS)
 DOTNET_MONO_10_COMPILER_CS := $(DOTNET_MCS)
 
+DOTNET_MONO_CSVERSION_40_SWITCHES :=
+DOTNET_MONO_CSVERSION_30_SWITCHES := -langversion:3
+DOTNET_MONO_CSVERSION_20_SWITCHES := -langversion:ISO-2
+DOTNET_MONO_CSVERSION_10_SWITCHES := -langversion:ISO-1
 
 
 # ------------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007 Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
+# Copyright (c) 2007, 2008, 2009, 2010
+# Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -87,6 +88,21 @@ DOTNET_CS_out_debug = \
 $(if $(filter mono,$(DOTNET_implementation)),$(if $(filter 1,$(DOTNET_CS_debug)),$(DOTNET_outfiles_main).mdb))$(if $(filter ms,$(DOTNET_implementation)),$(if $(filter 1,$(DOTNET_CS_debug)),$(DOTNET_outbase_abs).pdb))
 
 DOTNET_outfiles += $(call MAKE_EncodeWord,$(DOTNET_CS_out_debug))
+
+
+# C# language version
+$(call PROJ_DeclareVar,DOTNET_CS_version)
+DOTNET_CS_version_DESC ?= (read-only) Version of CSharp language in effect
+DOTNET_CS_version = $(DOTNET_$(DOTNET_generation)_CSVERSION)
+
+
+# C# language version compiler switch(es)
+$(call PROJ_DeclareVar,DOTNET_CS_versionswitches)
+DOTNET_CS_versionswitches_DESC ?= \
+(read-only) Compiler switches to set the CSharp language version
+DOTNET_CS_versionswitches = \
+$(DOTNET_$(call uc,$(DOTNET_implementation))_CSVERSION_$(DOTNET_CS_version)_SWITCHES)
+
 
 
 # Hook up srcs.find
