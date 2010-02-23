@@ -42,7 +42,7 @@ DOTNET_implementation_MASKS += PNETNOTFOUND
 $(call CONFIG_DeclareField,DOTNET_generation)
 DOTNET_generation_DESC ?= .NET generation
 DOTNET_generation_ALL = $(DOTNET_GENERATIONS)
-DOTNET_generation_VALIDATE = Required Min|$(DOTNET_min_generation)
+DOTNET_generation_VALIDATE = Required Min|$(DOTNET_required_generation)
 
 DOTNET_generation_MASK_NOCOMPILER = \
 $(foreach gen,$(DOTNET_GENERATIONS),$(if $(DOTNET_$(call uc,$(DOTNET_implementation))_$(gen)_COMPILER_CS),,$(gen)))
@@ -56,9 +56,9 @@ DOTNET_generation_MASKS += NOCOMPILER
 # Vars
 # ------------------------------------------------------------------------------
 
-$(call PROJ_DeclareVar,DOTNET_min_generation)
-DOTNET_min_generation_DESC ?= Minimum .NET generation this project requires
-DOTNET_min_generation_DEFAULT = $(firstword $(DOTNET_generation_ALL))
+$(call PROJ_DeclareVar,DOTNET_required_generation)
+DOTNET_required_generation_DESC ?= Minimum .NET generation this project requires
+DOTNET_required_generation_DEFAULT = $(firstword $(DOTNET_generation_ALL))
 
 $(call PROJ_DeclareVar,DOTNET_exec)
 DOTNET_exec_DESC ?= Program used to run .NET binaries
