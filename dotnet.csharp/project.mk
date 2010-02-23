@@ -70,12 +70,31 @@ DOTNET_CS_werror_DEFAULT = 1
 
 
 # ------------------------------------------------------------------------------
-# .NET generation C# preprocessor constants
+# .NET framework information C# preprocessor constants
 #
-# These can be used to conditionalise code based on the .NET generation in
-# use.  Constants for all generations <= the one in use are defined.
+# So code can adapt to the .NET implementation, generation, etc. in use.
 # ------------------------------------------------------------------------------
 
+#
+# Implementation
+#
+# Format: DOTNET_implementation in all-caps (eg. "MS", "MONO", etc.)
+#
+# See DOTNET_FRAMEWORKS for a full list
+#
+DOTNET_CS_defines += \
+$(call uc,$(DOTNET_implementation))
+
+
+#
+# Generation
+#
+# Format: DOTNET<XX>
+#
+# Constants for all generations <= the one in use are defined
+#
+# See DOTNET_GENERATIONS for a full list
+#
 DOTNET_CS_defines += \
 $(foreach gen,$(DOTNET_GENERATIONS),$(if $(call gte,$(DOTNET_generation),$(gen)),DOTNET$(gen)))
 
