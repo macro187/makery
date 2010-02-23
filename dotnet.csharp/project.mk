@@ -32,14 +32,14 @@ DOTNET_CS_debug_DESC ?= \
 Enable debug info compilation and DEBUG preprocessor var? (0|1)
 DOTNET_CS_debug_DEFAULT = 1
 
-DOTNET_CS_defines += $(if $(DOTNET_CS_debug),DEBUG)
+DOTNET_CS_defines += $(if $(filter 1,$(DOTNET_CS_debug)),DEBUG)
 
 
 $(call PROJ_DeclareVar,DOTNET_CS_trace)
 DOTNET_CS_trace_DESC ?= Define TRACE preprocessor var? (0|1)
 DOTNET_CS_trace_DEFAULT = 1
 
-DOTNET_CS_defines += $(if $(DOTNET_CS_trace),TRACE)
+DOTNET_CS_defines += $(if $(filter 1,$(DOTNET_CS_trace)),TRACE)
 
 
 $(call PROJ_DeclareVar,DOTNET_CS_checked)
