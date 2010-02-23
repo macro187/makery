@@ -15,6 +15,11 @@
 # ------------------------------------------------------------------------------
 
 
+
+# ------------------------------------------------------------------------------
+# Compiler
+# ------------------------------------------------------------------------------
+
 $(call PROJ_DeclareVar,DOTNET_CS_compiler)
 DOTNET_CS_compiler_DESC ?= Csharp compiler to use
 DOTNET_CS_compiler_VALIDATE = Required
@@ -22,6 +27,11 @@ DOTNET_CS_compiler_VALIDATE = Required
 DOTNET_CS_compiler_DEFAULT = \
 $(DOTNET_$(call uc,$(DOTNET_implementation))_$(DOTNET_generation)_COMPILER_CS)
 
+
+
+# ------------------------------------------------------------------------------
+# Compilation Options
+# ------------------------------------------------------------------------------
 
 $(call PROJ_DeclareVar,DOTNET_CS_defines)
 DOTNET_CS_defines_DESC ?= Preprocessor variables to define (list)
@@ -57,6 +67,20 @@ DOTNET_CS_werror_DESC ?= Treat compiler warnings as errors? (0|1)
 DOTNET_CS_werror_DEFAULT = 1
 
 
+
+# ------------------------------------------------------------------------------
+# .NET generation C# preprocessor constants
+#
+# These can be used to conditionalise code based on the .NET generation in
+# use.  Constants for all generations <= the one in use are defined.
+# ------------------------------------------------------------------------------
+
+DOTNET_CS_defines += \
+$(foreach gen,$(DOTNET_GENERATIONS),$(if $(call gte,$(DOTNET_generation),$(gen)),DOTNET$(gen)))
+
+
+
+# Debug info output file
 $(call PROJ_DeclareVar,DOTNET_CS_out_debug)
 DOTNET_CS_out_debug_DESC ?= (read-only) Debug information output file
 DOTNET_CS_out_debug = \
