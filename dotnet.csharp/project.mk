@@ -136,4 +136,5 @@ SRCS_files_preq = $(SRCS_FIND_files)
 DOXYGEN_srcs += $(SRCS_files)
 DOXYGEN_depends += $(SRCS_files_preq)
 DOXYGEN_depends += $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))
+DOXYGEN_defines += $(DOTNET_CS_defines)
 
