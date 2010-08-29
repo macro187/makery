@@ -74,12 +74,25 @@ endef
 # $1 - Variable name
 #
 # Remarks:
+#   Target variables are not expanded during the preprocessing stage.  Instead,
+#   a regular project variable (with the same name plus a '_def' suffix) stores
+#   the unexpanded definition, which is used to arrange for deferred expansion
+#   later at rules-execution time.
+#
+#   Because of this deferred expansion, target variables can reference:
+#
+#   - Global variables
+#   - Project variables from this or any other project
+#   - Target variables from this or any other project
+#
+#   Note this does not include temporary variables available during the
+#   preprocessing stage (eg. *_DEFAULT variables, etc.)
+#
 #   This function is only valid in a module's project.mk
 #
 # Usage:
 #   $(call PROJ_DeclareVar,PKGNAME_varname)
-#   PKGNAME_varname_DEFAULT = (default value) (optional)
-#   PKGNAME_varname_DESC = (description) (optional)
+#   PKGNAME_varname_DESC ?= (description) (optional)
 # ------------------------------------------------------------------------------
 
 PROJ_DeclareTargetVar = \
@@ -87,9 +100,6 @@ $(eval $(call PROJ_DeclareTargetVar_TEMPLATE,$(1)))
 
 define PROJ_DeclareTargetVar_TEMPLATE
 PROJ_targetvars += $(1)
-ifeq ($$($(1)),)
-$(1) = $(value $(1)_DEFAULT)
-endif
 PROJ_vars += $(1)_def
 $(1)_def = $$(value $(1))
 endef
