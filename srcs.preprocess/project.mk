@@ -1,5 +1,6 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007 Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
+# Copyright (c) 2007, 2010
+# Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -30,10 +31,57 @@ SRCS_PREPROCESS_pipeline_DESC ?= Preprocessor list (append-only list)
 SRCS_PREPROCESS_pipeline_VALIDATE ?= Required
 
 
+$(call PROJ_DeclareVar,SRCS_PREPROCESS_ppfrom)
+SRCS_PREPROCESS_ppfrom_DESC ?= Upstream processor in preprocessor pipeline
+SRCS_PREPROCESS_ppfrom_DEFAULT = $(lastword $(SRCS_PREPROCESS_pipeline))
+
+
+$(call PROJ_DeclareVar,SRCS_PREPROCESS_srcdir)
+SRCS_PREPROCESS_srcdir_DESC ?= Source code files root directory (read-only)
+SRCS_PREPROCESS_srcdir_DEFAULT = $($(SRCS_PREPROCESS_ppfrom)_dir)
+
+
+$(call PROJ_DeclareTargetVar,SRCS_PREPROCESS_srcs)
+SRCS_PREPROCESS_srcs_DESC ?= \
+Source code files relative to SRCS_PREPROCESS_srcdir (read-only)
+SRCS_PREPROCESS_srcs = $($(SRCS_PREPROCESS_ppfrom)_rel)
+
+
+$(call PROJ_DeclareVar,SRCS_PREPROCESS_srcpreq)
+SRCS_PREPROCESS_srcpreq_DESC ?= Source code files prerequisite files (read-only)
+SRCS_PREPROCESS_srcpreq_DEFAULT = $($(SRCS_PREPROCESS_ppfrom)_preq)
+
+
+$(call PROJ_DeclareVar,SRCS_PREPROCESS_dir)
+SRCS_PREPROCESS_dir_DESC ?= Directory to put final source files in
+SRCS_PREPROCESS_dir_DEFAULT = $(OUTDIRS_base)/srcs
+
+OUTDIRS_all += $(call MAKE_EncodeWord,$(SRCS_PREPROCESS_dir))
+
+
+$(call PROJ_DeclareVar,SRCS_PREPROCESS_preq)
+SRCS_PREPROCESS_preq_DESC ?= Temp file representing final source files
+SRCS_PREPROCESS_preq_DEFAULT = $(OUTDIRS_base)/srcs_dotfile
+
+
+$(call PROJ_DeclareTargetVar,SRCS_PREPROCESS_subdirs)
+SRCS_PREPROCESS_subdirs = $(filter-out ./,$(dir $(SRCS_PREPROCESS_srcs)))
+
+
+$(call PROJ_DeclareTargetVar,SRCS_PREPROCESS_rel)
+SRCS_PREPROCESS_rel_DESC ?= Final source files relative to SRCS_PREPROCESS_dir
+SRCS_PREPROCESS_rel = \
+$(shell \
+cd $(call SHELL_Escape,$(SRCS_PREPROCESS_dir)) && find * -type f \
+| $(SHELL_CLEANPATH) \
+| $(SHELL_ENCODEWORD) \
+)
+
+
+
 # Hook the end of the pipeline to SRCS_*
 SRCS_files = \
-$(foreach f,$($(lastword $(SRCS_PREPROCESS_pipeline))_rel),$(call MAKE_EncodeWord,$($(lastword $(SRCS_PREPROCESS_pipeline))_dir))/$(f))
+$(foreach f,$(SRCS_PREPROCESS_rel),$(call MAKE_EncodeWord,$(SRCS_PREPROCESS_dir))/$(f))
 
-SRCS_files_preq = \
-$($(lastword $(SRCS_PREPROCESS_pipeline))_preq)
+SRCS_files_preq = $(SRCS_PREPROCESS_preq)
 
