@@ -123,18 +123,12 @@ DOTNET_CS_versionswitches = \
 $(DOTNET_$(call uc,$(DOTNET_implementation))_CSVERSION_$(DOTNET_CS_version)_SWITCHES)
 
 
-
-# Hook up srcs.find
-# TODO Move somewhere else?
+# Look for .cs source files
 SRCS_FIND_extension = cs
-SRCS_files = $(SRCS_FIND_files)
-SRCS_files_preq = $(SRCS_FIND_files)
 
 
-# Hook up Doxygen
-# TODO Move somewhere else?
+# Hook up to Doxygen
 DOXYGEN_srcs += $(SRCS_files)
-DOXYGEN_depends += $(SRCS_files_preq)
 DOXYGEN_depends += $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))
 DOXYGEN_defines += $(DOTNET_CS_defines)
 
