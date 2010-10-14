@@ -23,7 +23,7 @@ RULE_OREQ := $(SRCS_PREPROCESS_dir)
 
 define RULE_COMMANDS
 	@echo ""
-	@echo "=> Cleaning old source files..."
+	@echo "=> Cleaning old final source files..."
 	rm -rf $$(call SHELL_Escape,$$(SRCS_PREPROCESS_dir))/*
 	@echo "=> ...done"
 	@echo ""
@@ -35,7 +35,7 @@ define RULE_COMMANDS
 	$$(foreach dir,$$(SRCS_PREPROCESS_subdirs),$$(MAKE_CHAR_NEWLINE)	mkdir -p $$(SRCS_PREPROCESS_dir)/$$(call MAKE_DecodeWord,$$(dir)))
 	@echo "=> ...done"
 	@echo ""
-	@echo "=> Copying source files..."
+	@echo "=> Copying final source files..."
 	$$(foreach src,$$(SRCS_PREPROCESS_srcs),$$(MAKE_CHAR_NEWLINE)	cp $$(call SHELL_Escape,$$(SRCS_PREPROCESS_srcdir)/$$(call MAKE_DecodeWord,$$(src))) $$(call SHELL_Escape,$$(SRCS_PREPROCESS_dir)/$$(call MAKE_DecodeWord,$$(src))))
 	@echo "=> ...done"
 	@echo ""

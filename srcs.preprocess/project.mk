@@ -81,7 +81,7 @@ cd $(call SHELL_Escape,$(SRCS_PREPROCESS_dir)) && find * -type f \
 
 # Hook the end of the pipeline to SRCS_*
 SRCS_files = \
-$(foreach f,$(SRCS_PREPROCESS_rel),$(call MAKE_EncodeWord,$(SRCS_PREPROCESS_dir))/$(f))
+$(foreach f,$(SRCS_PREPROCESS_srcs),$(call MAKE_EncodeWord,$(SRCS_PREPROCESS_srcdir))/$(f))
 
-SRCS_files_preq = $(SRCS_PREPROCESS_preq)
+SRCS_files_preq = $(SRCS_PREPROCESS_srcpreq)
 
