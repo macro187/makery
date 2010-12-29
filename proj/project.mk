@@ -36,7 +36,11 @@ endif
 endif
 PROJ_dir_DESC ?= \
 The absolute path of the project directory, serves as its unique id
+ifneq ($(OS_ISMSYS),)
+PROJ_dir_DEFAULT := $(shell pwd -W | $(SHELL_CLEANPATH))
+else
 PROJ_dir_DEFAULT := $(shell pwd | $(SHELL_CLEANPATH))
+endif
 
 
 $(call PROJ_DeclareVar,PROJ_dir_asword)

@@ -15,6 +15,11 @@
 # ------------------------------------------------------------------------------
 
 
+# XXX
+SHELL_OS_NAME := $(shell uname -s)
+SHELL_ISMSYS := $(findstring MINGW,$(SHELL_OS_NAME))
+
+
 # ------------------------------------------------------------------------------
 # Shell versions of some MAKE_ functions
 # ------------------------------------------------------------------------------
@@ -63,8 +68,13 @@ endef
 # Absolute path, or blank if the dir doesn't exist
 # ------------------------------------------------------------------------------
 
+ifneq ($(SHELL_ISMSYS),)
+SHELL_DirToAbs = \
+$(MAKERY_Trace1)$(shell test -d $(call SHELL_Escape,$(1)) && cd $(call SHELL_Escape,$(1)) && pwd -W | $(SHELL_CLEANPATH))
+else
 SHELL_DirToAbs = \
 $(MAKERY_Trace1)$(shell test -d $(call SHELL_Escape,$(1)) && cd $(call SHELL_Escape,$(1)) && pwd | $(SHELL_CLEANPATH))
+endif
 
 
 # ------------------------------------------------------------------------------
@@ -83,6 +93,11 @@ $(MAKERY_Trace1)$(shell test -d $(call SHELL_Escape,$(1)) && cd $(call SHELL_Esc
 # specified in either argument does not exist
 # ------------------------------------------------------------------------------
 
+ifneq ($(SHELL_ISMSYS),)
+SHELL_RelDirToAbs = \
+$(MAKERY_Trace2)$(if $(1),$(if $(2),$(shell test -d $(call SHELL_Escape,$(2)) && cd $(call SHELL_Escape,$(2)) && test -d $(call SHELL_Escape,$(1)) && cd $(call SHELL_Escape,$(1)) && pwd -W | $(SHELL_CLEANPATH))))
+else
 SHELL_RelDirToAbs = \
 $(MAKERY_Trace2)$(if $(1),$(if $(2),$(shell test -d $(call SHELL_Escape,$(2)) && cd $(call SHELL_Escape,$(2)) && test -d $(call SHELL_Escape,$(1)) && cd $(call SHELL_Escape,$(1)) && pwd | $(SHELL_CLEANPATH))))
+endif
 
