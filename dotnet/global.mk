@@ -54,7 +54,7 @@ DOTNET_10_CSVERSION := 10
 
 ifneq ($(OS_ISCYGWIN)$(OS_ISMSYS),)
 DOTNET_ArgPath = \
-$(if $(filter MS,$(DOTNET_implementation)),$(call OS_WinPath,$(1)),$(1))
+$(if $(filter ms,$(DOTNET_implementation)),$(call OS_WinPath,$(1)),$(1))
 else
 DOTNET_ArgPath = $(1)
 endif

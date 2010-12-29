@@ -23,7 +23,7 @@
 OS_NAME := $(SHELL_OS_NAME)
 OS_ISCYGWIN := $(findstring CYGWIN,$(OS_NAME))
 OS_ISMSYS := $(SHELL_ISMSYS)
-OS_ISWINDOWS := $(findstring Windows,$(OS_NAME))$(OS_CYGWIN)$(OS_ISMSYS)
+OS_ISWINDOWS := $(findstring Windows,$(OS_NAME))$(OS_ISCYGWIN)$(OS_ISMSYS)
 
 
 # ------------------------------------------------------------------------------
