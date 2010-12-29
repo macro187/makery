@@ -96,7 +96,7 @@ $(call uc,$(DOTNET_implementation))
 # See DOTNET_GENERATIONS for a full list
 #
 DOTNET_CS_defines += \
-$(foreach gen,$(DOTNET_GENERATIONS),$(if $(call gte,$(DOTNET_generation),$(gen)),DOTNET$(gen)))
+$(if $(DOTNET_generation),$(foreach gen,$(DOTNET_GENERATIONS),$(if $(call gte,$(DOTNET_generation),$(gen)),DOTNET$(gen))))
 
 
 
