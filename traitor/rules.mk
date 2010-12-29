@@ -34,8 +34,8 @@ define RULE_COMMANDS
 	@echo ""
 	@echo "=> Running Traitor..."
 	$(call PROJ_GetVar,RUNNABLE_run,$(TRAITOR_PROJ)) $(MAKE_CHAR_BS)
-	$(call SHELL_Escape,$(TRAITOR_srcdir)) $(MAKE_CHAR_BS)
-	$$(foreach src,$$(TRAITOR_srcs),$$(call PROJ_RuleNewLine,$$(call SHELL_Escape,$$(call MAKE_DecodeWord,$$(src))))) $(MAKE_CHAR_BS)
+	$(call SHELL_Escape,$(call DOTNET_ArgPath,$(TRAITOR_srcdir))) $(MAKE_CHAR_BS)
+	$$(foreach src,$$(TRAITOR_srcs),$$(call PROJ_RuleNewLine,$$(call SHELL_Escape,$$(call DOTNET_ArgPath,$$(call MAKE_DecodeWord,$$(src)))))) $(MAKE_CHAR_BS)
 	$(call SHELL_Escape,$(TRAITOR_dir))
 	@echo "=> ...done"
 	@echo ""

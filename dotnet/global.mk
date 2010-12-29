@@ -49,6 +49,19 @@ DOTNET_10_CSVERSION := 10
 
 
 # ------------------------------------------------------------------------------
+# Command-line path arguments to .NET-generated programs
+# ------------------------------------------------------------------------------
+
+ifneq ($(OS_ISCYGWIN)$(OS_ISMSYS),)
+DOTNET_ArgPath = \
+$(if $(filter MS,$(DOTNET_implementation)),$(call OS_WinPath,$(1)),$(1))
+else
+DOTNET_ArgPath = $(1)
+endif
+
+
+
+# ------------------------------------------------------------------------------
 # MS
 # ------------------------------------------------------------------------------
 ifneq ($(OS_ISWINDOWS),)
