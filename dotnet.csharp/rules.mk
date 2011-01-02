@@ -30,7 +30,8 @@ define RULE_COMMANDS
 	$(DOTNET_CS_versionswitches) $(MAKE_CHAR_BS)
 	-target:$(if $(filter lib,$(DOTNET_outtype)),library,$(if $(filter exe,$(DOTNET_outtype)),exe)) $(MAKE_CHAR_BS)
 	-out:$(call SHELL_Escape,$(DOTNET_outfiles_main)) $(MAKE_CHAR_BS)
-	$(if $(filter 1,$(DOTNET_CS_debug)),-debug) $(MAKE_CHAR_BS)
+	$(if $(filter debug,$(DOTNET_debug)),-debug) $(MAKE_CHAR_BS)
+	$(if $(filter optimize,$(DOTNET_optimize)),-optimize+,-optimize-) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_checked)),-checked) $(MAKE_CHAR_BS)
 	$(if $(DOTNET_CS_warn),-warn:$(DOTNET_CS_warn)) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_werror)),-warnaserror) $(MAKE_CHAR_BS)
@@ -50,7 +51,7 @@ define RULE_COMMANDS
 	-nologo $(MAKE_CHAR_BS)
 	-target:$(if $(filter lib,$(DOTNET_outtype)),library,$(if $(filter exe,$(DOTNET_outtype)),exe)) $(MAKE_CHAR_BS)
 	-out:$(call SHELL_Escape,$(call OS_WinPath,$(DOTNET_outfiles_main))) $(MAKE_CHAR_BS)
-	$(if $(filter 1,$(DOTNET_CS_debug)),-debug) $(MAKE_CHAR_BS)
+	$(if $(filter debug,$(DOTNET_debug)),-debug) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_checked)),-checked) $(MAKE_CHAR_BS)
 	$(if $(DOTNET_CS_warn),-warn:$(DOTNET_CS_warn)) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_werror)),-warnaserror) $(MAKE_CHAR_BS)
@@ -69,7 +70,7 @@ define RULE_COMMANDS
 	$(DOTNET_CS_versionswitches) \
 	$(if $(filter lib,$(DOTNET_outtype)),-shared) \
 	-o $(call SHELL_Escape,$(DOTNET_out_main)) \
-	$(if $(filter 1,$(DOTNET_CS_debug)),-g) \
+	$(if $(filter debug,$(DOTNET_debug)),-g) \
 	$(if $(filter 1,$(DOTNET_CS_checked)),-fchecked) \
 	$(if $(DOTNET_CS_warn),$(if $(filter 0,$(DOTNET_CS_warn)),,-Wall)) \
 	$(if $(filter 1,$(DOTNET_CS_werror)),-Werror) \

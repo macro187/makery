@@ -38,12 +38,8 @@ $(call PROJ_DeclareVar,DOTNET_CS_defines)
 DOTNET_CS_defines_DESC ?= Preprocessor variables to define (list)
 
 
-$(call PROJ_DeclareVar,DOTNET_CS_debug)
-DOTNET_CS_debug_DESC ?= \
-Enable debug info compilation and DEBUG preprocessor var? (0|1)
-DOTNET_CS_debug_DEFAULT = 1
-
-DOTNET_CS_defines += $(if $(filter 1,$(DOTNET_CS_debug)),DEBUG)
+# Enable DEBUG define if we're in debug mode
+DOTNET_CS_defines += $(if $(filter debug,$(DOTNET_debug)),DEBUG)
 
 
 $(call PROJ_DeclareVar,DOTNET_CS_trace)
@@ -104,7 +100,7 @@ $(if $(DOTNET_generation),$(foreach gen,$(DOTNET_GENERATIONS),$(if $(call gte,$(
 $(call PROJ_DeclareVar,DOTNET_CS_out_debug)
 DOTNET_CS_out_debug_DESC ?= (read-only) Debug information output file
 DOTNET_CS_out_debug = \
-$(if $(filter mono,$(DOTNET_implementation)),$(if $(filter 1,$(DOTNET_CS_debug)),$(DOTNET_outfiles_main).mdb))$(if $(filter ms,$(DOTNET_implementation)),$(if $(filter 1,$(DOTNET_CS_debug)),$(DOTNET_outbase_abs).pdb))
+$(if $(filter mono,$(DOTNET_implementation)),$(if $(filter debug,$(DOTNET_debug)),$(DOTNET_outfiles_main).mdb))$(if $(filter ms,$(DOTNET_implementation)),$(if $(filter 1,$(DOTNET_CS_debug)),$(DOTNET_outbase_abs).pdb))
 
 DOTNET_outfiles += $(call MAKE_EncodeWord,$(DOTNET_CS_out_debug))
 

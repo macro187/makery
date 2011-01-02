@@ -51,6 +51,20 @@ No compiler for framework/generation found
 DOTNET_generation_MASKS += NOCOMPILER
 
 
+$(call CONFIG_DeclareField,DOTNET_debug)
+DOTNET_debug_DESC ?= Enable debug compilation, execution, etc? (debug|nodebug)
+DOTNET_debug_ALL = debug nodebug
+DOTNET_debug_VALIDATE = Required
+
+
+$(call CONFIG_DeclareField,DOTNET_optimize)
+DOTNET_optimize_DESC ?= \
+Enable optimized compilation, execution, etc? (optimize|nooptimize)
+#DOTNET_optimize_ALL = optimize nooptimize
+DOTNET_optimize_ALL = $(if $(filter debug,$(DOTNET_debug)),nooptimize optimize,optimize nooptimize)
+DOTNET_optimize_VALIDATE = Required
+
+
 
 # ------------------------------------------------------------------------------
 # Vars
@@ -63,7 +77,7 @@ DOTNET_required_generation_DEFAULT = $(firstword $(DOTNET_generation_ALL))
 $(call PROJ_DeclareVar,DOTNET_exec)
 DOTNET_exec_DESC ?= Program used to run .NET binaries
 DOTNET_exec_DEFAULT = \
-$(if $(filter $(DOTNET_implementation),mono),$(DOTNET_MONO) --debug)
+$(if $(filter $(DOTNET_implementation),mono),$(DOTNET_MONO) $(if $(filter debug,$(DOTNET_debug)),--debug) $(if $(filter optimize,$(DOTNET_optimize)),--optimize=all))
 DOTNET_exec_DEFAULT += \
 $(if $(filter $(DOTNET_implementation),pnet),$(DOTNET_ILRUN))
 
