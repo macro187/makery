@@ -129,14 +129,6 @@ SRCS_FIND_extension = cs
 
 # Hook up to Doxygen
 DOXYGEN_srcs += $(SRCS_files)
-DOXYGEN_srcs += \
-$(foreach d,$(call PROJ_GetVarRecursive,SRCS_PREPROCESS_dir,DOTNET_projlibs_abs), \
-$(foreach f, \
-$(shell \
-cd $(call SHELL_Escape,$(call MAKE_DecodeWord,$(d))) && find * -type f \
-| $(SHELL_CLEANPATH) \
-| $(SHELL_ENCODEWORD) \
-),$(d)/$(f)))
 DOXYGEN_depends += $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))
 DOXYGEN_defines += $(DOTNET_CS_defines)
 
