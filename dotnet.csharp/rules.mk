@@ -46,7 +46,7 @@ endif
 
 ifeq ($(DOTNET_implementation),ms)
 define RULE_COMMANDS
-	$(call SHELL_Escape,$(call OS_WinPath,$(DOTNET_CS_compiler))) $(MAKE_CHAR_BS)
+	$(call SHELL_Escape,$(DOTNET_CS_compiler)) $(MAKE_CHAR_BS)
 	$(DOTNET_CS_versionswitches) $(MAKE_CHAR_BS)
 	-nologo $(MAKE_CHAR_BS)
 	-target:$(if $(filter lib,$(DOTNET_outtype)),library,$(if $(filter exe,$(DOTNET_outtype)),exe)) $(MAKE_CHAR_BS)
