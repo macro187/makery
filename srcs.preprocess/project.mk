@@ -72,9 +72,9 @@ $(call PROJ_DeclareTargetVar,SRCS_PREPROCESS_rel)
 SRCS_PREPROCESS_rel_DESC ?= Final source files relative to SRCS_PREPROCESS_dir
 SRCS_PREPROCESS_rel = \
 $(shell \
-cd $(call SHELL_Escape,$(SRCS_PREPROCESS_dir)) && find * -type f \
-| $(SHELL_CLEANPATH) \
-| $(SHELL_ENCODEWORD) \
+cd $(call SYSTEM_ShellEscape,$(SRCS_PREPROCESS_dir)) && find * -type f \
+| $(SYSTEM_SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_ENCODEWORD) \
 )
 
 

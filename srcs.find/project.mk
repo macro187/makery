@@ -43,9 +43,9 @@ Located source code files, relative to _dir (list) (read-only)
 SRCS_FIND_rel = \
 $(filter-out $(SRCS_FIND_exclude), \
 $(shell \
-test -d $(call SHELL_Escape,$(SRCS_FIND_dir)) && cd $(call SHELL_Escape,$(SRCS_FIND_dir)) && find * $(if $(SRCS_FIND_recursive),, -maxdepth 0) -type f -name \*.$(SRCS_FIND_extension)\
-| $(SHELL_CLEANPATH) \
-| $(SHELL_ENCODEWORD) \
+test -d $(call SYSTEM_ShellEscape,$(SRCS_FIND_dir)) && cd $(call SYSTEM_ShellEscape,$(SRCS_FIND_dir)) && find * $(if $(SRCS_FIND_recursive),, -maxdepth 0) -type f -name \*.$(SRCS_FIND_extension)\
+| $(SYSTEM_SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_ENCODEWORD) \
 ) \
 )
 

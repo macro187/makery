@@ -25,7 +25,7 @@ RULE_OREQ := $(PERMUDA_dir)
 define RULE_COMMANDS
 	@echo ""
 	@echo "=> Cleaning old output files..."
-	rm -rf $$(call SHELL_Escape,$$(PERMUDA_dir))/*
+	rm -rf $$(call SYSTEM_ShellEscape,$$(PERMUDA_dir))/*
 	@echo "=> ...done"
 	@echo ""
 	@echo "=> Making subdirs..."
@@ -34,9 +34,9 @@ define RULE_COMMANDS
 	@echo ""
 	@echo "=> Running Permuda..."
 	$(call PROJ_GetVar,RUNNABLE_run,$(PERMUDA_PROJ)) $(MAKE_CHAR_BS)
-	$(call SHELL_Escape,$(call DOTNET_ArgPath,$(PERMUDA_srcdir))) $(MAKE_CHAR_BS)
-	$$(foreach src,$$(PERMUDA_srcs),$$(call PROJ_RuleNewLine,$$(call SHELL_Escape,$$(call DOTNET_ArgPath,$$(call MAKE_DecodeWord,$$(src)))))) $(MAKE_CHAR_BS)
-	$(call SHELL_Escape,$(call DOTNET_ArgPath,$(PERMUDA_dir)))
+	$(call SYSTEM_ShellEscape,$(call RUNNABLE_ArgPathAbs,$(PERMUDA_srcdir),$(PERMUDA_PROJ))) $(MAKE_CHAR_BS)
+	$$(foreach src,$$(PERMUDA_srcs),$$(call PROJ_RuleNewLine,$$(call SYSTEM_ShellEscape,$$(call RUNNABLE_ArgPath,$$(call MAKE_DecodeWord,$$(src)),$$(PERMUDA_PROJ))))) $(MAKE_CHAR_BS)
+	$(call SYSTEM_ShellEscape,$(call RUNNABLE_ArgPathAbs,$(PERMUDA_dir),$(PERMUDA_PROJ)))
 	@echo "=> ...done"
 	@echo ""
 	@echo "=> Updating dotfile..."

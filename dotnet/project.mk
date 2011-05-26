@@ -107,7 +107,7 @@ $(call PROJ_DeclareVar,DOTNET_projlibs_abs)
 DOTNET_projlibs_abs_DESC ?= \
 (read-only) Absolute paths to .NET library projects to build and link to (list)
 DOTNET_projlibs_abs_DEFAULT = \
-$(foreach proj,$(DOTNET_projlibs),$(call MAKE_EncodeWord,$(call SHELL_RelDirToAbs,$(call MAKE_DecodeWord,$(proj)),$(PROJ_dir))))
+$(foreach proj,$(DOTNET_projlibs),$(call MAKE_EncodeWord,$(call SYSTEM_RelDirToAbs,$(call MAKE_DecodeWord,$(proj)),$(PROJ_dir))))
 
 PROJ_required += $(DOTNET_projlibs)
 

@@ -22,5 +22,5 @@
 # Clean the main project / all cleanable projects
 .PHONY: clean cleanall
 clean cleanall:
-	$(SHELL_TARGETHEADING)
+	$(SYSTEM_SHELL_TARGETHEADING)
 

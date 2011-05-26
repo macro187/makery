@@ -28,11 +28,11 @@ $(call PROJ_DeclareVar,DOTNET_RESBIAN_srcs)
 DOTNET_RESBIAN_srcs_DESC ?= Resource source files (relative to source dir) (list)
 DOTNET_RESBIAN_srcs_DEFAULT = \
 $(shell \
-test -d $(call SHELL_Escape,$(DOTNET_RESBIAN_srcdir)) \
-&& cd $(call SHELL_Escape,$(DOTNET_RESBIAN_srcdir)) \
+test -d $(call SYSTEM_ShellEscape,$(DOTNET_RESBIAN_srcdir)) \
+&& cd $(call SYSTEM_ShellEscape,$(DOTNET_RESBIAN_srcdir)) \
 && find * -maxdepth 1 -type f \
-| $(SHELL_CLEANPATH) \
-| $(SHELL_ENCODEWORD) \
+| $(SYSTEM_SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_ENCODEWORD) \
 )
 
 

@@ -68,9 +68,9 @@ $(call PROJ_DeclareTargetVar,PERMUDA_rel)
 PERMUDA_rel_DESC ?= Permuda output files relative to PERMUDA_dir
 PERMUDA_rel = \
 $(shell \
-cd $(call SHELL_Escape,$(PERMUDA_dir)) && find * -type f -name \*.cs \
-| $(SHELL_CLEANPATH) \
-| $(SHELL_ENCODEWORD) \
+cd $(call SYSTEM_ShellEscape,$(PERMUDA_dir)) && find * -type f -name \*.cs \
+| $(SYSTEM_SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_ENCODEWORD) \
 )
 
 

@@ -33,7 +33,7 @@ MAKERY_GLOBALS += PROJ_PATHS
 # Errors
 # TODO If the project can't be found
 PROJ_Locate = \
-$(MAKERY_Trace1)$(if $(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call MAKE_EncodeWord,$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d)/$(1))))))),$(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call MAKE_EncodeWord,$(call SHELL_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1)))))),$(error Can not find project '$(1)' in PROJ_PATHS))
+$(MAKERY_Trace1)$(if $(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d)/$(1))))))),$(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1)))))),$(error Can not find project '$(1)' in PROJ_PATHS))
 
 
 
@@ -281,7 +281,7 @@ endef
 # Returns
 # The absolute path of the requested project, or blank if it doesn't exist
 PROJ_LocateFromHere = \
-$(MAKERY_Trace1)$(call SHELL_RelDirToAbs,$(1),$(PROJ_dir))
+$(MAKERY_Trace1)$(call SYSTEM_RelDirToAbs,$(1),$(PROJ_dir))
 
 
 
@@ -418,9 +418,9 @@ $(foreach r,$(RULE_REQS) $(call MAKE_EncodeWord,$(RULE_REQ)),\$(MAKE_CHAR_NEWLIN
 \
 $(if $(RULE_OREQS)$(RULE_OREQ),\$(MAKE_CHAR_NEWLINE)| $(foreach r,$(RULE_OREQS) $(call MAKE_EncodeWord,$(RULE_OREQ)),\$(MAKE_CHAR_NEWLINE)$(call MAKE_EncodePath,$(call MAKE_DecodeWord,$(r)))))
 
-	$$(SHELL_TARGETHEADING)
+	$$(SYSTEM_SHELL_TARGETHEADING)
 ifneq ($$(MAKERY_DEBUG),)
-	@echo $$(call SHELL_Escape,[newer prerequisites: $$(?)])
+	@echo $$(call SYSTEM_ShellEscape,[newer prerequisites: $$(?)])
 endif
 	
 $(RULE_COMMANDS)
@@ -478,11 +478,11 @@ endef
 # The global default target
 .PHONY: default
 default:
-	$(SHELL_TARGETHEADING)
+	$(SYSTEM_SHELL_TARGETHEADING)
 
 
 # Don't do anything
 .PHONY: null
 null:
-	$(SHELL_TARGETHEADING)
+	$(SYSTEM_SHELL_TARGETHEADING)
 

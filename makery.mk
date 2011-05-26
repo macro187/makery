@@ -36,10 +36,8 @@ include $(MAKERY)/gmsl/global.mk
 MODULES_GLOBAL += gmsl
 include $(MAKERY)/make/global.mk
 MODULES_GLOBAL += make
-include $(MAKERY)/shell/global.mk
-MODULES_GLOBAL += shell
-include $(MAKERY)/os/global.mk
-MODULES_GLOBAL += os
+include $(MAKERY)/system/global.mk
+MODULES_GLOBAL += system
 include $(MAKERY)/modules/global.mk
 MODULES_GLOBAL += modules
 include $(MAKERY)/proj/global.mk
@@ -59,8 +57,7 @@ endif #ndef MAKERY_BOOTSTRAPPED
 $(call MODULES_Use,makery)
 $(call MODULES_Use,gmsl)
 $(call MODULES_Use,make)
-$(call MODULES_Use,shell)
-$(call MODULES_Use,os)
+$(call MODULES_Use,system)
 $(call MODULES_Use,modules)
 $(call MODULES_Use,proj)
 

@@ -1,5 +1,6 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007 Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
+# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -16,16 +17,42 @@
 
 
 # ------------------------------------------------------------------------------
+# Convert a path fragment for use as a command-line argument to the runnable
+# program
+#
+# $1 - Path
+# $2 - The runnable program's PROJ_dir (optional, defaults to current)
+# ------------------------------------------------------------------------------
+
+RUNNABLE_ArgPath = \
+$(if $(call PROJ_GetVar,RUNNABLE_argpathfunc,$(if $(2),$(2),$(PROJ_dir))),,$(error No RUNNABLE_argpathfunc for $(if $(2),$(2),$(PROJ_dir)), perhaps its not runnable?))$(call $(call PROJ_GetVar,RUNNABLE_argpathfunc,$(if $(2),$(2),$(PROJ_dir))),$(1))
+
+
+
+# ------------------------------------------------------------------------------
+# Convert and map a full path for use as a command-line argument to the
+# runnable program
+#
+# $1 - Path
+# ------------------------------------------------------------------------------
+
+RUNNABLE_ArgPathAbs = \
+$(if $(call PROJ_GetVar,RUNNABLE_argpathabsfunc,$(if $(2),$(2),$(PROJ_dir))),,$(error No RUNNABLE_argpathabsfunc for $(if $(2),$(2),$(PROJ_dir)), perhaps its not runnable?))$(call $(call PROJ_GetVar,RUNNABLE_argpathabsfunc,$(if $(2),$(2),$(PROJ_dir))),$(1))
+
+
+
+# ------------------------------------------------------------------------------
 # Global targets
 # ------------------------------------------------------------------------------
 
 # Build a runnable version of the current project / all runnable projects
 .PHONY: runnable runnableall
 runnable runnableall:
-	$(SHELL_TARGETHEADING)
+	$(SYSTEM_SHELL_TARGETHEADING)
 
 # Run the current project / all runnable projects
 .PHONY: run runall
 run runall:
-	$(SHELL_TARGETHEADING)
+	$(SYSTEM_SHELL_TARGETHEADING)
+
 

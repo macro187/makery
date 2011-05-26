@@ -22,5 +22,5 @@
 # Test the current project / all testable projects
 .PHONY: test testall
 test testall:
-	$(SHELL_TARGETHEADING)
+	$(SYSTEM_SHELL_TARGETHEADING)
 

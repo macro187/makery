@@ -68,9 +68,9 @@ $(call PROJ_DeclareTargetVar,TRAITOR_rel)
 TRAITOR_rel_DESC ?= Traitor output files relative to TRAITOR_dir
 TRAITOR_rel = \
 $(shell \
-cd $(call SHELL_Escape,$(TRAITOR_dir)) && find * -type f -name \*.cs \
-| $(SHELL_CLEANPATH) \
-| $(SHELL_ENCODEWORD) \
+cd $(call SYSTEM_ShellEscape,$(TRAITOR_dir)) && find * -type f -name \*.cs \
+| $(SYSTEM_SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_ENCODEWORD) \
 )
 
 

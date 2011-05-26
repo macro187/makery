@@ -49,28 +49,15 @@ DOTNET_10_CSVERSION := 10
 
 
 # ------------------------------------------------------------------------------
-# Command-line path arguments to .NET-generated programs
-# ------------------------------------------------------------------------------
-
-ifneq ($(OS_ISCYGWIN)$(OS_ISMSYS),)
-DOTNET_ArgPath = \
-$(if $(filter ms,$(DOTNET_implementation)),$(call OS_WinPath,$(1)),$(1))
-else
-DOTNET_ArgPath = $(1)
-endif
-
-
-
-# ------------------------------------------------------------------------------
 # MS
 # ------------------------------------------------------------------------------
-ifneq ($(OS_ISWINDOWS),)
+ifneq ($(SYSTEM_ISWINDOWS),)
 
 
 #
 # Frameworks parent directory
 #
-DOTNET_MS_FRAMEWORKSDIR := $(OS_WINDIR)/Microsoft.NET/Framework
+DOTNET_MS_FRAMEWORKSDIR := $(SYSTEM_WINDIR)/Microsoft.NET/Framework
 
 #
 # Per-generation framework directories
@@ -81,56 +68,56 @@ DOTNET_MS_FRAMEWORKSDIR := $(OS_WINDIR)/Microsoft.NET/Framework
 
 DOTNET_MS_40_FRAMEWORKDIR := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
+$(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
 -name "v4.0*" \
-| $(SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_35_FRAMEWORKDIR := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
+$(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
 -name "v3.5*" \
-| $(SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_30_FRAMEWORKDIR := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
+$(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
 -name "v3.0*" \
-| $(SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_20_FRAMEWORKDIR := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
+$(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
 -name "v2.0*" \
-| $(SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_11_FRAMEWORKDIR := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
+$(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
 -name "v1.1*" \
-| $(SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_10_FRAMEWORKDIR := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
+$(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
 -name "v1.0*" \
-| $(SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 
@@ -139,44 +126,44 @@ $(call SHELL_Escape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 #
 DOTNET_MS_40_COMPILER_CS := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_40_FRAMEWORKDIR)) \
+$(call SYSTEM_ShellEscape,$(DOTNET_MS_40_FRAMEWORKDIR)) \
 -name "csc.exe" \
-| $(SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_35_COMPILER_CS := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_35_FRAMEWORKDIR)) \
+$(call SYSTEM_ShellEscape,$(DOTNET_MS_35_FRAMEWORKDIR)) \
 -name "csc.exe" \
-| $(SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_30_COMPILER_CS := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_30_FRAMEWORKDIR)) \
+$(call SYSTEM_ShellEscape,$(DOTNET_MS_30_FRAMEWORKDIR)) \
 -name "csc.exe" \
-| $(SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_20_COMPILER_CS := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_20_FRAMEWORKDIR)) \
+$(call SYSTEM_ShellEscape,$(DOTNET_MS_20_FRAMEWORKDIR)) \
 -name "csc.exe" \
-| $(SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_11_COMPILER_CS := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_11_FRAMEWORKDIR)) \
+$(call SYSTEM_ShellEscape,$(DOTNET_MS_11_FRAMEWORKDIR)) \
 -name "csc.exe" \
-| $(SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_10_COMPILER_CS := \
 $(shell find \
-$(call SHELL_Escape,$(DOTNET_MS_10_FRAMEWORKDIR)) \
+$(call SYSTEM_ShellEscape,$(DOTNET_MS_10_FRAMEWORKDIR)) \
 -name "csc.exe" \
-| $(SHELL_CLEANPATH) \
+| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 

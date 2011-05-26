@@ -22,5 +22,5 @@
 # Build the main project / all buildable projects
 .PHONY: everything everythingall
 everything everythingall:
-	$(SHELL_TARGETHEADING)
+	$(SYSTEM_SHELL_TARGETHEADING)
 

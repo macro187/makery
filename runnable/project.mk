@@ -1,5 +1,6 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007 Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
+# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -28,9 +29,15 @@ $(call PROJ_DeclareVar,RUNNABLE_run)
 RUNNABLE_run_DESC ?= Pre-escaped shell command to run the project in-place
 
 
-$(call PROJ_DeclareVar,RUNNABLE_pathargfunc)
-RUNNABLE_pathargfunc_DESC ?= Name of function to be called on all command-line arguments that are paths
-RUNNABLE_pathargfunc_DEFAULT = MAKE_Identity
+$(call PROJ_DeclareVar,RUNNABLE_argpathfunc)
+RUNNABLE_argpathfunc_DESC ?= Name of function to be called on all command-line arguments that are path fragments
+RUNNABLE_argpathfunc_DEFAULT = MAKE_Identity
+
+
+$(call PROJ_DeclareVar,RUNNABLE_argpathabsfunc)
+RUNNABLE_argpathabsfunc_DESC ?= Name of function to be called on all command-line arguments that are full paths
+RUNNABLE_argpathabsfunc_DEFAULT = MAKE_Identity
+
 
 
 

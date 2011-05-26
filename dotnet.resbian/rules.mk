@@ -22,7 +22,7 @@ RULE_OREQ := $(DOTNET_RESBIAN_outdir)
 
 define RULE_COMMANDS
 $(foreach c,$(DOTNET_RESBIAN_cultures),$(foreach t,$(call DOTNET_RESBIAN_GetTypes,$(c)),\
-$(MAKE_CHAR_NEWLINE)	$(call PROJ_GetVar,RUNNABLE_run,$(DOTNET_RESBIAN_PROJ)) compile $(call MAKE_CallForEach2,$(RUNNABLE_pathargfunc),SHELL_Escape,$(call DOTNET_RESBIAN_GetFilesCT,$(c),$(t)) $(call DOTNET_RESBIAN_GetOutfile,$(c),$(t)))\
+$(MAKE_CHAR_NEWLINE)	$(call PROJ_GetVar,RUNNABLE_run,$(DOTNET_RESBIAN_PROJ)) compile $(foreach f,$(call DOTNET_RESBIAN_GetFilesCT,$(c),$(t)) $(call MAKE_EncodeWord,$(call DOTNET_RESBIAN_GetOutfile,$(c),$(t))),$(call SYSTEM_ShellEscape,$(call RUNNABLE_ArgPathAbs,$(call MAKE_DecodeWord,$(f)),$(DOTNET_RESBIAN_PROJ))))\
 ))
 endef
 

@@ -22,5 +22,5 @@
 # Build the main project / all buildable projects
 .PHONY: build buildall
 build buildall:
-	$(SHELL_TARGETHEADING)
+	$(SYSTEM_SHELL_TARGETHEADING)
 

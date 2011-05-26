@@ -32,7 +32,7 @@ MODULES_Locate = \
 $(MAKERY_Trace1)$(if $(MODULES_LOCATION_$(1)),$(MODULES_LOCATION_$(1)),$(eval $(call MODULES_LOCATE_TEMPLATE,$(1)))$(MODULES_LOCATION_$(1)))
 
 define MODULES_LOCATE_TEMPLATE
-MODULES_LOCATION_$(1) := $$(call MAKE_DecodeWord,$$(firstword $$(foreach d,$$(MODULES_PATHS),$$(call MAKE_EncodeWord,$$(call SHELL_DirToAbs,$$(call MAKE_DecodeWord,$$(d))/$(1))))))
+MODULES_LOCATION_$(1) := $$(call MAKE_DecodeWord,$$(firstword $$(foreach d,$$(MODULES_PATHS),$$(call MAKE_EncodeWord,$$(call SYSTEM_DirToAbs,$$(call MAKE_DecodeWord,$$(d))/$(1))))))
 $$(call MAKERY_Debug,MODULES_LOCATION_$(1) = $$(MODULES_LOCATION_$(1)))
 endef
 

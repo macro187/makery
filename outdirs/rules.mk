@@ -18,7 +18,7 @@
 RULE_TARGETS := $(sort $(OUTDIRS_all))
 
 define RULE_COMMANDS
-	mkdir -p $$(call SHELL_Escape,$$@)
+	mkdir -p $$(call SYSTEM_ShellEscape,$$@)
 endef
 
 $(call PROJ_Rule)
@@ -30,7 +30,7 @@ RULE_TARGET := $(OUTDIRS_cleantarget)
 RULE_PHONY := 1
 
 define RULE_COMMANDS
-	rm -rf $$(call MAKE_CallForEach,SHELL_Escape,$$(sort $$(OUTDIRS_all)))
+	rm -rf $$(call MAKE_CallForEach,SYSTEM_ShellEscape,$$(sort $$(OUTDIRS_all)))
 endef
 
 $(call PROJ_Rule)
