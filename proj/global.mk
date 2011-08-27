@@ -152,10 +152,10 @@ $($(call PROJ_PersistentName,$(1),$(2)))
 PROJ_GetVarRecursive = \
 $(MAKERY_TraceBegin3) \
 $(sort \
-$(foreach proj,$(call PROJ_GetVar,$(if $(2),$(2),PROJ_required_abs),$(if $(3),$(3),$(PROJ_dir))), \
-$(if $(filter $(proj),$(if $(3),$(3),$(PROJ_dir)) $(4)),, \
-$(call MAKE_EncodeWord,$(call PROJ_GetVar,$(1),$(call MAKE_DecodeWord,$(proj)))) \
-$(call PROJ_GetVarRecursive,$(1),$(2),$(if $(3),$(3),$(PROJ_dir))$(call MAKE_DecodeWord,$(proj)),$(if $(3),$(3),$(PROJ_dir)) $(4) $(proj)) \
+$(foreach p,$(call PROJ_GetVar,$(if $(2),$(2),PROJ_required_abs),$(if $(3),$(3),$(PROJ_dir))), \
+$(if $(filter $(p),$(if $(3),$(3),$(PROJ_dir)) $(4)),, \
+$(call MAKE_EncodeWord,$(call PROJ_GetVar,$(1),$(call MAKE_DecodeWord,$(p)))) \
+$(call PROJ_GetVarRecursive,$(1),$(2),$(call MAKE_DecodeWord,$(p)),$(4) $(if $(3),$(3),$(PROJ_dir)) $(p)) \
 ) \
 ) \
 ) \
@@ -165,10 +165,10 @@ $(MAKERY_TraceEnd3)
 PROJ_GetMultiRecursive = \
 $(MAKERY_TraceBegin3) \
 $(sort \
-$(foreach proj,$(call PROJ_GetVar,$(if $(2),$(2),PROJ_required_abs),$(if $(3),$(3),$(PROJ_dir))), \
-$(if $(filter $(proj),$(if $(3),$(3),$(PROJ_dir)) $(4)),, \
-$(call PROJ_GetVar,$(1),$(call MAKE_DecodeWord,$(proj))) \
-$(call PROJ_GetMultiRecursive,$(1),$(2),$(call MAKE_DecodeWord,$(proj)),$(if $(3),$(3),$(PROJ_dir)) $(4) $(proj)) \
+$(foreach p,$(call PROJ_GetVar,$(if $(2),$(2),PROJ_required_abs),$(if $(3),$(3),$(PROJ_dir))), \
+$(if $(filter $(p),$(if $(3),$(3),$(PROJ_dir)) $(4)),, \
+$(call PROJ_GetVar,$(1),$(call MAKE_DecodeWord,$(p))) \
+$(call PROJ_GetMultiRecursive,$(1),$(2),$(call MAKE_DecodeWord,$(p)),$(4) $(if $(3),$(3),$(PROJ_dir)) $(p)) \
 ) \
 ) \
 ) \
