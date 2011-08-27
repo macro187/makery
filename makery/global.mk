@@ -57,29 +57,35 @@ ifneq ($(MAKERY_TRACE),)
 MAKERY_Trace = $(warning $(call MAKE_Message,$(0)()))
 MAKERY_Trace1 = $(warning $(call MAKE_Message,$(0)($(1))))
 MAKERY_Trace2 = $(warning $(call MAKE_Message,$(0)($(1),$(2))))
+MAKERY_Trace3 = $(warning $(call MAKE_Message,$(0)($(1),$(2),$(3))))
 else
 MAKERY_Trace =
 MAKERY_Trace1 =
 MAKERY_Trace2 =
+MAKERY_Trace3 =
 endif
 
 ifneq ($(MAKERY_TRACE),)
 MAKERY_TraceBegin = $(warning $(call MAKE_Message,Begin $(0)()))
 MAKERY_TraceBegin1 = $(warning $(call MAKE_Message,Begin $(0)($(1))))
 MAKERY_TraceBegin2 = $(warning $(call MAKE_Message,Begin $(0)($(1),$(2))))
+MAKERY_TraceBegin3 = $(warning $(call MAKE_Message,Begin $(0)($(1),$(2),$(3))))
 else
 MAKERY_TraceBegin =
 MAKERY_TraceBegin1 =
 MAKERY_TraceBegin2 =
+MAKERY_TraceBegin3 =
 endif
 
 ifneq ($(MAKERY_TRACE),)
 MAKERY_TraceEnd = $(warning $(call MAKE_Message,End $(0)()))
 MAKERY_TraceEnd1 = $(warning $(call MAKE_Message,End $(0)($(1))))
 MAKERY_TraceEnd2 = $(warning $(call MAKE_Message,End $(0)($(1),$(2))))
+MAKERY_TraceEnd3 = $(warning $(call MAKE_Message,End $(0)($(1),$(2),$(3))))
 else
 MAKERY_TraceEnd =
 MAKERY_TraceEnd1 =
 MAKERY_TraceEnd2 =
+MAKERY_TraceEnd3 =
 endif
 
