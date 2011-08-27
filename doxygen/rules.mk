@@ -28,6 +28,7 @@ $(call PROJ_Rule)
 
 RULE_TARGET := $(DOXYGEN_configfile)
 RULE_REQS := $(DOXYGEN_depends)
+RULE_REQS += $(call PROJ_GetVarRecursive,DOXYGEN_configfile,DOXYGEN_tagprojects_abs)
 RULE_OREQ := $(DOXYGEN_outdir)
 
 define RULE_COMMANDS
@@ -49,6 +50,12 @@ define RULE_COMMANDS
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "CASE_SENSE_NAMES=NO" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+
+# Tags
+	@echo "GENERATE_TAGFILE = \"$(call SYSTEM_ShellEscape,$(DOXYGEN_tagfile))\"" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+
+	$$(if $$(sort $$(DOXYGEN_tagprojects_abs)),$$(MAKE_CHAR_NEWLINE)	@echo "TAGFILES = \\" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))$$(foreach p,$$(call PROJ_GetVarRecursive,PROJ_dir,DOXYGEN_tagprojects_abs),$$(MAKE_CHAR_NEWLINE)	@echo "	\"$$(call SYSTEM_ShellEscape,$$(call PROJ_GetVar,DOXYGEN_tagfile,$$(call MAKE_DecodeWord,$$(p))))=$$(call SYSTEM_ShellEscape,$$(call PROJ_GetVar,DOXYGEN_outdir_html,$$(call MAKE_DecodeWord,$$(p))))/\" \\" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))$$(MAKE_CHAR_NEWLINE)	@echo "" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))
 
 # Parsing options
 	@echo "JAVADOC_AUTOBRIEF=YES" $(MAKE_CHAR_BS)

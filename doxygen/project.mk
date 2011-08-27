@@ -49,9 +49,37 @@ DOXYGEN_outdir_DEFAULT = $(OUTDIRS_base)/doxygen
 OUTDIRS_all += $(call MAKE_EncodeWord,$(DOXYGEN_outdir))
 
 
+$(call PROJ_DeclareVar,DOXYGEN_outdir_html)
+DOXYGEN_outdir_html_DESC ?= Directory to output html documentation to
+DOXYGEN_outdir_html_DEFAULT = $(DOXYGEN_outdir)/html
+
+
 $(call PROJ_DeclareVar,DOXYGEN_configfile)
 DOXYGEN_configfile_DESC ?= (read-only) Output doxygen config file
 DOXYGEN_configfile_DEFAULT = $(DOXYGEN_outdir)/doxygen.config
+
+
+$(call PROJ_DeclareVar,DOXYGEN_tagbase)
+DOXYGEN_tagbase_DESC ?= Unique filename base for doxygen tag file
+DOXYGEN_tagbase_DEFAULT = $(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(PROJ_dir))))
+
+
+$(call PROJ_DeclareVar,DOXYGEN_tagfile)
+DOXYGEN_tagfile_DESC ?= (read-only) Output doxygen tag file
+DOXYGEN_tagfile_DEFAULT = $(DOXYGEN_outdir)/$(DOXYGEN_tagbase).tag
+
+
+$(call PROJ_DeclareVar,DOXYGEN_tagprojects)
+DOXYGEN_tagprojects_DESC ?= \
+(append-only) Projects whose doxygen documentation should be referenced (list)
+
+$(call PROJ_DeclareVar,DOXYGEN_tagprojects_abs)
+DOXYGEN_tagprojects_abs_DESC ?= \
+(append-only) Absolute paths to projects whose doxygen documentation should be referenced (list)
+DOXYGEN_tagprojects_abs_DEFAULT = \
+$(foreach proj,$(DOXYGEN_tagprojects),$(call MAKE_EncodeWord,$(call SYSTEM_RelDirToAbs,$(call MAKE_DecodeWord,$(proj)),$(PROJ_dir))))
+
+PROJ_required += $(DOXYGEN_tagprojects)
 
 
 # Hook doxygen to the everything target

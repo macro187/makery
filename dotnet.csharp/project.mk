@@ -127,4 +127,5 @@ SRCS_FIND_extension = cs
 DOXYGEN_srcs += $(SRCS_files)
 DOXYGEN_depends += $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))
 DOXYGEN_defines += $(DOTNET_CS_defines)
+DOXYGEN_tagprojects += $(DOTNET_projlibs)
 
