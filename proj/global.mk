@@ -143,32 +143,36 @@ $($(call PROJ_PersistentName,$(1),$(2)))
 #
 # $1 Variable name
 # $2 Project list variable name
-# $3 PROJ_dir (optional, defaults to current)
-#
-# Eg.
-#
-#   $(call PROJ_GetVarRecursive,MyVar,PROJ_required)
-#
-# ...gets the value of $(MyVar) from all required projects, plus all their
-# required projects, and so on.
+# $3 PROJ_dir
+#    (optional, defaults to current)
+# $4 List of PROJ_dir's already visited
+#    (internal, optional, to handle circular references)
 
 # For single-value variables
 PROJ_GetVarRecursive = \
+$(MAKERY_TraceBegin3) \
 $(sort \
-$(foreach proj,$(call PROJ_GetVar,$(2),$(if $(3),$(3),$(PROJ_dir))), \
+$(foreach proj,$(call PROJ_GetVar,$(if $(2),$(2),PROJ_required_abs),$(if $(3),$(3),$(PROJ_dir))), \
+$(if $(filter $(proj),$(if $(3),$(3),$(PROJ_dir)) $(4)),, \
 $(call MAKE_EncodeWord,$(call PROJ_GetVar,$(1),$(call MAKE_DecodeWord,$(proj)))) \
-$(call PROJ_GetVarRecursive,$(1),$(2),$(call MAKE_DecodeWord,$(proj))) \
+$(call PROJ_GetVarRecursive,$(1),$(2),$(if $(3),$(3),$(PROJ_dir))$(call MAKE_DecodeWord,$(proj)),$(if $(3),$(3),$(PROJ_dir)) $(4) $(proj)) \
 ) \
-)
+) \
+) \
+$(MAKERY_TraceEnd3)
 
 # For list variables
 PROJ_GetMultiRecursive = \
+$(MAKERY_TraceBegin3) \
 $(sort \
-$(foreach proj,$(call PROJ_GetVar,$(2),$(if $(3),$(3),$(PROJ_dir))), \
+$(foreach proj,$(call PROJ_GetVar,$(if $(2),$(2),PROJ_required_abs),$(if $(3),$(3),$(PROJ_dir))), \
+$(if $(filter $(proj),$(if $(3),$(3),$(PROJ_dir)) $(4)),, \
 $(call PROJ_GetVar,$(1),$(call MAKE_DecodeWord,$(proj))) \
-$(call PROJ_GetMultiRecursive,$(1),$(2),$(call MAKE_DecodeWord,$(proj))) \
+$(call PROJ_GetMultiRecursive,$(1),$(2),$(call MAKE_DecodeWord,$(proj)),$(if $(3),$(3),$(PROJ_dir)) $(4) $(proj)) \
 ) \
-)
+) \
+) \
+$(MAKERY_TraceEnd3)
 
 
 
