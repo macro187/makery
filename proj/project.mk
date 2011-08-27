@@ -51,3 +51,10 @@ PROJ_PROJECTS += $(PROJ_dir_asword)
 $(call PROJ_DeclareVar,PROJ_required)
 PROJ_required_DESC ?= Other projects that (may be) required by this one (list)
 
+
+$(call PROJ_DeclareVar,PROJ_required_abs)
+PROJ_required_abs_DESC ?= \
+(read-only) Absolute paths to projects that (may be) required by this one (list)
+PROJ_required_abs_DEFAULT = \
+$(MAKERY_TraceBegin)$(foreach proj,$(PROJ_required),$(call MAKE_EncodeWord,$(call PROJ_LocateFromHere,$(call MAKE_DecodeWord,$(proj)))))$(MAKERY_TraceEnd)
+
