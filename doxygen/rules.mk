@@ -57,7 +57,19 @@ define RULE_COMMANDS
 
 	$$(if $$(sort $$(DOXYGEN_tagprojects_abs)),$$(MAKE_CHAR_NEWLINE)	@echo "TAGFILES = \\" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))$$(foreach p,$$(call PROJ_GetVarRecursive,PROJ_dir,DOXYGEN_tagprojects_abs),$$(MAKE_CHAR_NEWLINE)	@echo "	\"$$(call SYSTEM_ShellEscape,$$(call PROJ_GetVar,DOXYGEN_tagfile,$$(call MAKE_DecodeWord,$$(p))))=$$(call SYSTEM_ShellEscape,$$(call PROJ_GetVar,DOXYGEN_outdir_html,$$(call MAKE_DecodeWord,$$(p))))/\" \\" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))$$(MAKE_CHAR_NEWLINE)	@echo "" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))
 
+# Project options
+	@echo "PROJECT_NAME=\"\"" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "PROJECT_BRIEF=\"\"" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+
 # Parsing options
+	@echo "MARKDOWN_SUPPORT=YES" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "WARNINGS=YES" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "WARN_IF_DOC_ERROR=YES" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "JAVADOC_AUTOBRIEF=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "EXTRACT_ALL=YES" $(MAKE_CHAR_BS)
@@ -67,14 +79,14 @@ define RULE_COMMANDS
 	@echo "EXTRACT_LOCAL_CLASSES=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 
-# HTML options
-	@echo "HTML_COLORSTYLE_SAT=0" $(MAKE_CHAR_BS)
+# Generation options
+	@echo "ALPHABETICAL_INDEX=NO" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-	@echo "HTML_DYNAMIC_SECTIONS=YES" $(MAKE_CHAR_BS)
+	@echo "TAB_SIZE=4" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-	@echo "GENERATE_TREEVIEW=YES" $(MAKE_CHAR_BS)
+	@echo "INLINE_INHERITED_MEMB=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-	@echo "SOURCE_BROWSER=NO" $(MAKE_CHAR_BS)
+	@echo "INHERIT_DOCS=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "INLINE_INFO=NO" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
@@ -84,13 +96,41 @@ define RULE_COMMANDS
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "SHOW_USED_FILES=NO" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-	@echo "SHOW_DIRECTORIES=NO" $(MAKE_CHAR_BS)
-		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "HIDE_SCOPE_NAMES=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "SEPARATE_MEMBER_PAGES=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "REPEAT_BRIEF=NO" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "ALWAYS_DETAILED_SEC=NO" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "GENERATE_LATEX=NO" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "GENERATE_MAN=NO" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "GENERATE_RTF=NO" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+
+# Source browsing options
+	@echo "SOURCE_BROWSER=YES" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "REFERENCED_BY_RELATION=YES" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "REFERENCES_RELATION=YES" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "INLINE_SOURCES=YES" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+
+# HTML options
+	@echo "HTML_COLORSTYLE_SAT=0" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "HTML_ALIGN_MEMBERS=YES" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "HTML_DYNAMIC_SECTIONS=YES" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "GENERATE_TREEVIEW=YES" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "SHOW_DIRECTORIES=NO" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 
 # Graphviz options
@@ -109,8 +149,8 @@ ifneq ($$(DOXYGEN_DOT),)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "UML_LOOK=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-#	@echo "CLASS_GRAPH=YES" $(MAKE_CHAR_BS)
-#		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "CLASS_GRAPH=YES" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "GRAPHICAL_HIERARCHY=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "COLLABORATION_GRAPH=NO" $(MAKE_CHAR_BS)
@@ -121,12 +161,6 @@ else
 	@echo "HAVE_DOT=NO" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 endif
-
-# Project options
-	@echo "PROJECT_NAME=\"\"" $(MAKE_CHAR_BS)
-		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-	@echo "PROJECT_BRIEF=\"\"" $(MAKE_CHAR_BS)
-		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 
 # Input files
 	@echo "INPUT = \\" $(MAKE_CHAR_BS)
