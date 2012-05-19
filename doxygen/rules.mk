@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------
 # Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
-# Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
+# Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above

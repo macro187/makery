@@ -10,8 +10,7 @@
 # http://gmsl.sourceforge.net/
 #
 #
-# Adapted for use in Makery by
-# Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
+# Adapted for use in Makery by Ron MacNeil <macro@hotmail.com>
 #
 # This file contains the full contents of the "gmsl" and "__gmsl" files
 # from the GMSL distribution, with minor modifications.
