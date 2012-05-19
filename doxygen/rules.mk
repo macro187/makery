@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro187 AT users DOT sourceforge DOT net>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -68,13 +68,13 @@ define RULE_COMMANDS
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 
 # HTML options
+	@echo "HTML_COLORSTYLE_SAT=0" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "HTML_DYNAMIC_SECTIONS=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "GENERATE_TREEVIEW=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-	@echo "SOURCE_BROWSER=YES" $(MAKE_CHAR_BS)
-		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-	@echo "OPTIMIZE_OUTPUT_JAVA=YES" $(MAKE_CHAR_BS)
+	@echo "SOURCE_BROWSER=NO" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "INLINE_INFO=NO" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
@@ -82,9 +82,9 @@ define RULE_COMMANDS
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "SORT_BRIEF_DOCS=NO" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-	@echo "SHOW_USED_FILES=YES" $(MAKE_CHAR_BS)
+	@echo "SHOW_USED_FILES=NO" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-	@echo "SHOW_DIRECTORIES=YES" $(MAKE_CHAR_BS)
+	@echo "SHOW_DIRECTORIES=NO" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "HIDE_SCOPE_NAMES=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
@@ -97,6 +97,10 @@ define RULE_COMMANDS
 ifneq ($$(DOXYGEN_DOT),)
 	@echo "HAVE_DOT=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "DOT_IMAGE_FORMAT=svg" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "INTERACTIVE_SVG=YES" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "DOT_MULTI_TARGETS=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "DOT_TRANSPARENT=YES" $(MAKE_CHAR_BS)
@@ -105,11 +109,11 @@ ifneq ($$(DOXYGEN_DOT),)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "UML_LOOK=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-	@echo "CLASS_GRAPH=YES" $(MAKE_CHAR_BS)
-		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+#	@echo "CLASS_GRAPH=YES" $(MAKE_CHAR_BS)
+#		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "GRAPHICAL_HIERARCHY=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-	@echo "COLLABORATION_GRAPH=YES" $(MAKE_CHAR_BS)
+	@echo "COLLABORATION_GRAPH=NO" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "TEMPLATE_RELATIONS=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
@@ -117,6 +121,12 @@ else
 	@echo "HAVE_DOT=NO" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 endif
+
+# Project options
+	@echo "PROJECT_NAME=\"\"" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "PROJECT_BRIEF=\"\"" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 
 # Input files
 	@echo "INPUT = \\" $(MAKE_CHAR_BS)
