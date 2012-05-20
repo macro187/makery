@@ -1,14 +1,184 @@
 
+--------------------------------------------------------------------------------
+    Introduction
+--------------------------------------------------------------------------------
 
-    README
-
-    "What is this thing?"
+    TODO
 
 
 --------------------------------------------------------------------------------
+    Requirements
+--------------------------------------------------------------------------------
+
+    Any UNIX-like system with a Bourne shell and GNU Make, including
+    Microsoft Windows via Cygwin, MSYS, or SFU.
 
 
-    Copyright (c) 2007, 2008, 2009, 2010, 2011
+    Well-tested platforms include:
+
+    -   Gentoo Linux
+
+    -   Cygwin on Windows XP
+
+    -   MSYS on Windows XP
+
+    -   SFU on Windows XP
+
+
+    Also known to work on:
+
+    -   Ubuntu Linux
+
+    -   Fedora Linux
+
+    -   FreeBSD
+
+    -   Mac OSX
+
+
+--------------------------------------------------------------------------------
+    Support
+--------------------------------------------------------------------------------
+
+    .NET
+
+    -   Libraries, console applications, and Doxygen documentation
+
+    -   Microsoft .NET, Mono, GNU Portable.NET
+
+    -   .NET generations 1.0 through 4.0
+
+    -   C# and C (Portable.NET only)
+
+    -   Localised resource compilation and embedding using Resbian resource
+        tool from Halfdecent Sharp
+        (http://github.com/macro187/halfdecentsharp)
+
+    -   Mono support tested on Linux and FreeBSD
+
+    -   Microsoft .NET support tested on Windows XP under Cygwin, MSYS, and
+        SFU
+
+
+--------------------------------------------------------------------------------
+    Modules
+--------------------------------------------------------------------------------
+
+    Modules group related build functionality into self-contained, reusable,
+    redistributable packages.  For example, different modules might contain
+    functionality to:
+
+    -   Locate source code files
+
+    -   Create rules that perform preprocessing on source code files
+
+    -   Locate compilers and create rules that use them to compile source
+        code files
+
+    -   Locate linkers and create rules that use them to link object files
+        into programs or libraries
+
+    -   Locate document processing programs and create rules that use them
+        to generate documents from source markup
+
+    -   Make projects executable in-place by assembling required artifacts
+        from other projects
+
+    -   Package artifacts from multiple projects into distribution archives
+
+
+    Modules may depend on functionality from other modules.  Each module
+    declares its direct requirements, and Makery recursively resolves
+    dependencies and sources the required modules.
+
+
+--------------------------------------------------------------------------------
+    Projects
+--------------------------------------------------------------------------------
+
+    Projects are the logical units that one builds with Makery.  Generally,
+    a project consists of a Makefile plus source materials for building one
+    or more closely-related output artifacts such as an executable or a
+    library.
+
+    Because Makery is designed to be extended through its module system to
+    build all kinds of different artifacts, the exact definition of a
+    project varies.  Typical examples of kinds of projects might include:
+
+    -   A docbook book
+
+    -   A .NET library written in C#
+
+    -   A program written in C
+
+    -   A suite of related C# programs, each implemented in its own project,
+        distributed together as a package
+
+
+    Often, projects depend on other projects.  For example, a program may
+    require one or more libraries.  Those libraries may themselves require
+    other libraries, and so on.  Projects declare their direct requirements,
+    and Makery includes a mechanism that recursively resolves dependencies
+    and sources all required projects.
+
+
+--------------------------------------------------------------------------------
+    Configs
+--------------------------------------------------------------------------------
+
+    A given project can take on slightly different flavours depending on
+    build options or conditions under which the build occurs.  Each project
+    can be thought of as having multiple instances, one for each unique
+    configuration.
+
+
+    Makery provides a framework for defining different config fields,
+    available options for each, masks for currently-unavailable options,
+    etc.  At build time, default options are computed for each field,
+    resulting in a default config, which is used for the build.  These
+    default options can then be overridden on the build command line where
+    desired.
+
+
+    Examples of config fields include:
+
+    -   Target operating system
+
+    -   Target processor architecture
+
+    -   Brand of compiler
+
+    -   Whether debug code, symbols, etc. are present
+
+
+--------------------------------------------------------------------------------
+    More Information
+--------------------------------------------------------------------------------
+
+    README.INSTALL explains how to install Makery and Makery Packages on
+    your system.
+
+    README.GNUMAKE is a quick review of how GNU Make works.
+
+    README.HACKING which explains how Makery works and how to hack on it.
+
+
+--------------------------------------------------------------------------------
+    Acknowledgements
+--------------------------------------------------------------------------------
+
+    Requires GNU Make from the GNU Project
+    (http://www.gnu.org/software/make/)
+
+    Includes and uses the GNU Make Standard Library from John Graham-Cumming
+    (http://gmsl.sourceforge.net/)
+
+
+--------------------------------------------------------------------------------
+    Licence
+--------------------------------------------------------------------------------
+
+    Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
     Ron MacNeil <macro@hotmail.com>
 
     Permission to use, copy, modify, and distribute this software for any
@@ -23,150 +193,4 @@
     ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-
---------------------------------------------------------------------------------
-
-
-x.  README Index
-
-    x.  README (this file)
-
-        ...gives a conceptual overview of what Makery is, and how to use
-        it to build things.
-
-    x.  README.INSTALL
-
-        ...explains how to install Makery and Makery Packages on your
-        system.
-
-    x.  README.GNUMAKE
-
-        ...is a quick review of how GNU Make works, a prerequisite
-        for...
-
-    x.  README.HACKING
-
-        ...which explains how Makery works and how to hack it or modules
-        for it.
-
-
-x.  Introduction
-
-    Makery is a structured and modular build system framework on top of GNU
-    Make.
-
-    GNU Make provides the basic building blocks:
-
-    x.  Functions
-
-        Built-in and user-defined, providing conditionals, loops, and
-        access to the shell.
-
-    x.  Variables
-
-        In two flavors:  Evaluate-at-assignment and evaluate-at-use.
-
-    x.  Rules
-
-        Which can be constructed using functions and variables.
-
-    Makery takes these basic "elements" and divides them along two lines:
-    Structural and modular.
-
-
-x.  Structure
-
-    Structure divides elements by context, or what they apply to.
-
-    x.  Global
-
-        Elements that apply to the entire build are "global" elements.
-
-
-    x.  Projects
-
-        The most visible structural division is the "project".  Makery
-        encourages relatively fine-grained projects, usually one program
-        or library to a project.  All projects involved in a build are
-        processed within the same Make invocation.  (Makery eschews
-        recursive make)  Among other benefits, this allows projects to
-        access each others' variables for use in creating fine-grained
-        cross-project dependencies.  To enable this, Makery provides a
-        mechanism for insulating different projects' variables from each
-        other.
-
-        "Projects" are the logical units that one builds with Makery.
-        Makery is not limited to building one kind of project, so what
-        exactly defines a "project" can vary.  Typical examples of
-        "projects" might be:
-
-        - A docbook book
-        - A .NET library written in C#
-        - A program written in C
-        - A suite of C# programs (each of which is implemented in it's
-          own project)
-
-        Often, projects depend on other projects.  For example, a
-        program may require one or more libraries.  Those libraries may
-        themselves require other libraries, and so on.
-
-        In Makery, a project declares a list of other projects it
-        directly requires, and Makery takes care of recursively sourcing
-        all required projects into the build.
-
-
-    x.  Configs
-
-        A given project can take on slightly different flavours
-        depending on build options or conditions under which the build
-        occurs.  Each project can be thought of as having multiple
-        instances, one for each different configuration.
-
-        Makery provides a framework for defining different config
-        "fields", available options for each, masks for
-        currently-unavailable options, etc.  At build time, default
-        options are computed for each field, resulting in a default
-        config, which is used for the build.*  Config values can, of
-        course, be overridden per-build on the command line.
-
-        Examples of config fields include:
-
-        -   Target operating system
-        -   Target processor architecture
-        -   Brand of compiler
-        -   Whether debug code, symbols, etc. are present
-
-        * Currently, only a single config for each project is computed
-        and used per-build.  This may change in future, allowing for
-        multiple permutations of the same project in the same build.
-
-
-x.  Modules
-
-    Module divisions cut across the above structural divisions, grouping
-    related elements.
-
-    A module generally implements a particular step of a build process.
-    At the global level, it may provide functions or global constants
-    applicable across different projects.  At the project level, it
-    defines related variables which then uses to generate rules.
-
-    For example, different modules might:
-
-    -   Locate source code files
-    -   Create rules that perform preprocessing on source code files
-    -   Locate compiler(s), and create rules that use them to compile
-        source code files
-    -   Locate linker(s), and create rules that use them to link object
-        files into programs or libraries
-    -   Locate TeX program(s), and create rules that use them to
-        generate documents
-    -   Create a runnable version of the project by pulling required
-        libraries from other projects
-    -   Package multiple programs/libraries from other projects into an
-        archive for distribution
-
-    Modules may depend on functionality from other modules to do their job.
-    Each module declares a list of other modules it requires, and Makery
-    takes care of recursively sourcing all required modules.
 
