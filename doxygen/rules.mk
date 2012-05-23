@@ -124,13 +124,9 @@ define RULE_COMMANDS
 # HTML options
 	@echo "HTML_COLORSTYLE_SAT=0" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-	@echo "HTML_ALIGN_MEMBERS=YES" $(MAKE_CHAR_BS)
-		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "HTML_DYNAMIC_SECTIONS=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "GENERATE_TREEVIEW=YES" $(MAKE_CHAR_BS)
-		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-	@echo "SHOW_DIRECTORIES=NO" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 
 # Graphviz options
