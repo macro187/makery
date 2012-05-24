@@ -3,18 +3,17 @@
     Introduction
 --------------------------------------------------------------------------------
 
-    TODO
+    [TODO]
 
 
 --------------------------------------------------------------------------------
-    Requirements
+    Platform Support
 --------------------------------------------------------------------------------
 
-    Any UNIX-like system with a Bourne shell and GNU Make, including
-    Microsoft Windows via Cygwin, MSYS, or SFU.
+    Any system with a Bourne shell and a recent version of GNU Make.
 
 
-    Well-tested platforms include:
+    Well-Tested
 
     -   Gentoo Linux
 
@@ -22,10 +21,8 @@
 
     -   MSYS on Windows XP
 
-    -   SFU on Windows XP
 
-
-    Also known to work on:
+    Known To Work
 
     -   Ubuntu Linux
 
@@ -36,28 +33,52 @@
     -   Mac OSX
 
 
+    Unmaintained
+
+    -   SFU on Windows XP
+
+
 --------------------------------------------------------------------------------
-    Support
+    .NET Support
 --------------------------------------------------------------------------------
 
-    .NET
+    Project Types
 
-    -   Libraries, console applications, and Doxygen documentation
+    -   Libraries
 
-    -   Microsoft .NET, Mono, GNU Portable.NET
+    -   Console applications
 
-    -   .NET generations 1.0 through 4.0
 
-    -   C# and C (Portable.NET only)
+    Frameworks
 
-    -   Localised resource compilation and embedding using Resbian resource
-        tool from Halfdecent Sharp
+    -   Microsoft .NET
+
+    -   Mono
+
+    -   GNU Portable.NET (unmaintained)
+
+
+    Dotnet Versions
+
+    -   1.0 through 4.0
+
+
+    Documentation
+
+    -   Doxygen
+
+
+    Languages
+
+    -   C#
+
+    -   C (Unmaintained, GNU Portable.NET only)
+
+
+    Localised Embedded Resources
+
+    -   Using Resbian tool from Halfdecent Sharp
         (http://github.com/macro187/halfdecentsharp)
-
-    -   Mono support tested on Linux and FreeBSD
-
-    -   Microsoft .NET support tested on Windows XP under Cygwin, MSYS, and
-        SFU
 
 
 --------------------------------------------------------------------------------
@@ -86,7 +107,6 @@
 
     -   Package artifacts from multiple projects into distribution archives
 
-
     Modules may depend on functionality from other modules.  Each module
     declares its direct requirements, and Makery recursively resolves
     dependencies and sources the required modules.
@@ -114,7 +134,6 @@
     -   A suite of related C# programs, each implemented in its own project,
         distributed together as a package
 
-
     Often, projects depend on other projects.  For example, a program may
     require one or more libraries.  Those libraries may themselves require
     other libraries, and so on.  Projects declare their direct requirements,
@@ -131,14 +150,12 @@
     can be thought of as having multiple instances, one for each unique
     configuration.
 
-
     Makery provides a framework for defining different config fields,
     available options for each, masks for currently-unavailable options,
     etc.  At build time, default options are computed for each field,
     resulting in a default config, which is used for the build.  These
     default options can then be overridden on the build command line where
     desired.
-
 
     Examples of config fields include:
 
