@@ -3,14 +3,28 @@
     Introduction
 --------------------------------------------------------------------------------
 
-    [TODO]
+    Makery is a build system that is:
+
+    -   Lightweight.  Requires only GNU Make, a Bourne shell, and standard
+        command-line tools.
+
+    -   Multi-project.  Handles multiple projects within a single Make
+        invocation. [1]
+
+    -   Modular.  Functionality is implemented in modules, which can depend
+        on one another.
+
+
+    [1] See http://miller.emu.id.au/pmiller/books/rmch/
+
 
 
 --------------------------------------------------------------------------------
     Platform Support
 --------------------------------------------------------------------------------
 
-    Any system with a Bourne shell and a recent version of GNU Make.
+    Any system with a recent version of GNU Make, a Bourne shell, and
+    standard command-line tools.
 
 
     Well-Tested
@@ -36,6 +50,7 @@
     Unmaintained
 
     -   SFU on Windows XP
+
 
 
 --------------------------------------------------------------------------------
@@ -81,6 +96,7 @@
         (http://github.com/macro187/halfdecentsharp)
 
 
+
 --------------------------------------------------------------------------------
     Modules
 --------------------------------------------------------------------------------
@@ -112,6 +128,7 @@
     dependencies and sources the required modules.
 
 
+
 --------------------------------------------------------------------------------
     Projects
 --------------------------------------------------------------------------------
@@ -141,6 +158,7 @@
     and sources all required projects.
 
 
+
 --------------------------------------------------------------------------------
     Configs
 --------------------------------------------------------------------------------
@@ -168,6 +186,7 @@
     -   Whether debug code, symbols, etc. are present
 
 
+
 --------------------------------------------------------------------------------
     More Information
 --------------------------------------------------------------------------------
@@ -180,6 +199,7 @@
     README.HACKING which explains how Makery works and how to hack on it.
 
 
+
 --------------------------------------------------------------------------------
     Acknowledgements
 --------------------------------------------------------------------------------
@@ -189,6 +209,7 @@
 
     Includes and uses the GNU Make Standard Library from John Graham-Cumming
     (http://gmsl.sourceforge.net/)
+
 
 
 --------------------------------------------------------------------------------
