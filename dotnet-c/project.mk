@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -53,7 +53,7 @@ DOTNET_C_werror_DESC ?= Treat compiler warnings as errors? (0|1)
 DOTNET_C_werror_DEFAULT = 1
 
 
-# Hook up srcs.find
+# Hook up srcs-find
 # TODO Move somewhere else?
 SRCS_FIND_extension = c
 SRCS_files = $(SRCS_FIND_files)

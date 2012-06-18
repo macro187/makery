@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,5 +16,6 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,srcs.preprocess)
+$(call MODULES_Use,dotnet-lib-project)
+$(call MODULES_Use,dotnet-runnable)
 

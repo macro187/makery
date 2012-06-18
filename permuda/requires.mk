@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2010, 2011
+# Copyright (c) 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,6 +16,6 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,srcs.preprocess)
+$(call MODULES_Use,srcs-preprocess)
 $(call MODULES_Use,outdirs)
 

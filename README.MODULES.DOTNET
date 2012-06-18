@@ -8,7 +8,7 @@
 --------------------------------------------------------------------------------
 
 
-    Copyright (c) 2007, 2008, 2009, 2010, 2011
+    Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
     Ron MacNeil <macro@hotmail.com>
 
     Permission to use, copy, modify, and distribute this software for any
@@ -46,26 +46,26 @@ x.  Modules
     language-specific module to implement.
 
 
-    x.  dotnet.c
+    x.  dotnet-c
 
     Language-specific module for compiling C to dotnet using Portable.NET's
     "cscc".
 
 
-    x.  dotnet.copylibs
+    x.  dotnet-copylibs
 
     Pulls a projects' binaries plus those of all required library projects
     into one place.  If the project is an .exe, this enables it be run
     in-place.
 
 
-    x.  dotnet.csharp
+    x.  dotnet-csharp
 
     Language-specific module for compiling C#.  Supports Microsoft's "csc",
     Mono's "mcs", and Portable.NET's "cscc".
 
 
-    x.  dotnet.exe.project
+    x.  dotnet-exe-project
 
     Meta module that pulls together everything you usually want for a
     dotnet .exe program.  You must still additionally specify a
@@ -73,7 +73,7 @@ x.  Modules
     written in.
 
 
-    x.  dotnet.lib.project
+    x.  dotnet-lib-project
 
     Meta module that pulls together everything you usually want for a
     dotnet .dll library.  You must still additionally specify a
@@ -81,7 +81,7 @@ x.  Modules
     written in.
 
 
-    x.  dotnet.resbian
+    x.  dotnet-resbian
 
     Support for compiling various kind of files into .resources files using
     the "Resbian" tool.  Also arranges for those .resources files to be
@@ -98,7 +98,7 @@ x.  Modules
     be broken up by culture and by the .NET type they apply to, which means
     a separate .resources file embedded per culture/type combination.  In
     addition, the resource items themselves can be of different types (eg.
-    strings, images, etc.).  The dotnet.resbian module can handle all this
+    strings, images, etc.).  The dotnet-resbian module can handle all this
     for you automatically by way of a subdirectory and filename convention
     for your resource source files:
 
@@ -148,7 +148,7 @@ x.  Modules
     example.
 
 
-    x.  dotnet.runnable
+    x.  dotnet-runnable
 
     Hooks an .exe-producing dotnet project to the generic "runnable" target,
     allowing it to be run in a generic fashion with the "run" target or the

@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -61,6 +61,6 @@ SRCS_FIND_preq_DESC ?= Prerequisite version(s) of _files (list) (read-only)
 SRCS_FIND_preq = $(SRCS_FIND_files)
 
 
-# Hook up to srcs.preprocess
+# Hook up to srcs-preprocess
 SRCS_PREPROCESS_pipeline += SRCS_FIND
 
