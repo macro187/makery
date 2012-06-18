@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -36,6 +36,7 @@ define RULE_COMMANDS
 	$(if $(DOTNET_CS_warn),-warn:$(DOTNET_CS_warn)) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_werror)),-warnaserror) $(MAKE_CHAR_BS)
 	$(foreach def,$(DOTNET_CS_defines),$(call PROJ_RuleNewLine,-define:$(def))) $(MAKE_CHAR_BS)
+	$(if $(filter 1,$(DOTNET_CS_nostdlib)),-nostdlib) $(MAKE_CHAR_BS)
 	$(foreach lib,$(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs_abs),$(call PROJ_RuleNewLine,-r:$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(lib))))) $(MAKE_CHAR_BS)
 	$(foreach lib,$(DOTNET_libs) $(call PROJ_GetMultiRecursive,DOTNET_libs,DOTNET_projlibs_abs),$(call PROJ_RuleNewLine,-r:$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(lib))))) $(MAKE_CHAR_BS)
 	$(foreach res,$(DOTNET_resources),$(call PROJ_RuleNewLine,-resource:$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(res))))) $(MAKE_CHAR_BS)
@@ -56,6 +57,7 @@ define RULE_COMMANDS
 	$(if $(DOTNET_CS_warn),-warn:$(DOTNET_CS_warn)) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_werror)),-warnaserror) $(MAKE_CHAR_BS)
 	$(foreach define,$(DOTNET_CS_defines),$(call PROJ_RuleNewLine,-define:$(define))) $(MAKE_CHAR_BS)
+	$(if $(filter 1,$(DOTNET_CS_nostdlib)),-nostdlib) $(MAKE_CHAR_BS)
 	$(foreach lib,$(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs_abs),$(call PROJ_RuleNewLine,-r:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPathAbs,$(call MAKE_DecodeWord,$(lib)))))) $(MAKE_CHAR_BS)
 	$(foreach lib,$(DOTNET_libs) $(call PROJ_GetMultiRecursive,DOTNET_libs,DOTNET_projlibs_abs),$(call PROJ_RuleNewLine,-r:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPathAbs,$(call MAKE_DecodeWord,$(lib)))))) $(MAKE_CHAR_BS)
 	$(foreach res,$(DOTNET_resources),$(call PROJ_RuleNewLine,-resource:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPathAbs,$(call MAKE_DecodeWord,$(res)))))) $(MAKE_CHAR_BS)
@@ -75,6 +77,7 @@ define RULE_COMMANDS
 	$(if $(DOTNET_CS_warn),$(if $(filter 0,$(DOTNET_CS_warn)),,-Wall)) \
 	$(if $(filter 1,$(DOTNET_CS_werror)),-Werror) \
 	$(foreach define,$(DOTNET_CS_defines),$(call PROJ_RuleNewLine,-D$(define))) \
+	$(if $(filter 1,$(DOTNET_CS_nostdlib)),-nostdlib) $(MAKE_CHAR_BS)
 	$(foreach lib,$(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs_abs),$(call PROJ_RuleNewLine,-l$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(lib))))) \
 	$(foreach lib,$(DOTNET_libs) $(call PROJ_GetMultiRecursive,DOTNET_libs,DOTNET_projlibs_abs),$(call PROJ_RuleNewLine,-l$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(lib))))) \
 	$(foreach res,$(DOTNET_resources),$(call PROJ_RuleNewLine,-fresources=$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(res))))) \

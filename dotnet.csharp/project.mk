@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -62,6 +62,11 @@ DOTNET_CS_warn_DEFAULT = 4
 $(call PROJ_DeclareVar,DOTNET_CS_werror)
 DOTNET_CS_werror_DESC ?= Treat compiler warnings as errors? (0|1)
 DOTNET_CS_werror_DEFAULT = 1
+
+
+$(call PROJ_DeclareVar,DOTNET_CS_nostdlib)
+DOTNET_CS_nostdlib_DESC ?= Do not reference mscorlib.dll? (0|1)
+DOTNET_CS_nostdlib_DEFAULT = 0
 
 
 
