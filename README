@@ -11,8 +11,8 @@
     -   Multi-project.  Handles multiple projects within a single Make
         invocation. [1]
 
-    -   Modular.  Functionality is implemented in modules, which can depend
-        on one another.
+    -   Modular.  Functionality is implemented in modules, which can
+        depend on one another.
 
 
     [1] See http://miller.emu.id.au/pmiller/books/rmch/
@@ -113,8 +113,8 @@
 
     -   A program written in C
 
-    -   A suite of related C# programs, each implemented in its own project,
-        distributed together as a package
+    -   A suite of related C# programs, each implemented in its own
+        project, distributed together as a package
 
     Often, projects depend on other projects.  For example, a program may
     require one or more libraries.  Those libraries may themselves require
@@ -136,19 +136,20 @@
 
     -   Create rules that perform preprocessing on source code files
 
-    -   Locate compilers and create rules that use them to compile source
-        code files
+    -   Locate compilers and create rules that use them to compile
+        source code files
 
-    -   Locate linkers and create rules that use them to link object files
-        into programs or libraries
+    -   Locate linkers and create rules that use them to link object
+        files into programs or libraries
 
-    -   Locate document processing programs and create rules that use them
-        to generate documents from source markup
+    -   Locate document processing programs and create rules that use
+        them to generate documents from source markup
 
-    -   Make projects executable in-place by assembling required artifacts
-        from other projects
+    -   Make projects executable in-place by assembling required
+        artifacts from other projects
 
-    -   Package artifacts from multiple projects into distribution archives
+    -   Package artifacts from multiple projects into distribution
+        archives
 
     Modules may depend on functionality from other modules.  Each module
     declares its direct requirements, and Makery recursively resolves
