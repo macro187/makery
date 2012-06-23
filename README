@@ -5,7 +5,7 @@
 
     Makery is a build system that is:
 
-    -   Lightweight.  Requires only GNU Make, a Bourne shell, and standard
+    -   Lightweight.  Requires only a shell, GNU Make, and standard
         command-line tools.
 
     -   Multi-project.  Handles multiple projects within a single Make
@@ -29,11 +29,11 @@
 
     Well-Tested
 
+    -   Windows XP (MSYS)
+
+    -   Windows XP (Cygwin)
+
     -   Gentoo Linux
-
-    -   Cygwin on Windows XP
-
-    -   MSYS on Windows XP
 
 
     Known To Work
@@ -46,23 +46,13 @@
 
     -   Mac OSX
 
-
-    Unmaintained
-
-    -   SFU on Windows XP
+    -   Windows XP (SFU) (unmaintained)
 
 
 
 --------------------------------------------------------------------------------
     .NET Support
 --------------------------------------------------------------------------------
-
-    Project Types
-
-    -   Libraries
-
-    -   Console applications
-
 
     Frameworks
 
@@ -73,9 +63,16 @@
     -   GNU Portable.NET (unmaintained)
 
 
-    Dotnet Versions
+    Dotnet Generations
 
     -   1.0 through 4.0
+
+
+    Project Types
+
+    -   Libraries
+
+    -   Console applications
 
 
     Documentation
@@ -87,13 +84,43 @@
 
     -   C#
 
-    -   C (Unmaintained, GNU Portable.NET only)
+    -   C (GNU Portable.NET only) (unmaintained)
 
 
     Localised Embedded Resources
 
     -   Using Resbian tool from Halfdecent Sharp
         (http://github.com/macro187/halfdecentsharp)
+
+
+
+--------------------------------------------------------------------------------
+    Projects
+--------------------------------------------------------------------------------
+
+    Projects are the logical units that one builds with Makery.  Generally,
+    a project consists of a Makefile plus source materials for building one
+    or more closely-related output artifacts such as an executable or a
+    library.
+
+    Because Makery is designed to be extended through its module system to
+    build all kinds of different artifacts, the exact definition of a
+    project varies.  Typical examples of kinds of projects might include:
+
+    -   A docbook book
+
+    -   A .NET library written in C#
+
+    -   A program written in C
+
+    -   A suite of related C# programs, each implemented in its own project,
+        distributed together as a package
+
+    Often, projects depend on other projects.  For example, a program may
+    require one or more libraries.  Those libraries may themselves require
+    other libraries, and so on.  Projects declare their direct requirements,
+    and Makery includes a mechanism that recursively resolves dependencies
+    and sources all required projects.
 
 
 
@@ -126,36 +153,6 @@
     Modules may depend on functionality from other modules.  Each module
     declares its direct requirements, and Makery recursively resolves
     dependencies and sources the required modules.
-
-
-
---------------------------------------------------------------------------------
-    Projects
---------------------------------------------------------------------------------
-
-    Projects are the logical units that one builds with Makery.  Generally,
-    a project consists of a Makefile plus source materials for building one
-    or more closely-related output artifacts such as an executable or a
-    library.
-
-    Because Makery is designed to be extended through its module system to
-    build all kinds of different artifacts, the exact definition of a
-    project varies.  Typical examples of kinds of projects might include:
-
-    -   A docbook book
-
-    -   A .NET library written in C#
-
-    -   A program written in C
-
-    -   A suite of related C# programs, each implemented in its own project,
-        distributed together as a package
-
-    Often, projects depend on other projects.  For example, a program may
-    require one or more libraries.  Those libraries may themselves require
-    other libraries, and so on.  Projects declare their direct requirements,
-    and Makery includes a mechanism that recursively resolves dependencies
-    and sources all required projects.
 
 
 
