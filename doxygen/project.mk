@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -44,9 +44,9 @@ PROJ_vars += $(foreach d,$(DOXYGEN_defines),DOXYGEN_define_$(d))
 
 $(call PROJ_DeclareVar,DOXYGEN_outdir)
 DOXYGEN_outdir_DESC ?= Directory to output documentation to
-DOXYGEN_outdir_DEFAULT = $(OUTDIRS_base)/doxygen
+DOXYGEN_outdir_DEFAULT = $(OUT_base)/doxygen
 
-OUTDIRS_all += $(call MAKE_EncodeWord,$(DOXYGEN_outdir))
+OUT_all += $(call MAKE_EncodeWord,$(DOXYGEN_outdir))
 
 
 $(call PROJ_DeclareVar,DOXYGEN_outdir_html)

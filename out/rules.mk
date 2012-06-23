@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,7 +16,7 @@
 # ------------------------------------------------------------------------------
 
 
-RULE_TARGETS := $(sort $(OUTDIRS_all))
+RULE_TARGETS := $(sort $(OUT_all))
 
 define RULE_COMMANDS
 	mkdir -p $$(call SYSTEM_ShellEscape,$$@)
@@ -27,11 +27,11 @@ $(call PROJ_Rule)
 
 
 
-RULE_TARGET := $(OUTDIRS_cleantarget)
+RULE_TARGET := $(OUT_cleantarget)
 RULE_PHONY := 1
 
 define RULE_COMMANDS
-	rm -rf $$(call MAKE_CallForEach,SYSTEM_ShellEscape,$$(sort $$(OUTDIRS_all)))
+	rm -rf $$(call MAKE_CallForEach,SYSTEM_ShellEscape,$$(sort $$(OUT_all)))
 endef
 
 $(call PROJ_Rule)

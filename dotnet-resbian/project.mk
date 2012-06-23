@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -52,9 +52,9 @@ $(sort $(call MAKE_PathParentName,$(DOTNET_RESBIAN_srcs)))
 
 $(call PROJ_DeclareVar,DOTNET_RESBIAN_outdir)
 DOTNET_RESBIAN_outdir_DESC ?= Directory to output .resources files to
-DOTNET_RESBIAN_outdir_DEFAULT = $(OUTDIRS_base)/dotnet_resources
+DOTNET_RESBIAN_outdir_DEFAULT = $(OUT_base)/dotnet_resources
 
-OUTDIRS_all += $(call MAKE_EncodeWord,$(DOTNET_RESBIAN_outdir))
+OUT_all += $(call MAKE_EncodeWord,$(DOTNET_RESBIAN_outdir))
 
 
 $(call PROJ_DeclareVar,DOTNET_RESBIAN_outfiles)

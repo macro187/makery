@@ -17,23 +17,23 @@
 
 
 # ------------------------------------------------------------------------------
-# OUTDIRS Module
+# OUT Module
 # Provides work/output directories
 #
 # Usage:
 # 1. Make a project variable for your output directory and set it to whatever
-#    you want, usually under $(OUTDIRS_base)
-# 2. Append your project variable to OUTDIRS_all
+#    you want, usually under $(OUT_base)
+# 2. Append your project variable to OUT_all
 # 3. OREQ your output directory for any targets that need it
-# 4. Hook up $(PROJ_dir)/outdirs-clean to $(PROJ_dir)/clean to have your
+# 4. Hook up $(PROJ_dir)/out-clean to $(PROJ_dir)/clean to have your
 #    output dirs removed for you
 #
 # Example:
 #      # In project.mk:
 #      ...
-#      MYMODULE_myoutdir = $(OUTDIRS_base)/myoutdir
+#      MYMODULE_myoutdir = $(OUT_base)/myoutdir
 #      ...
-#      $(OUTDIRS_all) += $(MYMODULE_myoutdir)
+#      $(OUT_all) += $(MYMODULE_myoutdir)
 #      ...
 #
 #      # In rules.mk
@@ -43,21 +43,21 @@
 # ------------------------------------------------------------------------------
 
 
-$(call PROJ_DeclareVar,OUTDIRS_all)
-OUTDIRS_all_DESC ?= All output directories (list)
+$(call PROJ_DeclareVar,OUT_all)
+OUT_all_DESC ?= All output directories (list)
 
 
-$(call PROJ_DeclareVar,OUTDIRS_base)
-OUTDIRS_base_DESC ?= Base output directory
-OUTDIRS_base_DEFAULT = $(PROJ_dir)/out
+$(call PROJ_DeclareVar,OUT_base)
+OUT_base_DESC ?= Base output directory
+OUT_base_DEFAULT = $(PROJ_dir)/out
 
-OUTDIRS_all += $(call MAKE_EncodeWord,$(OUTDIRS_base))
+OUT_all += $(call MAKE_EncodeWord,$(OUT_base))
 
 
-$(call PROJ_DeclareVar,OUTDIRS_cleantarget)
-OUTDIRS_cleantarget_DESC ?= The phony target to clean all output directories
-OUTDIRS_cleantarget_DEFAULT = $(PROJ_dir)/outdirs-clean
+$(call PROJ_DeclareVar,OUT_cleantarget)
+OUT_cleantarget_DESC ?= The phony target to clean all output directories
+OUT_cleantarget_DEFAULT = $(PROJ_dir)/out-clean
 
 # Hook to clean target
-CLEAN_reqs += $(call MAKE_EncodeWord,$(OUTDIRS_cleantarget))
+CLEAN_reqs += $(call MAKE_EncodeWord,$(OUT_cleantarget))
 

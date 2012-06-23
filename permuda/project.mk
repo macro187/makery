@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2010, 2011
+# Copyright (c) 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -47,9 +47,9 @@ PERMUDA_srcpreq_DEFAULT = $($(PERMUDA_ppfrom)_preq)
 # output dir
 $(call PROJ_DeclareVar,PERMUDA_dir)
 PERMUDA_dir_DESC ?= Directory to put output file(s) in
-PERMUDA_dir_DEFAULT = $(OUTDIRS_base)/permuda
+PERMUDA_dir_DEFAULT = $(OUT_base)/permuda
 
-OUTDIRS_all += $(call MAKE_EncodeWord,$(PERMUDA_dir))
+OUT_all += $(call MAKE_EncodeWord,$(PERMUDA_dir))
 
 
 # dotfile

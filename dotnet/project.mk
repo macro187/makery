@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -129,10 +129,10 @@ DOTNET_outext_DEFAULT = $(if $(filter exe,$(DOTNET_outtype)),exe,dll)
 
 $(call PROJ_DeclareVar,DOTNET_outdir)
 DOTNET_outdir_DESC ?= Directory to put output binary file(s) in
-DOTNET_outdir_DEFAULT = $(OUTDIRS_base)/dotnet
+DOTNET_outdir_DEFAULT = $(OUT_base)/dotnet
 
-# Tell OUTDIRS module to handle the output directory
-OUTDIRS_all += $(call MAKE_EncodeWord,$(DOTNET_outdir))
+# Tell OUT module to handle the output directory
+OUT_all += $(call MAKE_EncodeWord,$(DOTNET_outdir))
 
 
 $(call PROJ_DeclareVar,DOTNET_outbase_abs)

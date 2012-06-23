@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -18,13 +18,13 @@
 
 $(call PROJ_DeclareVar,DOTNET_COPYLIBS_outdir)
 DOTNET_COPYLIBS_outdir_DESC ?= Directory to output binaries + required libs
-DOTNET_COPYLIBS_outdir_DEFAULT = $(OUTDIRS_base)/dotnet_copylibs
+DOTNET_COPYLIBS_outdir_DEFAULT = $(OUT_base)/dotnet_copylibs
 
-OUTDIRS_all += $(call MAKE_EncodeWord,$(DOTNET_COPYLIBS_outdir))
+OUT_all += $(call MAKE_EncodeWord,$(DOTNET_COPYLIBS_outdir))
 
 
 $(call PROJ_DeclareVar,DOTNET_COPYLIBS_dotfile)
 DOTNET_COPYLIBS_dotfile_DESC ?= \
 (internal) Temp file representing binaries + requied libs
-DOTNET_COPYLIBS_dotfile_DEFAULT = $(OUTDIRS_base)/_dotnet_copylibs
+DOTNET_COPYLIBS_dotfile_DEFAULT = $(OUT_base)/_dotnet_copylibs
 

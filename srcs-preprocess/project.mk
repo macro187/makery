@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -54,14 +54,14 @@ SRCS_PREPROCESS_srcpreq_DEFAULT = $($(SRCS_PREPROCESS_ppfrom)_preq)
 
 $(call PROJ_DeclareVar,SRCS_PREPROCESS_dir)
 SRCS_PREPROCESS_dir_DESC ?= Directory to put final source files in
-SRCS_PREPROCESS_dir_DEFAULT = $(OUTDIRS_base)/srcs
+SRCS_PREPROCESS_dir_DEFAULT = $(OUT_base)/srcs
 
-OUTDIRS_all += $(call MAKE_EncodeWord,$(SRCS_PREPROCESS_dir))
+OUT_all += $(call MAKE_EncodeWord,$(SRCS_PREPROCESS_dir))
 
 
 $(call PROJ_DeclareVar,SRCS_PREPROCESS_preq)
 SRCS_PREPROCESS_preq_DESC ?= Temp file representing final source files
-SRCS_PREPROCESS_preq_DEFAULT = $(OUTDIRS_base)/srcs_dotfile
+SRCS_PREPROCESS_preq_DEFAULT = $(OUT_base)/srcs_dotfile
 
 
 $(call PROJ_DeclareTargetVar,SRCS_PREPROCESS_subdirs)

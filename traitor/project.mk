@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2010, 2011
+# Copyright (c) 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -47,9 +47,9 @@ TRAITOR_srcpreq_DEFAULT = $($(TRAITOR_ppfrom)_preq)
 # output dir
 $(call PROJ_DeclareVar,TRAITOR_dir)
 TRAITOR_dir_DESC ?= Directory to put processed source code file(s) in
-TRAITOR_dir_DEFAULT = $(OUTDIRS_base)/traitor
+TRAITOR_dir_DEFAULT = $(OUT_base)/traitor
 
-OUTDIRS_all += $(call MAKE_EncodeWord,$(TRAITOR_dir))
+OUT_all += $(call MAKE_EncodeWord,$(TRAITOR_dir))
 
 
 # dotfile

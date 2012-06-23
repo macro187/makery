@@ -17,5 +17,5 @@
 
 
 $(call MODULES_Use,srcs-preprocess)
-$(call MODULES_Use,outdirs)
+$(call MODULES_Use,out)
 
