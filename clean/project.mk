@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,11 +16,11 @@
 # ------------------------------------------------------------------------------
 
 
-RULE_TARGET := $(CLEANABLE_target)
-RULE_REQS := $(CLEANABLE_reqs)
-RULE_REQDBYS := cleanall
-RULE_REQDBYS += $(if $(PROJ_ismain),clean)
-RULE_PHONY := 1
+$(call PROJ_DeclareVar,CLEAN_target)
+CLEAN_target_DESC ?= The phony clean target, which cleans everything in the project
+CLEAN_target_DEFAULT = $(PROJ_dir)/clean
 
-$(call PROJ_Rule)
+
+$(call PROJ_DeclareVar,CLEAN_reqs)
+CLEAN_reqs_DESC ?= Targets to be hooked to the clean target
 

@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -59,5 +59,5 @@ OUTDIRS_cleantarget_DESC ?= The phony target to clean all output directories
 OUTDIRS_cleantarget_DEFAULT = $(PROJ_dir)/outdirs-clean
 
 # Hook to clean target
-CLEANABLE_reqs += $(call MAKE_EncodeWord,$(OUTDIRS_cleantarget))
+CLEAN_reqs += $(call MAKE_EncodeWord,$(OUTDIRS_cleantarget))
 
