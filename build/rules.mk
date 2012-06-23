@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,8 +16,8 @@
 # ------------------------------------------------------------------------------
 
 
-RULE_TARGET := $(BUILDABLE_target)
-RULE_REQS := $(BUILDABLE_reqs)
+RULE_TARGET := $(BUILD_target)
+RULE_REQS := $(BUILD_reqs)
 RULE_OREQS :=
 RULE_REQDBYS := buildall
 RULE_REQDBYS += $(if $(PROJ_ismain),build)

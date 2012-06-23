@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,17 +16,17 @@
 # ------------------------------------------------------------------------------
 
 
-$(call PROJ_DeclareVar,BUILDABLE_target)
-BUILDABLE_target_DESC ?= The phony build target, which builds a default set of \
+$(call PROJ_DeclareVar,BUILD_target)
+BUILD_target_DESC ?= The phony build target, which builds a default set of \
 targets for the project
 
-BUILDABLE_target_DEFAULT = $(PROJ_dir)/build
+BUILD_target_DEFAULT = $(PROJ_dir)/build
 
 
-$(call PROJ_DeclareVar,BUILDABLE_reqs)
-BUILDABLE_reqs_DESC ?= Targets to be hooked to the build target
+$(call PROJ_DeclareVar,BUILD_reqs)
+BUILD_reqs_DESC ?= Targets to be hooked to the build target
 
 
 # Hook "build" to "everything"
-EVERYTHING_reqs += $(call MAKE_EncodeWord,$(BUILDABLE_target))
+EVERYTHING_reqs += $(call MAKE_EncodeWord,$(BUILD_target))
 
