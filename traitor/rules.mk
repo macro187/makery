@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2010, 2011
+# Copyright (c) 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -18,7 +18,7 @@
 
 RULE_TARGET := $(TRAITOR_preq)
 RULE_REQS := $(TRAITOR_srcpreq)
-RULE_REQS += $(call PROJ_GetVar,RUNNABLE_reqs,$(TRAITOR_PROJ))
+RULE_REQS += $(call PROJ_GetVar,RUN_reqs,$(TRAITOR_PROJ))
 RULE_OREQ := $(TRAITOR_dir)
 
 
@@ -33,10 +33,10 @@ define RULE_COMMANDS
 	@echo "=> ...done"
 	@echo ""
 	@echo "=> Running Traitor..."
-	$(call PROJ_GetVar,RUNNABLE_run,$(TRAITOR_PROJ)) $(MAKE_CHAR_BS)
-	$(call SYSTEM_ShellEscape,$(call RUNNABLE_ArgPathAbs,$(TRAITOR_srcdir),$(TRAITOR_PROJ))) $(MAKE_CHAR_BS)
-	$$(foreach src,$$(TRAITOR_srcs),$$(call PROJ_RuleNewLine,$$(call SYSTEM_ShellEscape,$$(call RUNNABLE_ArgPath,$$(call MAKE_DecodeWord,$$(src)),$$(TRAITOR_PROJ))))) $(MAKE_CHAR_BS)
-	$(call SYSTEM_ShellEscape,$(call RUNNABLE_ArgPathAbs,$(TRAITOR_dir),$(TRAITOR_PROJ)))
+	$(call PROJ_GetVar,RUN_run,$(TRAITOR_PROJ)) $(MAKE_CHAR_BS)
+	$(call SYSTEM_ShellEscape,$(call RUN_ArgPathAbs,$(TRAITOR_srcdir),$(TRAITOR_PROJ))) $(MAKE_CHAR_BS)
+	$$(foreach src,$$(TRAITOR_srcs),$$(call PROJ_RuleNewLine,$$(call SYSTEM_ShellEscape,$$(call RUN_ArgPath,$$(call MAKE_DecodeWord,$$(src)),$$(TRAITOR_PROJ))))) $(MAKE_CHAR_BS)
+	$(call SYSTEM_ShellEscape,$(call RUN_ArgPathAbs,$(TRAITOR_dir),$(TRAITOR_PROJ)))
 	@echo "=> ...done"
 	@echo ""
 	@echo "=> Updating dotfile..."

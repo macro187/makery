@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,31 +16,31 @@
 # ------------------------------------------------------------------------------
 
 
-$(call PROJ_DeclareVar,RUNNABLE_target)
-RUNNABLE_target_DESC ?= The phony runnable target
-RUNNABLE_target_DEFAULT = $(PROJ_dir)/runnable
+$(call PROJ_DeclareVar,RUN_target)
+RUN_target_DESC ?= The phony runnable target
+RUN_target_DEFAULT = $(PROJ_dir)/runnable
 
 
-$(call PROJ_DeclareVar,RUNNABLE_reqs)
-RUNNABLE_reqs_DESC ?= Prerequisites for the project to be runnable in-place (list)
+$(call PROJ_DeclareVar,RUN_reqs)
+RUN_reqs_DESC ?= Prerequisites for the project to be runnable in-place (list)
 
 
-$(call PROJ_DeclareVar,RUNNABLE_run)
-RUNNABLE_run_DESC ?= Pre-escaped shell command to run the project in-place
+$(call PROJ_DeclareVar,RUN_run)
+RUN_run_DESC ?= Pre-escaped shell command to run the project in-place
 
 
-$(call PROJ_DeclareVar,RUNNABLE_argpathfunc)
-RUNNABLE_argpathfunc_DESC ?= Name of function to be called on all command-line arguments that are path fragments
-RUNNABLE_argpathfunc_DEFAULT = MAKE_Identity
+$(call PROJ_DeclareVar,RUN_argpathfunc)
+RUN_argpathfunc_DESC ?= Name of function to be called on all command-line arguments that are path fragments
+RUN_argpathfunc_DEFAULT = MAKE_Identity
 
 
-$(call PROJ_DeclareVar,RUNNABLE_argpathabsfunc)
-RUNNABLE_argpathabsfunc_DESC ?= Name of function to be called on all command-line arguments that are full paths
-RUNNABLE_argpathabsfunc_DEFAULT = MAKE_Identity
+$(call PROJ_DeclareVar,RUN_argpathabsfunc)
+RUN_argpathabsfunc_DESC ?= Name of function to be called on all command-line arguments that are full paths
+RUN_argpathabsfunc_DEFAULT = MAKE_Identity
 
 
 
 
 # Hook "runnable" to "everything"
-EVERYTHING_reqs += $(call MAKE_EncodeWord,$(RUNNABLE_target))
+EVERYTHING_reqs += $(call MAKE_EncodeWord,$(RUN_target))
 

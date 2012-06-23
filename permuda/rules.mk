@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2010, 2011
+# Copyright (c) 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -18,7 +18,7 @@
 
 RULE_TARGET := $(PERMUDA_preq)
 RULE_REQS := $(PERMUDA_srcpreq)
-RULE_REQS += $(call PROJ_GetVar,RUNNABLE_reqs,$(PERMUDA_PROJ))
+RULE_REQS += $(call PROJ_GetVar,RUN_reqs,$(PERMUDA_PROJ))
 RULE_OREQ := $(PERMUDA_dir)
 
 
@@ -33,10 +33,10 @@ define RULE_COMMANDS
 	@echo "=> ...done"
 	@echo ""
 	@echo "=> Running Permuda..."
-	$(call PROJ_GetVar,RUNNABLE_run,$(PERMUDA_PROJ)) $(MAKE_CHAR_BS)
-	$(call SYSTEM_ShellEscape,$(call RUNNABLE_ArgPathAbs,$(PERMUDA_srcdir),$(PERMUDA_PROJ))) $(MAKE_CHAR_BS)
-	$$(foreach src,$$(PERMUDA_srcs),$$(call PROJ_RuleNewLine,$$(call SYSTEM_ShellEscape,$$(call RUNNABLE_ArgPath,$$(call MAKE_DecodeWord,$$(src)),$$(PERMUDA_PROJ))))) $(MAKE_CHAR_BS)
-	$(call SYSTEM_ShellEscape,$(call RUNNABLE_ArgPathAbs,$(PERMUDA_dir),$(PERMUDA_PROJ)))
+	$(call PROJ_GetVar,RUN_run,$(PERMUDA_PROJ)) $(MAKE_CHAR_BS)
+	$(call SYSTEM_ShellEscape,$(call RUN_ArgPathAbs,$(PERMUDA_srcdir),$(PERMUDA_PROJ))) $(MAKE_CHAR_BS)
+	$$(foreach src,$$(PERMUDA_srcs),$$(call PROJ_RuleNewLine,$$(call SYSTEM_ShellEscape,$$(call RUN_ArgPath,$$(call MAKE_DecodeWord,$$(src)),$$(PERMUDA_PROJ))))) $(MAKE_CHAR_BS)
+	$(call SYSTEM_ShellEscape,$(call RUN_ArgPathAbs,$(PERMUDA_dir),$(PERMUDA_PROJ)))
 	@echo "=> ...done"
 	@echo ""
 	@echo "=> Updating dotfile..."

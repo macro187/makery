@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -18,12 +18,12 @@
 
 RULE_TARGETS := $(DOTNET_RESBIAN_outfiles)
 RULE_REQS := $(DOTNET_RESBIAN_srcs_abs)
-RULE_REQS += $(call PROJ_GetVar,RUNNABLE_reqs,$(DOTNET_RESBIAN_PROJ))
+RULE_REQS += $(call PROJ_GetVar,RUN_reqs,$(DOTNET_RESBIAN_PROJ))
 RULE_OREQ := $(DOTNET_RESBIAN_outdir)
 
 define RULE_COMMANDS
 $(foreach c,$(DOTNET_RESBIAN_cultures),$(foreach t,$(call DOTNET_RESBIAN_GetTypes,$(c)),\
-$(MAKE_CHAR_NEWLINE)	$(call PROJ_GetVar,RUNNABLE_run,$(DOTNET_RESBIAN_PROJ)) compile $(foreach f,$(call DOTNET_RESBIAN_GetFilesCT,$(c),$(t)) $(call MAKE_EncodeWord,$(call DOTNET_RESBIAN_GetOutfile,$(c),$(t))),$(call SYSTEM_ShellEscape,$(call RUNNABLE_ArgPathAbs,$(call MAKE_DecodeWord,$(f)),$(DOTNET_RESBIAN_PROJ))))\
+$(MAKE_CHAR_NEWLINE)	$(call PROJ_GetVar,RUN_run,$(DOTNET_RESBIAN_PROJ)) compile $(foreach f,$(call DOTNET_RESBIAN_GetFilesCT,$(c),$(t)) $(call MAKE_EncodeWord,$(call DOTNET_RESBIAN_GetOutfile,$(c),$(t))),$(call SYSTEM_ShellEscape,$(call RUN_ArgPathAbs,$(call MAKE_DecodeWord,$(f)),$(DOTNET_RESBIAN_PROJ))))\
 ))
 endef
 

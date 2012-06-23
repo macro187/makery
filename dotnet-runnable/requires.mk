@@ -18,5 +18,5 @@
 
 $(call MODULES_Use,dotnet)
 $(call MODULES_Use,dotnet-copylibs)
-$(call MODULES_Use,runnable)
+$(call MODULES_Use,run)
 

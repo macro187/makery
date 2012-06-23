@@ -150,8 +150,8 @@ x.  Modules
 
     x.  dotnet-runnable
 
-    Hooks an .exe-producing dotnet project to the generic "runnable" target,
+    Hooks an .exe-producing dotnet project to the generic "run" target,
     allowing it to be run in a generic fashion with the "run" target or the
-    RUNNABLE_run shell command.  Arranges for the program to be run using
-    "mono" or "ilrun" if appropriate.
+    RUN_run shell command.  Arranges for the program to be run using "mono"
+    or "ilrun" if appropriate.
 

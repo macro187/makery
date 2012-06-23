@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,9 +16,9 @@
 # ------------------------------------------------------------------------------
 
 
-RULE_TARGET := $(RUNNABLE_target)
+RULE_TARGET := $(RUN_target)
 RULE_PHONY := 1
-RULE_REQS := $(RUNNABLE_reqs)
+RULE_REQS := $(RUN_reqs)
 RULE_REQDBYS := runnableall
 RULE_REQDBYS += $(if $(PROJ_ismain),runnable)
 
@@ -28,16 +28,16 @@ $(call PROJ_Rule)
 
 RULE_TARGET := $(PROJ_dir)/run
 RULE_PHONY := 1
-RULE_REQ := $(RUNNABLE_target)
+RULE_REQ := $(RUN_target)
 RULE_REQDBYS := runall
 RULE_REQDBYS += $(if $(PROJ_ismain),run)
 
 define RULE_COMMANDS
-ifneq ($$(RUNNABLE_run),)
-	$$(RUNNABLE_run)
+ifneq ($$(RUN_run),)
+	$$(RUN_run)
 else
 	@echo ""
-	@echo "=> No RUNNABLE_run command defined, unable to run"
+	@echo "=> No RUN_run command defined, unable to run"
 endif
 endef
 

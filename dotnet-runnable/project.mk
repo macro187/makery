@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -20,19 +20,19 @@
 # NOTE: Assumes that you're generating executable output in the DOTNET module
 # ------------------------------------------------------------------------------
 
-# Need binaries + required libs to be runnable
-RUNNABLE_reqs += $(call MAKE_EncodeWord,$(DOTNET_COPYLIBS_dotfile))
+# Need binaries + required libs to run
+RUN_reqs += $(call MAKE_EncodeWord,$(DOTNET_COPYLIBS_dotfile))
 
 
 # The shell command to run the project's program
-RUNNABLE_run = \
+RUN_run = \
 $(DOTNET_exec) $(call SYSTEM_ShellEscape,$(DOTNET_COPYLIBS_outdir)/$(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(DOTNET_outfiles_main)))))
 
 
 # Convert args to Windows paths if we're using the MS runtime on Windows
-RUNNABLE_argpathfunc = \
+RUN_argpathfunc = \
 $(if $(SYSTEM_ISWINDOWS)$(filter $(DOTNET_implementation),ms),SYSTEM_WinPath,MAKE_Identity)
 
-RUNNABLE_argpathabsfunc = \
+RUN_argpathabsfunc = \
 $(if $(SYSTEM_ISWINDOWS)$(filter $(DOTNET_implementation),ms),SYSTEM_WinPathAbs,MAKE_Identity)
 
