@@ -20,6 +20,32 @@
 
 
 --------------------------------------------------------------------------------
+    Installation
+--------------------------------------------------------------------------------
+
+    -   Get Makery:
+
+            $ git clone https://github.com/macro187/makery.git
+
+
+    -   Declare where you put it:
+
+            $ export MAKERY=/path/to/makery
+
+        You might want to add that to your .profile (or similar).
+
+
+    -   Create a config file: (optional)
+
+            $ touch ~/.makeryrc.mk
+
+        This is where you can set Makery-related variables instead of
+        specifying them on the command line each time.  Consult modules
+        for more information.
+
+
+
+--------------------------------------------------------------------------------
     Platform Support
 --------------------------------------------------------------------------------
 
@@ -188,9 +214,6 @@
 --------------------------------------------------------------------------------
     More Information
 --------------------------------------------------------------------------------
-
-    README.INSTALL explains how to install Makery and Makery Packages on
-    your system.
 
     README.GNUMAKE is a quick review of how GNU Make works.
 
