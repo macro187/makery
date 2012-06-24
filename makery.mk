@@ -1,11 +1,5 @@
 # ------------------------------------------------------------------------------
-# MAKERY.MK
-# Makery's entry point
-# ------------------------------------------------------------------------------
-
-
-# ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -21,39 +15,27 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
-
-
-# ------------------------------------------------------------------------------
-# One-time bootstrap
-# ------------------------------------------------------------------------------
-
-ifndef MAKERY_BOOTSTRAPPED
+ifndef MAKERY_BOOTSTRAP
 
 -include ~/.makeryrc.mk
 
-include $(MAKERY)/makery/global.mk
+include $(MAKERY)/makery-makery/global.mk
 MODULES_GLOBAL += makery
-include $(MAKERY)/gmsl/global.mk
+include $(MAKERY)/makery-gmsl/global.mk
 MODULES_GLOBAL += gmsl
-include $(MAKERY)/make/global.mk
+include $(MAKERY)/makery-make/global.mk
 MODULES_GLOBAL += make
-include $(MAKERY)/system/global.mk
+include $(MAKERY)/makery-system/global.mk
 MODULES_GLOBAL += system
-include $(MAKERY)/modules/global.mk
+include $(MAKERY)/makery-modules/global.mk
 MODULES_GLOBAL += modules
-include $(MAKERY)/proj/global.mk
+include $(MAKERY)/makery-proj/global.mk
 MODULES_GLOBAL += proj
 
-MAKERY_BOOTSTRAPPED := 1
+MAKERY_BOOTSTRAP := 1
 
-$(warning $(call MAKE_Message,Collecting information and generating rules...))
-endif #ndef MAKERY_BOOTSTRAPPED
+endif
 
-
-
-# ------------------------------------------------------------------------------
-# Per-project processing starts here
-# ------------------------------------------------------------------------------
 
 $(call MODULES_Use,makery)
 $(call MODULES_Use,gmsl)
@@ -61,55 +43,16 @@ $(call MODULES_Use,make)
 $(call MODULES_Use,system)
 $(call MODULES_Use,modules)
 $(call MODULES_Use,proj)
-
 $(call MODULES_Use,config)
 
 
-
-$(call MAKERY_Debug,Project '$(PROJ_dir)')
-
-
-
-$(call MAKERY_Debug,Module search paths$(foreach path,$(MODULES_PATHS),$(MAKE_CHAR_NEWLINE)$(call MAKE_DecodeWord,$(path))))
-
-
-$(call MAKERY_Debug,Processing modules...)
 $(foreach mod,$(MODULES_use),$(call MODULES_Use,$(mod)))
-$(call MAKERY_Debug,...done)
-
-
-$(call MAKERY_Debug,Flattening variables... ('$(PROJ_dir)'))
 $(call PROJ_FlattenVars)
-$(call MAKERY_Debug,...done flattening variables ('$(PROJ_dir)'))
-
-
-$(call MAKERY_Debug,Dumping project variables...)
+ifeq($(MAKERY_DEBUG),1)
 $(call MAKERY_Debug,Project Variables$(call MAKE_DumpVars,$(PROJ_vars)))
-$(call MAKERY_Debug,...done)
-
-
-$(call MAKERY_Debug,Validating project variables...)
+endif
 $(call PROJ_Validate)
-$(call MAKERY_Debug,...done)
-
-
-$(call MAKERY_Debug,Processing required projects... ('$(PROJ_dir)'))
 $(call PROJ_ProcessRequired)
-$(call MAKERY_Debug,...done processing required projects ('$(PROJ_dir)'))
-
-
-$(call MAKERY_Debug,Generating rules... ('$(PROJ_dir)'))
 $(call PROJ_GenerateRules)
-$(call MAKERY_Debug,...done generating rules ('$(PROJ_dir)'))
-
-
-# Debug: Globals
-#ifneq ($(MAKERY_DEBUG),)
-#ifneq ($(PROJ_ismain),)
-#$(warning $(call MAKE_Message,Global Variables$(call MAKE_DumpVars,$(MAKERY_GLOBALS))))
-#endif
-#endif
-
-
 $(call PROJ_ClearVars)
 

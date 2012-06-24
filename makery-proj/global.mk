@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -15,49 +15,39 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
-
-# ------------------------------------------------------------------------------
-# Project paths and location
-# ------------------------------------------------------------------------------
-
+PROJ_PATHS_DESC := \
+Paths that PROJ_Locate() searches for projects in (list)
 PROJ_PATHS := $(PROJ_PATHS)
-PROJ_PATHS_DESC := Paths that PROJ_Locate() searches for projects in (list)
 MAKERY_GLOBALS += PROJ_PATHS
 
 
 # Locate a project in PROJ_PATHS
 #
-# Params
-# $1 Directory name of project to find
+# $1 - Directory name of project to find
 #
-# Errors
-# TODO If the project can't be found
+# Error if the project cannot be found under one of the directories in PROJ_PATH
+#
 PROJ_Locate = \
 $(MAKERY_Trace1)$(if $(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d)/$(1))))))),$(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1)))))),$(error Can not find project '$(1)' in PROJ_PATHS))
 
 
-
-# ------------------------------------------------------------------------------
 # List of Projects Processed
-# ------------------------------------------------------------------------------
-
+#
 PROJ_PROJECTS := $(PROJ_PROJECTS)
 
 
-
-# ------------------------------------------------------------------------------
 # "Declare" a project variable
+#
 # $1 - Variable name
 #
-# Remarks:
-#   This function is only valid in a module's project.mk
+# This function is only valid in a module's project.mk
 #
 # Usage:
-#   $(call PROJ_DeclareVar,PKGNAME_varname)
-#   PKGNAME_varname_DEFAULT = (default value) (optional)
-#   PKGNAME_varname_DESC = (description) (optional)
-# ------------------------------------------------------------------------------
-
+#
+#   $(call PROJ_DeclareVar,<MODULE>_<variable>)
+#   <MODULE>_<variable>_DEFAULT = (optional default value)
+#   <MODULE>_<variable>_DESC = (optional description)
+#
 PROJ_DeclareVar = \
 $(eval $(call PROJ_DeclareVar_TEMPLATE,$(1)))
 
@@ -69,32 +59,31 @@ endif
 endef
 
 
-# ------------------------------------------------------------------------------
 # Declare a target-time project variable
+#
 # $1 - Variable name
 #
-# Remarks:
-#   Target variables are not expanded during the preprocessing stage.  Instead,
-#   a regular project variable (with the same name plus a '_def' suffix) stores
-#   the unexpanded definition, which is used to arrange for deferred expansion
-#   later at rules-execution time.
+# Target variables are not expanded during the preprocessing stage.  Instead, a
+# regular project variable (with the same name plus a '_def' suffix) stores the
+# unexpanded definition, which is used to arrange for deferred expansion later
+# at rules-execution time.
 #
-#   Because of this deferred expansion, target variables can reference:
+# Because of this deferred expansion, target variables can reference:
 #
-#   - Global variables
-#   - Project variables from this or any other project
-#   - Target variables from this or any other project
+# - Global variables
+# - Project variables from this or any other project
+# - Target variables from this or any other project
 #
-#   Note this does not include temporary variables available during the
-#   preprocessing stage (eg. *_DEFAULT variables, etc.)
+# Note this does not include temporary variables available during the
+# preprocessing stage (eg. *_DEFAULT variables, etc.)
 #
-#   This function is only valid in a module's project.mk
+# This function is only valid in a module's project.mk
 #
 # Usage:
-#   $(call PROJ_DeclareVar,PKGNAME_varname)
-#   PKGNAME_varname_DESC ?= (description) (optional)
-# ------------------------------------------------------------------------------
-
+#
+#   $(call PROJ_DeclareVar,<MODULE>_<variable>)
+#   <MODULE>_<variable>_DESC ?= (optional description)
+#
 PROJ_DeclareTargetVar = \
 $(eval $(call PROJ_DeclareTargetVar_TEMPLATE,$(1)))
 
