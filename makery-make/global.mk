@@ -69,7 +69,7 @@ $(subst $(MAKE_CHAR_COLON),$(MAKE_CHAR_COLON_ENCODED),$(subst $(MAKE_CHAR_NEWLIN
 # $1 - Encoded string
 #
 MAKE_DecodeWord = \
-$(subst $(MAKE_CHAR_GT_ENCODED),$(MAKE_CHAR_GT),$(subst $(MAKE_CHAR_LT_ENCODED),$(MAKE_CHAR_LT),$(subst $(MAKE_CHAR_SPACE_ENCODED),$(MAKE_CHAR_SPACE),$(subst $(MAKE_CHAR_NEWLINE_ENCODED),$(MAKE_NEWLINE_SPACE),$(subst $(MAKE_CHAR_COLON_ENCODED),$(MAKE_COLON_SPACE),$(1))))))
+$(subst $(MAKE_CHAR_GT_ENCODED),$(MAKE_CHAR_GT),$(subst $(MAKE_CHAR_LT_ENCODED),$(MAKE_CHAR_LT),$(subst $(MAKE_CHAR_SPACE_ENCODED),$(MAKE_CHAR_SPACE),$(subst $(MAKE_CHAR_NEWLINE_ENCODED),$(MAKE_CHAR_NEWLINE),$(subst $(MAKE_CHAR_COLON_ENCODED),$(MAKE_CHAR_COLON),$(1))))))
 
 
 # Call a function on each word in a string after decoding special characters in
