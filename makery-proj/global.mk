@@ -15,20 +15,15 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
-PROJ_PATHS_DESC := \
-Paths that PROJ_Locate() searches for projects in (list)
-PROJ_PATHS := $(PROJ_PATHS)
-MAKERY_GLOBALS += PROJ_PATHS
 
-
-# Locate a project in PROJ_PATHS
+# Locate a project in $(MAKERYPATH)
 #
 # $1 - Directory name of project to find
 #
 # Error if the project cannot be found under one of the directories in PROJ_PATH
 #
 PROJ_Locate = \
-$(MAKERY_Trace1)$(if $(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d)/$(1))))))),$(call MAKE_DecodeWord,$(firstword $(foreach d,$(PROJ_PATHS),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1)))))),$(error Can not find project '$(1)' in PROJ_PATHS))
+$(MAKERY_Trace1)$(if $(call MAKE_DecodeWord,$(firstword $(foreach d,$(MAKERYPATH),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d)/$(1))))))),$(call MAKE_DecodeWord,$(firstword $(foreach d,$(MAKERYPATH),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1)))))),$(error Can not find project '$(1)' in MAKERYPATH))
 
 
 # List of Projects Processed

@@ -19,12 +19,12 @@ ifndef MAKERY_BOOTSTRAP
 
 -include ~/.makeryrc.mk
 
-include $(MAKERY)/makery-makery/global.mk
-MODULES_GLOBAL += makery
 include $(MAKERY)/makery-gmsl/global.mk
 MODULES_GLOBAL += gmsl
 include $(MAKERY)/makery-make/global.mk
 MODULES_GLOBAL += make
+include $(MAKERY)/makery-makery/global.mk
+MODULES_GLOBAL += makery
 include $(MAKERY)/makery-system/global.mk
 MODULES_GLOBAL += system
 include $(MAKERY)/makery-modules/global.mk
@@ -37,9 +37,9 @@ MAKERY_BOOTSTRAP := 1
 endif
 
 
-$(call MODULES_Use,makery)
 $(call MODULES_Use,gmsl)
 $(call MODULES_Use,make)
+$(call MODULES_Use,makery)
 $(call MODULES_Use,system)
 $(call MODULES_Use,modules)
 $(call MODULES_Use,proj)
@@ -48,7 +48,7 @@ $(call MODULES_Use,config)
 
 $(foreach mod,$(MODULES_use),$(call MODULES_Use,$(mod)))
 $(call PROJ_FlattenVars)
-ifeq($(MAKERY_DEBUG),1)
+ifeq ($(MAKERY_DEBUG),1)
 $(call MAKERY_Debug,Project Variables$(call MAKE_DumpVars,$(PROJ_vars)))
 endif
 $(call PROJ_Validate)

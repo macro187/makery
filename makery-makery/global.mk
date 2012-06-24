@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,13 +16,22 @@
 # ------------------------------------------------------------------------------
 
 
-# ------------------------------------------------------------------------------
-# Makery's location
-# ------------------------------------------------------------------------------
-
+# Location of Makery
+#
 ifndef MAKERY
 $(error The MAKERY variable is not set, how did you include makery.mk?)
 endif
+
+
+# Project and module search path
+#
+MAKERYPATH_DESC := \
+Paths that PROJ_Locate() searches for projects in (list)
+MAKERYPATH := \
+$(subst $(MAKE_CHAR_COLON_ENCODED), ,$(call MAKE_EncodeWord,$(MAKERYPATH)))
+MAKERY_GLOBALS += MAKERYPATH
+
+MAKERYPATH += $(call MAKE_EncodeWord,$(MAKERY))
 
 
 # ------------------------------------------------------------------------------

@@ -15,10 +15,6 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
-# Add Makery to the project search path
-#
-PROJ_PATHS += $(call MAKE_EncodeWord,$(MAKERY))
-
 
 # Locate a module
 #
