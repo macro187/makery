@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -21,7 +21,7 @@
 # Operating System
 # ------------------------------------------------------------------------------
 
-SYSTEM_NAME := $(shell uname -s)
+SYSTEM_NAME := $(call MAKE_Shell,uname -s)
 SYSTEM_ISCYGWIN := $(findstring CYGWIN,$(SYSTEM_NAME))
 SYSTEM_ISMSYS := $(findstring MINGW,$(SYSTEM_NAME))
 SYSTEM_ISINTERIX := $(findstring Interix,$(SYSTEM_NAME))
@@ -90,7 +90,7 @@ endef
 # ------------------------------------------------------------------------------
 
 SYSTEM_DirToAbs = \
-$(MAKERY_Trace1)$(shell test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && $(PWD) | $(SYSTEM_SHELL_CLEANPATH))
+$(MAKERY_Trace1)$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && $(PWD) | $(SYSTEM_SHELL_CLEANPATH))
 
 
 
@@ -111,7 +111,7 @@ $(MAKERY_Trace1)$(shell test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYS
 # ------------------------------------------------------------------------------
 
 SYSTEM_RelDirToAbs = \
-$(MAKERY_Trace2)$(if $(1),$(if $(2),$(shell test -d $(call SYSTEM_ShellEscape,$(2)) && cd $(call SYSTEM_ShellEscape,$(2)) && test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && $(PWD) | $(SYSTEM_SHELL_CLEANPATH))))
+$(MAKERY_Trace2)$(if $(1),$(if $(2),$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(2)) && cd $(call SYSTEM_ShellEscape,$(2)) && test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && $(PWD) | $(SYSTEM_SHELL_CLEANPATH))))
 
 
 
@@ -141,11 +141,11 @@ $(call SYSTEM_WinPath,$(1))
 
 ifneq ($(SYSTEM_ISCYGWIN),)
 SYSTEM_WinPathAbs = \
-$(shell cygpath -w $(call SYSTEM_ShellEscape,$(1)))
+$(call MAKE_Shell,cygpath -w $(call SYSTEM_ShellEscape,$(1)))
 
 else ifneq ($(SYSTEM_ISINTERIX),)
 SYSTEM_WinPathAbs = \
-$(shell unixpath2win $(call SYSTEM_ShellEscape,$(1)))
+$(call MAKE_Shell,unixpath2win $(call SYSTEM_ShellEscape,$(1)))
 endif
 
 
@@ -176,10 +176,10 @@ $(call SYSTEM_PosixPath,$(1))
 
 ifneq ($(SYSTEM_ISCYGWIN),)
 SYSTEM_PosixPathAbs = \
-$(shell cygpath -u $(call SYSTEM_ShellEscape,$(1)))
+$(call MAKE_Shell,cygpath -u $(call SYSTEM_ShellEscape,$(1)))
 else ifneq ($(SYSTEM_ISINTERIX),)
 SYSTEM_PosixPathAbs = \
-$(shell winpath2unix $(call SYSTEM_ShellEscape,$(1)))
+$(call MAKE_Shell,winpath2unix $(call SYSTEM_ShellEscape,$(1)))
 endif
 
 

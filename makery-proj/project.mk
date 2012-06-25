@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -37,7 +37,7 @@ endif
 endif
 PROJ_dir_DESC ?= \
 The absolute path of the project directory, serves as its unique id
-PROJ_dir_DEFAULT := $(shell $(PWD) | $(SYSTEM_SHELL_CLEANPATH))
+PROJ_dir_DEFAULT := $(call MAKE_Shell,$(PWD) | $(SYSTEM_SHELL_CLEANPATH))
 
 
 $(call PROJ_DeclareVar,PROJ_dir_asword)

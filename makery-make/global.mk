@@ -155,6 +155,13 @@ $(foreach v,$(filter $(1)%,$(.VARIABLES)),$(MAKE_CHAR_NEWLINE)$(v) :=#)
 endef
 
 
+# $(shell) alias to permit tracing etc.
+#
+MAKE_Shell = \
+$(shell $(1))
+#$(info BEGIN $(1))$(shell $(1))$(info END $(1))
+
+
 # Disable built-in make suffix rules
 #
 .SUFFIXES:

@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -19,13 +19,13 @@
 $(call PROJ_DeclareVar,ALLSUBDIRS_subdirs)
 ALLSUBDIRS_subdirs_DESC ?= All subdirectories
 ALLSUBDIRS_subdirs = \
-$(shell cd $(call SYSTEM_ShellEscape,$(PROJ_dir)) && find * -maxdepth 0 -type d | $(SYSTEM_SHELL_ENCODEWORD))
+$(call MAKE_Shell,cd $(call SYSTEM_ShellEscape,$(PROJ_dir)) && find * -maxdepth 0 -type d | $(SYSTEM_SHELL_ENCODEWORD))
 
 
 $(call PROJ_DeclareVar,ALLSUBDIRS_projsubdirs)
 ALLSUBDIRS_projsubdirs_DESC ?= Subdirectories containing a Makefile
 ALLSUBDIRS_projsubdirs = \
-$(foreach d,$(ALLSUBDIRS_subdirs),$(if $(shell test -e $(call SYSTEM_ShellEscape,$(PROJ_dir)/$(call MAKE_DecodeWord,$(d))/Makefile) && echo yes),$(d)))
+$(foreach d,$(ALLSUBDIRS_subdirs),$(if $(call MAKE_Shell,test -e $(call SYSTEM_ShellEscape,$(PROJ_dir)/$(call MAKE_DecodeWord,$(d))/Makefile) && echo yes),$(d)))
 
 
 # Pull in all project subdirectories

@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -30,11 +30,11 @@ DOXYGEN_MAKERY_MODULE_DIR := $(call MODULES_Locate,doxygen)
 # ------------------------------------------------------------------------------
 
 ifndef DOXYGEN_DOXYGEN
-DOXYGEN_DOXYGEN := $(shell which doxygen 2>&-)
+DOXYGEN_DOXYGEN := $(call MAKE_Shell,which doxygen 2>&-)
 endif
 
 ifndef DOXYGEN_DOT
-DOXYGEN_DOT := $(shell which dot 2>&-)
+DOXYGEN_DOT := $(call MAKE_Shell,which dot 2>&-)
 endif
 
 

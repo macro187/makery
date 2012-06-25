@@ -71,7 +71,7 @@ SRCS_PREPROCESS_subdirs = $(filter-out ./,$(dir $(SRCS_PREPROCESS_srcs)))
 $(call PROJ_DeclareTargetVar,SRCS_PREPROCESS_rel)
 SRCS_PREPROCESS_rel_DESC ?= Final source files relative to SRCS_PREPROCESS_dir
 SRCS_PREPROCESS_rel = \
-$(shell \
+$(call MAKE_Shell,\
 cd $(call SYSTEM_ShellEscape,$(SRCS_PREPROCESS_dir)) && find * -type f \
 | $(SYSTEM_SHELL_CLEANPATH) \
 | $(SYSTEM_SHELL_ENCODEWORD) \

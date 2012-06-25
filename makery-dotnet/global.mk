@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -67,7 +67,7 @@ DOTNET_MS_FRAMEWORKSDIR := $(SYSTEM_WINDIR)/Microsoft.NET/Framework
 #     entire framework
 
 DOTNET_MS_40_FRAMEWORKDIR := \
-$(shell find \
+$(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
@@ -76,7 +76,7 @@ $(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 )
 
 DOTNET_MS_35_FRAMEWORKDIR := \
-$(shell find \
+$(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
@@ -85,7 +85,7 @@ $(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 )
 
 DOTNET_MS_30_FRAMEWORKDIR := \
-$(shell find \
+$(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
@@ -94,7 +94,7 @@ $(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 )
 
 DOTNET_MS_20_FRAMEWORKDIR := \
-$(shell find \
+$(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
@@ -103,7 +103,7 @@ $(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 )
 
 DOTNET_MS_11_FRAMEWORKDIR := \
-$(shell find \
+$(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
@@ -112,7 +112,7 @@ $(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 )
 
 DOTNET_MS_10_FRAMEWORKDIR := \
-$(shell find \
+$(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 -maxdepth 1 \
 -type d \
@@ -125,42 +125,42 @@ $(call SYSTEM_ShellEscape,$(DOTNET_MS_FRAMEWORKSDIR)) \
 # Per-generation C# compilers
 #
 DOTNET_MS_40_COMPILER_CS := \
-$(shell find \
+$(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNET_MS_40_FRAMEWORKDIR)) \
 -name "csc.exe" \
 | $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_35_COMPILER_CS := \
-$(shell find \
+$(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNET_MS_35_FRAMEWORKDIR)) \
 -name "csc.exe" \
 | $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_30_COMPILER_CS := \
-$(shell find \
+$(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNET_MS_30_FRAMEWORKDIR)) \
 -name "csc.exe" \
 | $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_20_COMPILER_CS := \
-$(shell find \
+$(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNET_MS_20_FRAMEWORKDIR)) \
 -name "csc.exe" \
 | $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_11_COMPILER_CS := \
-$(shell find \
+$(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNET_MS_11_FRAMEWORKDIR)) \
 -name "csc.exe" \
 | $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNET_MS_10_COMPILER_CS := \
-$(shell find \
+$(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNET_MS_10_FRAMEWORKDIR)) \
 -name "csc.exe" \
 | $(SYSTEM_SHELL_CLEANPATH) \
@@ -175,10 +175,10 @@ endif
 # Mono
 # ------------------------------------------------------------------------------
 
-DOTNET_MONO := $(shell which mono 2>&-)
-DOTNET_MCS := $(shell which mcs 2>&-)
-DOTNET_GMCS := $(shell which gmcs 2>&-)
-DOTNET_DMCS := $(shell which dmcs 2>&-)
+DOTNET_MONO := $(call MAKE_Shell,which mono 2>&-)
+DOTNET_MCS := $(call MAKE_Shell,which mcs 2>&-)
+DOTNET_GMCS := $(call MAKE_Shell,which gmcs 2>&-)
+DOTNET_DMCS := $(call MAKE_Shell,which dmcs 2>&-)
 
 DOTNET_MONO_40_COMPILER_CS := $(DOTNET_DMCS)
 DOTNET_MONO_35_COMPILER_CS := $(DOTNET_GMCS)
@@ -197,8 +197,8 @@ DOTNET_MONO_CSVERSION_10_SWITCHES := -langversion:ISO-1
 # Pnet
 # ------------------------------------------------------------------------------
 
-DOTNET_ILRUN := $(shell which ilrun 2>&-)
-DOTNET_CSCC := $(shell which cscc 2>&-)
+DOTNET_ILRUN := $(call MAKE_Shell,which ilrun 2>&-)
+DOTNET_CSCC := $(call MAKE_Shell,which cscc 2>&-)
 
 # no support for .NET generation >= 2.0
 DOTNET_PNET_11_COMPILER_CS := $(DOTNET_CSCC)
