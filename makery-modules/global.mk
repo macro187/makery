@@ -45,9 +45,7 @@ $(eval $(call MODULES_USE_TEMPLATE,$(1),$(call MODULES_Locate,$(1))))
 define MODULES_USE_TEMPLATE
 -include $(call MAKE_EncodePath,$(2)/requires.mk)
 ifeq ($$(filter $(call MAKE_EncodeWord,$(1)),$$(MODULES_GLOBAL)),)
-ifneq ($$(MAKERY_DEBUG),)
-$$(warning $$(call MAKE_Message,Sourcing module '$(1)' from '$(2)'))
-endif
+$$(call MAKERY_Debug $$(call MAKE_Message,Sourcing module '$(1)' from '$(2)'))
 -include $(call MAKE_EncodePath,$(2)/global.mk)
 MODULES_GLOBAL += $(call MAKE_EncodeWord,$(1))
 endif

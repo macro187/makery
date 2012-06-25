@@ -109,15 +109,15 @@ MAKE_PathParentName = \
 $(notdir $(patsubst %/,%,$(dir $(patsubst %/,%,$(1)))))
 
 
-# Produce a heading suitable for use with $(warning)
+# Produce a heading suitable for use with $(info)
 #
 # $1 - Heading text
 #
 MAKE_Heading = \
-$(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_NEWLINE)===> $(1)$(MAKE_CHAR_NEWLINE)
+===> $(1)
 
 
-# Produce an informational message suitable for use with $(warning)
+# Produce an informational message suitable for use with $(info)
 #
 # $1 - Message text
 #
@@ -126,7 +126,7 @@ $(MAKE_Heading)
 
 
 # Produce a message displaying a variable and it's value suitable for use
-# with $(warning)
+# with $(info)
 #
 # $1 - Variable name
 #

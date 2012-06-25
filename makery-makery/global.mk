@@ -49,7 +49,7 @@ MAKERY_DEBUG := $(strip $(MAKERY_DEBUG))
 MAKERY_GLOBALS += MAKERY_DEBUG
 
 ifneq ($(MAKERY_DEBUG),)
-MAKERY_Debug = $(warning $(call MAKE_Message,$(1)))
+MAKERY_Debug = $(info $(call MAKE_Message,$(1)))
 else
 MAKERY_Debug =
 endif
@@ -63,10 +63,10 @@ MAKERY_TRACE ?= $(MAKERY_DEBUG)
 MAKERY_GLOBALS += MAKERY_TRACE
 
 ifneq ($(MAKERY_TRACE),)
-MAKERY_Trace = $(warning $(call MAKE_Message,$(0)()))
-MAKERY_Trace1 = $(warning $(call MAKE_Message,$(0)($(1))))
-MAKERY_Trace2 = $(warning $(call MAKE_Message,$(0)($(1),$(2))))
-MAKERY_Trace3 = $(warning $(call MAKE_Message,$(0)($(1),$(2),$(3))))
+MAKERY_Trace = $(info $(call MAKE_Message,$(0)()))
+MAKERY_Trace1 = $(info $(call MAKE_Message,$(0)($(1))))
+MAKERY_Trace2 = $(info $(call MAKE_Message,$(0)($(1),$(2))))
+MAKERY_Trace3 = $(info $(call MAKE_Message,$(0)($(1),$(2),$(3))))
 else
 MAKERY_Trace =
 MAKERY_Trace1 =
@@ -75,10 +75,10 @@ MAKERY_Trace3 =
 endif
 
 ifneq ($(MAKERY_TRACE),)
-MAKERY_TraceBegin = $(warning $(call MAKE_Message,Begin $(0)()))
-MAKERY_TraceBegin1 = $(warning $(call MAKE_Message,Begin $(0)($(1))))
-MAKERY_TraceBegin2 = $(warning $(call MAKE_Message,Begin $(0)($(1),$(2))))
-MAKERY_TraceBegin3 = $(warning $(call MAKE_Message,Begin $(0)($(1),$(2),$(3))))
+MAKERY_TraceBegin = $(info $(call MAKE_Message,Begin $(0)()))
+MAKERY_TraceBegin1 = $(info $(call MAKE_Message,Begin $(0)($(1))))
+MAKERY_TraceBegin2 = $(info $(call MAKE_Message,Begin $(0)($(1),$(2))))
+MAKERY_TraceBegin3 = $(info $(call MAKE_Message,Begin $(0)($(1),$(2),$(3))))
 else
 MAKERY_TraceBegin =
 MAKERY_TraceBegin1 =
@@ -87,10 +87,10 @@ MAKERY_TraceBegin3 =
 endif
 
 ifneq ($(MAKERY_TRACE),)
-MAKERY_TraceEnd = $(warning $(call MAKE_Message,End $(0)()))
-MAKERY_TraceEnd1 = $(warning $(call MAKE_Message,End $(0)($(1))))
-MAKERY_TraceEnd2 = $(warning $(call MAKE_Message,End $(0)($(1),$(2))))
-MAKERY_TraceEnd3 = $(warning $(call MAKE_Message,End $(0)($(1),$(2),$(3))))
+MAKERY_TraceEnd = $(info $(call MAKE_Message,End $(0)()))
+MAKERY_TraceEnd1 = $(info $(call MAKE_Message,End $(0)($(1))))
+MAKERY_TraceEnd2 = $(info $(call MAKE_Message,End $(0)($(1),$(2))))
+MAKERY_TraceEnd3 = $(info $(call MAKE_Message,End $(0)($(1),$(2),$(3))))
 else
 MAKERY_TraceEnd =
 MAKERY_TraceEnd1 =
