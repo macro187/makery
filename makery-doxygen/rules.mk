@@ -28,7 +28,7 @@ $(call PROJ_Rule)
 
 RULE_TARGET := $(DOXYGEN_configfile)
 RULE_REQS := $(DOXYGEN_depends)
-RULE_REQS += $(call PROJ_GetVarRecursive,DOXYGEN_configfile,DOXYGEN_tagprojects_abs)
+RULE_REQS += $(call PROJ_GetVarRecursive,DOXYGEN_configfile,DOXYGEN_tagprojects)
 RULE_OREQ := $(DOXYGEN_outdir)
 
 define RULE_COMMANDS
@@ -55,7 +55,7 @@ define RULE_COMMANDS
 	@echo "GENERATE_TAGFILE = \"$(call SYSTEM_ShellEscape,$(DOXYGEN_tagfile))\"" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 
-	$$(if $$(sort $$(DOXYGEN_tagprojects_abs)),$$(MAKE_CHAR_NEWLINE)	@echo "TAGFILES = \\" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))$$(foreach p,$$(call PROJ_GetVarRecursive,PROJ_dir,DOXYGEN_tagprojects_abs),$$(MAKE_CHAR_NEWLINE)	@echo "	\"$$(call SYSTEM_ShellEscape,$$(call PROJ_GetVar,DOXYGEN_tagfile,$$(call MAKE_DecodeWord,$$(p))))=$$(call SYSTEM_ShellEscape,$$(call PROJ_GetVar,DOXYGEN_outdir_html,$$(call MAKE_DecodeWord,$$(p))))/\" \\" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))$$(MAKE_CHAR_NEWLINE)	@echo "" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))
+	$$(if $$(sort $$(DOXYGEN_tagprojects)),$$(MAKE_CHAR_NEWLINE)	@echo "TAGFILES = \\" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))$$(foreach p,$(DOXYGEN_tagprojects),$$(MAKE_CHAR_NEWLINE)	@echo "	\"$$(call SYSTEM_ShellEscape,$$(call PROJ_GetVar,DOXYGEN_tagfile,$$(p)))=$$(call SYSTEM_ShellEscape,$$(call PROJ_GetVar,DOXYGEN_outdir_html,$$(p)))/\" \\" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))$$(MAKE_CHAR_NEWLINE)	@echo "" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))
 
 # Project options
 	@echo "PROJECT_NAME=\"\"" $(MAKE_CHAR_BS)

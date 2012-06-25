@@ -62,8 +62,6 @@ endef
 # $1 - The string
 # ------------------------------------------------------------------------------
 
-# TODO Escape more characters
-
 SYSTEM_ShellEscape = \
 $(subst $(MAKE_CHAR_SPACE),\$(MAKE_CHAR_SPACE),$(subst \,\\,$(1)))
 
@@ -74,7 +72,7 @@ $(subst $(MAKE_CHAR_SPACE),\$(MAKE_CHAR_SPACE),$(subst \,\\,$(1)))
 # ------------------------------------------------------------------------------
 
 define SYSTEM_SHELL_TARGETHEADING
-@printf \\n\\n===\>\ $(call SYSTEM_ShellEscape,$@)\\n
+@printf \\n===\>\ $(call SYSTEM_ShellEscape,$@)\\n
 endef
 
 

@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -18,13 +18,13 @@
 
 RULE_TARGET := $(DOTNET_COPYLIBS_dotfile)
 RULE_REQS := $(DOTNET_outfiles)
-RULE_REQS += $(call PROJ_GetMultiRecursive,DOTNET_outfiles,DOTNET_projlibs_abs)
+RULE_REQS += $(call PROJ_GetMultiRecursive,DOTNET_outfiles,DOTNET_projlibs)
 RULE_OREQ := $(DOTNET_COPYLIBS_outdir)
 
 define RULE_COMMANDS
 	-rm -rf $(call SYSTEM_ShellEscape,$(DOTNET_COPYLIBS_outdir))/*
 
-	$(foreach dir,$(sort $(call MAKE_EncodeWord,$(DOTNET_outdir)) $(call PROJ_GetVarRecursive,DOTNET_outdir,DOTNET_projlibs_abs)),$(MAKE_CHAR_NEWLINE)	cp -R $(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(dir)))/* $(call SYSTEM_ShellEscape,$(DOTNET_COPYLIBS_outdir)))
+	$(foreach dir,$(sort $(call MAKE_EncodeWord,$(DOTNET_outdir)) $(call PROJ_GetVarRecursive,DOTNET_outdir,DOTNET_projlibs)),$(MAKE_CHAR_NEWLINE)	cp -R $(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(dir)))/* $(call SYSTEM_ShellEscape,$(DOTNET_COPYLIBS_outdir)))
 
 	touch $(call SYSTEM_ShellEscape,$(DOTNET_COPYLIBS_dotfile))
 endef

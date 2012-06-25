@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -19,7 +19,7 @@
 RULE_TARGETS := $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))
 #RULE_TARGETS += $(call MAKE_EncodeWord,$(DOTNET_C_out_debug))
 RULE_REQS := $(SRCS_files_preq)
-RULE_REQS += $(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs_abs)
+RULE_REQS += $(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs)
 RULE_REQS += $(DOTNET_resources)
 RULE_OREQS := $(call MAKE_EncodeWord,$(DOTNET_outdir))
 
@@ -32,8 +32,8 @@ define RULE_COMMANDS
 	$(if $(DOTNET_C_warn),$(if $(filter 0,$(DOTNET_C_warn)),,-Wall)) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_C_werror)),-Werror) $(MAKE_CHAR_BS)
 	$(foreach define,$(DOTNET_C_defines),\$(MAKE_CHAR_NEWLINE)	-D$(define)) $(MAKE_CHAR_BS)
-	$(foreach lib,$(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs_abs),\$(MAKE_CHAR_NEWLINE)	-l$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(lib)))) $(MAKE_CHAR_BS)
-	$(foreach lib,$(DOTNET_libs) $(call PROJ_GetMultiRecursive,DOTNET_libs,DOTNET_projlibs_abs),\$(MAKE_CHAR_NEWLINE)	-l$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(lib)))) $(MAKE_CHAR_BS)
+	$(foreach lib,$(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs),\$(MAKE_CHAR_NEWLINE)	-l$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(lib)))) $(MAKE_CHAR_BS)
+	$(foreach lib,$(DOTNET_libs) $(call PROJ_GetMultiRecursive,DOTNET_libs,DOTNET_projlibs),\$(MAKE_CHAR_NEWLINE)	-l$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(lib)))) $(MAKE_CHAR_BS)
 	$(foreach res,$(DOTNET_resources),\$(MAKE_CHAR_NEWLINE)	-fresources=$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(res)))) $(MAKE_CHAR_BS)
 	$$(call MAKE_CallForEach,SYSTEM_ShellEscape,$$(SRCS_files))
 endef

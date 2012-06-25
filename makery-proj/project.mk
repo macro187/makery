@@ -29,32 +29,40 @@ PROJ_ismain := $(if $(PROJ_PROJECTS),,1)
 PROJ_ismain_DESC ?= Is this the main project? (ie. where make was run)
 
 
+PROJ_dir_DESC ?= \
+The absolute path to the project
 $(call PROJ_DeclareVar,PROJ_dir)
 ifeq ($(PROJ_ismain),)
 ifeq ($(PROJ_dir),)
 $(error BUG - Non-main project, PROJ_dir should have been pre-set)
 endif
 endif
-PROJ_dir_DESC ?= \
-The absolute path of the project directory, serves as its unique id
-PROJ_dir_DEFAULT := $(call MAKE_Shell,$(PWD) | $(SYSTEM_SHELL_CLEANPATH))
+ifeq ($(strip $(PROJ_dir)),)
+PROJ_dir := $(call MAKE_Shell,$(PWD) | $(SYSTEM_SHELL_CLEANPATH))
+endif
 
 
 $(call PROJ_DeclareVar,PROJ_dir_asword)
 PROJ_dir_asword_DESC ?= (internal) PROJ_dir encoded as word
 PROJ_dir_asword := $(call MAKE_EncodeWord,$(PROJ_dir))
 
-# Add to global "projects processed" list
+
+# Add the project to the global processed projects list
+#
 PROJ_PROJECTS += $(PROJ_dir_asword)
 
 
+PROJ_name_DESC ?= \
+Unique project name derived from project directory name
+$(call PROJ_DeclareVar,PROJ_name)
+PROJ_name := $(subst $(MAKE_CHAR_SPACE),_,$(call MAKE_DecodeWord,$(notdir $(PROJ_dir_asword))))
+
+ifneq ($(PROJ_name),$(call MAKE_EncodeWord,$(PROJ_name)))
+$(error Project name '$(PROJ_name)' contains special characters)
+endif
+
+
+PROJ_required_DESC ?= \
+Names of other projects that (may be) required by this one (list)
 $(call PROJ_DeclareVar,PROJ_required)
-PROJ_required_DESC ?= Other projects that (may be) required by this one (list)
-
-
-$(call PROJ_DeclareVar,PROJ_required_abs)
-PROJ_required_abs_DESC ?= \
-(read-only) Absolute paths to projects that (may be) required by this one (list)
-PROJ_required_abs_DEFAULT = \
-$(MAKERY_TraceBegin)$(foreach proj,$(PROJ_required),$(call MAKE_EncodeWord,$(call PROJ_LocateFromHere,$(call MAKE_DecodeWord,$(proj)))))$(MAKERY_TraceEnd)
 

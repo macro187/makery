@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,9 +16,16 @@
 # ------------------------------------------------------------------------------
 
 
+TEST_project_DESC ?= \
+The name of the runnable project that acts as a test for this one
 $(call PROJ_DeclareVar,TEST_project)
-TEST_project_DESC ?= The runnable project that acts as a test for this one
-TEST_project_DEFAULT = $(PROJ_dir).Test
+TEST_project_DEFAULT = $(PROJ_name).Test
+
+
+$(call PROJ_DeclareVar,TEST_projectdir)
+TEST_projectdir_DESC ?= \
+(internal) The dir of the runnable project that acts as a test for this one
+TEST_projectdir = $(call PROJ_Locate,$(TEST_project))
 
 
 $(call PROJ_DeclareVar,TEST_target)
@@ -28,11 +35,11 @@ TEST_target = $(PROJ_dir)/test
 
 $(call PROJ_DeclareVar,TEST_reqs)
 TEST_reqs_DESC ?= Prerequisites for testing (list)
-TEST_reqs_DEFAULT = $(call MAKE_EncodeWord,$(TEST_project)/run)
+TEST_reqs_DEFAULT = $(call MAKE_EncodeWord,$(TEST_projectdir)/run)
 
 
 # Pull in the test project
-PROJ_required += $(call MAKE_EncodeWord,$(TEST_project))
+PROJ_required += $(TEST_project)
 
 
 # Hook "test" to "everything"

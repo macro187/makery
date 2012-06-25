@@ -159,7 +159,7 @@ endef
 #
 MAKE_Shell = \
 $(shell $(1))
-#$(info BEGIN $(1))$(shell $(1))$(info END $(1))
+#$(info $(1))$(shell $(1))
 
 
 # Disable built-in make suffix rules

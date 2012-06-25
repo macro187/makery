@@ -43,7 +43,7 @@ Located source code files, relative to _dir (list) (read-only)
 SRCS_FIND_rel = \
 $(filter-out $(SRCS_FIND_exclude), \
 $(call MAKE_Shell,\
-test -d $(call SYSTEM_ShellEscape,$(SRCS_FIND_dir)) && cd $(call SYSTEM_ShellEscape,$(SRCS_FIND_dir)) && find * $(if $(SRCS_FIND_recursive),, -maxdepth 0) -type f -name \*.$(SRCS_FIND_extension)\
+test -d $(call SYSTEM_ShellEscape,$(SRCS_FIND_dir)) && cd $(call SYSTEM_ShellEscape,$(SRCS_FIND_dir)) && find * $(if $(SRCS_FIND_recursive),,-maxdepth 0) -type f -name \*.$(SRCS_FIND_extension)\
 | $(SYSTEM_SHELL_CLEANPATH) \
 | $(SYSTEM_SHELL_ENCODEWORD) \
 ) \

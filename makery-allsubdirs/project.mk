@@ -28,6 +28,12 @@ ALLSUBDIRS_projsubdirs = \
 $(foreach d,$(ALLSUBDIRS_subdirs),$(if $(call MAKE_Shell,test -e $(call SYSTEM_ShellEscape,$(PROJ_dir)/$(call MAKE_DecodeWord,$(d))/Makefile) && echo yes),$(d)))
 
 
-# Pull in all project subdirectories
+# Prepend this project's directory to MAKERYPATH
+#
+MAKERYPATH := $(call MAKE_EncodeWord,$(PROJ_dir)) $(MAKERYPATH)
+
+
+# Pull in all project subdirectory projects
+#
 PROJ_required += $(ALLSUBDIRS_projsubdirs)
 

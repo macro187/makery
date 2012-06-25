@@ -23,10 +23,13 @@
 # Error if the project cannot be found under one of the directories in PROJ_PATH
 #
 PROJ_Locate = \
-$(MAKERY_Trace1)$(if $(call PROJ_Locate_GetCache,$(1)),$(call PROJ_Locate_GetCache,$(1)),$(call PROJ_Locate_SetCache,$(1),$(call PROJ_Locate_Internal,$(1))))
+$(MAKERY_Trace1)$(if $(call PROJ_Locate_GetCache,$(1)),$(call PROJ_Locate_GetCache,$(1)),$(call PROJ_Locate_SetCache,$(1),$(call PROJ_Locate_Check,$(1),$(call PROJ_Locate_Internal,$(1)))))
+
+PROJ_Locate_Check = \
+$(if $(2),$(2),$(error Can not find project '$(1)' in MAKERYPATH))
 
 PROJ_Locate_Internal = \
-$(MAKERY_Trace1)$(if $(call MAKE_DecodeWord,$(firstword $(foreach d,$(MAKERYPATH),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d)/$(1))))))),$(call MAKE_DecodeWord,$(firstword $(foreach d,$(MAKERYPATH),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1)))))),$(error Can not find project '$(1)' in MAKERYPATH))
+$(MAKERY_Trace1)$(call MAKE_DecodeWord,$(firstword $(foreach d,$(MAKERYPATH),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1))))))
 
 
 # Get the cached location of a project
@@ -125,65 +128,58 @@ endef
 # Persistent (stashed) variables
 # ------------------------------------------------------------------------------
 
-# Generate a persistent variable name a specified variable from a specified
-# project
+# Compute the persistent name of a variable for a particular project
 #
-# $1 Variable name
-# $2 PROJ_dir
-
-PROJ_PersistentName = \
-PROJ_PERSISTENT__$(call MAKE_EncodeWord,$(2))__$(call MAKE_EncodeWord,$(1))
-
-# (internal) Same, but assumes pre-MAKE_EncodeWord'd args
-PROJ_PersistentNameUnsafe = \
-PROJ_PERSISTENT__$(2)__$(1)
-
+# $1 - Variable name
+# $2 - Project name
+#
+PROJ_PersistentVarName = \
+PROJ_VAR__$(2)__$(1)
 
 
 # Get the value of a specified variable from a specified project
-# - Can only really be used after all projects have been processed ie. in
-#   targets
 #
-# $1 Variable name
-# $2 PROJ_dir
-
+# Can only really be used after all projects have been processed ie. in targets
+#
+# $1 - Variable name
+# $2 - Project name
+#
 PROJ_GetVar = \
-$($(call PROJ_PersistentName,$(1),$(2)))
+$($(call PROJ_PersistentVarName,$(1),$(2)))
 
 
 # Get the values of a specified variable from all projects listed in a second
 # variable, recursively
-# - Values are sorted with duplicates removed
-# - Only really works after all projects have been processed ie. in targets
 #
-# $1 Variable name
-# $2 Project list variable name
-# $3 PROJ_dir
-#    (optional, defaults to current)
-# $4 List of PROJ_dir's already visited
-#    (internal, optional, to handle circular references)
-
-# For single-value variables
+# Values are sorted with duplicates removed
+#
+# Only really works after all projects have been processed ie. in targets
+#
+# $1 - Variable name
+# $2 - Project name list variable name
+# $3 - Project name (optional, defaults to current)
+# $4 - List of names of projects already visited (internal, optional, to handle
+#      circular references)
+#
 PROJ_GetVarRecursive = \
 $(MAKERY_TraceBegin3) \
 $(sort \
-$(foreach p,$(call PROJ_GetVar,$(if $(2),$(2),PROJ_required_abs),$(if $(3),$(3),$(PROJ_dir))), \
-$(if $(filter $(p),$(if $(3),$(3),$(PROJ_dir)) $(4)),, \
-$(call MAKE_EncodeWord,$(call PROJ_GetVar,$(1),$(call MAKE_DecodeWord,$(p)))) \
-$(call PROJ_GetVarRecursive,$(1),$(2),$(call MAKE_DecodeWord,$(p)),$(4) $(if $(3),$(3),$(PROJ_dir)) $(p)) \
+$(foreach p,$(call PROJ_GetVar,$(if $(2),$(2),PROJ_required),$(if $(3),$(3),$(PROJ_name))), \
+$(if $(filter $(p),$(if $(3),$(3),$(PROJ_name)) $(4)),, \
+$(call MAKE_EncodeWord,$(call PROJ_GetVar,$(1),$(p))) \
+$(call PROJ_GetVarRecursive,$(1),$(2),$(p),$(4) $(if $(3),$(3),$(PROJ_name)) $(p)) \
 ) \
 ) \
 ) \
 $(MAKERY_TraceEnd3)
 
-# For list variables
 PROJ_GetMultiRecursive = \
 $(MAKERY_TraceBegin3) \
 $(sort \
-$(foreach p,$(call PROJ_GetVar,$(if $(2),$(2),PROJ_required_abs),$(if $(3),$(3),$(PROJ_dir))), \
-$(if $(filter $(p),$(if $(3),$(3),$(PROJ_dir)) $(4)),, \
-$(call PROJ_GetVar,$(1),$(call MAKE_DecodeWord,$(p))) \
-$(call PROJ_GetMultiRecursive,$(1),$(2),$(call MAKE_DecodeWord,$(p)),$(4) $(if $(3),$(3),$(PROJ_dir)) $(p)) \
+$(foreach p,$(call PROJ_GetVar,$(if $(2),$(2),PROJ_required),$(if $(3),$(3),$(PROJ_name))), \
+$(if $(filter $(p),$(if $(3),$(3),$(PROJ_name)) $(4)),, \
+$(call PROJ_GetVar,$(1),$(p)) \
+$(call PROJ_GetMultiRecursive,$(1),$(2),$(p),$(4) $(if $(3),$(3),$(PROJ_name)) $(p)) \
 ) \
 ) \
 ) \
@@ -196,6 +192,7 @@ $(MAKERY_TraceEnd3)
 # ------------------------------------------------------------------------------
 
 # Flatten project variables down to immediate variables
+#
 PROJ_FlattenVars = \
 $(MAKERY_TraceBegin)$(eval $(call PROJ_FlattenVars_TEMPLATE))$(MAKERY_TraceEnd)
 
@@ -208,30 +205,33 @@ endef
 
 
 # Stash project variables
+#
 PROJ_StashVars = \
 $(MAKERY_Trace)$(eval $(call PROJ_StashVars_TEMPLATE))
 
 define \
 PROJ_StashVars_TEMPLATE
 $$(call MAKERY_Debug,Begin PROJ_StashVars_TEMPLATE)
-$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(call PROJ_PersistentNameUnsafe,$(v),$(PROJ_dir_asword)) := $$($(v))#)
+$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(call PROJ_PersistentVarName,$(v),$(PROJ_name)) := $$($(v))#)
 $$(call MAKERY_Debug,End PROJ_StashVars_TEMPLATE)
 endef
 
 
 # Retrieve vars
+#
 PROJ_RetrieveVars = \
 $(MAKERY_Trace)$(eval $(call PROJ_RetrieveVars_TEMPLATE))
 
 define \
 PROJ_RetrieveVars_TEMPLATE
 $$(call MAKERY_Debug,Begin PROJ_RetrieveVars_TEMPLATE)
-$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) := $$($(call PROJ_PersistentNameUnsafe,$(v),$(PROJ_dir_asword)))#)
+$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) := $$($(call PROJ_PersistentVarName,$(v),$(PROJ_name)))#)
 $$(call MAKERY_Debug,End PROJ_RetrieveVars_TEMPLATE)
 endef
 
 
 # Clear project variables
+#
 PROJ_ClearVars = \
 $(MAKERY_TraceBegin)$(eval $(PROJ_ClearVars_TEMPLATE))$(MAKERY_TraceEnd)
 
@@ -254,6 +254,7 @@ endef
 # Even though there are separate functions for each step, we have to do
 # everything in one chunk otherwise we lose the required variables before we
 # finish!
+#
 PROJ_ProcessRequired = \
 $(MAKERY_TraceBegin)$(eval $(PROJ_TEMPLATE_PROCESSREQUIRED))$(MAKERY_TraceEnd)
 
@@ -262,7 +263,7 @@ PROJ_TEMPLATE_PROCESSREQUIRED
 $$(call MAKERY_Debug,Begin PROJ_TEMPLATE_PROCESSREQUIRED)
 $(call PROJ_StashVars_TEMPLATE)
 $(call PROJ_ClearVars_TEMPLATE)
-$(foreach p,$(PROJ_required),$(call PROJ_IncludeRequired_TEMPLATE,$(call MAKE_DecodeWord,$(p))))
+$(foreach p,$(PROJ_required),$(call PROJ_IncludeRequired_TEMPLATE,$(p)))
 $(call PROJ_RetrieveVars_TEMPLATE)
 $$(call MAKERY_Debug,End PROJ_TEMPLATE_PROCESSREQUIRED)
 endef
@@ -270,18 +271,15 @@ endef
 
 # Pull in another project
 #
-# Params
-# $1 Project dir (relative to current project's dir)
+# $1 - Project name
+#
 PROJ_IncludeRequired = \
 $(MAKERY_Trace1)$(eval $(call PROJ_IncludeRequired_TEMPLATE,$(1)))
 
 define \
 PROJ_IncludeRequired_TEMPLATE
 $$(call MAKERY_Debug,Begin PROJ_IncludeRequired_TEMPLATE)
-PROJ_dir := $(call PROJ_LocateFromHere,$(1))
-ifeq ($$(PROJ_dir),)
-$$(error Required project '$(1)' does not exist)
-endif
+PROJ_dir := $(call PROJ_Locate,$(1))
 ifeq ($$(filter $$(call MAKE_EncodeWord,$$(PROJ_dir)),$$(PROJ_PROJECTS)),)
 include $$(call MAKE_EncodePath,$$(PROJ_dir))/Makefile
 else
@@ -290,18 +288,6 @@ $$(call MAKERY_Debug,End PROJ_IncludeRequired_TEMPLATE)
 endif
 
 endef
-
-
-# Locate another project relative to the current project
-#
-# Params
-# $1 The project's dir, relative to the current project's dir
-#
-# Returns
-# The absolute path of the requested project, or blank if it doesn't exist
-PROJ_LocateFromHere = \
-$(MAKERY_Trace1)$(call SYSTEM_RelDirToAbs,$(1),$(PROJ_dir))
-
 
 
 # ------------------------------------------------------------------------------
@@ -327,7 +313,7 @@ $(call PROJ_Validator$(firstword $(2)),$(1),$(wordlist 2,99,$(2)))
 # $1 Variable name
 # $2 Reason
 PROJ_ValidationError = \
-$(error $(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_NEWLINE)$(2)$(MAKE_CHAR_NEWLINE)Project: $(PROJ_dir)$(MAKE_CHAR_NEWLINE)Variable: $(1)$(MAKE_CHAR_NEWLINE)Value: '$($(1))'$(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_NEWLINE))
+$(error $(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_NEWLINE)$(2)$(MAKE_CHAR_NEWLINE)Project: $(PROJ_name)$(MAKE_CHAR_NEWLINE)Variable: $(1)$(MAKE_CHAR_NEWLINE)Value: '$($(1))'$(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_NEWLINE))
 
 
 # Throw a validation error if a condition is true
@@ -475,16 +461,17 @@ endif
 
 # Generate target-specific versions of project variables
 #
-# Params
-# $1 List of targets
+# $1 - List of targets
+#
 PROJ_TargetVars = \
 $(MAKERY_Trace1)$(eval $(call PROJ_TargetVars_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(1))))
 #$(warning $(call PROJ_TargetVars_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(1))))\
 
 # $1 PathEncode()ed list of targets
+#
 define \
 PROJ_TargetVars_TEMPLATE
-$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(1): $(v) := $$($(call PROJ_PersistentNameUnsafe,$(v),$(PROJ_dir_asword)))#)
+$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(1): $(v) := $$($(call PROJ_PersistentVarName,$(v),$(PROJ_name)))#)
 $(foreach v,$(PROJ_targetvars),$(MAKE_CHAR_NEWLINE)$(1): $(v) = $($(v)_def)#)
 endef
 

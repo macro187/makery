@@ -85,7 +85,7 @@ $(if $(filter $(DOTNET_implementation),pnet),$(DOTNET_ILRUN))
 $(call PROJ_DeclareVar,DOTNET_namespace)
 DOTNET_namespace_DESC ?= Projects root .NET namespace
 DOTNET_namespace_DEFAULT = \
-$(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(PROJ_dir))))
+$(PROJ_name)
 
 
 $(call PROJ_DeclareVar,DOTNET_resources)
@@ -99,15 +99,9 @@ DOTNET_libs_DESC ?= .NET libraries (.dll files) to link to (list)
 
 $(call PROJ_DeclareVar,DOTNET_projlibs)
 DOTNET_projlibs_DESC ?= \
-Relative paths to .NET library projects to build and link to (list)
+Names of .NET library projects to build and link to (list)
 # Automatically added to PROJ_required for you
 
-
-$(call PROJ_DeclareVar,DOTNET_projlibs_abs)
-DOTNET_projlibs_abs_DESC ?= \
-(read-only) Absolute paths to .NET library projects to build and link to (list)
-DOTNET_projlibs_abs_DEFAULT = \
-$(foreach proj,$(DOTNET_projlibs),$(call MAKE_EncodeWord,$(call SYSTEM_RelDirToAbs,$(call MAKE_DecodeWord,$(proj)),$(PROJ_dir))))
 
 PROJ_required += $(DOTNET_projlibs)
 
