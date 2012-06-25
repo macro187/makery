@@ -23,7 +23,38 @@
 # Error if the project cannot be found under one of the directories in PROJ_PATH
 #
 PROJ_Locate = \
+$(MAKERY_Trace1)$(if $(call PROJ_Locate_GetCache,$(1)),$(call PROJ_Locate_GetCache,$(1)),$(call PROJ_Locate_SetCache,$(1),$(call PROJ_Locate_Internal,$(1))))
+
+PROJ_Locate_Internal = \
 $(MAKERY_Trace1)$(if $(call MAKE_DecodeWord,$(firstword $(foreach d,$(MAKERYPATH),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d)/$(1))))))),$(call MAKE_DecodeWord,$(firstword $(foreach d,$(MAKERYPATH),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1)))))),$(error Can not find project '$(1)' in MAKERYPATH))
+
+
+# Get the cached location of a project
+#
+# $1 - Project name
+#
+# Returns the cached location, or nothing if not cached
+#
+PROJ_Locate_GetCache = \
+$(PROJ_LOCATION_$(call MAKE_EncodeWord,$(1)))
+
+
+# Cache the location of a project
+#
+# $1 - Project name
+# $2 - Project location
+#
+# Returns the location
+#
+PROJ_Locate_SetCache = \
+$(eval $(call PROJ_SaveLocation_TEMPLATE,$(1),$(2)))$(2)
+
+# $1 - Project name
+# $2 - Project location
+#
+define PROJ_SaveLocation_TEMPLATE
+PROJ_LOCATION_$(call MAKE_EncodeWord,$(1)) := $(2)
+endef
 
 
 # List of Projects Processed
