@@ -90,27 +90,6 @@ $(MAKERY_TRACEBEGIN1)$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) &
 
 
 # ------------------------------------------------------------------------------
-# Determine a directory's absolute path given it's (possibly) relative path
-# from an origin directory
-#
-# Parameters
-# $1 - (possibly) relative path
-# $2 - origin dir
-#
-# Remarks
-# $2 doesn't really matter if $1 is not relative, but it still must exist
-#
-# Returns
-# Absolute path, or blank if either argument is blank, or blank if dir
-# specified in either argument does not exist
-# ------------------------------------------------------------------------------
-
-SYSTEM_RelDirToAbs = \
-$(MAKERY_TRACEBEGIN2)$(if $(1),$(if $(2),$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(2)) && cd $(call SYSTEM_ShellEscape,$(2)) && test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && $(PWD) | $(SYSTEM_SHELL_CLEANPATH))))$(MAKERY_TRACEEND2)
-
-
-
-# ------------------------------------------------------------------------------
 # Convert a posix-style path (forward-slashes) to a Windows-style path
 # (backslashes)
 #
