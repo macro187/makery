@@ -29,27 +29,29 @@ MAKERY_GLOBALS += MAKERY
 
 MAKERYDEBUG_DESC := \
 Print debug information?
-MAKERYDEBUG := $(strip $(MAKERYDEBUG))
+override MAKERYDEBUG := $(strip $(MAKERYDEBUG))
 MAKERY_GLOBALS += MAKERYDEBUG
 
 
 MAKERYTRACE_DESC := \
 Print function trace information?
-MAKERYTRACE := $(strip $(MAKERYTRACE))
+override MAKERYTRACE := $(strip $(MAKERYTRACE))
 MAKERY_GLOBALS += MAKERYTRACE
 
 
 MAKERYPATH_DESC := \
 Paths that PROJ_Locate() searches for projects in (list)
-MAKERYPATH := \
+override MAKERYPATH := \
 $(subst $(MAKE_CHAR_COLON_ENCODED), ,$(call MAKE_EncodeWord,$(MAKERYPATH)))
 MAKERY_GLOBALS += MAKERYPATH
 
+override MAKERYPATH += $(call MAKE_EncodeWord,$(MAKERY))
 
-# Add Makery to the project search path
-#
-MAKERYPATH += $(call MAKE_EncodeWord,$(MAKERY))
 
+MAKERYOUT_DESC := \
+Absolute path to out-of-tree root output directory, or blank to build in-tree
+override MAKERYOUT := $(strip $(MAKERYOUT))
+MAKERY_GLOBALS += MAKERYOUT
 
 
 # ------------------------------------------------------------------------------

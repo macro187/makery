@@ -20,8 +20,15 @@ OUT_all_DESC ?= All output directories (list)
 
 
 $(call PROJ_DeclareVar,OUT_base)
-OUT_base_DESC ?= Base output directory
+OUT_base_DESC ?= (internal) Base output directory
 OUT_base_DEFAULT = $(PROJ_dir)/out
+
+ifdef MAKERYOUT
+ifeq ($(call SYSTEM_DirExists,$(MAKERYOUT)),)
+$(error Non-existent MAKERYOUT directory specified: '$(MAKERYOUT)')
+endif
+OUT_base_DEFAULT = $(call SYSTEM_DirToAbs,$(MAKERYOUT))/$(PROJ_name)
+endif
 
 OUT_all += $(call MAKE_EncodeWord,$(OUT_base))
 
