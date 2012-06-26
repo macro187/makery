@@ -15,21 +15,39 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
-# Location of Makery
-#
+# ------------------------------------------------------------------------------
+# Global Makery settings
+# ------------------------------------------------------------------------------
+
+MAKERY_DESC := \
+Location of Makery
 ifndef MAKERY
 $(error The MAKERY variable is not set, how did you include makery.mk?)
 endif
+MAKERY_GLOBALS += MAKERY
 
 
-# Project and module search path
-#
+MAKERYDEBUG_DESC := \
+Print debug information?
+MAKERYDEBUG := $(strip $(MAKERYDEBUG))
+MAKERY_GLOBALS += MAKERYDEBUG
+
+
+MAKERYTRACE_DESC := \
+Print function trace information?
+MAKERYTRACE := $(strip $(MAKERYTRACE))
+MAKERY_GLOBALS += MAKERYTRACE
+
+
 MAKERYPATH_DESC := \
 Paths that PROJ_Locate() searches for projects in (list)
 MAKERYPATH := \
 $(subst $(MAKE_CHAR_COLON_ENCODED), ,$(call MAKE_EncodeWord,$(MAKERYPATH)))
 MAKERY_GLOBALS += MAKERYPATH
 
+
+# Add Makery to the project search path
+#
 MAKERYPATH += $(call MAKE_EncodeWord,$(MAKERY))
 
 
@@ -73,10 +91,6 @@ endif
 # Debugging
 # ------------------------------------------------------------------------------
 
-MAKERYDEBUG := $(strip $(MAKERYDEBUG))
-MAKERY_GLOBALS += MAKERYDEBUG
-
-
 ifdef MAKERYDEBUG
 MAKERY_Debug = $(info [DEBUG] $(1))
 else
@@ -88,9 +102,6 @@ endif
 # ------------------------------------------------------------------------------
 # Tracing
 # ------------------------------------------------------------------------------
-
-MAKERYTRACE := $(strip $(MAKERYTRACE))
-MAKERY_GLOBALS += MAKERYTRACE
 
 ifdef MAKERYTRACE
 MAKERY_TRACE = $(info [trace] $(0)())
