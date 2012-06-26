@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -23,5 +23,5 @@
 # Clean the main project / all cleanable projects
 .PHONY: clean cleanall
 clean cleanall:
-	$(SYSTEM_SHELL_TARGETHEADING)
+	$(MAKERY_TARGETHEADING)
 

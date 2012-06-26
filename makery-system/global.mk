@@ -63,17 +63,7 @@ endef
 # ------------------------------------------------------------------------------
 
 SYSTEM_ShellEscape = \
-$(subst $(MAKE_CHAR_SPACE),\$(MAKE_CHAR_SPACE),$(subst \,\\,$(1)))
-
-
-
-# ------------------------------------------------------------------------------
-# Prints a heading for the current target
-# ------------------------------------------------------------------------------
-
-define SYSTEM_SHELL_TARGETHEADING
-@printf \\n===\>\ $(call SYSTEM_ShellEscape,$@)\\n
-endef
+$(subst $(MAKE_CHAR_QUOTE),\$(MAKE_CHAR_QUOTE),$(subst $(MAKE_CHAR_APOS),\$(MAKE_CHAR_APOS),$(subst $(MAKE_CHAR_SPACE),\$(MAKE_CHAR_SPACE),$(subst \,\\,$(1)))))
 
 
 
@@ -88,7 +78,7 @@ endef
 # ------------------------------------------------------------------------------
 
 SYSTEM_DirToAbs = \
-$(MAKERY_Trace1)$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && $(PWD) | $(SYSTEM_SHELL_CLEANPATH))
+$(MAKERY_TRACEBEGIN1)$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && $(PWD) | $(SYSTEM_SHELL_CLEANPATH))$(MAKERY_TRACEEND1)
 
 
 
@@ -109,7 +99,7 @@ $(MAKERY_Trace1)$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd 
 # ------------------------------------------------------------------------------
 
 SYSTEM_RelDirToAbs = \
-$(MAKERY_Trace2)$(if $(1),$(if $(2),$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(2)) && cd $(call SYSTEM_ShellEscape,$(2)) && test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && $(PWD) | $(SYSTEM_SHELL_CLEANPATH))))
+$(MAKERY_TRACEBEGIN2)$(if $(1),$(if $(2),$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(2)) && cd $(call SYSTEM_ShellEscape,$(2)) && test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && $(PWD) | $(SYSTEM_SHELL_CLEANPATH))))$(MAKERY_TRACEEND2)
 
 
 

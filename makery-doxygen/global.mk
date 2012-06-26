@@ -54,5 +54,5 @@ DOXYGEN_DEFINE_DEFAULT := 1
 # Generate doxygen docs for main project / all doxygen-enabled projects
 .PHONY: doxygen doxygenall
 doxygen doxygenall:
-	$(SYSTEM_SHELL_TARGETHEADING)
+	$(MAKERY_TARGETHEADING)
 

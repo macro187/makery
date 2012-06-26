@@ -42,11 +42,11 @@ $(if $(call PROJ_GetVar,RUN_argpathabsfunc,$(if $(2),$(2),$(PROJ_name))),,$(erro
 # Build a runnable version of the current project / all runnable projects
 .PHONY: runnable runnableall
 runnable runnableall:
-	$(SYSTEM_SHELL_TARGETHEADING)
+	$(MAKERY_TARGETHEADING)
 
 # Run the current project / all runnable projects
 .PHONY: run runall
 run runall:
-	$(SYSTEM_SHELL_TARGETHEADING)
+	$(MAKERY_TARGETHEADING)
 
 

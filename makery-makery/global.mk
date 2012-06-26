@@ -15,7 +15,6 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
-
 # Location of Makery
 #
 ifndef MAKERY
@@ -34,6 +33,7 @@ MAKERY_GLOBALS += MAKERYPATH
 MAKERYPATH += $(call MAKE_EncodeWord,$(MAKERY))
 
 
+
 # ------------------------------------------------------------------------------
 # Global variable list
 # ------------------------------------------------------------------------------
@@ -41,60 +41,90 @@ MAKERYPATH += $(call MAKE_EncodeWord,$(MAKERY))
 MAKERY_GLOBALS := $(MAKERY_GLOBALS)
 
 
+
+# ------------------------------------------------------------------------------
+# Messages
+# ------------------------------------------------------------------------------
+
+# Produce a heading message
+#
+# $1 - Heading
+#
+MAKERY_Heading = \
+===> $(1)
+
+
+# Shell command(s), for use in rules, to print a heading for the current target
+#
+ifndef MAKERYDEBUG
+define MAKERY_TARGETHEADING
+	@echo ===\> Building \'$@\'
+endef
+else
+define MAKERY_TARGETHEADING
+	@echo ===\> Building \'$@\'
+	@echo [debug] Newer prerequisites: \'$?\'
+endef
+endif
+
+
+
 # ------------------------------------------------------------------------------
 # Debugging
 # ------------------------------------------------------------------------------
 
-MAKERY_DEBUG := $(strip $(MAKERY_DEBUG))
-MAKERY_GLOBALS += MAKERY_DEBUG
+MAKERYDEBUG := $(strip $(MAKERYDEBUG))
+MAKERY_GLOBALS += MAKERYDEBUG
 
-ifneq ($(MAKERY_DEBUG),)
-MAKERY_Debug = $(info $(call MAKE_Message,$(1)))
+
+ifdef MAKERYDEBUG
+MAKERY_Debug = $(info [DEBUG] $(1))
 else
 MAKERY_Debug =
 endif
 
 
+
 # ------------------------------------------------------------------------------
-# Function Tracing
+# Tracing
 # ------------------------------------------------------------------------------
 
-MAKERY_TRACE ?= $(MAKERY_DEBUG)
-MAKERY_GLOBALS += MAKERY_TRACE
+MAKERYTRACE := $(strip $(MAKERYTRACE))
+MAKERY_GLOBALS += MAKERYTRACE
 
-ifneq ($(MAKERY_TRACE),)
-MAKERY_Trace = $(info $(call MAKE_Message,$(0)()))
-MAKERY_Trace1 = $(info $(call MAKE_Message,$(0)($(1))))
-MAKERY_Trace2 = $(info $(call MAKE_Message,$(0)($(1),$(2))))
-MAKERY_Trace3 = $(info $(call MAKE_Message,$(0)($(1),$(2),$(3))))
+ifdef MAKERYTRACE
+MAKERY_TRACE = $(info [trace] $(0)())
+MAKERY_TRACE1 = $(info [trace] $(0)($(1)))
+MAKERY_TRACE2 = $(info [trace] $(0)($(1),$(2)))
+MAKERY_TRACE3 = $(info [trace] $(0)($(1),$(2),$(3)))
 else
-MAKERY_Trace =
-MAKERY_Trace1 =
-MAKERY_Trace2 =
-MAKERY_Trace3 =
+MAKERY_TRACE =
+MAKERY_TRACE1 =
+MAKERY_TRACE2 =
+MAKERY_TRACE3 =
 endif
 
-ifneq ($(MAKERY_TRACE),)
-MAKERY_TraceBegin = $(info $(call MAKE_Message,Begin $(0)()))
-MAKERY_TraceBegin1 = $(info $(call MAKE_Message,Begin $(0)($(1))))
-MAKERY_TraceBegin2 = $(info $(call MAKE_Message,Begin $(0)($(1),$(2))))
-MAKERY_TraceBegin3 = $(info $(call MAKE_Message,Begin $(0)($(1),$(2),$(3))))
+ifdef MAKERYTRACE
+MAKERY_TRACEBEGIN = $(info [trace begin] $(0)())
+MAKERY_TRACEBEGIN1 = $(info [trace begin] $(0)($(1)))
+MAKERY_TRACEBEGIN2 = $(info [trace begin] $(0)($(1),$(2)))
+MAKERY_TRACEBEGIN3 = $(info [trace begin] $(0)($(1),$(2),$(3)))
 else
-MAKERY_TraceBegin =
-MAKERY_TraceBegin1 =
-MAKERY_TraceBegin2 =
-MAKERY_TraceBegin3 =
+MAKERY_TRACEBEGIN =
+MAKERY_TRACEBEGIN1 =
+MAKERY_TRACEBEGIN2 =
+MAKERY_TRACEBEGIN3 =
 endif
 
-ifneq ($(MAKERY_TRACE),)
-MAKERY_TraceEnd = $(info $(call MAKE_Message,End $(0)()))
-MAKERY_TraceEnd1 = $(info $(call MAKE_Message,End $(0)($(1))))
-MAKERY_TraceEnd2 = $(info $(call MAKE_Message,End $(0)($(1),$(2))))
-MAKERY_TraceEnd3 = $(info $(call MAKE_Message,End $(0)($(1),$(2),$(3))))
+ifdef MAKERYTRACE
+MAKERY_TRACEEND = $(info [trace end  ] $(0)())
+MAKERY_TRACEEND1 = $(info [trace end  ] $(0)($(1)))
+MAKERY_TRACEEND2 = $(info [trace end  ] $(0)($(1),$(2)))
+MAKERY_TRACEEND3 = $(info [trace end  ] $(0)($(1),$(2),$(3)))
 else
-MAKERY_TraceEnd =
-MAKERY_TraceEnd1 =
-MAKERY_TraceEnd2 =
-MAKERY_TraceEnd3 =
+MAKERY_TRACEEND =
+MAKERY_TRACEEND1 =
+MAKERY_TRACEEND2 =
+MAKERY_TRACEEND3 =
 endif
 

@@ -23,13 +23,13 @@
 # Error if the project cannot be found under one of the directories in PROJ_PATH
 #
 PROJ_Locate = \
-$(MAKERY_Trace1)$(if $(call PROJ_Locate_GetCache,$(1)),$(call PROJ_Locate_GetCache,$(1)),$(call PROJ_Locate_SetCache,$(1),$(call PROJ_Locate_Check,$(1),$(call PROJ_Locate_Internal,$(1)))))
+$(MAKERY_TRACEBEGIN1)$(if $(call PROJ_Locate_GetCache,$(1)),$(call PROJ_Locate_GetCache,$(1)),$(call PROJ_Locate_SetCache,$(1),$(call PROJ_Locate_Check,$(1),$(call PROJ_Locate_Internal,$(1)))))$(MAKERY_TRACEEND1)
 
 PROJ_Locate_Check = \
 $(if $(2),$(2),$(error Can not find project '$(1)' in MAKERYPATH))
 
 PROJ_Locate_Internal = \
-$(MAKERY_Trace1)$(call MAKE_DecodeWord,$(firstword $(foreach d,$(MAKERYPATH),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1))))))
+$(MAKERY_TRACEBEGIN1)$(call MAKE_DecodeWord,$(firstword $(foreach d,$(MAKERYPATH),$(call MAKE_EncodeWord,$(call SYSTEM_DirToAbs,$(call MAKE_DecodeWord,$(d))/$(1))))))$(MAKERY_TRACEEND1)
 
 
 # Get the cached location of a project
@@ -162,7 +162,7 @@ $($(call PROJ_PersistentVarName,$(1),$(2)))
 #      circular references)
 #
 PROJ_GetVarRecursive = \
-$(MAKERY_TraceBegin3) \
+$(MAKERY_TRACEBEGIN3) \
 $(sort \
 $(foreach p,$(call PROJ_GetVar,$(if $(2),$(2),PROJ_required),$(if $(3),$(3),$(PROJ_name))), \
 $(if $(filter $(p),$(if $(3),$(3),$(PROJ_name)) $(4)),, \
@@ -171,10 +171,10 @@ $(call PROJ_GetVarRecursive,$(1),$(2),$(p),$(4) $(if $(3),$(3),$(PROJ_name)) $(p
 ) \
 ) \
 ) \
-$(MAKERY_TraceEnd3)
+$(MAKERY_TRACEEND3)
 
 PROJ_GetMultiRecursive = \
-$(MAKERY_TraceBegin3) \
+$(MAKERY_TRACEBEGIN3) \
 $(sort \
 $(foreach p,$(call PROJ_GetVar,$(if $(2),$(2),PROJ_required),$(if $(3),$(3),$(PROJ_name))), \
 $(if $(filter $(p),$(if $(3),$(3),$(PROJ_name)) $(4)),, \
@@ -183,7 +183,7 @@ $(call PROJ_GetMultiRecursive,$(1),$(2),$(p),$(4) $(if $(3),$(3),$(PROJ_name)) $
 ) \
 ) \
 ) \
-$(MAKERY_TraceEnd3)
+$(MAKERY_TRACEEND3)
 
 
 
@@ -194,53 +194,53 @@ $(MAKERY_TraceEnd3)
 # Flatten project variables down to immediate variables
 #
 PROJ_FlattenVars = \
-$(MAKERY_TraceBegin)$(eval $(call PROJ_FlattenVars_TEMPLATE))$(MAKERY_TraceEnd)
+$(MAKERY_TRACEBEGIN)$(eval $(call PROJ_FlattenVars_TEMPLATE))$(MAKERY_TRACEEND)
 
 define \
 PROJ_FlattenVars_TEMPLATE
-$$(call MAKERY_Debug,Begin PROJ_FlattenVars_TEMPLATE)
+$$(MAKERY_TRACEBEGIN)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) := $$($(v))#)
-$$(call MAKERY_Debug,End PROJ_FlattenVars_TEMPLATE)
+$$(MAKERY_TRACEEND)
 endef
 
 
 # Stash project variables
 #
 PROJ_StashVars = \
-$(MAKERY_Trace)$(eval $(call PROJ_StashVars_TEMPLATE))
+$(MAKERY_TRACE)$(eval $(call PROJ_StashVars_TEMPLATE))
 
 define \
 PROJ_StashVars_TEMPLATE
-$$(call MAKERY_Debug,Begin PROJ_StashVars_TEMPLATE)
+$$(MAKERY_TRACEBEGIN)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(call PROJ_PersistentVarName,$(v),$(PROJ_name)) := $$($(v))#)
-$$(call MAKERY_Debug,End PROJ_StashVars_TEMPLATE)
+$$(MAKERY_TRACEEND)
 endef
 
 
 # Retrieve vars
 #
 PROJ_RetrieveVars = \
-$(MAKERY_Trace)$(eval $(call PROJ_RetrieveVars_TEMPLATE))
+$(MAKERY_TRACEBEGIN)$(eval $(call PROJ_RetrieveVars_TEMPLATE))$(MAKERY_TRACEEND)
 
 define \
 PROJ_RetrieveVars_TEMPLATE
-$$(call MAKERY_Debug,Begin PROJ_RetrieveVars_TEMPLATE)
+$$(MAKERY_TRACEBEGIN)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) := $$($(call PROJ_PersistentVarName,$(v),$(PROJ_name)))#)
-$$(call MAKERY_Debug,End PROJ_RetrieveVars_TEMPLATE)
+$$(MAKERY_TRACEEND)
 endef
 
 
 # Clear project variables
 #
 PROJ_ClearVars = \
-$(MAKERY_TraceBegin)$(eval $(PROJ_ClearVars_TEMPLATE))$(MAKERY_TraceEnd)
+$(MAKERY_TRACEBEGIN)$(eval $(PROJ_ClearVars_TEMPLATE))$(MAKERY_TRACEEND)
 
 define \
 PROJ_ClearVars_TEMPLATE
-$$(call MAKERY_Debug,Begin PROJ_ClearVars_TEMPLATE)
+$$(MAKERY_TRACEBEGIN)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) =#$(MAKE_CHAR_NEWLINE)$(v)_DEFAULT =#)
 $(foreach v,$(PROJ_targetvars),$(MAKE_CHAR_NEWLINE)$(v) =#)
-$$(call MAKERY_Debug,End PROJ_ClearVars_TEMPLATE)
+$$(MAKERY_TRACEEND)
 endef
 
 
@@ -256,16 +256,16 @@ endef
 # finish!
 #
 PROJ_ProcessRequired = \
-$(MAKERY_TraceBegin)$(eval $(PROJ_TEMPLATE_PROCESSREQUIRED))$(MAKERY_TraceEnd)
+$(MAKERY_TRACEBEGIN)$(eval $(PROJ_TEMPLATE_PROCESSREQUIRED))$(MAKERY_TRACEEND)
 
 define \
 PROJ_TEMPLATE_PROCESSREQUIRED
-$$(call MAKERY_Debug,Begin PROJ_TEMPLATE_PROCESSREQUIRED)
+$$(MAKERY_TRACEBEGIN)
 $(call PROJ_StashVars_TEMPLATE)
 $(call PROJ_ClearVars_TEMPLATE)
 $(foreach p,$(PROJ_required),$(call PROJ_IncludeRequired_TEMPLATE,$(p)))
 $(call PROJ_RetrieveVars_TEMPLATE)
-$$(call MAKERY_Debug,End PROJ_TEMPLATE_PROCESSREQUIRED)
+$$(MAKERY_TRACEEND)
 endef
 
 
@@ -274,17 +274,17 @@ endef
 # $1 - Project name
 #
 PROJ_IncludeRequired = \
-$(MAKERY_Trace1)$(eval $(call PROJ_IncludeRequired_TEMPLATE,$(1)))
+$(MAKERY_TRACE1)$(eval $(call PROJ_IncludeRequired_TEMPLATE,$(1)))
 
 define \
 PROJ_IncludeRequired_TEMPLATE
-$$(call MAKERY_Debug,Begin PROJ_IncludeRequired_TEMPLATE)
+$$(MAKERY_TRACEBEGIN1)
 PROJ_dir := $(call PROJ_Locate,$(1))
 ifeq ($$(filter $$(call MAKE_EncodeWord,$$(PROJ_dir)),$$(PROJ_PROJECTS)),)
 include $$(call MAKE_EncodePath,$$(PROJ_dir))/Makefile
 else
 $$(call MAKERY_Debug,Refraining from re-processing '$$(PROJ_dir)')
-$$(call MAKERY_Debug,End PROJ_IncludeRequired_TEMPLATE)
+$$(MAKERY_TRACEEND1)
 endif
 
 endef
@@ -296,8 +296,8 @@ endef
 
 # Run validations
 PROJ_Validate = \
-$(MAKERY_Trace)$(foreach var,$(PROJ_vars),$(foreach val,$($(var)_VALIDATE),$(call PROJ_DeclValidate,$(var),$(subst |, ,$(val)))))\
-$(eval $(PROJ_Validate_TEMPLATE))
+$(MAKERY_TRACEBEGIN)$(foreach var,$(PROJ_vars),$(foreach val,$($(var)_VALIDATE),$(call PROJ_DeclValidate,$(var),$(subst |, ,$(val)))))\
+$(eval $(PROJ_Validate_TEMPLATE))$(MAKERY_TRACEEND)
 
 define PROJ_Validate_TEMPLATE
 $(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MAKE_EncodePath,$(call MODULES_Locate,$(module))/validate.mk))
@@ -398,11 +398,11 @@ $(MAKE_CHAR_BS)$(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_TAB)$(1)
 # Generates a project-specific rule given parameters specified in RULE_*
 # variables
 PROJ_Rule = \
-$(MAKERY_TraceBegin) \
+$(MAKERY_TRACEBEGIN) \
 $(if $(RULE_TARGET)$(RULE_TARGETS), \
 $(call MAKERY_Debug,Rule$(MAKE_CHAR_NEWLINE)$(PROJ_Rule_DUMP)) \
 $(eval $(call PROJ_Rule_TEMPLATE,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET))))) \
-)$(MAKERY_TraceEnd)
+)$(MAKERY_TRACEEND)
 
 
 
@@ -423,11 +423,8 @@ $(foreach r,$(RULE_REQS) $(call MAKE_EncodeWord,$(RULE_REQ)),\$(MAKE_CHAR_NEWLIN
 \
 $(if $(RULE_OREQS)$(RULE_OREQ),\$(MAKE_CHAR_NEWLINE)| $(foreach r,$(RULE_OREQS) $(call MAKE_EncodeWord,$(RULE_OREQ)),\$(MAKE_CHAR_NEWLINE)$(call MAKE_EncodePath,$(call MAKE_DecodeWord,$(r)))))
 
-	$$(SYSTEM_SHELL_TARGETHEADING)
-ifneq ($$(MAKERY_DEBUG),)
-	@echo $$(call SYSTEM_ShellEscape,[newer prerequisites: $$(?)])
-endif
-	
+	$$(MAKERY_TARGETHEADING)
+
 $(RULE_COMMANDS)
 
 $$(call MAKE_ClearVarsWithPrefix,RULE_)
@@ -435,8 +432,9 @@ endef
 
 
 # Generate a dump of information about the rule
-ifneq ($(MAKERY_DEBUG),)
+ifdef MAKERYDEBUG
 define PROJ_Rule_DUMP
+--------------------------------------------------------------------------------
 Targets:$(if $(RULE_TARGETS)(RULE_TARGET),$(foreach t,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(MAKE_CHAR_NEWLINE)$(call MAKE_DecodeWord,$(t))),$(MAKE_CHAR_NEWLINE)(none))
 
 Phony:
@@ -450,6 +448,7 @@ Prerequisite of:$(if $(RULE_REQDBYS)$(RULE_REQDBY),$(foreach r,$(RULE_REQDBYS) $
 
 Commands:
 $(if $(RULE_COMMANDS),$(RULE_COMMANDS),(none))
+--------------------------------------------------------------------------------
 
 endef
 else
@@ -464,8 +463,7 @@ endif
 # $1 - List of targets
 #
 PROJ_TargetVars = \
-$(MAKERY_Trace1)$(eval $(call PROJ_TargetVars_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(1))))
-#$(warning $(call PROJ_TargetVars_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(1))))\
+$(MAKERY_TRACEBEGIN1)$(eval $(call PROJ_TargetVars_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(1))))$(MAKERY_TRACEEND1)
 
 # $1 PathEncode()ed list of targets
 #
@@ -484,11 +482,11 @@ endef
 # The global default target
 .PHONY: default
 default:
-	$(SYSTEM_SHELL_TARGETHEADING)
+	$(MAKERY_TARGETHEADING)
 
 
 # Don't do anything
 .PHONY: null
 null:
-	$(SYSTEM_SHELL_TARGETHEADING)
+	$(MAKERY_TARGETHEADING)
 

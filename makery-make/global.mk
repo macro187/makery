@@ -21,6 +21,11 @@
 MAKE_Identity = $(1)
 
 
+
+# ------------------------------------------------------------------------------
+# Special Characters
+# ------------------------------------------------------------------------------
+
 # Special Characters
 #
 MAKE_CHAR_BLANK     :=
@@ -55,6 +60,11 @@ MAKE_CHAR_LT_ENCODED        := <LT>
 MAKE_CHAR_GT_ENCODED        := <GT>
 MAKE_CHAR_NEWLINE_ENCODED   := <NEWLINE>
 
+
+
+# ------------------------------------------------------------------------------
+# Words
+# ------------------------------------------------------------------------------
 
 # Encode special characters as sequences in a string
 #
@@ -93,6 +103,11 @@ MAKE_CallForEach2 = \
 $(foreach word,$(3),$(call $(2),$(call $(1),$(call MAKE_DecodeWord,$(word)))))
 
 
+
+# ------------------------------------------------------------------------------
+# Paths
+# ------------------------------------------------------------------------------
+
 # Escape a path for use within Makefiles (eg. in rule dependency lists)
 #
 # $1 - The path
@@ -109,37 +124,25 @@ MAKE_PathParentName = \
 $(notdir $(patsubst %/,%,$(dir $(patsubst %/,%,$(1)))))
 
 
-# Produce a heading suitable for use with $(info)
-#
-# $1 - Heading text
-#
-MAKE_Heading = \
-===> $(1)
+# ------------------------------------------------------------------------------
+# Messages
+# ------------------------------------------------------------------------------
 
-
-# Produce an informational message suitable for use with $(info)
-#
-# $1 - Message text
-#
-MAKE_Message = \
-$(MAKE_Heading)
-
-
-# Produce a message displaying a variable and it's value suitable for use
-# with $(info)
+# Print a message displaying a variable's name, description (if available),
+# and value
 #
 # $1 - Variable name
 #
 MAKE_DumpVar = \
-$(1) = '$($(1))'$(if $($(1)_DESC),$(MAKE_CHAR_NEWLINE)    $($(1)_DESC))
+$(info $(1)$(if $($(1)_DESC),$(MAKE_CHAR_NEWLINE)  $($(1)_DESC))$(MAKE_CHAR_NEWLINE)  '$($(1))')
 
 
-# Produce a dump of the names and values of a list of variables
+# Produce a message of the names and values of a list of variables
 #
 # $1 - Variable list
 #
 MAKE_DumpVars = \
-$(foreach varname,$(1),$(MAKE_CHAR_NEWLINE)$(call MAKE_DumpVar,$(varname)))
+$(foreach v,$(1),$(call MAKE_DumpVar,$(v)))
 
 
 # Clear variables with a particular prefix

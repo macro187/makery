@@ -15,6 +15,10 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
+
+$(info ===> Configuring $(if $(PROJ_dir),$(PROJ_dir),.))
+
+
 ifndef MAKERY_BOOTSTRAP
 
 -include ~/.makeryrc.mk
@@ -48,8 +52,9 @@ $(call MODULES_Use,config)
 
 $(foreach mod,$(MODULES_use),$(call MODULES_Use,$(mod)))
 $(call PROJ_FlattenVars)
-ifeq ($(MAKERY_DEBUG),1)
-$(call MAKERY_Debug,Project Variables$(call MAKE_DumpVars,$(PROJ_vars)))
+ifdef MAKERYDEBUG
+$(call MAKE_Debug,Project Variables:)
+$(call MAKE_DumpVars,$(PROJ_vars))
 endif
 $(call PROJ_Validate)
 $(call PROJ_ProcessRequired)
