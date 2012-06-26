@@ -66,6 +66,13 @@ SYSTEM_ShellEscape = \
 $(subst $(MAKE_CHAR_QUOTE),\$(MAKE_CHAR_QUOTE),$(subst $(MAKE_CHAR_APOS),\$(MAKE_CHAR_APOS),$(subst $(MAKE_CHAR_SPACE),\$(MAKE_CHAR_SPACE),$(subst \,\\,$(1)))))
 
 
+# Determine whether a directory exists
+#
+# $(1) - Path of directory
+#
+SYSTEM_DirExists = \
+$(findstring EXISTS,$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && echo EXISTS))
+
 
 # ------------------------------------------------------------------------------
 # Determine a directory's canonical absolute path
