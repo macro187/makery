@@ -55,7 +55,7 @@ PROJ_PROJECTS += $(PROJ_dir_asword)
 PROJ_name_DESC ?= \
 Unique project name derived from project directory name
 $(call PROJ_DeclareVar,PROJ_name)
-PROJ_name := $(subst $(MAKE_CHAR_SPACE),_,$(call MAKE_DecodeWord,$(notdir $(PROJ_dir_asword))))
+PROJ_name := $(call MAKE_DecodeWord,$(notdir $(PROJ_dir_asword)))
 
 ifneq ($(PROJ_name),$(call MAKE_EncodeWord,$(PROJ_name)))
 $(error Project name '$(PROJ_name)' contains special characters)
