@@ -31,11 +31,7 @@ $(call PROJ_DeclareVar,DOTNET_C_defines)
 DOTNET_C_defines_DESC ?= Preprocessor variables to define (list)
 
 
-$(call PROJ_DeclareVar,DOTNET_C_debug)
-DOTNET_C_debug_DESC ?= Enable debug info and DEBUG preprocessor var? (0|1)
-DOTNET_C_debug_DEFAULT = 1
-
-DOTNET_C_defines += $(if $(filter 1,$(DOTNET_C_debug)),DEBUG)
+DOTNET_C_defines += $(if $(filter 1,$(DOTNET_debug)),DEBUG)
 
 
 $(call PROJ_DeclareVar,DOTNET_C_checked)

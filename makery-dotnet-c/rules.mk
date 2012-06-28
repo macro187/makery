@@ -17,7 +17,6 @@
 
 
 RULE_TARGETS := $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))
-#RULE_TARGETS += $(call MAKE_EncodeWord,$(DOTNET_C_out_debug))
 RULE_REQS := $(SRCS_files_preq)
 RULE_REQS += $(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs)
 RULE_REQS += $(DOTNET_resources)
@@ -27,7 +26,7 @@ define RULE_COMMANDS
 	cscc $(MAKE_CHAR_BS)
 	$(if $(filter lib,$(DOTNET_outtype)),-shared) $(MAKE_CHAR_BS)
 	-o $(call SYSTEM_ShellEscape,$(DOTNET_outfiles_main)) $(MAKE_CHAR_BS)
-	$(if $(filter 1,$(DOTNET_C_debug)),-g) $(MAKE_CHAR_BS)
+	$(if $(filter debug,$(DOTNET_debug)),-g) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_C_checked)),-fchecked) $(MAKE_CHAR_BS)
 	$(if $(DOTNET_C_warn),$(if $(filter 0,$(DOTNET_C_warn)),,-Wall)) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_C_werror)),-Werror) $(MAKE_CHAR_BS)

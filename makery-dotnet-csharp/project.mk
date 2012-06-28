@@ -105,7 +105,7 @@ $(if $(DOTNET_generation),$(foreach gen,$(DOTNET_GENERATIONS),$(if $(call gte,$(
 $(call PROJ_DeclareVar,DOTNET_CS_out_debug)
 DOTNET_CS_out_debug_DESC ?= (read-only) Debug information output file
 DOTNET_CS_out_debug = \
-$(if $(filter mono,$(DOTNET_implementation)),$(if $(filter debug,$(DOTNET_debug)),$(DOTNET_outfiles_main).mdb))$(if $(filter ms,$(DOTNET_implementation)),$(if $(filter 1,$(DOTNET_CS_debug)),$(DOTNET_outbase_abs).pdb))
+$(if $(filter mono,$(DOTNET_implementation)),$(if $(filter debug,$(DOTNET_debug)),$(DOTNET_outfiles_main).mdb))$(if $(filter ms,$(DOTNET_implementation)),$(if $(filter debug,$(DOTNET_debug)),$(DOTNET_outbase_abs).pdb))
 
 DOTNET_outfiles += $(call MAKE_EncodeWord,$(DOTNET_CS_out_debug))
 
