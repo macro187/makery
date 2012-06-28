@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,24 +16,19 @@
 # ------------------------------------------------------------------------------
 
 
+CONFIG_fields_DESC := \
+(append-only) Ordered list of config fields (list)
 $(call PROJ_DeclareVar,CONFIG_fields)
-CONFIG_fields_DESC ?= Ordered list of config fields (list)
 
 
-#$(call CONFIG_DeclareField,CONFIG_test)
-#CONFIG_test_DESC ?= A test config field
-#CONFIG_test_ALL = a b c d e
-#
-#CONFIG_test_MASK_BAD = c e
-#CONFIG_test_MASK_BAD_DESC ?= Theyre bad!
-#CONFIG_test_MASKS += BAD
-#
-#CONFIG_test_MASK_HATEA = a
-#CONFIG_test_MASK_HATEA_DESC ?= I hate A!
-#CONFIG_test_MASKS += HATEA
-
-
+CONFIG_string_DESC := \
+(read-only) A string representing the current config
 $(call PROJ_DeclareVar,CONFIG_string)
-CONFIG_string_DESC ?= A string representing the current config
-CONFIG_string = $(patsubst -%,%,$(subst $(MAKE_CHAR_SPACE),,$(foreach f,$(CONFIG_fields),-$($(f)))))
+CONFIG_string = $(patsubst -%,%,$(subst $(MAKE_CHAR_SPACE),,$(foreach f,$(CONFIG_fields),-$(strip $($(f))))))
+
+
+CONFIG_has_DESC := \
+(read-only) Does the project have a configuration?
+$(call PROJ_DeclareVar,CONFIG_has)
+CONFIG_has = $(if $(strip $(CONFIG_string)),1,)
 
