@@ -16,7 +16,7 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,dotnet)
-$(call MODULES_Use,dotnet-copylibs)
+$(call MODULES_Use,out)
 $(call MODULES_Use,run)
+$(call MODULES_Use,dotnet-copylibs)
 

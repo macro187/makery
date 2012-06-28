@@ -3,7 +3,8 @@
     Introduction
 --------------------------------------------------------------------------------
 
-    Collects required library files from other projects into a directory.
+    A project providing a dotnet library, that is a .dll and associated
+    files.
 
 
 
@@ -11,7 +12,7 @@
     Licence
 --------------------------------------------------------------------------------
 
-    Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
+    Copyright (c) 2012
     Ron MacNeil <macro@hotmail.com>
 
     Permission to use, copy, modify, and distribute this software for any

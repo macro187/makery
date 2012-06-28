@@ -18,13 +18,15 @@
 
 RULE_TARGET := $(DOTNET_COPYLIBS_dotfile)
 RULE_REQS := $(DOTNET_outfiles)
-RULE_REQS += $(call PROJ_GetMultiRecursive,DOTNET_outfiles,DOTNET_projlibs)
+RULE_REQS += $(call PROJ_GetMultiRecursive,DOTNET_LIB_all_abs,DOTNET_projlibs)
 RULE_OREQ := $(DOTNET_COPYLIBS_outdir)
 
 define RULE_COMMANDS
 	-rm -rf $(call SYSTEM_ShellEscape,$(DOTNET_COPYLIBS_outdir))/*
 
-	$(foreach dir,$(sort $(call MAKE_EncodeWord,$(DOTNET_outdir)) $(call PROJ_GetVarRecursive,DOTNET_outdir,DOTNET_projlibs)),$(MAKE_CHAR_NEWLINE)	cp -R $(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(dir)))/* $(call SYSTEM_ShellEscape,$(DOTNET_COPYLIBS_outdir)))
+	$(foreach d,$(call PROJ_GetVarRecursive,DOTNET_LIB_subdirs,DOTNET_projlibs),$(MAKE_CHAR_NEWLINE)	mkdir -p $(call SYSTEM_ShellEscape,$(DOTNET_COPYLIBS_outdir))/$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(d))))
+
+	$(foreach n,$(sort $(call PROJ_GetVarRecursive,PROJ_name,DOTNET_projlibs)),$(foreach f,$(call PROJ_GetVar,DOTNET_LIB_all,$(n)),$(MAKE_CHAR_NEWLINE)	cp $(call SYSTEM_ShellEscape,$(call PROJ_GetVar,DOTNET_LIB_dir,$(n))/$(call MAKE_DecodeWord,$(f))) $(call SYSTEM_ShellEscape,$(DOTNET_COPYLIBS_outdir)/$(call MAKE_DecodeWord,$(f)))))
 
 	touch $(call SYSTEM_ShellEscape,$(DOTNET_COPYLIBS_dotfile))
 endef

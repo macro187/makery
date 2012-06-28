@@ -3,10 +3,12 @@
     Introduction
 --------------------------------------------------------------------------------
 
-    Hooks an .exe-producing dotnet project to the generic "run" target,
-    allowing it to be run in a generic fashion with the "run" target or the
-    RUN_run shell command.  Arranges for the program to be run using "mono"
-    or "ilrun" if appropriate.
+    Assembles a directory containing everything necessary to run the program
+    in-place.
+
+    Hooks up to the "run" module so the program can be run in a generic
+    fashion with the "run" target or the "RUN_run" shell command, using
+    "mono" or "ilrun" if appropriate.
 
 
 

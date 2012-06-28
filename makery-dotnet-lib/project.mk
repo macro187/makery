@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
+# Copyright (c) 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -15,17 +15,33 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
-
-DOTNET_COPYLIBS_outdir_DESC := \
-(readonly) Directory in which to collect required library files
-$(call PROJ_DeclareVar,DOTNET_COPYLIBS_outdir)
-DOTNET_COPYLIBS_outdir_DEFAULT = $(OUT_base)/dotnet-copylibs
-
-OUT_all += $(call MAKE_EncodeWord,$(DOTNET_COPYLIBS_outdir))
+DOTNET_LIB_dir_DESC := \
+Directory where library files are located
+$(call PROJ_DeclareVar,DOTNET_LIB_dir)
+DOTNET_LIB_dir_DEFAULT =
 
 
-DOTNET_COPYLIBS_dotfile_DESC ?= \
-(readonly) Dotfile representing collection of required library files
-$(call PROJ_DeclareVar,DOTNET_COPYLIBS_dotfile)
-DOTNET_COPYLIBS_dotfile_DEFAULT = $(OUT_base)/_dotnet-copylibs
+DOTNET_LIB_primary_DESC := \
+Library file, relative to DOTNET_LIB_dir
+$(call PROJ_DeclareVar,DOTNET_LIB_primary)
+DOTNET_LIB_primary_DEFAULT =
+
+
+DOTNET_LIB_all_DESC := \
+Library file plus related files, relative to DOTNET_LIB_dir (list)
+$(call PROJ_DeclareVar,DOTNET_LIB_all)
+
+
+DOTNET_LIB_all_abs_DESC := \
+Absolute paths to DOTNET_LIB_all (list) (readonly)
+$(call PROJ_DeclareVar,DOTNET_LIB_all_abs)
+DOTNET_LIB_all_abs = \
+$(foreach f,$(DOTNET_LIB_all),$(call MAKE_EncodeWord,$(DOTNET_LIB_dir))/$(f))
+
+
+DOTNET_LIB_subdirs_DESC := \
+Any subdirectories involved in DOTNET_LIB_all (read-only)
+$(call PROJ_DeclareVar,DOTNET_LIB_subdirs)
+DOTNET_LIB_subdirs = \
+$(filter-out ./,$(dir $(DOTNET_LIB_all)))
 

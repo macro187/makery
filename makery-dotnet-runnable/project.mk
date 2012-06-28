@@ -20,16 +20,28 @@
 # NOTE: Assumes that you're generating executable output in the DOTNET module
 # ------------------------------------------------------------------------------
 
-# Need binaries + required libs to run
-RUN_reqs += $(call MAKE_EncodeWord,$(DOTNET_COPYLIBS_dotfile))
+DOTNET_RUNNABLE_dotfile_DESC := \
+(readonly) Dotfile representing runnable in-place
+$(call PROJ_DeclareVar,DOTNET_RUNNABLE_dotfile)
+DOTNET_RUNNABLE_dotfile_DEFAULT = $(OUT_base)/_dotnet-runnable
 
 
-# The shell command to run the project's program
+DOTNET_RUNNABLE_outdir_DESC := \
+(readonly) Directory to output runnable version of project
+$(call PROJ_DeclareVar,DOTNET_RUNNABLE_outdir)
+DOTNET_RUNNABLE_outdir_DEFAULT = $(OUT_base)/dotnet-runnable
+
+OUT_all += $(call MAKE_EncodeWord,$(DOTNET_RUNNABLE_outdir))
+
+
+# Hook up to the run module
+#
+RUN_reqs += \
+$(call MAKE_EncodeWord,$(DOTNET_RUNNABLE_dotfile))
+
 RUN_run = \
-$(DOTNET_exec) $(call SYSTEM_ShellEscape,$(DOTNET_COPYLIBS_outdir)/$(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(DOTNET_outfiles_main)))))
+$(DOTNET_exec) $(call SYSTEM_ShellEscape,$(DOTNET_RUNNABLE_outdir)/$(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(DOTNET_outfiles_main)))))
 
-
-# Convert args to Windows paths if we're using the MS runtime on Windows
 RUN_argpathfunc = \
 $(if $(SYSTEM_ISWINDOWS)$(filter $(DOTNET_implementation),ms),SYSTEM_WinPath,MAKE_Identity)
 

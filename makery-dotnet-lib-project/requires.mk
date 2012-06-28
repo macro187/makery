@@ -17,4 +17,5 @@
 
 
 $(call MODULES_Use,build)
+$(call MODULES_Use,dotnet-lib)
 
