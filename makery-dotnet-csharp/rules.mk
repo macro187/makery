@@ -15,9 +15,8 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
-
-RULE_TARGETS := $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))
-RULE_TARGETS += $(call MAKE_EncodeWord,$(DOTNET_CS_out_debug))
+RULE_TARGET := $(DOTNET_outfiles_main)
+RULE_REQDBY := $(DOTNET_CS_out_debug)
 RULE_REQS := $(SRCS_files_preq)
 RULE_REQS += $(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs)
 RULE_REQS += $(DOTNET_resources)
@@ -83,7 +82,6 @@ define RULE_COMMANDS
 	$$(call MAKE_CallForEach,SYSTEM_ShellEscape,$$(SRCS_files))
 endef
 endif
-
 
 $(call PROJ_Rule)
 
