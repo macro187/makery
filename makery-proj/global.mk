@@ -296,12 +296,8 @@ endef
 
 # Run validations
 PROJ_Validate = \
-$(MAKERY_TRACEBEGIN)$(foreach var,$(PROJ_vars),$(foreach val,$($(var)_VALIDATE),$(call PROJ_DeclValidate,$(var),$(subst |, ,$(val)))))\
-$(eval $(PROJ_Validate_TEMPLATE))$(MAKERY_TRACEEND)
+$(MAKERY_TRACEBEGIN)$(foreach var,$(PROJ_vars),$(foreach val,$($(var)_VALIDATE),$(call PROJ_DeclValidate,$(var),$(subst |, ,$(val)))))$(MAKERY_TRACEEND)
 
-define PROJ_Validate_TEMPLATE
-$(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MAKE_EncodePath,$(call MODULES_Locate,$(module))/validate.mk))
-endef
 
 # $1 Variable name
 # $2 Pre-split validation declaration item
