@@ -165,7 +165,8 @@ $(shell $(1))
 #$(info $(1))$(shell $(1))
 
 
-# Disable built-in make suffix rules
+# Disable built-in implicit and suffix rules
 #
+MAKEFLAGS += -r
 .SUFFIXES:
 
