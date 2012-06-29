@@ -38,8 +38,7 @@ define RULE_COMMANDS
 	$(foreach def,$(DOTNET_CS_defines),$(call PROJ_RuleNewLine,-define:$(def))) $(MAKE_CHAR_BS)
 	-noconfig $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_nostdlib)),-nostdlib) $(MAKE_CHAR_BS)
-	$(foreach lib,$(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs),$(call PROJ_RuleNewLine,-r:$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(lib))))) $(MAKE_CHAR_BS)
-	$(foreach lib,$(DOTNET_libs) $(call PROJ_GetMultiRecursive,DOTNET_libs,DOTNET_projlibs),$(call PROJ_RuleNewLine,-r:$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(lib))))) $(MAKE_CHAR_BS)
+	$$(foreach lib,$$(DOTNET_librefs),$$(call PROJ_RuleNewLine,-r:$$(call SYSTEM_ShellEscape,$$(call MAKE_DecodeWord,$$(lib))))) $(MAKE_CHAR_BS)
 	$(foreach res,$(DOTNET_resources),$(call PROJ_RuleNewLine,-resource:$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(res))))) $(MAKE_CHAR_BS)
 	$$(foreach src,$$(SRCS_files),$$(call PROJ_RuleNewLine,$$(call SYSTEM_ShellEscape,$$(call MAKE_DecodeWord,$$(src)))))
 endef
@@ -60,8 +59,7 @@ define RULE_COMMANDS
 	$(foreach define,$(DOTNET_CS_defines),$(call PROJ_RuleNewLine,-define:$(define))) $(MAKE_CHAR_BS)
 	-noconfig $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_CS_nostdlib)),-nostdlib) $(MAKE_CHAR_BS)
-	$(foreach lib,$(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs),$(call PROJ_RuleNewLine,-r:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPathAbs,$(call MAKE_DecodeWord,$(lib)))))) $(MAKE_CHAR_BS)
-	$(foreach lib,$(DOTNET_libs) $(call PROJ_GetMultiRecursive,DOTNET_libs,DOTNET_projlibs),$(call PROJ_RuleNewLine,-r:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPathAbs,$(call MAKE_DecodeWord,$(lib)))))) $(MAKE_CHAR_BS)
+	$$(foreach lib,$$(DOTNET_librefs),$$(call PROJ_RuleNewLine,-r:$$(call SYSTEM_ShellEscape,$$(call SYSTEM_WinPathAbs,$$(call MAKE_DecodeWord,$$(lib)))))) $(MAKE_CHAR_BS)
 	$(foreach res,$(DOTNET_resources),$(call PROJ_RuleNewLine,-resource:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPathAbs,$(call MAKE_DecodeWord,$(res)))))) $(MAKE_CHAR_BS)
 	$$(foreach src,$$(SRCS_files),$$(call SYSTEM_ShellEscape,$$(call SYSTEM_WinPathAbs,$$(call MAKE_DecodeWord,$$(src)))))
 endef
@@ -80,8 +78,7 @@ define RULE_COMMANDS
 	$(if $(filter 1,$(DOTNET_CS_werror)),-Werror) \
 	$(foreach define,$(DOTNET_CS_defines),$(call PROJ_RuleNewLine,-D$(define))) \
 	$(if $(filter 1,$(DOTNET_CS_nostdlib)),-nostdlib) $(MAKE_CHAR_BS)
-	$(foreach lib,$(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs),$(call PROJ_RuleNewLine,-l$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(lib))))) \
-	$(foreach lib,$(DOTNET_libs) $(call PROJ_GetMultiRecursive,DOTNET_libs,DOTNET_projlibs),$(call PROJ_RuleNewLine,-l$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(lib))))) \
+	$$(foreach lib,$$(DOTNET_librefs),$$(call PROJ_RuleNewLine,-l$$(call SYSTEM_ShellEscape,$$(call MAKE_DecodeWord,$$(lib))))) \
 	$(foreach res,$(DOTNET_resources),$(call PROJ_RuleNewLine,-fresources=$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(res))))) \
 	$$(call MAKE_CallForEach,SYSTEM_ShellEscape,$$(SRCS_files))
 endef

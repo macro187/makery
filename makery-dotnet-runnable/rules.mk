@@ -26,7 +26,9 @@ define RULE_COMMANDS
 
 	-cp -r $(call SYSTEM_ShellEscape,$(DOTNET_COPYLIBS_outdir))/* $(call SYSTEM_ShellEscape,$(DOTNET_RUNNABLE_outdir))/
 
-	$(foreach f,$(DOTNET_outfiles),$(MAKE_CHAR_NEWLINE)	cp $(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(f))) $(MAKE_CHAR_BS)$(MAKE_CHAR_NEWLINE)  $(call SYSTEM_ShellEscape,$(DOTNET_RUNNABLE_outdir))/)
+	$(foreach d,$(DOTNET_BIN_subdirs),$(MAKE_CHAR_NEWLINE)	mkdir -p $(call SYSTEM_ShellEscape,$(DOTNET_RUNNABLE_outdir))/$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(d))))
+
+	$(foreach f,$(DOTNET_BIN_all),$(MAKE_CHAR_NEWLINE)	cp $(call SYSTEM_ShellEscape,$(DOTNET_BIN_dir)/$(call MAKE_DecodeWord,$(f))) $(call SYSTEM_ShellEscape,$(DOTNET_RUNNABLE_outdir)/$(call MAKE_DecodeWord,$(f))))
 
 	touch $(call SYSTEM_ShellEscape,$(DOTNET_RUNNABLE_dotfile))
 endef

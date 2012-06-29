@@ -31,8 +31,7 @@ define RULE_COMMANDS
 	$(if $(DOTNET_C_warn),$(if $(filter 0,$(DOTNET_C_warn)),,-Wall)) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_C_werror)),-Werror) $(MAKE_CHAR_BS)
 	$(foreach define,$(DOTNET_C_defines),\$(MAKE_CHAR_NEWLINE)	-D$(define)) $(MAKE_CHAR_BS)
-	$(foreach lib,$(call PROJ_GetVarRecursive,DOTNET_outfiles_main,DOTNET_projlibs),\$(MAKE_CHAR_NEWLINE)	-l$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(lib)))) $(MAKE_CHAR_BS)
-	$(foreach lib,$(DOTNET_libs) $(call PROJ_GetMultiRecursive,DOTNET_libs,DOTNET_projlibs),\$(MAKE_CHAR_NEWLINE)	-l$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(lib)))) $(MAKE_CHAR_BS)
+	$$(foreach lib,$$(DOTNET_librefs),\$$(MAKE_CHAR_NEWLINE)	-l$$(call SYSTEM_ShellEscape,$$(call MAKE_DecodeWord,$$(lib)))) $(MAKE_CHAR_BS)
 	$(foreach res,$(DOTNET_resources),\$(MAKE_CHAR_NEWLINE)	-fresources=$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(res)))) $(MAKE_CHAR_BS)
 	$$(call MAKE_CallForEach,SYSTEM_ShellEscape,$$(SRCS_files))
 endef

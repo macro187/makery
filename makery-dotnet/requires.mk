@@ -17,4 +17,5 @@
 
 
 $(call MODULES_Use,out)
+$(call MODULES_Use,dotnet-bin)
 

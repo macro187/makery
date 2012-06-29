@@ -22,9 +22,3 @@ DOTNET_outtype = lib
 # Hook up to the build target
 BUILD_reqs += $(DOTNET_outfiles)
 
-# Provide dotnet-lib
-#
-DOTNET_LIB_dir = $(DOTNET_outdir)
-DOTNET_LIB_primary = $(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))))
-DOTNET_LIB_all += $(notdir $(DOTNET_outfiles))
-

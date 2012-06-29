@@ -92,18 +92,23 @@ $(call PROJ_DeclareVar,DOTNET_resources)
 DOTNET_resources_DESC ?= Resource files to embed into the output binary (list)
 
 
-$(call PROJ_DeclareVar,DOTNET_libs)
-DOTNET_libs_DESC ?= .NET libraries (.dll files) to link to (list)
-# Include extension and, if not framework-provided, full path
+DOTNET_gaclibs_DESC ?= \
+(append-only) Filenames (including .dll extension) .NET libraries required from the GAC (list)
+$(call PROJ_DeclareVar,DOTNET_gaclibs)
 
 
 $(call PROJ_DeclareVar,DOTNET_projlibs)
 DOTNET_projlibs_DESC ?= \
-Names of .NET library projects to build and link to (list)
-# Automatically added to PROJ_required for you
-
+(append-only) Names of required .NET library projects (list)
 
 PROJ_required += $(DOTNET_projlibs)
+
+
+DOTNET_librefs_DESC ?= \
+(internal) Libraries to reference when compiling (list)
+$(call PROJ_DeclareTargetVar,DOTNET_librefs)
+DOTNET_librefs = \
+$(sort $(DOTNET_gaclibs) $(call PROJ_GetMultiRecursive,DOTNET_gaclibs,DOTNET_projlibs)) $(sort $(call PROJ_GetVarRecursive,DOTNET_BIN_primary_abs,DOTNET_projlibs))
 
 
 $(call PROJ_DeclareVar,DOTNET_outbase)
@@ -144,6 +149,13 @@ DOTNET_outfiles_main_DEFAULT = \
 $(DOTNET_outbase_abs).$(DOTNET_outext)
 
 DOTNET_outfiles += $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))
+
+
+# Provide dotnet-bin
+#
+DOTNET_BIN_dir = $(DOTNET_outdir)
+DOTNET_BIN_primary = $(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))))
+DOTNET_BIN_all += $(notdir $(DOTNET_outfiles))
 
 
 # TODO config.xml support
