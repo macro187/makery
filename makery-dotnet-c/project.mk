@@ -16,15 +16,14 @@
 # ------------------------------------------------------------------------------
 
 
-# Only pnet can do C, and pnet only implements .NET 1.1
-DOTNET_implementation_MASK_CONLYPNET = $(filter-out pnet,$(DOTNET_implementation_ALL))
-DOTNET_implementation_MASK_CONLYPNET_DESC ?= Only pnet can do C
-DOTNET_implementation_MASKS += CONLYPNET
+# Only pnet can compile C
+#
+DOTNET_implementation_MASK += $(filter-out pnet,$(DOTNET_implementation_OPTIONS))
 
-DOTNET_generation_MASK_PNET11ONLY = \
-$(foreach g,$(DOTNET_generation_ALL),$(if $(call gt,$(g),11),$(g)))
-DOTNET_generation_MASK_PNET11ONLY_DESC ?= Pnet currently only does .NET 1.1
-DOTNET_generation_MASKS += PNET11ONLY
+
+# pnet only implements .NET 1.1
+#
+DOTNET_generation_MASK += $(foreach g,$(DOTNET_generation_OPTIONS),$(if $(call gt,$(g),11),$(g)))
 
 
 $(call PROJ_DeclareVar,DOTNET_C_defines)

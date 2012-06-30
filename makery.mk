@@ -47,7 +47,6 @@ $(call MODULES_Use,makery)
 $(call MODULES_Use,system)
 $(call MODULES_Use,modules)
 $(call MODULES_Use,proj)
-$(call MODULES_Use,config)
 
 
 $(foreach mod,$(MODULES_use),$(call MODULES_Use,$(mod)))

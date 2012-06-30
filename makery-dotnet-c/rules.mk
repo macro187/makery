@@ -25,7 +25,7 @@ define RULE_COMMANDS
 	cscc $(MAKE_CHAR_BS)
 	$(if $(filter lib,$(DOTNET_outtype)),-shared) $(MAKE_CHAR_BS)
 	-o $(call SYSTEM_ShellEscape,$(DOTNET_outfiles_main)) $(MAKE_CHAR_BS)
-	$(if $(filter debug,$(DOTNET_debug)),-g) $(MAKE_CHAR_BS)
+	$(if $(filter 1,$(DOTNET_debug)),-g) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_C_checked)),-fchecked) $(MAKE_CHAR_BS)
 	$(if $(DOTNET_C_warn),$(if $(filter 0,$(DOTNET_C_warn)),,-Wall)) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_C_werror)),-Werror) $(MAKE_CHAR_BS)

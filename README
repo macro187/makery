@@ -173,34 +173,6 @@
 
 
 --------------------------------------------------------------------------------
-    Configs
---------------------------------------------------------------------------------
-
-    A given project can take on slightly different flavours depending on
-    build options or conditions under which the build occurs.  Each project
-    can be thought of as having multiple instances, one for each unique
-    configuration.
-
-    Makery provides a framework for defining different config fields,
-    available options for each, masks for currently-unavailable options,
-    etc.  At build time, default options are computed for each field,
-    resulting in a default config, which is used for the build.  These
-    default options can then be overridden on the build command line where
-    desired.
-
-    Examples of config fields include:
-
-    -   Target operating system
-
-    -   Target processor architecture
-
-    -   Brand of compiler
-
-    -   Whether debug code, symbols, etc. are present
-
-
-
---------------------------------------------------------------------------------
     More Information
 --------------------------------------------------------------------------------
 
