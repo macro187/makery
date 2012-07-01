@@ -16,6 +16,19 @@
 # ------------------------------------------------------------------------------
 
 
+#
+# TODO config.xml support
+# config.xml -> <bin_main>.config
+# bin_all += ...
+#
+# TODO: AL and satellite assembly support?
+#
+
+
+# ------------------------------------------------------------------------------
+# Variables relevant to both running and building .NET assemblies
+# ------------------------------------------------------------------------------
+
 DOTNET_implementation_DESC ?= \
 .NET implementation to use
 $(call PROJ_DeclareVar,DOTNET_implementation)
@@ -67,19 +80,19 @@ DOTNET_exec += \
 $(if $(filter $(DOTNET_implementation),pnet),$(DOTNET_ILRUN))
 
 
+
+# ------------------------------------------------------------------------------
+# Variables relevant only to building .NET assemblies
+# ------------------------------------------------------------------------------
+
 DOTNET_namespace_DESC ?= \
 Projects root .NET namespace
 $(call PROJ_DeclareVar,DOTNET_namespace)
 DOTNET_namespace_DEFAULT = $(PROJ_name)
 
 
-DOTNET_resources_DESC ?= \
-(append-only) Resource files to embed into the output binary (list)
-$(call PROJ_DeclareVar,DOTNET_resources)
-
-
 DOTNET_gaclibs_DESC ?= \
-(append-only) Filenames (including .dll extension) .NET libraries required from the GAC (list)
+(append-only) Filenames (including .dll extension) of .NET libraries required from the GAC (list)
 $(call PROJ_DeclareVar,DOTNET_gaclibs)
 
 
@@ -89,6 +102,11 @@ $(call PROJ_DeclareVar,DOTNET_projlibs)
 
 # Pull required library projects into the build
 PROJ_required += $(DOTNET_projlibs)
+
+
+DOTNET_resources_DESC ?= \
+(append-only) Resource files to embed into the output binary (list)
+$(call PROJ_DeclareVar,DOTNET_resources)
 
 
 DOTNET_librefs_DESC ?= \
@@ -142,19 +160,4 @@ $(call PROJ_DeclareVar,DOTNET_outfiles_main)
 DOTNET_outfiles_main = $(DOTNET_outbase_abs).$(DOTNET_outext)
 
 DOTNET_outfiles += $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))
-
-
-# Provide dotnet-bin
-#
-DOTNET_BIN_dir = $(DOTNET_outdir)
-DOTNET_BIN_primary = $(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))))
-DOTNET_BIN_all += $(notdir $(DOTNET_outfiles))
-
-
-# TODO config.xml support
-# config.xml -> <bin_main>.config
-# bin_all += ...
-
-
-# TODO: Satellite assembly support?
 

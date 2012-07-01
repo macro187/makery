@@ -3,14 +3,56 @@
     Introduction
 --------------------------------------------------------------------------------
 
-    Represents creation of a .dll library or .exe program from some source
-    code files.  Because you can program .NET in different languages, this
-    module captures the lowest common subset.  You are required to
-    MODULES_use an appropriate language-specific module in addition to
-    dotnet.  Also note that because .NET compilers are responsible for
-    compiling AND linking, the dotnet module doesn't provide any rules
-    itself - the entire task of compiling and linking is left to the
-    language-specific module to implement.
+    Locates and provides access to .NET frameworks and tools for executing
+    and compiling .NET assemblies.
+
+
+
+--------------------------------------------------------------------------------
+    Implementations
+--------------------------------------------------------------------------------
+
+    Supports various implementations of the .NET framework, including
+    Microsoft .NET, Mono, and GNU Portable.NET:
+
+        http://en.wikipedia.org/wiki/.NET_Framework
+
+        http://en.wikipedia.org/wiki/Mono_%28software%29
+
+        http://en.wikipedia.org/wiki/Portable.NET
+
+
+
+--------------------------------------------------------------------------------
+    Generations
+--------------------------------------------------------------------------------
+
+    Supports multiple generations of .NET corresponding to the .NET framework
+    versions shipped by Microsoft:
+
+        http://en.wikipedia.org/wiki/.NET_Framework_version_history
+
+
+
+--------------------------------------------------------------------------------
+    Frameworks and Tools
+--------------------------------------------------------------------------------
+
+    Globally, the module locates frameworks and tools available on the
+    system.  It then provides project variables with options and sensible
+    defaults for implementation, generation, and tools.
+
+
+
+--------------------------------------------------------------------------------
+    Common .NET Compilation Variables
+--------------------------------------------------------------------------------
+
+    The module provides project variables for common .NET aspects that can
+    (but need not) be used by other modules that compile .NET assemblies.
+    These include an output directory; required libraries from the GAC and
+    from other projects; common compilation options like debug and optimize;
+    minimum framework generation; output filenames; and others.
 
 
 

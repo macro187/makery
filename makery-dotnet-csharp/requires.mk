@@ -16,9 +16,10 @@
 # ------------------------------------------------------------------------------
 
 
+$(call MODULES_Use,out)
 $(call MODULES_Use,srcs-find)
 $(call MODULES_Use,srcs)
 $(call MODULES_Use,dotnet)
-$(call MODULES_Use,out)
+$(call MODULES_Use,dotnet-bin)
 $(call MODULES_Use,doxygen)
 
