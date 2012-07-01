@@ -34,13 +34,19 @@ DOTNET_RUNNABLE_outdir_DEFAULT = $(OUT_base)/dotnet-runnable
 OUT_all += $(call MAKE_EncodeWord,$(DOTNET_RUNNABLE_outdir))
 
 
+DOTNET_RUNNABLE_exe_DESC ?= \
+(readonly) Full path to the runnable program
+$(call PROJ_DeclareVar,DOTNET_RUNNABLE_exe)
+DOTNET_RUNNABLE_exe = $(DOTNET_RUNNABLE_outdir)/$(DOTNET_BIN_primary)
+
+
 # Hook up to the run module
 #
 RUN_reqs += \
 $(call MAKE_EncodeWord,$(DOTNET_RUNNABLE_dotfile))
 
 RUN_run = \
-$(DOTNET_exec) $(call SYSTEM_ShellEscape,$(DOTNET_RUNNABLE_outdir)/$(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(DOTNET_outfiles_main)))))
+$(DOTNET_exec) $(call SYSTEM_ShellEscape,$(DOTNET_RUNNABLE_exe))
 
 RUN_argpathfunc = \
 $(if $(SYSTEM_ISWINDOWS)$(filter $(DOTNET_implementation),ms),SYSTEM_WinPath,MAKE_Identity)
