@@ -162,6 +162,31 @@ PROJ_GetVar = \
 $($(call PROJ_PersistentVarName,$(1),$(2)))
 
 
+# Debug print messages displaying names, values, and other information about
+# all project variables
+#
+PROJ_DebugPrintVarInfo =
+ifdef MAKERYDEBUG
+PROJ_DebugPrintVarInfo = $(info [debug] Project Variables:)$(foreach v,$(PROJ_vars),$(eval $(call PROJ_DebugPrintVarInfo_TEMPLATE,$(v))))
+endif
+
+define PROJ_DebugPrintVarInfo_TEMPLATE
+$$(info $(1))
+ifneq ($$($(1)_DESC),)
+$$(info $$(MAKE_CHAR_SPACE) Description)
+$$(info $$(MAKE_CHAR_SPACE)   $$($(1)_DESC))
+endif
+ifneq ($$($(1)_OPTIONS),)
+$$(info $$(MAKE_CHAR_SPACE) Options)
+$$(info $$(MAKE_CHAR_SPACE)   $$($(1)_OPTIONS))
+$$(info $$(MAKE_CHAR_SPACE) Available Options)
+$$(info $$(MAKE_CHAR_SPACE)   $$($(1)_AVAIL))
+endif
+$$(info $$(MAKE_CHAR_SPACE) Value)
+$$(info $$(MAKE_CHAR_SPACE)   '$$($(1))')
+endef
+
+
 # Get the values of a single-value variable from all projects listed in a
 # second variable, recursively
 #

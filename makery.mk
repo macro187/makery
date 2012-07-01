@@ -51,10 +51,7 @@ $(call MODULES_Use,proj)
 
 $(foreach mod,$(MODULES_use),$(call MODULES_Use,$(mod)))
 $(call PROJ_FlattenVars)
-ifdef MAKERYDEBUG
-$(call MAKE_Debug,Project Variables:)
-$(call MAKE_DumpVars,$(PROJ_vars))
-endif
+$(call PROJ_DebugPrintVarInfo)
 $(call PROJ_Validate)
 $(call PROJ_ProcessRequired)
 $(call PROJ_GenerateRules)

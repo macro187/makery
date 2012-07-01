@@ -124,26 +124,10 @@ MAKE_PathParentName = \
 $(notdir $(patsubst %/,%,$(dir $(patsubst %/,%,$(1)))))
 
 
+
 # ------------------------------------------------------------------------------
-# Messages
+# Variables
 # ------------------------------------------------------------------------------
-
-# Print a message displaying a variable's name, description (if available),
-# and value
-#
-# $1 - Variable name
-#
-MAKE_DumpVar = \
-$(info $(1)$(if $($(1)_DESC),$(MAKE_CHAR_NEWLINE)  $($(1)_DESC))$(MAKE_CHAR_NEWLINE)  '$($(1))')
-
-
-# Produce a message of the names and values of a list of variables
-#
-# $1 - Variable list
-#
-MAKE_DumpVars = \
-$(foreach v,$(1),$(call MAKE_DumpVar,$(v)))
-
 
 # Clear variables with a particular prefix
 #
@@ -158,6 +142,11 @@ $(foreach v,$(filter $(1)%,$(.VARIABLES)),$(MAKE_CHAR_NEWLINE)$(v) :=#)
 endef
 
 
+
+# ------------------------------------------------------------------------------
+# Variables
+# ------------------------------------------------------------------------------
+
 # $(shell) alias to permit tracing etc.
 #
 MAKE_Shell = \
@@ -165,8 +154,11 @@ $(shell $(1))
 #$(info $(1))$(shell $(1))
 
 
-# Disable built-in implicit and suffix rules
-#
+
+# ------------------------------------------------------------------------------
+# Disable Built-in Rules
+# ------------------------------------------------------------------------------
+
 MAKEFLAGS += -r
 .SUFFIXES:
 
