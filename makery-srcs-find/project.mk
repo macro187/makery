@@ -28,9 +28,15 @@ SRCS_FIND_extension_VALIDATE ?= Required
 
 
 SRCS_FIND_exclude_DESC ?= \
+Paths (or patterns with % wildcard) to exclude (unencoded list)
+$(call PROJ_DeclareVar,SRCS_FIND_exclude)
+SRCS_FIND_exclude += Makefile
+
+
+SRCS_FIND_excludedirs_DESC ?= \
 Subdirectories to exclude from search (list)
 $(call PROJ_DeclareVar,SRCS_FIND_excludedirs)
-SRCS_FIND_excludedirs = out
+SRCS_FIND_excludedirs += out
 
 
 $(call PROJ_DeclareVar,SRCS_FIND_rel)
