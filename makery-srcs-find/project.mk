@@ -27,27 +27,17 @@ SRCS_FIND_extension_DESC ?= Filename extension of source code files to find
 SRCS_FIND_extension_VALIDATE ?= Required
 
 
-$(call PROJ_DeclareVar,SRCS_FIND_recursive)
-SRCS_FIND_recursive_DESC ?= Search for source code files recursively?
-SRCS_FIND_recursive_DEFAULT = \
-$(call not,$(call seq,$(SRCS_FIND_dir),$(PROJ_dir)))
-
-
-$(call PROJ_DeclareVar,SRCS_FIND_exclude)
-SRCS_FIND_exclude_DESC ?= Pattern of source code files to filter-out
+SRCS_FIND_exclude_DESC ?= \
+Subdirectories to exclude from search (list)
+$(call PROJ_DeclareVar,SRCS_FIND_excludedirs)
+SRCS_FIND_excludedirs = out
 
 
 $(call PROJ_DeclareVar,SRCS_FIND_rel)
 SRCS_FIND_rel_DESC ?= \
 Located source code files, relative to _dir (list) (read-only)
 SRCS_FIND_rel = \
-$(filter-out $(SRCS_FIND_exclude), \
-$(call MAKE_Shell,\
-test -d $(call SYSTEM_ShellEscape,$(SRCS_FIND_dir)) && cd $(call SYSTEM_ShellEscape,$(SRCS_FIND_dir)) && find * $(if $(SRCS_FIND_recursive),,-maxdepth 0) -type f -name \*.$(SRCS_FIND_extension)\
-| $(SYSTEM_SHELL_CLEANPATH) \
-| $(SYSTEM_SHELL_ENCODEWORD) \
-) \
-)
+$(filter-out $(SRCS_FIND_exclude),$(call SYSTEM_FindFiles,$(SRCS_FIND_dir),$(SRCS_FIND_extension),$(SRCS_FIND_excludedirs)))
 
 
 $(call PROJ_DeclareVar,SRCS_FIND_files)

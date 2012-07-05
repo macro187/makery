@@ -68,10 +68,20 @@ $(subst $(MAKE_CHAR_QUOTE),\$(MAKE_CHAR_QUOTE),$(subst $(MAKE_CHAR_APOS),\$(MAKE
 
 # Determine whether a directory exists
 #
-# $(1) - Path of directory
+# $1 - Path of directory
 #
 SYSTEM_DirExists = \
 $(findstring EXISTS,$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && echo EXISTS))
+
+
+# Find files recursively under a directory
+#
+# $1 - Directory to look in
+# $2 - Filename extension to find (optional)
+# $3 - Subdirectories to avoid (list) (optional)
+#
+SYSTEM_FindFiles = \
+$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && find * $(foreach dir,$(3),-name $(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(3))) -prune -o) -type f $(if $(2),-name \*.$(2),) -print | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
 
 
 # ------------------------------------------------------------------------------
