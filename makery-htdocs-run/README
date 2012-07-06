@@ -1,0 +1,49 @@
+
+--------------------------------------------------------------------------------
+    Introduction
+--------------------------------------------------------------------------------
+
+    "Run" a website by starting it in a webserver and opening a web browser.
+
+
+
+--------------------------------------------------------------------------------
+    Web Server Modules
+--------------------------------------------------------------------------------
+
+    Support for various web servers are provided in htdocs-run submodules,
+    which work by adhering to the following conventions:
+
+    -   The submodule is named 'htdocs-run-<modulename>'
+
+    -   In its global.mk, the submodule add its name to the list of
+        HTDOCS_RUN_MODULES
+
+    -   In its project.mk, the submodule defines a HTDOCS_RUN_<NAME>_run
+        variable containing the shell command to launch the web browser
+
+
+    Refer to the 'htdocs-run-null' module for an example.
+
+
+
+--------------------------------------------------------------------------------
+    Licence
+--------------------------------------------------------------------------------
+
+    Copyright (c) 2012
+    Ron MacNeil <macro@hotmail.com>
+
+    Permission to use, copy, modify, and distribute this software for any
+    purpose with or without fee is hereby granted, provided that the above
+    copyright notice and this permission notice appear in all copies.
+
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+    WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+    MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+    ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+    ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+    OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
