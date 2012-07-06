@@ -16,9 +16,10 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,run)
-$(call MODULES_Use,htdocs)
-$(call MODULES_Use,htdocs-run-null)
-$(call MODULES_Use,htdocs-run-xsp)
-$(call MODULES_Use,htdocs-run-cassinidev)
+
+HTDOCS_RUN_XSP_run_DESC ?= \
+Command to serve htdocs
+$(call PROJ_DeclareVar,HTDOCS_RUN_XSP_run)
+HTDOCS_RUN_XSP_run = \
+$(call SYSTEM_ShellEscape,$(HTDOCS_RUN_XSP_EXE)) --port $(HTDOCS_RUN_port) --root $(call SYSTEM_ShellEscape,$(HTDOCS_outdir))
 

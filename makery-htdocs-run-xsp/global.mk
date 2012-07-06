@@ -16,9 +16,25 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,run)
-$(call MODULES_Use,htdocs)
-$(call MODULES_Use,htdocs-run-null)
-$(call MODULES_Use,htdocs-run-xsp)
-$(call MODULES_Use,htdocs-run-cassinidev)
+HTDOCS_RUN_MODULES := xsp $(HTDOCS_RUN_MODULES)
+
+
+# Locate XSP
+#
+HTDOCS_RUN_XSP_EXE := $(strip $(call MAKE_Shell,which xsp4 2>&-))
+
+ifeq ($(HTDOCS_RUN_XSP_EXE),)
+HTDOCS_RUN_XSP_EXE := $(strip $(call MAKE_Shell,which xsp2 2>&-))
+endif
+ifeq ($(HTDOCS_RUN_XSP_EXE),)
+HTDOCS_RUN_XSP_EXE := $(strip $(call MAKE_Shell,which xsp 2>&-))
+endif
+
+
+# Mask out XSP if it can't be found
+#
+ifeq ($(HTDOCS_RUN_XSP_EXE),)
+HTDOCS_RUN_module_MASK += xsp
+endif
+
 
