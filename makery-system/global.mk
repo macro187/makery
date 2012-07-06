@@ -200,25 +200,24 @@ SYSTEM_PROGRAMFILES := $(call SYSTEM_PosixPathAbs,$(PROGRAMFILES))
 endif
 
 
-# Open a program, document, or URL as appropriate on the user's desktop
+# Produce a command that opens a program, document, or URL as appropriate on
+# the user's desktop
 #
 # $1 - Program, document, URL, etc.
 #
-SYSTEM_DesktopOpen = \
-$(warning SYSTEM_DesktopOpen() not supported on this system)
+SYSTEM_DesktopOpen =
 
 ifneq ($(SYSTEM_ISCYGWIN),)
-SYSTEM_DesktopOpen = \
-$(call MAKE_Shell,cmd /c start $(1))
+SYSTEM_DesktopOpen = cmd /c start $(1)
 
 else ifneq ($(SYSTEM_ISMSYS),)
-SYSTEM_DesktopOpen = \
-$(call MAKE_Shell,cmd //c start $(1))
+SYSTEM_DesktopOpen = cmd //c start $(1)
 
 else ifneq ($(XDGOPEN),)
-SYSTEM_DesktopOpen = \
-$(call MAKE_Shell,$(XDGOPEN) $(1) )
+SYSTEM_DesktopOpen = $(XDGOPEN) $(1)
 
-else ifneq ($(SYSTEM_ISINTERIX),) #TODO
+else ifneq ($(SYSTEM_ISINTERIX),)
+#TODO
+
 endif
 
