@@ -40,6 +40,8 @@ PWD := pwd -W
 endif
 
 
+XDGOPEN := $(strip $(call MAKE_Shell,which xdg-open 2>&-))
+
 
 # ------------------------------------------------------------------------------
 # Shell versions of some MAKE_ functions
@@ -181,5 +183,28 @@ else
 $(error Running on Windows but windir environment variable is not set)
 endif
 
+endif
+
+
+# Open a program, document, or URL as appropriate on the user's desktop
+#
+# $1 - Program, document, URL, etc.
+#
+SYSTEM_DesktopOpen = \
+$(warning SYSTEM_DesktopOpen() not supported on this system)
+
+ifneq ($(SYSTEM_ISCYGWIN),)
+SYSTEM_DesktopOpen = \
+$(call MAKE_Shell,cmd /c start $(1))
+
+else ifneq ($(SYSTEM_ISMSYS),)
+SYSTEM_DesktopOpen = \
+$(call MAKE_Shell,cmd //c start $(1))
+
+else ifneq ($(XDGOPEN),)
+SYSTEM_DesktopOpen = \
+$(call MAKE_Shell,$(XDGOPEN) $(1) )
+
+else ifneq ($(SYSTEM_ISINTERIX),) #TODO
 endif
 
