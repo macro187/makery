@@ -188,15 +188,17 @@ endif
 
 # Windows "Program Files" directory
 #
-ifneq ($(SYSTEM_ISWINDOWS),)
 SYSTEM_PROGRAMFILES :=
+
+ifneq ($(SYSTEM_ISWINDOWS),)
 
 ifneq ($(programfiles),)
 SYSTEM_PROGRAMFILES := $(call SYSTEM_PosixPathAbs,$(programfiles))
 
-ifneq ($(PROGRAMFILES),)
+else ifneq ($(PROGRAMFILES),)
 SYSTEM_PROGRAMFILES := $(call SYSTEM_PosixPathAbs,$(PROGRAMFILES))
 
+endif
 endif
 
 
