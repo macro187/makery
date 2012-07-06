@@ -23,6 +23,12 @@ HTDOCS_dir_VALIDATE = Required
 HTDOCS_dir = $(PROJ_dir)
 
 
+HTDOCS_exclude_DESC ?= \
+Paths (or patterns with % wildcard) to exclude (unencoded list)
+$(call PROJ_DeclareVar,HTDOCS_exclude)
+HTDOCS_exclude += Makefile
+
+
 HTDOCS_excludedirs_DESC ?= \
 Subdirectories to exclude, relative to HTDOCS_dir (list)
 $(call PROJ_DeclareVar,HTDOCS_excludedirs)
@@ -32,7 +38,7 @@ HTDOCS_excludedirs_DEFAULT = out
 HTDOCS_files_DESC ?= \
 (read-only) Web files, relative to HTDOCS_dir (list)
 $(call PROJ_DeclareVar,HTDOCS_files)
-HTDOCS_files = $(call SYSTEM_FindFiles,$(HTDOCS_dir),,$(HTDOCS_excludedirs))
+HTDOCS_files = $(filter-out $(HTDOCS_exclude),$(call SYSTEM_FindFiles,$(HTDOCS_dir),,$(HTDOCS_excludedirs)))
 
 
 HTDOCS_files_abs_DESC ?= \
