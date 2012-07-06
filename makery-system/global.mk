@@ -186,6 +186,20 @@ endif
 endif
 
 
+# Windows "Program Files" directory
+#
+ifneq ($(SYSTEM_ISWINDOWS),)
+SYSTEM_PROGRAMFILES :=
+
+ifneq ($(programfiles),)
+SYSTEM_PROGRAMFILES := $(call SYSTEM_PosixPathAbs,$(programfiles))
+
+ifneq ($(PROGRAMFILES),)
+SYSTEM_PROGRAMFILES := $(call SYSTEM_PosixPathAbs,$(PROGRAMFILES))
+
+endif
+
+
 # Open a program, document, or URL as appropriate on the user's desktop
 #
 # $1 - Program, document, URL, etc.
