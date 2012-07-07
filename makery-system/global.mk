@@ -216,7 +216,7 @@ else ifneq ($(SYSTEM_ISMSYS),)
 SYSTEM_DesktopOpen = cmd //c start $(1)
 
 else ifneq ($(XDGOPEN),)
-SYSTEM_DesktopOpen = $(XDGOPEN) $(1)
+SYSTEM_DesktopOpen = $(XDGOPEN) $(1) 2>&1 >&-
 
 else ifneq ($(SYSTEM_ISINTERIX),)
 #TODO
