@@ -207,7 +207,7 @@ endif
 #
 # $1 - Program, document, URL, etc.
 #
-SYSTEM_DesktopOpen =
+SYSTEM_DesktopOpen = @echo Pretending to open '$(1)'
 
 ifneq ($(SYSTEM_ISCYGWIN),)
 SYSTEM_DesktopOpen = cmd /c start $(1)
