@@ -23,6 +23,13 @@ HTDOCS_dir_VALIDATE = Required
 HTDOCS_dir = $(PROJ_dir)
 
 
+HTDOCS_include_DESC ?= \
+Names of other HTDOCS projects whose contents to include (list)
+$(call PROJ_DeclareVar,HTDOCS_include)
+
+PROJ_required += $(HTDOCS_include)
+
+
 HTDOCS_exclude_DESC ?= \
 Paths (or patterns with % wildcard) to exclude (unencoded list)
 $(call PROJ_DeclareVar,HTDOCS_exclude)
@@ -39,6 +46,12 @@ HTDOCS_files_DESC ?= \
 (read-only) Web files, relative to HTDOCS_dir (list)
 $(call PROJ_DeclareVar,HTDOCS_files)
 HTDOCS_files = $(filter-out $(HTDOCS_exclude),$(call SYSTEM_FindFiles,$(HTDOCS_dir),,$(HTDOCS_excludedirs)))
+
+
+HTDOCS_dirs_DESC ?= \
+(read-only) Web files, relative to HTDOCS_dir (list)
+$(call PROJ_DeclareVar,HTDOCS_dirs)
+HTDOCS_dirs = $(filter-out ./,$(sort $(dir $(HTDOCS_files))))
 
 
 HTDOCS_files_abs_DESC ?= \

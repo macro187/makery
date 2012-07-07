@@ -18,12 +18,15 @@
 
 RULE_TARGET := $(HTDOCS_dotfile)
 RULE_REQS = $(HTDOCS_files_abs)
+RULE_REQS += $(call PROJ_GetVarRecursive,HTDOCS_dotfile,HTDOCS_include)
 RULE_OREQ := $(HTDOCS_outdir)
 
 define RULE_COMMANDS
 	-rm -rf $(call SYSTEM_ShellEscape,$(HTDOCS_outdir))/*
 
-	$(foreach f,$(HTDOCS_files),$(MAKE_CHAR_NEWLINE)	cp $(call SYSTEM_ShellEscape,$(HTDOCS_dir)/$(call MAKE_DecodeWord,$(f))) $(call SYSTEM_ShellEscape,$(HTDOCS_outdir))/)
+	$(foreach p,$(PROJ_name) $(HTDOCS_include),$(foreach d,$(call PROJ_GetVar,HTDOCS_dirs,$(p)),$(MAKE_CHAR_NEWLINE)	mkdir -p $(call SYSTEM_ShellEscape,$(HTDOCS_outdir))/$(call MAKE_DecodeWord,$(d))))
+
+	$(foreach p,$(PROJ_name) $(HTDOCS_include),$(foreach f,$(call PROJ_GetVar,HTDOCS_files,$(p)),$(MAKE_CHAR_NEWLINE)	test -f $(call SYSTEM_ShellEscape,$(HTDOCS_outdir)/$(call MAKE_DecodeWord,$(f))) || cp $(call SYSTEM_ShellEscape,$(call PROJ_GetVar,HTDOCS_dir,$(p))/$(call MAKE_DecodeWord,$(f))) $(call SYSTEM_ShellEscape,$(HTDOCS_outdir)/$(call MAKE_DecodeWord,$(f)))))
 
 	touch $(call SYSTEM_ShellEscape,$(HTDOCS_dotfile))
 endef
