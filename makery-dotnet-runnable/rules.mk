@@ -17,16 +17,16 @@
 
 
 RULE_TARGET := $(DOTNET_RUNNABLE_dotfile)
-RULE_REQS = $(DOTNET_BIN_all_abs)
-RULE_REQS += $(call PROJ_GetMultiRecursive,DOTNET_BIN_all_abs,DOTNET_projlibs)
+RULE_REQS = $(DOTNET_ASSEMBLY_all_abs)
+RULE_REQS += $(call PROJ_GetMultiRecursive,DOTNET_ASSEMBLY_all_abs,DOTNET_projlibs)
 RULE_OREQ := $(DOTNET_RUNNABLE_outdir)
 
 define RULE_COMMANDS
 	-rm -rf $(call SYSTEM_ShellEscape,$(DOTNET_RUNNABLE_outdir))/*
 
-	$(foreach d,$(sort $(DOTNET_BIN_subdirs) $(call PROJ_GetMultiRecursive,DOTNET_BIN_subdirs,DOTNET_projlibs)),$(MAKE_CHAR_NEWLINE)	mkdir -p $(call SYSTEM_ShellEscape,$(DOTNET_RUNNABLE_outdir))/$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(d))))
+	$(foreach d,$(sort $(DOTNET_ASSEMBLY_subdirs) $(call PROJ_GetMultiRecursive,DOTNET_ASSEMBLY_subdirs,DOTNET_projlibs)),$(MAKE_CHAR_NEWLINE)	mkdir -p $(call SYSTEM_ShellEscape,$(DOTNET_RUNNABLE_outdir))/$(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(d))))
 
-	$(foreach n,$(sort $(PROJ_name) $(call PROJ_GetVarRecursive,PROJ_name,DOTNET_projlibs)),$(foreach f,$(call PROJ_GetVar,DOTNET_BIN_all,$(n)),$(MAKE_CHAR_NEWLINE)	cp $(call SYSTEM_ShellEscape,$(call PROJ_GetVar,DOTNET_BIN_dir,$(n))/$(call MAKE_DecodeWord,$(f))) $(call SYSTEM_ShellEscape,$(DOTNET_RUNNABLE_outdir)/$(call MAKE_DecodeWord,$(f)))))
+	$(foreach n,$(sort $(PROJ_name) $(call PROJ_GetVarRecursive,PROJ_name,DOTNET_projlibs)),$(foreach f,$(call PROJ_GetVar,DOTNET_ASSEMBLY_all,$(n)),$(MAKE_CHAR_NEWLINE)	cp $(call SYSTEM_ShellEscape,$(call PROJ_GetVar,DOTNET_ASSEMBLY_dir,$(n))/$(call MAKE_DecodeWord,$(f))) $(call SYSTEM_ShellEscape,$(DOTNET_RUNNABLE_outdir)/$(call MAKE_DecodeWord,$(f)))))
 
 	touch $(call SYSTEM_ShellEscape,$(DOTNET_RUNNABLE_dotfile))
 endef

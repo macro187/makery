@@ -113,7 +113,7 @@ DOTNET_librefs_DESC ?= \
 (read-only) Libraries to reference when compiling (list)
 $(call PROJ_DeclareTargetVar,DOTNET_librefs)
 DOTNET_librefs = \
-$(sort $(DOTNET_gaclibs) $(call PROJ_GetMultiRecursive,DOTNET_gaclibs,DOTNET_projlibs)) $(sort $(call PROJ_GetVarRecursive,DOTNET_BIN_primary_abs,DOTNET_projlibs))
+$(sort $(DOTNET_gaclibs) $(call PROJ_GetMultiRecursive,DOTNET_gaclibs,DOTNET_projlibs)) $(sort $(call PROJ_GetVarRecursive,DOTNET_ASSEMBLY_primary_abs,DOTNET_projlibs))
 
 
 DOTNET_outbase_DESC ?= \

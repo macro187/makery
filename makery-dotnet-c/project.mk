@@ -55,9 +55,9 @@ SRCS_files = $(SRCS_FIND_files)
 SRCS_files_preq = $(SRCS_FIND_files)
 
 
-# Hook up to makery-dotnet-bin
+# Hook up to makery-dotnet-assembly
 #
-DOTNET_BIN_dir = $(DOTNET_outdir)
-DOTNET_BIN_primary = $(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))))
-DOTNET_BIN_all += $(notdir $(DOTNET_outfiles))
+DOTNET_ASSEMBLY_dir = $(DOTNET_outdir)
+DOTNET_ASSEMBLY_primary = $(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(DOTNET_outfiles_main))))
+DOTNET_ASSEMBLY_all += $(notdir $(DOTNET_outfiles))
 

@@ -3,7 +3,9 @@
     Introduction
 --------------------------------------------------------------------------------
 
-    A project providing a dotnet library or executable.
+    A project providing a dotnet assembly:  A primary .DLL library or .EXE
+    executable plus associated files such as debug symbol files, satellite
+    assemblies, etc.
 
 
 

@@ -37,7 +37,7 @@ OUT_all += $(call MAKE_EncodeWord,$(DOTNET_RUNNABLE_outdir))
 DOTNET_RUNNABLE_exe_DESC ?= \
 (readonly) Full path to the runnable program
 $(call PROJ_DeclareVar,DOTNET_RUNNABLE_exe)
-DOTNET_RUNNABLE_exe = $(DOTNET_RUNNABLE_outdir)/$(DOTNET_BIN_primary)
+DOTNET_RUNNABLE_exe = $(DOTNET_RUNNABLE_outdir)/$(DOTNET_ASSEMBLY_primary)
 
 
 # Hook up to the run module
