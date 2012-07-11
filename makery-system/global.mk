@@ -22,10 +22,10 @@
 # ------------------------------------------------------------------------------
 
 SYSTEM_NAME := $(call MAKE_Shell,uname -s)
-SYSTEM_ISCYGWIN := $(findstring CYGWIN,$(SYSTEM_NAME))
-SYSTEM_ISMSYS := $(findstring MINGW,$(SYSTEM_NAME))
-SYSTEM_ISINTERIX := $(findstring Interix,$(SYSTEM_NAME))
-SYSTEM_ISWINDOWS := $(findstring Windows,$(SYSTEM_NAME))$(SYSTEM_ISCYGWIN)$(SYSTEM_ISMSYS)$(SYSTEM_ISINTERIX)
+SYSTEM_ISCYGWIN := $(strip $(findstring CYGWIN,$(SYSTEM_NAME)))
+SYSTEM_ISMSYS := $(strip $(findstring MINGW,$(SYSTEM_NAME)))
+SYSTEM_ISINTERIX := $(strip $(findstring Interix,$(SYSTEM_NAME)))
+SYSTEM_ISWINDOWS := $(strip $(findstring Windows,$(SYSTEM_NAME))$(SYSTEM_ISCYGWIN)$(SYSTEM_ISMSYS)$(SYSTEM_ISINTERIX))
 
 
 
