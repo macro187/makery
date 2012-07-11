@@ -97,7 +97,7 @@ PROJ_vars += $(1)
 
 $(1)_AVAIL = $$(filter-out $$($(1)_MASK),$$($(1)_OPTIONS))
 
-ifeq ($$(strip $$($(1)_DEFAULT)),)
+ifeq ($$(strip $$(value $(1)_DEFAULT)),)
 $(1)_DEFAULT = $$(if $$(if $$($(call uc,$(1))),$$(filter $$($(call uc,$(1))),$$($(1)_AVAIL))),$$($(call uc,$(1))),$$(firstword $$($(1)_AVAIL)))
 endif
 
