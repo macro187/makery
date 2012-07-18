@@ -38,10 +38,17 @@ DOTNETFRAMEWORK_generation_MASK += \
 $(if $(filter ms,$(DOTNETFRAMEWORK_implementation)),$(foreach gen,$(DOTNETFRAMEWORK_MS_GENERATIONS),$(if $(DOTNETFRAMEWORK_MS_CSC_$(gen)),,$(gen))))
 
 
-DOTNETFRAMEWORK_MS_csharp_compiler += \
-$(if $(filter ms,$(DOTNETFRAMEWORK_implementation)),$(DOTNETFRAMEWORK_MS_CSC_$(DOTNETFRAMEWORK_generation)))
+DOTNETFRAMEWORK_MS_csharp_compiler_DESC := \
+Microsoft CSharp compiler
+$(call PROJ_DeclareVar,DOTNETFRAMEWORK_MS_csharp_compiler)
+DOTNETFRAMEWORK_MS_csharp_compiler = \
+$(DOTNETFRAMEWORK_MS_CSC_$(DOTNETFRAMEWORK_generation))
 
-DOTNETFRAMEWORK_MS_csharp_debuginfo += \
-$(if $(filter ms,$(DOTNETFRAMEWORK_implementation)),$(if $(filter 1,$(DOTNET_debug)),$(call MAKE_DecodeWord,$(basename $(call MAKE_EncodeWord,$(DOTNETASSEMBLY_primary)))).pdb))
+
+DOTNETFRAMEWORK_MS_csharp_debuginfo_DESC := \
+Microsoft CSharp debug info output file
+$(call PROJ_DeclareVar,DOTNETFRAMEWORK_MS_csharp_debuginfo)
+DOTNETFRAMEWORK_MS_csharp_debuginfo = \
+$(if $(filter 1,$(DOTNET_debug)),$(call MAKE_DecodeWord,$(basename $(call MAKE_EncodeWord,$(DOTNETASSEMBLY_primary)))).pdb)
 
 
