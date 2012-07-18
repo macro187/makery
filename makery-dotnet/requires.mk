@@ -16,9 +16,8 @@
 # ------------------------------------------------------------------------------
 
 
+$(call MODULES_Use,build)
 $(call MODULES_Use,out)
-$(call MODULES_Use,srcs-find)
-$(call MODULES_Use,srcs)
-$(call MODULES_Use,dotnet)
+$(call MODULES_Use,dotnetframework)
 $(call MODULES_Use,dotnetassembly)
 

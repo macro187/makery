@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
+# Copyright (c) 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,9 +16,19 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,out)
-$(call MODULES_Use,srcs-find)
-$(call MODULES_Use,srcs)
-$(call MODULES_Use,dotnet)
-$(call MODULES_Use,dotnetassembly)
+RULE_TARGET := $(DOTNETREFERENCES_dotfile)
+RULE_REQS := $(call PROJ_GetMultiRecursive,DOTNETASSEMBLY_all_abs,DOTNETREFERENCES_proj)
+RULE_OREQ := $(DOTNETREFERENCES_outdir)
+
+define RULE_COMMANDS
+	-rm -rf $(call SYSTEM_ShellEscape,$(DOTNETREFERENCES_outdir))/*
+
+	$(foreach d,$(call PROJ_GetMultiRecursive,DOTNETASSEMBLY_subdirs,DOTNETREFERENCES_proj),$(MAKE_CHAR_NEWLINE)	mkdir -p $(call SYSTEM_ShellEscape,$(DOTNETREFERENCES_outdir)/$(call MAKE_DecodeWord,$(d))))
+
+	$(foreach n,$(call PROJ_GetVarRecursive,PROJ_name,DOTNETREFERENCES_proj),$(foreach f,$(call PROJ_GetVar,DOTNETASSEMBLY_all,$(n)),$(MAKE_CHAR_NEWLINE)	cp $(call SYSTEM_ShellEscape,$(call PROJ_GetVar,DOTNETASSEMBLY_dir,$(n))/$(call MAKE_DecodeWord,$(f))) $(call SYSTEM_ShellEscape,$(DOTNETREFERENCES_outdir)/$(call MAKE_DecodeWord,$(f)))))
+
+	touch $(call SYSTEM_ShellEscape,$(DOTNETREFERENCES_dotfile))
+endef
+
+$(call PROJ_Rule)
 

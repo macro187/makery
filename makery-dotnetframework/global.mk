@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
+# Copyright (c) 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,9 +16,18 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,out)
-$(call MODULES_Use,srcs-find)
-$(call MODULES_Use,srcs)
-$(call MODULES_Use,dotnet)
-$(call MODULES_Use,dotnetassembly)
+# All generations
+#
+DOTNETFRAMEWORK_GENERATIONS := 10 11 20 30 35 40
+
+
+# Generation-to-version mappings
+#
+DOTNETFRAMEWORK_VERSION_10 := 1.0.3705
+DOTNETFRAMEWORK_VERSION_11 := 1.1.4322
+DOTNETFRAMEWORK_VERSION_20 := 2.0.50727
+DOTNETFRAMEWORK_VERSION_30 := 3.0.4506
+DOTNETFRAMEWORK_VERSION_35 := 3.5.21022
+DOTNETFRAMEWORK_VERSION_40 := 4.0.30319
+
 

@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
+# Copyright (c) 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,9 +16,7 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,out)
-$(call MODULES_Use,srcs-find)
-$(call MODULES_Use,srcs)
-$(call MODULES_Use,dotnet)
-$(call MODULES_Use,dotnetassembly)
+$(call MODULES_Use,dotnetframework-ms)
+$(call MODULES_Use,dotnetframework-mono)
+$(call MODULES_Use,dotnetframework-pnet)
 

@@ -187,6 +187,17 @@ $$(info $$(MAKE_CHAR_SPACE)   '$$($(1))')
 endef
 
 
+# Get the value of a single-value variable from a list of projects
+#
+# $1 - Variable name
+# $2 - List of project names
+#
+PROJ_GetVarMulti = \
+$(MAKERY_TRACEBEGIN2) \
+$(foreach p,$(2),$(call MAKE_EncodeWord,$(call PROJ_GetVar,$(1),$(p)))) \
+$(MAKERY_TRACEEND2)
+
+
 # Get the values of a single-value variable from all projects listed in a
 # second variable, recursively
 #

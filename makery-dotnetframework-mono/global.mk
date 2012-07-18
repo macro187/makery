@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
+# Copyright (c) 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,9 +16,21 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,out)
-$(call MODULES_Use,srcs-find)
-$(call MODULES_Use,srcs)
-$(call MODULES_Use,dotnet)
-$(call MODULES_Use,dotnetassembly)
+DOTNETFRAMEWORK_MONO_GENERATIONS := 40 35 30 20
+
+DOTNETFRAMEWORK_MONO_MONO := $(strip $(call MAKE_Shell,which mono 2>&-))
+DOTNETFRAMEWORK_MONO_MCS := $(strip $(call MAKE_Shell,which mcs 2>&-))
+DOTNETFRAMEWORK_MONO_GMCS := $(strip $(call MAKE_Shell,which gmcs 2>&-))
+DOTNETFRAMEWORK_MONO_DMCS := $(strip $(call MAKE_Shell,which dmcs 2>&-))
+
+DOTNETFRAMEWORK_MONO_MCS_40 := $(DOTNETFRAMEWORK_MONO_DMCS)
+DOTNETFRAMEWORK_MONO_MCS_35 := $(DOTNETFRAMEWORK_MONO_GMCS)
+DOTNETFRAMEWORK_MONO_MCS_30 := $(DOTNETFRAMEWORK_MONO_GMCS)
+DOTNETFRAMEWORK_MONO_MCS_20 := $(DOTNETFRAMEWORK_MONO_GMCS)
+
+DOTNETFRAMEWORK_MONO_LANGVERSIONSWITCH_40 :=
+DOTNETFRAMEWORK_MONO_LANGVERSIONSWITCH_35 := -langversion:3
+DOTNETFRAMEWORK_MONO_LANGVERSIONSWITCH_30 := -langversion:ISO-2
+DOTNETFRAMEWORK_MONO_LANGVERSIONSWITCH_20 := -langversion:ISO-2
+
 
