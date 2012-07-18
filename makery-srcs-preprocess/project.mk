@@ -26,41 +26,47 @@
 # <PP>_preq     - Files that represent the source code files for prerequisites
 #                 purposes (absolute paths)
 #
+SRCS_PREPROCESS_pipeline_DESC := \
+Preprocessor list (append-only list)
 $(call PROJ_DeclareVar,SRCS_PREPROCESS_pipeline)
-SRCS_PREPROCESS_pipeline_DESC ?= Preprocessor list (append-only list)
-SRCS_PREPROCESS_pipeline_VALIDATE ?= Required
+SRCS_PREPROCESS_pipeline_VALIDATE = Required
 
 
+SRCS_PREPROCESS_ppfrom_DESC := \
+Upstream processor in preprocessor pipeline
 $(call PROJ_DeclareVar,SRCS_PREPROCESS_ppfrom)
-SRCS_PREPROCESS_ppfrom_DESC ?= Upstream processor in preprocessor pipeline
 SRCS_PREPROCESS_ppfrom_DEFAULT = $(lastword $(SRCS_PREPROCESS_pipeline))
 
 
+SRCS_PREPROCESS_srcdir_DESC := \
+(read-only) Source code files root directory
 $(call PROJ_DeclareVar,SRCS_PREPROCESS_srcdir)
-SRCS_PREPROCESS_srcdir_DESC ?= Source code files root directory (read-only)
 SRCS_PREPROCESS_srcdir_DEFAULT = $($(SRCS_PREPROCESS_ppfrom)_dir)
 
 
+SRCS_PREPROCESS_srcs_DESC := \
+(read-only) Source code files relative to SRCS_PREPROCESS_srcdir
 $(call PROJ_DeclareTargetVar,SRCS_PREPROCESS_srcs)
-SRCS_PREPROCESS_srcs_DESC ?= \
-Source code files relative to SRCS_PREPROCESS_srcdir (read-only)
 SRCS_PREPROCESS_srcs = $($(SRCS_PREPROCESS_ppfrom)_rel)
 
 
+SRCS_PREPROCESS_srcpreq_DESC := \
+(read-only) Source code files prerequisite files
 $(call PROJ_DeclareVar,SRCS_PREPROCESS_srcpreq)
-SRCS_PREPROCESS_srcpreq_DESC ?= Source code files prerequisite files (read-only)
 SRCS_PREPROCESS_srcpreq_DEFAULT = $($(SRCS_PREPROCESS_ppfrom)_preq)
 
 
+SRCS_PREPROCESS_dir_DESC := \
+Directory to put final source files in
 $(call PROJ_DeclareVar,SRCS_PREPROCESS_dir)
-SRCS_PREPROCESS_dir_DESC ?= Directory to put final source files in
 SRCS_PREPROCESS_dir_DEFAULT = $(OUT_base)/srcs
 
 OUT_all += $(call MAKE_EncodeWord,$(SRCS_PREPROCESS_dir))
 
 
+SRCS_PREPROCESS_preq_DESC := \
+Temp file representing final source files
 $(call PROJ_DeclareVar,SRCS_PREPROCESS_preq)
-SRCS_PREPROCESS_preq_DESC ?= Temp file representing final source files
 SRCS_PREPROCESS_preq_DEFAULT = $(OUT_base)/srcs_dotfile
 
 
@@ -68,8 +74,9 @@ $(call PROJ_DeclareTargetVar,SRCS_PREPROCESS_subdirs)
 SRCS_PREPROCESS_subdirs = $(filter-out ./,$(dir $(SRCS_PREPROCESS_srcs)))
 
 
+SRCS_PREPROCESS_rel_DESC := \
+Final source files relative to SRCS_PREPROCESS_dir
 $(call PROJ_DeclareTargetVar,SRCS_PREPROCESS_rel)
-SRCS_PREPROCESS_rel_DESC ?= Final source files relative to SRCS_PREPROCESS_dir
 SRCS_PREPROCESS_rel = \
 $(call MAKE_Shell,\
 cd $(call SYSTEM_ShellEscape,$(SRCS_PREPROCESS_dir)) && find * -type f \
@@ -78,8 +85,8 @@ cd $(call SYSTEM_ShellEscape,$(SRCS_PREPROCESS_dir)) && find * -type f \
 )
 
 
-
 # Hook the end of the pipeline to SRCS_*
+#
 SRCS_files = \
 $(foreach f,$(SRCS_PREPROCESS_srcs),$(call MAKE_EncodeWord,$(SRCS_PREPROCESS_srcdir))/$(f))
 

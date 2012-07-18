@@ -16,31 +16,36 @@
 # ------------------------------------------------------------------------------
 
 
+RUN_target_DESC := \
+The phony runnable target
 $(call PROJ_DeclareVar,RUN_target)
-RUN_target_DESC ?= The phony runnable target
 RUN_target_DEFAULT = $(PROJ_dir)/runnable
 
 
+RUN_reqs_DESC := \
+Prerequisites for the project to be runnable in-place (list)
 $(call PROJ_DeclareVar,RUN_reqs)
-RUN_reqs_DESC ?= Prerequisites for the project to be runnable in-place (list)
 
 
+RUN_run_DESC := \
+Pre-escaped shell command to run the project in-place
 $(call PROJ_DeclareVar,RUN_run)
-RUN_run_DESC ?= Pre-escaped shell command to run the project in-place
 
 
+RUN_argpathfunc_DESC := \
+Name of function to be called on all command-line arguments that are path \
+fragments
 $(call PROJ_DeclareVar,RUN_argpathfunc)
-RUN_argpathfunc_DESC ?= Name of function to be called on all command-line arguments that are path fragments
 RUN_argpathfunc_DEFAULT = MAKE_Identity
 
 
+RUN_argpathabsfunc_DESC := \
+Name of function to be called on all command-line arguments that are full paths
 $(call PROJ_DeclareVar,RUN_argpathabsfunc)
-RUN_argpathabsfunc_DESC ?= Name of function to be called on all command-line arguments that are full paths
 RUN_argpathabsfunc_DEFAULT = MAKE_Identity
 
 
-
-
 # Hook "runnable" to "everything"
+#
 EVERYTHING_reqs += $(call MAKE_EncodeWord,$(RUN_target))
 

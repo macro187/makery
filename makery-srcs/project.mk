@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,11 +16,12 @@
 # ------------------------------------------------------------------------------
 
 
+SRCS_files_DESC := \
+Source code files (list)
 $(call PROJ_DeclareTargetVar,SRCS_files)
-SRCS_files_DESC ?= Source code files (list)
 
 
-# (may be different because _files is target-time)
+SRCS_files_preq_DESC := \
+Files to be used as rule prerequisites (list)
 $(call PROJ_DeclareVar,SRCS_files_preq)
-SRCS_files_preq_DESC ?= Files to be used as rule prerequisites (list)
 

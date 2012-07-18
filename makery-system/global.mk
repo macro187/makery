@@ -17,21 +17,14 @@
 
 
 
-# ------------------------------------------------------------------------------
 # Operating System
-# ------------------------------------------------------------------------------
-
+#
 SYSTEM_NAME := $(call MAKE_Shell,uname -s)
 SYSTEM_ISCYGWIN := $(strip $(findstring CYGWIN,$(SYSTEM_NAME)))
 SYSTEM_ISMSYS := $(strip $(findstring MINGW,$(SYSTEM_NAME)))
 SYSTEM_ISINTERIX := $(strip $(findstring Interix,$(SYSTEM_NAME)))
 SYSTEM_ISWINDOWS := $(strip $(findstring Windows,$(SYSTEM_NAME))$(SYSTEM_ISCYGWIN)$(SYSTEM_ISMSYS)$(SYSTEM_ISINTERIX))
 
-
-
-# ------------------------------------------------------------------------------
-# Commands
-# ------------------------------------------------------------------------------
 
 PWD := pwd
 
@@ -43,27 +36,24 @@ endif
 XDGOPEN := $(strip $(call MAKE_Shell,which xdg-open 2>&-))
 
 
-# ------------------------------------------------------------------------------
-# Shell versions of some MAKE_ functions
-# ------------------------------------------------------------------------------
-
 # Pipe commands that return multiple items, one per line, to this
+#
 define SYSTEM_SHELL_ENCODEWORD
 sed -e s/\ /\<space\>/g | sed -e s/:/\<colon\>/g
 endef
 
+
 # Pipe commands that return paths to this
+#
 define SYSTEM_SHELL_CLEANPATH
 sed -e s/\\\\/\\//g
 endef
 
 
-
-# ------------------------------------------------------------------------------
 # Escape special characters in a string for use in the shell
+#
 # $1 - The string
-# ------------------------------------------------------------------------------
-
+#
 SYSTEM_ShellEscape = \
 $(subst $(MAKE_CHAR_QUOTE),\$(MAKE_CHAR_QUOTE),$(subst $(MAKE_CHAR_APOS),\$(MAKE_CHAR_APOS),$(subst $(MAKE_CHAR_SPACE),\$(MAKE_CHAR_SPACE),$(subst \,\\,$(1)))))
 
@@ -86,42 +76,32 @@ SYSTEM_FindFiles = \
 $(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && find * $(foreach dir,$(3),-name $(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(3))) -prune -o) -type f $(if $(2),-name \*.$(2),) -print | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
 
 
-# ------------------------------------------------------------------------------
 # Determine a directory's canonical absolute path
 #
-# Parameters
 # $1 - Path
 #
-# Returns
-# Absolute path, or blank if the dir doesn't exist
-# ------------------------------------------------------------------------------
-
+# Returns absolute path, or blank if the dir doesn't exist
+#
 SYSTEM_DirToAbs = \
 $(MAKERY_TRACEBEGIN1)$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && $(PWD) | $(SYSTEM_SHELL_CLEANPATH))$(MAKERY_TRACEEND1)
 
 
-
-# ------------------------------------------------------------------------------
 # Convert a posix-style path (forward-slashes) to a Windows-style path
 # (backslashes)
 #
 # This function does no mapping, it just changes separators
 #
 # $1 - A posix-style path
-# ------------------------------------------------------------------------------
-
+#
 SYSTEM_WinPath = \
 $(subst /,\,$(1))
 
 
-
-# ------------------------------------------------------------------------------
 # Map a posix path to an absolute Windows-style path to the same location from
 # the perspective of Windows programs
 #
 # $1 - A posix path
-# ------------------------------------------------------------------------------
-
+#
 SYSTEM_WinPathAbs = \
 $(call SYSTEM_WinPath,$(1))
 
@@ -135,28 +115,22 @@ $(call MAKE_Shell,unixpath2win $(call SYSTEM_ShellEscape,$(1)))
 endif
 
 
-
-# ------------------------------------------------------------------------------
 # Convert a Windows-style path (backslashes) to a posix-style path
 # (forward-slashes)
 #
 # This function does no mapping, it just changes separators
 #
 # $1 - A Windows-style path
-# ------------------------------------------------------------------------------
-
+#
 SYSTEM_PosixPath = \
 $(subst \,/,$(1))
 
 
-
-# ------------------------------------------------------------------------------
 # Map a Windows path to an absolute posix-style path to the same location from
 # the perspective of posix programs
 #
 # $1 - A Windows path
-# ------------------------------------------------------------------------------
-
+#
 SYSTEM_PosixPathAbs = \
 $(call SYSTEM_PosixPath,$(1))
 
@@ -169,10 +143,8 @@ $(call MAKE_Shell,winpath2unix $(call SYSTEM_ShellEscape,$(1)))
 endif
 
 
-
-# ------------------------------------------------------------------------------
 # Windows Directory
-# ------------------------------------------------------------------------------
+#
 ifneq ($(SYSTEM_ISWINDOWS),)
 
 ifneq ($(windir),)

@@ -16,42 +16,23 @@
 # ------------------------------------------------------------------------------
 
 
-# ------------------------------------------------------------------------------
-# Doxygen Makery module directory
-# ------------------------------------------------------------------------------
-
-DOXYGEN_MAKERY_MODULE_DIR := $(call MODULES_Locate,doxygen)
-# TODO If blank we've got a problem
-
-
-
-# ------------------------------------------------------------------------------
-# Doxygen executable
-# ------------------------------------------------------------------------------
-
 ifndef DOXYGEN_DOXYGEN
 DOXYGEN_DOXYGEN := $(call MAKE_Shell,which doxygen 2>&-)
 endif
+
 
 ifndef DOXYGEN_DOT
 DOXYGEN_DOT := $(call MAKE_Shell,which dot 2>&-)
 endif
 
 
-
-# ------------------------------------------------------------------------------
 # Default value for preprocessor variables
-# ------------------------------------------------------------------------------
-
+#
 DOXYGEN_DEFINE_DEFAULT := 1
 
 
-
-# ------------------------------------------------------------------------------
-# Global targets
-# ------------------------------------------------------------------------------
-
 # Generate doxygen docs for main project / all doxygen-enabled projects
+#
 .PHONY: doxygen doxygenall
 doxygen doxygenall:
 	$(MAKERY_TARGETHEADING)

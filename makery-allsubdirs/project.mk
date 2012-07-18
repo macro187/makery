@@ -16,14 +16,16 @@
 # ------------------------------------------------------------------------------
 
 
+ALLSUBDIRS_subdirs_DESC := \
+All subdirectories
 $(call PROJ_DeclareVar,ALLSUBDIRS_subdirs)
-ALLSUBDIRS_subdirs_DESC ?= All subdirectories
 ALLSUBDIRS_subdirs = \
 $(call MAKE_Shell,cd $(call SYSTEM_ShellEscape,$(PROJ_dir)) && find * -maxdepth 0 -type d | $(SYSTEM_SHELL_ENCODEWORD))
 
 
+ALLSUBDIRS_projsubdirs_DESC := \
+Subdirectories containing a Makefile
 $(call PROJ_DeclareVar,ALLSUBDIRS_projsubdirs)
-ALLSUBDIRS_projsubdirs_DESC ?= Subdirectories containing a Makefile
 ALLSUBDIRS_projsubdirs = \
 $(foreach d,$(ALLSUBDIRS_subdirs),$(if $(call MAKE_Shell,test -e $(call SYSTEM_ShellEscape,$(PROJ_dir)/$(call MAKE_DecodeWord,$(d))/Makefile) && echo yes),$(d)))
 
@@ -36,4 +38,5 @@ MAKERYPATH := $(call MAKE_EncodeWord,$(PROJ_dir)) $(MAKERYPATH)
 # Pull in all project subdirectory projects
 #
 PROJ_required += $(ALLSUBDIRS_projsubdirs)
+
 

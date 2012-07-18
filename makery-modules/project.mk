@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,12 +16,12 @@
 # ------------------------------------------------------------------------------
 
 
-$(call PROJ_DeclareVar,MODULES_use)
 MODULES_use_DESC ?= \
-Modules that the project says will build it (list) (set in project makefile only, please)
+Modules that the project says will build it (list)
+$(call PROJ_DeclareVar,MODULES_use)
 
 
-$(call PROJ_DeclareVar,MODULES_proj)
 MODULES_proj_DESC ?= \
 (internal) List of modules that have been processed for this project so far
+$(call PROJ_DeclareVar,MODULES_proj)
 

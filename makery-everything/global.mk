@@ -16,11 +16,8 @@
 # ------------------------------------------------------------------------------
 
 
-# ------------------------------------------------------------------------------
-# Global targets
-# ------------------------------------------------------------------------------
-
 # Build the main project / all buildable projects
+#
 .PHONY: everything everythingall
 everything everythingall:
 	$(MAKERY_TARGETHEADING)

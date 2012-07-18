@@ -38,7 +38,7 @@ MAKERY_GLOBALS += MODULES_GLOBAL
 #
 MODULES_Use = \
 $(eval $(call MODULES_USE_TEMPLATE,$(1),$(call MODULES_Locate,$(1))))
-
+#
 # $1 - Module name
 # $2 - Module dir
 #

@@ -15,12 +15,15 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
+
+OUT_all_DESC := \
+All output directories (list)
 $(call PROJ_DeclareVar,OUT_all)
-OUT_all_DESC ?= All output directories (list)
 
 
+OUT_base_DESC := \
+(internal) Base output directory
 $(call PROJ_DeclareVar,OUT_base)
-OUT_base_DESC ?= (internal) Base output directory
 OUT_base_DEFAULT = $(PROJ_dir)/out
 
 ifdef MAKERYOUT
@@ -33,10 +36,13 @@ endif
 OUT_all += $(call MAKE_EncodeWord,$(OUT_base))
 
 
+OUT_cleantarget_DESC := \
+The phony target to clean all output directories
 $(call PROJ_DeclareVar,OUT_cleantarget)
-OUT_cleantarget_DESC ?= The phony target to clean all output directories
 OUT_cleantarget_DEFAULT = $(PROJ_dir)/out-clean
 
-# Hook to clean target
+
+# Hook to clean
+#
 CLEAN_reqs += $(call MAKE_EncodeWord,$(OUT_cleantarget))
 

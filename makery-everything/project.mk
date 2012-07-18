@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -16,11 +16,13 @@
 # ------------------------------------------------------------------------------
 
 
+EVERYTHING_target_DESC := \
+The phony everything target, which builds everything possible
 $(call PROJ_DeclareVar,EVERYTHING_target)
-EVERYTHING_target_DESC ?= The phony everything target, which builds everything possible
 EVERYTHING_target_DEFAULT = $(PROJ_dir)/everything
 
 
+EVERYTHING_reqs_DESC := \
+Targets to hook to the everything target
 $(call PROJ_DeclareVar,EVERYTHING_reqs)
-EVERYTHING_reqs_DESC ?= Targets to hook to the everything target
 

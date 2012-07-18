@@ -16,10 +16,6 @@
 # ------------------------------------------------------------------------------
 
 
-# ------------------------------------------------------------------------------
-# Locations
-# ------------------------------------------------------------------------------
-
 # Locate a project in $(MAKERYPATH)
 #
 # $1 - Directory name of project to find
@@ -68,11 +64,6 @@ endef
 #
 PROJ_PROJECTS := $(PROJ_PROJECTS)
 
-
-
-# ------------------------------------------------------------------------------
-# Variables
-# ------------------------------------------------------------------------------
 
 # Declare a project variable
 #
@@ -369,11 +360,6 @@ PROJ_ValidatorBetween = \
 $(if $($(1)),$(call PROJ_ValidationErrorIf,$(call lt,$($(1)),$(word 1,$(2)))$(call gt,$($(1)),$(word 2,$(2))),$(1),Must be between $(word 1,$(2)) and $(word 2,$(2))))
 
 
-
-# ------------------------------------------------------------------------------
-# (internal) Required Projects
-# ------------------------------------------------------------------------------
-
 # Recursively process required projects
 #
 # Even though there are separate functions for each step, we have to do
@@ -510,7 +496,7 @@ endif
 #
 PROJ_TargetVars = \
 $(MAKERY_TRACEBEGIN1)$(eval $(call PROJ_TargetVars_TEMPLATE,$(call MAKE_CallForEach,MAKE_EncodePath,$(1))))$(MAKERY_TRACEEND1)
-
+#
 # $1 PathEncode()ed list of targets
 #
 define PROJ_TargetVars_TEMPLATE
@@ -532,11 +518,6 @@ $$(call PROJ_TargetVars,$$(ALLTARGETS))
 ALLTARGETS :=
 endef
 
-
-
-# ------------------------------------------------------------------------------
-# Global Targets
-# ------------------------------------------------------------------------------
 
 # The global default target (which currently does nothing)
 #
