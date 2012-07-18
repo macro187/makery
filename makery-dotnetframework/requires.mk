@@ -18,5 +18,4 @@
 
 $(call MODULES_Use,dotnetframework-ms)
 $(call MODULES_Use,dotnetframework-mono)
-$(call MODULES_Use,dotnetframework-pnet)
 

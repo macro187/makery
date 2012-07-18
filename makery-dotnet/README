@@ -13,13 +13,11 @@
 --------------------------------------------------------------------------------
 
     Supports various implementations of the .NET framework, including
-    Microsoft .NET, Mono, and GNU Portable.NET:
+    Microsoft .NET and Mono:
 
         http://en.wikipedia.org/wiki/.NET_Framework
 
         http://en.wikipedia.org/wiki/Mono_%28software%29
-
-        http://en.wikipedia.org/wiki/Portable.NET
 
 
 
