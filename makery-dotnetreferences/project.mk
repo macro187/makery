@@ -44,6 +44,11 @@ $(call PROJ_DeclareVar,DOTNETREFERENCES_dotfile)
 DOTNETREFERENCES_dotfile = $(OUT_base)/_dotnetreferences
 
 
+DOTNETREFERENCES_reqs_DESC := \
+Additional requirements for DOTNETREFERENCES_dotfile (list)
+$(call PROJ_DeclareVar,DOTNETREFERENCES_reqs)
+
+
 DOTNETREFERENCES_proj_primary_recursive_DESC := \
 (readonly) Absolute paths of primary assembly files from project references, recursive (list)
 $(call PROJ_DeclareTargetVar,DOTNETREFERENCES_proj_primary_recursive)
