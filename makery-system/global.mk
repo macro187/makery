@@ -66,6 +66,15 @@ SYSTEM_DirExists = \
 $(findstring EXISTS,$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && echo EXISTS))
 
 
+# Find a single file in a particular directory
+#
+# $1 - Directory to look in
+# $2 - Filename to find (case-insensitive)
+#
+SYSTEM_FindFile = \
+$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(1)) -type f -maxdepth 1 -iname $(call SYSTEM_ShellEscape,$(2)) | $(SYSTEM_SHELL_CLEANPATH))
+
+
 # Find files recursively under a directory
 #
 # $1 - Directory to look in
