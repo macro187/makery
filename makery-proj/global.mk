@@ -50,12 +50,12 @@ $(PROJ_LOCATION_$(call MAKE_EncodeWord,$(1)))
 # Returns the location
 #
 PROJ_Locate_SetCache = \
-$(eval $(call PROJ_SaveLocation_TEMPLATE,$(1),$(2)))$(2)
+$(eval $(call PROJ_Locate_SetCache_TEMPLATE,$(1),$(2)))$(2)
 
 # $1 - Project name
 # $2 - Project location
 #
-define PROJ_SaveLocation_TEMPLATE
+define PROJ_Locate_SetCache_TEMPLATE
 PROJ_LOCATION_$(call MAKE_EncodeWord,$(1)) := $(2)
 endef
 
