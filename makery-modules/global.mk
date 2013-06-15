@@ -37,20 +37,26 @@ MAKERY_GLOBALS += MODULES_GLOBAL
 # $1 - Module name
 #
 MODULES_Use = \
-$(eval $(call MODULES_USE_TEMPLATE,$(1),$(call MODULES_Locate,$(1))))
+$(MAKERY_TRACEBEGIN1)$(eval $(call MODULES_USE_TEMPLATE,$(1),$(call MODULES_Locate,$(1))))$(MAKERY_TRACEEND1)
 #
 # $1 - Module name
 # $2 - Module dir
 #
 define MODULES_USE_TEMPLATE
+$$(call MAKERY_TraceBegin,-include $(2)/requires.mk)
 -include $(call MAKE_EncodePath,$(2)/requires.mk)
+$$(call MAKERY_TraceEnd,-include $(2)/requires.mk)
 ifeq ($$(filter $(call MAKE_EncodeWord,$(1)),$$(MODULES_GLOBAL)),)
 $$(call MAKERY_Debug Sourcing module '$(1)' from '$(2)')
+$$(call MAKERY_TraceBegin,-include $(2)/global.mk)
 -include $(call MAKE_EncodePath,$(2)/global.mk)
+$$(call MAKERY_TraceEnd,-include $(2)/global.mk)
 MODULES_GLOBAL += $(call MAKE_EncodeWord,$(1))
 endif
 ifeq ($$(filter $(call MAKE_EncodeWord,$(1)),$$(MODULES_proj)),)
+$$(call MAKERY_TraceBegin,-include $(2)/project.mk)
 -include $(call MAKE_EncodePath,$(2)/project.mk)
+$$(call MAKERY_TraceEnd,-include $(2)/project.mk)
 MODULES_proj += $(call MAKE_EncodeWord,$(1))
 endif
 endef

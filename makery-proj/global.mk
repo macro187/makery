@@ -240,9 +240,10 @@ $(MAKERY_TRACEBEGIN)$(eval $(call PROJ_FlattenVars_TEMPLATE))$(MAKERY_TRACEEND)
 
 define PROJ_FlattenVars_TEMPLATE
 $$(MAKERY_TRACEBEGIN)
-$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) := $$($(v))#)
+$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$$(call MAKERY_TraceBegin,flatten $(v))$(MAKE_CHAR_NEWLINE)$(v) := $$($(v))#$(MAKE_CHAR_NEWLINE)$$(call MAKERY_TraceEnd,flatten $(v)))
 $$(MAKERY_TRACEEND)
 endef
+#$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) := $$($(v))#)
 
 
 # (internal) Stash project variables
