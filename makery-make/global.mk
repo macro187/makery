@@ -124,9 +124,13 @@ endef
 
 # $(shell) alias to permit tracing etc.
 #
+ifdef MAKERYTRACE
+MAKE_Shell = \
+$(info [trace begin] MAKE_Shell($(1)))$(shell $(1))$(info [trace end  ] MAKE_Shell($(1)))
+else
 MAKE_Shell = \
 $(shell $(1))
-#$(info $(1))$(shell $(1))
+endif
 
 
 # Disable Built-in Rules
