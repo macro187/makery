@@ -83,6 +83,7 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR)) \
 DOTNETFRAMEWORK_MS_CSC_40 := \
 $(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_40)) \
+-maxdepth 1 \
 -name "csc.exe" \
 | $(SYSTEM_SHELL_CLEANPATH) \
 )
@@ -90,6 +91,7 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_40)) \
 DOTNETFRAMEWORK_MS_CSC_35 := \
 $(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_35)) \
+-maxdepth 1 \
 -name "csc.exe" \
 | $(SYSTEM_SHELL_CLEANPATH) \
 )
@@ -97,6 +99,7 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_35)) \
 DOTNETFRAMEWORK_MS_CSC_30 := \
 $(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_30)) \
+-maxdepth 1 \
 -name "csc.exe" \
 | $(SYSTEM_SHELL_CLEANPATH) \
 )
@@ -104,6 +107,7 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_30)) \
 DOTNETFRAMEWORK_MS_CSC_20 := \
 $(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_20)) \
+-maxdepth 1 \
 -name "csc.exe" \
 | $(SYSTEM_SHELL_CLEANPATH) \
 )
@@ -111,6 +115,7 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_20)) \
 DOTNETFRAMEWORK_MS_CSC_11 := \
 $(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_11)) \
+-maxdepth 1 \
 -name "csc.exe" \
 | $(SYSTEM_SHELL_CLEANPATH) \
 )
@@ -118,6 +123,7 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_11)) \
 DOTNETFRAMEWORK_MS_CSC_10 := \
 $(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_10)) \
+-maxdepth 1 \
 -name "csc.exe" \
 | $(SYSTEM_SHELL_CLEANPATH) \
 )
