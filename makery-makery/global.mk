@@ -41,7 +41,7 @@ override MAKERYPATH := \
 $(subst $(MAKE_CHAR_COLON_ENCODED), ,$(call MAKE_EncodeWord,$(MAKERYPATH)))
 MAKERY_GLOBALS += MAKERYPATH
 
-override MAKERYPATH += $(call MAKE_EncodeWord,$(MAKERY))
+override MAKERYPATH := $(call MAKE_EncodeWord,$(MAKERY)) $(MAKERYPATH)
 
 
 MAKERYOUT_DESC := \
