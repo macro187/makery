@@ -221,11 +221,24 @@ PROJ_FlattenVars = \
 $(MAKERY_TRACEBEGIN)$(eval $(call PROJ_FlattenVars_TEMPLATE))$(MAKERY_TRACEEND)
 
 define PROJ_FlattenVars_TEMPLATE
-$$(MAKERY_TRACEBEGIN)
-$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$$(call MAKERY_TraceBegin,flatten $(v))$(MAKE_CHAR_NEWLINE)$(v) := $$($(v))#$(MAKE_CHAR_NEWLINE)$$(call MAKERY_TraceEnd,flatten $(v)))
-$$(MAKERY_TRACEEND)
+#
+# Set up non-target project variables to cache-on-first-expand so they're only
+# ever expanded once.
+#
+PROJ_FlattenVars_CACHED :=
+$(foreach v,$(filter-out $(foreach tv,$(PROJ_targetvars),$(tv)_def),$(PROJ_vars)),$(MAKE_CHAR_NEWLINE)$(v) = $$(if $$(filter $(v),$$(PROJ_FlattenVars_CACHED)),$$(PROJ_FlattenVars_CACHED_$(v)),$$(eval PROJ_FlattenVars_CACHED += $(v))$$(eval PROJ_FlattenVars_CACHED_$(v) := $(value $(v)))$$(PROJ_FlattenVars_CACHED_$(v)))#)
+
+#
+# Expand all project variables
+#
+$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$$(call MAKERY_TraceBegin,$(v))$(MAKE_CHAR_NEWLINE)$(v) := $$($(v))#$(MAKE_CHAR_NEWLINE)$$(call MAKERY_TraceEnd,$(v)))
+
+#
+# Clear cache
+#
+$(foreach v,$(filter-out $(foreach tv,$(PROJ_targetvars),$(tv)_def),$(PROJ_vars)),$(MAKE_CHAR_NEWLINE)PROJ_FlattenVars_CACHED_$(v) :=#)
+PROJ_FlattenVars_CACHED :=
 endef
-#$(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) := $$($(v))#)
 
 
 # (internal) Stash project variables
