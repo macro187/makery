@@ -126,7 +126,7 @@ endef
 #
 ifdef MAKERYTRACE
 MAKE_Shell = \
-$(info [trace begin] MAKE_Shell($(1)))$(shell $(1))$(info [trace end  ] MAKE_Shell($(1)))
+$(info [begin] MAKE_Shell($(1)))$(shell $(1))$(info [end]   MAKE_Shell($(1)))
 else
 MAKE_Shell = \
 $(shell $(1))

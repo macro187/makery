@@ -140,23 +140,23 @@ $($(call PROJ_PersistentVarName,$(1),$(2)))
 #
 PROJ_DebugPrintVarInfo =
 ifdef MAKERYDEBUG
-PROJ_DebugPrintVarInfo = $(info [debug] Project Variables:)$(foreach v,$(PROJ_vars),$(eval $(call PROJ_DebugPrintVarInfo_TEMPLATE,$(v))))
+PROJ_DebugPrintVarInfo = $(MAKERY_TRACEBEGIN)$(call MAKERY_Debug,Project Variables:)$(foreach v,$(PROJ_vars),$(eval $(call PROJ_DebugPrintVarInfo_TEMPLATE,$(v))))$(MAKERY_TRACEEND)
 endif
 
 define PROJ_DebugPrintVarInfo_TEMPLATE
-$$(info $(1))
+$$(call MAKERY_Debug,$(1))
 ifneq ($$($(1)_DESC),)
-$$(info $$(MAKE_CHAR_SPACE) Description)
-$$(info $$(MAKE_CHAR_SPACE)   $$($(1)_DESC))
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) Description)
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   $$($(1)_DESC))
 endif
 ifneq ($$($(1)_OPTIONS),)
-$$(info $$(MAKE_CHAR_SPACE) Options)
-$$(info $$(MAKE_CHAR_SPACE)   $$($(1)_OPTIONS))
-$$(info $$(MAKE_CHAR_SPACE) Available Options)
-$$(info $$(MAKE_CHAR_SPACE)   $$($(1)_AVAIL))
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) Options)
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   $$($(1)_OPTIONS))
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) Available Options)
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   $$($(1)_AVAIL))
 endif
-$$(info $$(MAKE_CHAR_SPACE) Value)
-$$(info $$(MAKE_CHAR_SPACE)   '$$($(1))')
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) Value)
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   '$$($(1))')
 endef
 
 
@@ -231,12 +231,10 @@ endef
 # (internal) Stash project variables
 #
 PROJ_StashVars = \
-$(MAKERY_TRACE)$(eval $(call PROJ_StashVars_TEMPLATE))
+$(MAKERY_TRACEBEGIN)$(eval $(call PROJ_StashVars_TEMPLATE))$(MAKERY_TRACEEND)
 
 define PROJ_StashVars_TEMPLATE
-$$(MAKERY_TRACEBEGIN)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(call PROJ_PersistentVarName,$(v),$(PROJ_name)) := $$($(v))#)
-$$(MAKERY_TRACEEND)
 endef
 
 
@@ -246,9 +244,7 @@ PROJ_RetrieveVars = \
 $(MAKERY_TRACEBEGIN)$(eval $(call PROJ_RetrieveVars_TEMPLATE))$(MAKERY_TRACEEND)
 
 define PROJ_RetrieveVars_TEMPLATE
-$$(MAKERY_TRACEBEGIN)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) := $$($(call PROJ_PersistentVarName,$(v),$(PROJ_name)))#)
-$$(MAKERY_TRACEEND)
 endef
 
 
@@ -258,7 +254,6 @@ PROJ_ClearVars = \
 $(MAKERY_TRACEBEGIN)$(eval $(PROJ_ClearVars_TEMPLATE))$(MAKERY_TRACEEND)
 
 define PROJ_ClearVars_TEMPLATE
-$$(MAKERY_TRACEBEGIN)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v) =#)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v)_DESC := $(v)_DESC#)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v)_DEFAULT =#)
@@ -267,7 +262,6 @@ $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v)_OPTIONS =#)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v)_AVAIL =#)
 $(foreach v,$(PROJ_vars),$(MAKE_CHAR_NEWLINE)$(v)_MASK =#)
 $(foreach v,$(PROJ_targetvars),$(MAKE_CHAR_NEWLINE)$(v) =#)
-$$(MAKERY_TRACEEND)
 endef
 
 
@@ -353,12 +347,10 @@ PROJ_ProcessRequired = \
 $(MAKERY_TRACEBEGIN)$(eval $(PROJ_TEMPLATE_PROCESSREQUIRED))$(MAKERY_TRACEEND)
 
 define PROJ_TEMPLATE_PROCESSREQUIRED
-$$(MAKERY_TRACEBEGIN)
 $(call PROJ_StashVars_TEMPLATE)
 $(call PROJ_ClearVars_TEMPLATE)
 $(foreach p,$(PROJ_required),$(call PROJ_IncludeRequired_TEMPLATE,$(p)))
 $(call PROJ_RetrieveVars_TEMPLATE)
-$$(MAKERY_TRACEEND)
 endef
 
 
@@ -367,16 +359,14 @@ endef
 # $1 - Project name
 #
 PROJ_IncludeRequired = \
-$(MAKERY_TRACE1)$(eval $(call PROJ_IncludeRequired_TEMPLATE,$(1)))
+$(MAKERY_TRACEBEGIN1)$(eval $(call PROJ_IncludeRequired_TEMPLATE,$(1)))$(MAKERY_TRACEEND1)
 
 define PROJ_IncludeRequired_TEMPLATE
-$$(MAKERY_TRACEBEGIN1)
 PROJ_dir := $(call PROJ_Locate,$(1))
 ifeq ($$(filter $$(call MAKE_EncodeWord,$$(PROJ_dir)),$$(PROJ_PROJECTS)),)
 include $$(call MAKE_EncodePath,$$(PROJ_dir))/Makefile
 else
 $$(call MAKERY_Debug,Refraining from re-processing '$$(PROJ_dir)')
-$$(MAKERY_TRACEEND1)
 endif
 
 endef

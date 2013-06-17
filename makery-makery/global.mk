@@ -78,31 +78,20 @@ endif
 
 
 ifdef MAKERYDEBUG
-MAKERY_Debug = $(info [DEBUG] $(1))
+MAKERY_Debug = $(info [debug] $(1))
 else
 MAKERY_Debug =
 endif
 
 
 ifdef MAKERYTRACE
-MAKERY_TRACE = $(info [trace] $(0)())
-MAKERY_TRACE1 = $(info [trace] $(0)($(1)))
-MAKERY_TRACE2 = $(info [trace] $(0)($(1),$(2)))
-MAKERY_TRACE3 = $(info [trace] $(0)($(1),$(2),$(3)))
-else
-MAKERY_TRACE =
-MAKERY_TRACE1 =
-MAKERY_TRACE2 =
-MAKERY_TRACE3 =
-endif
-
-ifdef MAKERYTRACE
-MAKERY_TraceBegin = $(info [trace begin] $(1))
+MAKERY_TraceBegin = $(info [begin] $(1))
 MAKERY_TRACEBEGIN = $(call MAKERY_TraceBegin,$(0)())
 MAKERY_TRACEBEGIN1 = $(call MAKERY_TraceBegin,$(0)($(1)))
 MAKERY_TRACEBEGIN2 = $(call MAKERY_TraceBegin,$(0)($(1),$(2)))
 MAKERY_TRACEBEGIN3 = $(call MAKERY_TraceBegin,$(0)($(1),$(2),$(3)))
 else
+MAKERY_TraceBegin =
 MAKERY_TRACEBEGIN =
 MAKERY_TRACEBEGIN1 =
 MAKERY_TRACEBEGIN2 =
@@ -110,12 +99,13 @@ MAKERY_TRACEBEGIN3 =
 endif
 
 ifdef MAKERYTRACE
-MAKERY_TraceEnd = $(info [trace end  ] $(1))
+MAKERY_TraceEnd = $(info [end]   $(1))
 MAKERY_TRACEEND = $(call MAKERY_TraceEnd,$(0)())
 MAKERY_TRACEEND1 = $(call MAKERY_TraceEnd,$(0)($(1)))
 MAKERY_TRACEEND2 = $(call MAKERY_TraceEnd,$(0)($(1),$(2)))
 MAKERY_TRACEEND3 = $(call MAKERY_TraceEnd,$(0)($(1),$(2),$(3)))
 else
+MAKERY_TraceEnd =
 MAKERY_TRACEEND =
 MAKERY_TRACEEND1 =
 MAKERY_TRACEEND2 =
