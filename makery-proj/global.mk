@@ -226,7 +226,7 @@ define PROJ_FlattenVars_TEMPLATE
 # ever expanded once.
 #
 PROJ_FlattenVars_CACHED :=
-$(foreach v,$(filter-out $(foreach tv,$(PROJ_targetvars),$(tv)_def),$(PROJ_vars)),$(MAKE_CHAR_NEWLINE)$(v) = $$(if $$(filter $(v),$$(PROJ_FlattenVars_CACHED)),$$(PROJ_FlattenVars_CACHED_$(v)),$$(eval PROJ_FlattenVars_CACHED += $(v))$$(eval PROJ_FlattenVars_CACHED_$(v) := $(value $(v)))$$(PROJ_FlattenVars_CACHED_$(v)))#)
+$(foreach v,$(filter-out $(foreach tv,$(PROJ_targetvars),$(tv)_def),$(PROJ_vars)),$(MAKE_CHAR_NEWLINE)$(v) = $$(if $$(filter $(v),$$(PROJ_FlattenVars_CACHED)),$$(PROJ_FlattenVars_CACHED_$(v)),$$(eval PROJ_FlattenVars_CACHED += $(v))$$(eval PROJ_FlattenVars_CACHED_$(v) :=$(value $(v)))$$(PROJ_FlattenVars_CACHED_$(v)))#)
 
 #
 # Expand all project variables
