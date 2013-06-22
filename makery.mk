@@ -47,10 +47,13 @@ $(call MODULES_Use,makery)
 $(call MODULES_Use,system)
 $(call MODULES_Use,modules)
 $(call MODULES_Use,proj)
+$(call MODULES_Use,out)
 
 
 $(foreach mod,$(MODULES_use),$(call MODULES_Use,$(mod)))
+$(call PROJ_LoadVarCache)
 $(call PROJ_FlattenVars)
+$(call PROJ_SaveVarCache)
 $(call PROJ_DebugPrintVarInfo)
 $(call PROJ_Validate)
 $(call PROJ_ProcessRequired)
