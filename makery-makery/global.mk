@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012, 2013
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -38,7 +38,7 @@ MAKERY_GLOBALS += MAKERYTRACE
 MAKERYPATH_DESC := \
 Paths that PROJ_Locate() searches for projects in (list)
 override MAKERYPATH := \
-$(subst $(MAKE_CHAR_COLON_ENCODED), ,$(call MAKE_EncodeWord,$(MAKERYPATH)))
+$(subst $(MAKE_CHAR_COLON_TOKEN), ,$(call MAKE_EncodeWord,$(MAKERYPATH)))
 MAKERY_GLOBALS += MAKERYPATH
 
 override MAKERYPATH := $(call MAKE_EncodeWord,$(MAKERY)) $(MAKERYPATH)

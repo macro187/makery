@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012
+# Copyright (c) 2007, 2008, 2009, 2010, 2011, 2012, 2013
 # Ron MacNeil <macro@hotmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -21,9 +21,11 @@
 MAKE_Identity = $(1)
 
 
-# Special Characters
+# Special Character constants
 #
 MAKE_CHAR_BLANK     :=
+MAKE_CHAR_DOLLAR    := $$
+MAKE_CHAR_HASH      := \#
 MAKE_CHAR_SPACE     := $(MAKE_CHAR_BLANK) $(MAKE_CHAR_BLANK)
 MAKE_CHAR_TAB       := $(MAKE_CHAR_BLANK)	$(MAKE_CHAR_BLANK)
 MAKE_CHAR_APOS      := '#'
@@ -34,42 +36,47 @@ MAKE_CHAR_COLON     := :
 MAKE_CHAR_BS        := \\#
 MAKE_CHAR_LT        := <
 MAKE_CHAR_GT        := >
+MAKE_CHAR_LB        := (
+MAKE_CHAR_RB        := )
 define MAKE_CHAR_NEWLINE
 
 
 endef
 
 
-# Encoded sequences for special characters
+# Special character tokens
 #
-MAKE_CHAR_BLANK_ENCODED     := <BLANK>
-MAKE_CHAR_SPACE_ENCODED     := <SPACE>
-MAKE_CHAR_TAB_ENCODED       := <TAB>
-MAKE_CHAR_APOS_ENCODED      := <APOS>
-MAKE_CHAR_QUOTE_ENCODED     := <QUOTE>
-MAKE_CHAR_COMMA_ENCODED     := <COMMA>
-MAKE_CHAR_EQUALS_ENCODED    := <EQUALS>
-MAKE_CHAR_COLON_ENCODED     := <COLON>
-MAKE_CHAR_BS_ENCODED        := <BS>
-MAKE_CHAR_LT_ENCODED        := <LT>
-MAKE_CHAR_GT_ENCODED        := <GT>
-MAKE_CHAR_NEWLINE_ENCODED   := <NEWLINE>
+MAKE_CHAR_DOLLAR_TOKEN  := <DOLLAR>
+MAKE_CHAR_HASH_TOKEN    := <HASH>
+MAKE_CHAR_SPACE_TOKEN   := <SPACE>
+MAKE_CHAR_TAB_TOKEN     := <TAB>
+MAKE_CHAR_APOS_TOKEN    := <APOS>
+MAKE_CHAR_QUOTE_TOKEN   := <QUOTE>
+MAKE_CHAR_COMMA_TOKEN   := <COMMA>
+MAKE_CHAR_EQUALS_TOKEN  := <EQUALS>
+MAKE_CHAR_COLON_TOKEN   := <COLON>
+MAKE_CHAR_BS_TOKEN      := <BS>
+MAKE_CHAR_LT_TOKEN      := <LT>
+MAKE_CHAR_GT_TOKEN      := <GT>
+MAKE_CHAR_LB_TOKEN      := <LB>
+MAKE_CHAR_RB_TOKEN      := <RB>
+MAKE_CHAR_NEWLINE_TOKEN := <NEWLINE>
 
 
-# Encode special characters as sequences in a string
+# Encode special characters as tokens in a string
 #
 # $1 - Unencoded string
 #
 MAKE_EncodeWord = \
-$(subst $(MAKE_CHAR_COLON),$(MAKE_CHAR_COLON_ENCODED),$(subst $(MAKE_CHAR_NEWLINE),$(MAKE_CHAR_NEWLINE_ENCODED),$(subst $(MAKE_CHAR_SPACE),$(MAKE_CHAR_SPACE_ENCODED),$(subst $(MAKE_CHAR_LT),$(MAKE_CHAR_LT_ENCODED),$(subst $(MAKE_CHAR_GT),$(MAKE_CHAR_GT_ENCODED),$(1))))))
+$(subst $(MAKE_CHAR_DOLLAR),$(MAKE_CHAR_DOLLAR_TOKEN),$(subst $(MAKE_CHAR_HASH),$(MAKE_CHAR_HASH_TOKEN),$(subst $(MAKE_CHAR_SPACE),$(MAKE_CHAR_SPACE_TOKEN),$(subst $(MAKE_CHAR_TAB),$(MAKE_CHAR_TAB_TOKEN),$(subst $(MAKE_CHAR_APOS),$(MAKE_CHAR_APOS_TOKEN),$(subst $(MAKE_CHAR_QUOTE),$(MAKE_CHAR_QUOTE_TOKEN),$(subst $(MAKE_CHAR_COMMA),$(MAKE_CHAR_COMMA_TOKEN),$(subst $(MAKE_CHAR_EQUALS),$(MAKE_CHAR_EQUALS_TOKEN),$(subst $(MAKE_CHAR_COLON),$(MAKE_CHAR_COLON_TOKEN),$(subst $(MAKE_CHAR_BS),$(MAKE_CHAR_COLON_TOKEN),$(subst $(MAKE_CHAR_NEWLINE),$(MAKE_CHAR_NEWLINE_TOKEN),$(subst $(MAKE_CHAR_LB),$(MAKE_CHAR_LB_TOKEN),$(subst $(MAKE_CHAR_RB),$(MAKE_CHAR_RB_TOKEN),$(subst $(MAKE_CHAR_LT),$(MAKE_CHAR_LT_TOKEN),$(subst $(MAKE_CHAR_GT),$(MAKE_CHAR_GT_TOKEN),$(1))))))))))))))))
 
 
-# Decode special character sequences in a string
+# Decode special character tokens in a string
 #
 # $1 - Encoded string
 #
 MAKE_DecodeWord = \
-$(subst $(MAKE_CHAR_GT_ENCODED),$(MAKE_CHAR_GT),$(subst $(MAKE_CHAR_LT_ENCODED),$(MAKE_CHAR_LT),$(subst $(MAKE_CHAR_SPACE_ENCODED),$(MAKE_CHAR_SPACE),$(subst $(MAKE_CHAR_NEWLINE_ENCODED),$(MAKE_CHAR_NEWLINE),$(subst $(MAKE_CHAR_COLON_ENCODED),$(MAKE_CHAR_COLON),$(1))))))
+$(subst $(MAKE_CHAR_GT_TOKEN),$(MAKE_CHAR_GT),$(subst $(MAKE_CHAR_LT_TOKEN),$(MAKE_CHAR_LT),$(subst $(MAKE_CHAR_DOLLAR_TOKEN),$(MAKE_CHAR_DOLLAR),$(subst $(MAKE_CHAR_HASH_TOKEN),$(MAKE_CHAR_HASH),$(subst $(MAKE_CHAR_SPACE_TOKEN),$(MAKE_CHAR_SPACE),$(subst $(MAKE_CHAR_TAB_TOKEN),$(MAKE_CHAR_TAB),$(subst $(MAKE_CHAR_APOS_TOKEN),$(MAKE_CHAR_APOS),$(subst $(MAKE_CHAR_QUOTE_TOKEN),$(MAKE_CHAR_QUOTE),$(subst $(MAKE_CHAR_COMMA_TOKEN),$(MAKE_CHAR_COMMA),$(subst $(MAKE_CHAR_EQUALS_TOKEN),$(MAKE_CHAR_EQUALS),$(subst $(MAKE_CHAR_COLON_TOKEN),$(MAKE_CHAR_COLON),$(subst $(MAKE_CHAR_BS_TOKEN),$(MAKE_CHAR_COLON),$(subst $(MAKE_CHAR_NEWLINE_TOKEN),$(MAKE_CHAR_NEWLINE),$(subst $(MAKE_CHAR_LB_TOKEN),$(MAKE_CHAR_LB),$(subst $(MAKE_CHAR_RB_TOKEN),$(MAKE_CHAR_RB),$(1))))))))))))))))
 
 
 # Call a function on each word in a string after decoding special characters in
