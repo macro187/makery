@@ -30,6 +30,7 @@ RULE_OREQS := $(call MAKE_EncodeWord,$(DOTNET_outdir))
 define RULE_COMMANDS
 	$(CSHARP_compiler) $(MAKE_CHAR_BS)
 	-nologo $(MAKE_CHAR_BS)
+	-fullpaths $(MAKE_CHAR_BS)
 	-target:$(if $(filter exe,$(DOTNET_type)),exe,library) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_debug)),-debug+,-debug-) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_optimize)),-optimize+,-optimize-) $(MAKE_CHAR_BS)
