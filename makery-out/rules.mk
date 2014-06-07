@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------------------
 
 
-RULE_TARGETS := $(sort $(OUT_dir))
+RULE_TARGETS := $(OUT_dir)
 
 define RULE_COMMANDS
 	mkdir -p $$(call SYSTEM_ShellEscape,$$(OUT_dir))
