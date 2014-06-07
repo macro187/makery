@@ -46,7 +46,7 @@ PROJ_vars += $(foreach d,$(DOXYGEN_defines),DOXYGEN_define_$(d))
 DOXYGEN_outdir_DESC := \
 Directory to output documentation to
 $(call PROJ_DeclareVar,DOXYGEN_outdir)
-DOXYGEN_outdir_DEFAULT = $(OUT_base)/doxygen
+DOXYGEN_outdir_DEFAULT = $(OUT_dir)/doxygen
 
 
 DOXYGEN_outdir_html_DESC := \

@@ -58,13 +58,13 @@ SRCS_PREPROCESS_srcpreq_DEFAULT = $($(SRCS_PREPROCESS_ppfrom)_preq)
 SRCS_PREPROCESS_dir_DESC := \
 Directory to put final source files in
 $(call PROJ_DeclareVar,SRCS_PREPROCESS_dir)
-SRCS_PREPROCESS_dir_DEFAULT = $(OUT_base)/srcs-preprocess
+SRCS_PREPROCESS_dir_DEFAULT = $(OUT_dir)/srcs-preprocess
 
 
 SRCS_PREPROCESS_preq_DESC := \
 Temp file representing final source files
 $(call PROJ_DeclareVar,SRCS_PREPROCESS_preq)
-SRCS_PREPROCESS_preq_DEFAULT = $(OUT_base)/srcs_dotfile
+SRCS_PREPROCESS_preq_DEFAULT = $(OUT_dir)/srcs_dotfile
 
 
 $(call PROJ_DeclareTargetVar,SRCS_PREPROCESS_subdirs)

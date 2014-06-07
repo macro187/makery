@@ -15,23 +15,23 @@
 # ------------------------------------------------------------------------------
 
 
-OUT_base_DESC := \
+OUT_dir_DESC := \
 (internal) Output directory
-$(call PROJ_DeclareVar,OUT_base)
-OUT_base_DEFAULT = $(PROJ_dir)/out
+$(call PROJ_DeclareVar,OUT_dir)
+OUT_dir_DEFAULT = $(PROJ_dir)/out
 
 ifdef MAKERYOUT
 ifeq ($(call SYSTEM_DirExists,$(MAKERYOUT)),)
 $(error Non-existent MAKERYOUT directory specified: '$(MAKERYOUT)')
 endif
-OUT_base_DEFAULT = $(call SYSTEM_DirToAbs,$(MAKERYOUT))/$(PROJ_name)
+OUT_dir_DEFAULT = $(call SYSTEM_DirToAbs,$(MAKERYOUT))/$(PROJ_name)
 endif
 
 
 OUT_cleantarget_DESC := \
 Phony target to clean output directory
 $(call PROJ_DeclareVar,OUT_cleantarget)
-OUT_cleantarget_DEFAULT = $(OUT_base)/out/clean
+OUT_cleantarget_DEFAULT = $(OUT_dir)/out/clean
 
 
 # Hook to clean

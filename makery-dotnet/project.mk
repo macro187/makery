@@ -68,7 +68,7 @@ DOTNET_name_DEFAULT = $(DOTNET_namespace)
 DOTNET_outdir_DESC ?= \
 Assembly file(s) output directory
 $(call PROJ_DeclareVar,DOTNET_outdir)
-DOTNET_outdir_DEFAULT = $(OUT_base)/dotnet
+DOTNET_outdir_DEFAULT = $(OUT_dir)/dotnet
 
 
 DOTNET_ext_DESC ?= \

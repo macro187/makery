@@ -243,7 +243,7 @@ endef
 # (internal) Load project variables from cache file
 #
 PROJ_LoadVarCache = \
-$(MAKERY_TRACEBEGIN)$(eval -include $(call MAKE_EncodePath,$(OUT_base)/projvarcache.mk))$(MAKERY_TRACEEND)
+$(MAKERY_TRACEBEGIN)$(eval -include $(call MAKE_EncodePath,$(OUT_dir)/projvarcache.mk))$(MAKERY_TRACEEND)
 
 
 # (internal) Save project variables to cache file
@@ -253,10 +253,10 @@ $(MAKERY_TRACEBEGIN)$(eval $(PROJ_SaveVarCache_TEMPLATE))$(MAKERY_TRACEEND)
 
 define PROJ_SaveVarCache_TEMPLATE
 ifndef PROJ_VARCACHE_LOADED
-$$(call MAKE_Shell,mkdir -p $(call SYSTEM_ShellEscape,$(OUT_base)))
-$$(call MAKE_Shell,rm -f $(call SYSTEM_ShellEscape,$(OUT_base)/projvarcache.mk))
-$(foreach v,$(filter-out $(foreach tv,$(PROJ_targetvars),$(tv)_def),$(PROJ_vars)),$(MAKE_CHAR_NEWLINE)$$(call MAKE_Shell,echo $$(call SYSTEM_ShellEscape,$(v) := $$(MAKE_CHAR_DOLLAR)(call MAKE_DecodeWord,$$(call MAKE_EncodeWord,$$(value $(v))))) >> $(call SYSTEM_ShellEscape,$(OUT_base)/projvarcache.mk)))
-$$(call MAKE_Shell,echo PROJ_VARCACHE_LOADED\ :=\ 1 >> $(call SYSTEM_ShellEscape,$(OUT_base)/projvarcache.mk))
+$$(call MAKE_Shell,mkdir -p $(call SYSTEM_ShellEscape,$(OUT_dir)))
+$$(call MAKE_Shell,rm -f $(call SYSTEM_ShellEscape,$(OUT_dir)/projvarcache.mk))
+$(foreach v,$(filter-out $(foreach tv,$(PROJ_targetvars),$(tv)_def),$(PROJ_vars)),$(MAKE_CHAR_NEWLINE)$$(call MAKE_Shell,echo $$(call SYSTEM_ShellEscape,$(v) := $$(MAKE_CHAR_DOLLAR)(call MAKE_DecodeWord,$$(call MAKE_EncodeWord,$$(value $(v))))) >> $(call SYSTEM_ShellEscape,$(OUT_dir)/projvarcache.mk)))
+$$(call MAKE_Shell,echo PROJ_VARCACHE_LOADED\ :=\ 1 >> $(call SYSTEM_ShellEscape,$(OUT_dir)/projvarcache.mk))
 endif
 PROJ_VARCACHE_LOADED :=
 endef

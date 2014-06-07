@@ -62,13 +62,13 @@ HTDOCS_files_abs = $(foreach f,$(HTDOCS_files),$(call MAKE_EncodeWord,$(HTDOCS_d
 HTDOCS_dotfile_DESC ?= \
 (read-only) Dotfile representing htdocs output files
 $(call PROJ_DeclareVar,HTDOCS_dotfile)
-HTDOCS_dotfile_DEFAULT = $(OUT_base)/_htdocs
+HTDOCS_dotfile_DEFAULT = $(OUT_dir)/_htdocs
 
 
 HTDOCS_outdir_DESC ?= \
 Directory to put output htdocs file(s) in
 $(call PROJ_DeclareVar,HTDOCS_outdir)
-HTDOCS_outdir_DEFAULT = $(OUT_base)/htdocs
+HTDOCS_outdir_DEFAULT = $(OUT_dir)/htdocs
 
 
 # Hook up to the build target

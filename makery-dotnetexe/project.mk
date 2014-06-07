@@ -18,13 +18,13 @@
 DOTNETEXE_dotfile_DESC := \
 (readonly) Dotfile representing in-place runnable executable
 $(call PROJ_DeclareVar,DOTNETEXE_dotfile)
-DOTNETEXE_dotfile_DEFAULT = $(OUT_base)/_dotnetexe
+DOTNETEXE_dotfile_DEFAULT = $(OUT_dir)/_dotnetexe
 
 
 DOTNETEXE_outdir_DESC := \
 (readonly) Directory to build runnable version of executable
 $(call PROJ_DeclareVar,DOTNETEXE_outdir)
-DOTNETEXE_outdir_DEFAULT = $(OUT_base)/dotnetexe
+DOTNETEXE_outdir_DEFAULT = $(OUT_dir)/dotnetexe
 
 
 DOTNETEXE_exe_DESC ?= \
