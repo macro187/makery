@@ -70,8 +70,6 @@ Assembly file(s) output directory
 $(call PROJ_DeclareVar,DOTNET_outdir)
 DOTNET_outdir_DEFAULT = $(OUT_base)/dotnet
 
-OUT_all += $(call MAKE_EncodeWord,$(DOTNET_outdir))
-
 
 DOTNET_ext_DESC ?= \
 (read-only) Assembly filename extension

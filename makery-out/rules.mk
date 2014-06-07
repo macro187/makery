@@ -15,10 +15,10 @@
 # ------------------------------------------------------------------------------
 
 
-RULE_TARGETS := $(sort $(OUT_all))
+RULE_TARGETS := $(sort $(OUT_base))
 
 define RULE_COMMANDS
-	mkdir -p $$(call SYSTEM_ShellEscape,$$@)
+	mkdir -p $$(call SYSTEM_ShellEscape,$$(OUT_base))
 endef
 
 $(call PROJ_Rule)
@@ -30,7 +30,7 @@ RULE_TARGET := $(OUT_cleantarget)
 RULE_PHONY := 1
 
 define RULE_COMMANDS
-	rm -rf $$(call MAKE_CallForEach,SYSTEM_ShellEscape,$$(sort $$(OUT_all)))
+	rm -rf $$(call SYSTEM_ShellEscape,$$(OUT_base))
 endef
 
 $(call PROJ_Rule)

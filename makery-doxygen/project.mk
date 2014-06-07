@@ -48,8 +48,6 @@ Directory to output documentation to
 $(call PROJ_DeclareVar,DOXYGEN_outdir)
 DOXYGEN_outdir_DEFAULT = $(OUT_base)/doxygen
 
-OUT_all += $(call MAKE_EncodeWord,$(DOXYGEN_outdir))
-
 
 DOXYGEN_outdir_html_DESC := \
 Directory to output html documentation to

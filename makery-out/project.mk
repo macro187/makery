@@ -15,13 +15,8 @@
 # ------------------------------------------------------------------------------
 
 
-OUT_all_DESC := \
-All output directories (list)
-$(call PROJ_DeclareVar,OUT_all)
-
-
 OUT_base_DESC := \
-(internal) Base output directory
+(internal) Output directory
 $(call PROJ_DeclareVar,OUT_base)
 OUT_base_DEFAULT = $(PROJ_dir)/out
 
@@ -32,13 +27,11 @@ endif
 OUT_base_DEFAULT = $(call SYSTEM_DirToAbs,$(MAKERYOUT))/$(PROJ_name)
 endif
 
-OUT_all += $(call MAKE_EncodeWord,$(OUT_base))
-
 
 OUT_cleantarget_DESC := \
-The phony target to clean all output directories
+Phony target to clean output directory
 $(call PROJ_DeclareVar,OUT_cleantarget)
-OUT_cleantarget_DEFAULT = $(PROJ_dir)/out-clean
+OUT_cleantarget_DEFAULT = $(OUT_base)/out/clean
 
 
 # Hook to clean

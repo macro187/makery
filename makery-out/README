@@ -3,41 +3,7 @@
     Introduction
 --------------------------------------------------------------------------------
 
-    Provide work/output directories
-
-
-
---------------------------------------------------------------------------------
-    Usage
---------------------------------------------------------------------------------
-
-    1.  Make a project variable for your output directory and set it to
-        whatever you want, usually under $(OUT_base)
-
-    2.  Append your project variable to OUT_all
-
-    3.  OREQ your output directory for any targets that need it
-
-    4.  Hook up $(PROJ_dir)/out-clean to $(PROJ_dir)/clean to have your
-        output dirs removed for you
-
-
-
---------------------------------------------------------------------------------
-    Example
---------------------------------------------------------------------------------
-
-    # In project.mk:
-    ...
-    MYMODULE_myoutdir = $(OUT_base)/myoutdir
-    ...
-    $(OUT_all) += $(MYMODULE_myoutdir)
-    ...
-
-    # In rules.mk
-    ...
-    TMP_OREQS += $(call MAKE_EncodeWord,$(MYMODULE_myoutdir))
-    ...
+    Per-project output directories
 
 
 

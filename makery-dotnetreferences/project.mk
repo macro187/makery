@@ -66,9 +66,3 @@ $(sort $(DOTNETREFERENCES_gac) $(call PROJ_GetMultiRecursive,DOTNETREFERENCES_ga
 #
 PROJ_required += $(DOTNETREFERENCES_proj)
 
-
-# Hook up to out
-#
-OUT_all += $(call MAKE_EncodeWord,$(DOTNETREFERENCES_outdir))
-
-

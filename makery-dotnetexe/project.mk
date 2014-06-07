@@ -33,11 +33,6 @@ $(call PROJ_DeclareVar,DOTNETEXE_exe)
 DOTNETEXE_exe = $(DOTNETEXE_outdir)/$(DOTNETASSEMBLY_primary)
 
 
-# Hook up to out
-#
-OUT_all += $(call MAKE_EncodeWord,$(DOTNETEXE_outdir))
-
-
 # Hook up to run
 #
 RUN_reqs += \

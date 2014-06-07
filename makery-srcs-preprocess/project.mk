@@ -58,9 +58,7 @@ SRCS_PREPROCESS_srcpreq_DEFAULT = $($(SRCS_PREPROCESS_ppfrom)_preq)
 SRCS_PREPROCESS_dir_DESC := \
 Directory to put final source files in
 $(call PROJ_DeclareVar,SRCS_PREPROCESS_dir)
-SRCS_PREPROCESS_dir_DEFAULT = $(OUT_base)/srcs
-
-OUT_all += $(call MAKE_EncodeWord,$(SRCS_PREPROCESS_dir))
+SRCS_PREPROCESS_dir_DEFAULT = $(OUT_base)/srcs-preprocess
 
 
 SRCS_PREPROCESS_preq_DESC := \

@@ -70,8 +70,6 @@ Directory to put output htdocs file(s) in
 $(call PROJ_DeclareVar,HTDOCS_outdir)
 HTDOCS_outdir_DEFAULT = $(OUT_base)/htdocs
 
-OUT_all += $(call MAKE_EncodeWord,$(HTDOCS_outdir))
-
 
 # Hook up to the build target
 #
