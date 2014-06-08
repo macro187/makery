@@ -85,6 +85,10 @@ $(3)_outdir_DESC ?= Output directory for $(1) module
 $$(call PROJ_DeclareVar,$(3)_outdir)
 $(3)_outdir = $$(OUT_dir)/$(1)
 
+$(3)_dotfile_DESC ?= Dotfile for $(1) module
+$$(call PROJ_DeclareVar,$(3)_dotfile)
+$(3)_dotfile = $$(OUT_dir)/_$(1)
+
 $$(call MAKERY_TraceBegin,-include $(2)/project.mk)
 -include $(call MAKE_EncodePath,$(2)/project.mk)
 $$(call MAKERY_TraceEnd,-include $(2)/project.mk)

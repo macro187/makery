@@ -59,12 +59,6 @@ $(call PROJ_DeclareVar,HTDOCS_files_abs)
 HTDOCS_files_abs = $(foreach f,$(HTDOCS_files),$(call MAKE_EncodeWord,$(HTDOCS_dir))/$(f))
 
 
-HTDOCS_dotfile_DESC ?= \
-(read-only) Dotfile representing htdocs output files
-$(call PROJ_DeclareVar,HTDOCS_dotfile)
-HTDOCS_dotfile_DEFAULT = $(OUT_dir)/_htdocs
-
-
 # Hook up to the build target
 #
 BUILD_reqs += $(HTDOCS_dotfile)

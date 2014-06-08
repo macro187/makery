@@ -15,12 +15,6 @@
 # ------------------------------------------------------------------------------
 
 
-DOTNETEXE_dotfile_DESC := \
-(readonly) Dotfile representing in-place runnable executable
-$(call PROJ_DeclareVar,DOTNETEXE_dotfile)
-DOTNETEXE_dotfile_DEFAULT = $(OUT_dir)/_dotnetexe
-
-
 DOTNETEXE_exe_DESC ?= \
 (readonly) Absolute path to the program runnable in-place
 $(call PROJ_DeclareVar,DOTNETEXE_exe)

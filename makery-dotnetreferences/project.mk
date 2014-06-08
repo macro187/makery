@@ -31,12 +31,6 @@ $(call PROJ_DeclareVar,DOTNETREFERENCES_nostdlib)
 DOTNETREFERENCES_nostdlib_OPTIONS = 0 1
 
 
-DOTNETREFERENCES_dotfile_DESC := \
-(readonly) Dotfile representing copied referenced assembly files
-$(call PROJ_DeclareVar,DOTNETREFERENCES_dotfile)
-DOTNETREFERENCES_dotfile = $(OUT_dir)/_dotnetreferences
-
-
 DOTNETREFERENCES_reqs_DESC := \
 Additional requirements for DOTNETREFERENCES_dotfile (list)
 $(call PROJ_DeclareVar,DOTNETREFERENCES_reqs)
