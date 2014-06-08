@@ -15,29 +15,11 @@
 # ------------------------------------------------------------------------------
 
 
-DOTNETEXE_dotfile_DESC := \
-(readonly) Dotfile representing in-place runnable executable
-$(call PROJ_DeclareVar,DOTNETEXE_dotfile)
-DOTNETEXE_dotfile_DEFAULT = $(OUT_dir)/_dotnetexe
+RULE_TARGETS := $(MODULES_outdirs)
 
+define RULE_COMMANDS
+	mkdir -p $$(call SYSTEM_ShellEscape,$$@)
+endef
 
-DOTNETEXE_exe_DESC ?= \
-(readonly) Absolute path to the program runnable in-place
-$(call PROJ_DeclareVar,DOTNETEXE_exe)
-DOTNETEXE_exe = $(DOTNETEXE_outdir)/$(DOTNETASSEMBLY_primary)
-
-
-# Hook up to run
-#
-RUN_reqs += \
-$(call MAKE_EncodeWord,$(DOTNETEXE_dotfile))
-
-RUN_run = \
-$(DOTNETFRAMEWORK_exec) $(call SYSTEM_ShellEscape,$(DOTNETEXE_exe))
-
-RUN_argpathfunc = \
-$(if $(filter ms,$(DOTNET_implementation)),SYSTEM_WinPath,MAKE_Identity)
-
-RUN_argpathabsfunc = \
-$(if $(filter ms,$(DOTNET_implementation)),SYSTEM_WinPathAbs,MAKE_Identity)
+$(call PROJ_Rule)
 

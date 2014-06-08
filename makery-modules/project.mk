@@ -24,3 +24,9 @@ MODULES_proj_DESC ?= \
 (internal) List of modules that have been processed for this project so far
 $(call PROJ_DeclareVar,MODULES_proj)
 
+
+MODULES_outdirs_DESC ?= \
+(internal) All per-module output directories
+$(call PROJ_DeclareVar,MODULES_outdirs)
+MODULES_outdirs = $(foreach m,$(MODULES_proj),$($(call MODULES_VariablePrefix,$(m))_outdir))
+

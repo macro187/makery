@@ -31,12 +31,6 @@ $(call PROJ_DeclareVar,DOTNETREFERENCES_nostdlib)
 DOTNETREFERENCES_nostdlib_OPTIONS = 0 1
 
 
-DOTNETREFERENCES_outdir_DESC := \
-Directory to output references assembly files
-$(call PROJ_DeclareVar,DOTNETREFERENCES_outdir)
-DOTNETREFERENCES_outdir_DEFAULT = $(OUT_dir)/dotnetreferences
-
-
 DOTNETREFERENCES_dotfile_DESC := \
 (readonly) Dotfile representing copied referenced assembly files
 $(call PROJ_DeclareVar,DOTNETREFERENCES_dotfile)

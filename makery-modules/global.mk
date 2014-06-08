@@ -31,15 +31,26 @@ MODULES_GLOBAL := $(MODULES_GLOBAL)
 MAKERY_GLOBALS += MODULES_GLOBAL
 
 
+# Compute a module's variable name prefix given its name
+#
+# e.g. module-name => MODULE_NAME
+#
+# $1 - Module name
+#
+MODULES_VariablePrefix = \
+$(subst -,_,$(call uc,$(1)))
+
+
 # Pull in a module
 #
 # $1 - Module name
 #
 MODULES_Use = \
-$(MAKERY_TRACEBEGIN1)$(eval $(call MODULES_USE_TEMPLATE,$(1),$(call MODULES_Locate,$(1))))$(MAKERY_TRACEEND1)
+$(MAKERY_TRACEBEGIN1)$(eval $(call MODULES_USE_TEMPLATE,$(1),$(call MODULES_Locate,$(1)),$(call MODULES_VariablePrefix,$(1))))$(MAKERY_TRACEEND1)
 #
 # $1 - Module name
 # $2 - Module dir
+# $3 - Module variable prefix
 #
 define MODULES_USE_TEMPLATE
 $$(call MAKERY_TraceBegin,-include $(2)/requires.mk)
@@ -54,6 +65,9 @@ MODULES_GLOBAL += $(call MAKE_EncodeWord,$(1))
 endif
 ifeq ($$(filter $(call MAKE_EncodeWord,$(1)),$$(MODULES_proj)),)
 $$(call MAKERY_TraceBegin,-include $(2)/project.mk)
+$(3)_outdir_DESC ?= Output directory for $(1) module
+$$(call PROJ_DeclareVar,$(3)_outdir)
+$(3)_outdir = $$(OUT_dir)/$(1)
 -include $(call MAKE_EncodePath,$(2)/project.mk)
 $$(call MAKERY_TraceEnd,-include $(2)/project.mk)
 MODULES_proj += $(call MAKE_EncodeWord,$(1))

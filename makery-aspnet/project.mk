@@ -15,13 +15,6 @@
 # ------------------------------------------------------------------------------
 
 
-# Hook up dotnetreferences
-#
-DOTNETREFERENCES_outdir = $(HTDOCS_outdir)/bin
-DOTNETREFERENCES_reqs += $(call MAKE_EncodeWord,$(HTDOCS_dotfile))
-
-
-# Hook up to build
-#
-BUILD_reqs += $(call MAKE_EncodeWord,$(DOTNETREFERENCES_dotfile))
+$(call PROJ_DeclareVar,ASPNET_dotfile)
+ASPNET_dotfile = $(ASPNET_outdir)/dotfile
 
