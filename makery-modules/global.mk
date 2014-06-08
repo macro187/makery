@@ -53,24 +53,44 @@ $(MAKERY_TRACEBEGIN1)$(eval $(call MODULES_USE_TEMPLATE,$(1),$(call MODULES_Loca
 # $3 - Module variable prefix
 #
 define MODULES_USE_TEMPLATE
+
+#
+# Dependencies
+#
 $$(call MAKERY_TraceBegin,-include $(2)/requires.mk)
 -include $(call MAKE_EncodePath,$(2)/requires.mk)
 $$(call MAKERY_TraceEnd,-include $(2)/requires.mk)
+
+#
+# Global
+#
 ifeq ($$(filter $(call MAKE_EncodeWord,$(1)),$$(MODULES_GLOBAL)),)
+
 $$(call MAKERY_Debug Sourcing module '$(1)' from '$(2)')
+
 $$(call MAKERY_TraceBegin,-include $(2)/global.mk)
 -include $(call MAKE_EncodePath,$(2)/global.mk)
 $$(call MAKERY_TraceEnd,-include $(2)/global.mk)
+
 MODULES_GLOBAL += $(call MAKE_EncodeWord,$(1))
+
 endif
+
+#
+# Project
+#
 ifeq ($$(filter $(call MAKE_EncodeWord,$(1)),$$(MODULES_proj)),)
-$$(call MAKERY_TraceBegin,-include $(2)/project.mk)
+
 $(3)_outdir_DESC ?= Output directory for $(1) module
 $$(call PROJ_DeclareVar,$(3)_outdir)
 $(3)_outdir = $$(OUT_dir)/$(1)
+
+$$(call MAKERY_TraceBegin,-include $(2)/project.mk)
 -include $(call MAKE_EncodePath,$(2)/project.mk)
 $$(call MAKERY_TraceEnd,-include $(2)/project.mk)
 MODULES_proj += $(call MAKE_EncodeWord,$(1))
+
 endif
+
 endef
 
