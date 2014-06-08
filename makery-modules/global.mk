@@ -57,9 +57,9 @@ define MODULES_USE_TEMPLATE
 #
 # Dependencies
 #
-$$(call MAKERY_TraceBegin,-include $(2)/requires.mk)
--include $(call MAKE_EncodePath,$(2)/requires.mk)
-$$(call MAKERY_TraceEnd,-include $(2)/requires.mk)
+$$(call MAKERY_TraceBegin,-include $(2)/depends.mk)
+-include $(call MAKE_EncodePath,$(2)/depends.mk)
+$$(call MAKERY_TraceEnd,-include $(2)/depends.mk)
 
 #
 # Global
