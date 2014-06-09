@@ -520,7 +520,7 @@ $(eval $(PROJ_GenerateRules_TEMPLATE))
 
 define PROJ_GenerateRules_TEMPLATE
 ALLTARGETS :=
-$(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)-include $(call MAKE_EncodePath,$(call MODULES_Locate,$(module))/rules.mk))
+$(foreach module,$(MODULES_proj),$(MAKE_CHAR_NEWLINE)$$(call MAKE_ClearVarsWithPrefix,RULE_)$(MAKE_CHAR_NEWLINE)$$(call MAKERY_TraceBegin,-include $(call MODULES_Locate,$(module))/rules.mk)$(MAKE_CHAR_NEWLINE)-include $(call MAKE_EncodePath,$(call MODULES_Locate,$(module))/rules.mk)$(MAKE_CHAR_NEWLINE)$$(call MAKERY_TraceEnd,-include $(call MODULES_Locate,$(module))/rules.mk))
 $$(call PROJ_TargetVars,$$(ALLTARGETS))
 ALLTARGETS :=
 endef
