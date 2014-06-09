@@ -16,7 +16,7 @@
 
 
 RULE_TARGETS := $(MODULES_outdirs)
-
+RULE_OREQ := $(OUT_dir)
 define RULE_COMMANDS
 	mkdir -p $$(call SYSTEM_ShellEscape,$$@)
 endef
