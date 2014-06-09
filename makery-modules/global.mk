@@ -31,6 +31,12 @@ MODULES_GLOBAL := $(MODULES_GLOBAL)
 MAKERY_GLOBALS += MODULES_GLOBAL
 
 
+MODULES_CONTEXT_DESC ?= \
+(internal) Stack to track current module while processing (list)
+MODULES_CONTEXT := $(MODULES_CONTEXT)
+MAKERY_GLOBALS += MODULES_CONTEXT
+
+
 # Compute a module's variable name prefix given its name
 #
 # e.g. module-name => MODULE_NAME
@@ -41,24 +47,56 @@ MODULES_VariablePrefix = \
 $(subst -,_,$(call uc,$(1)))
 
 
-# Pull in a module
+# Specify that this module require another to build
 #
 # $1 - Module name
 #
+MODULES_Requires = \
+$(MAKERY_TRACEBEGIN1)$(call MODULES_Use,$(1),requires)$(MAKERY_TRACEEND1)
+
+
+# Specify that another module require this one to build
+#
+# $1 - Module name
+#
+MODULES_RequiredBy = \
+$(MAKERY_TRACEBEGIN1)$(call MODULES_Use,$(1),requiredby)$(MAKERY_TRACEEND1)
+
+
+# Pull in a module
+#
+# $1 - Module name
+# $2 - Build dependency type ('requires', 'requiredby', or '')
+#
 MODULES_Use = \
-$(MAKERY_TRACEBEGIN1)$(eval $(call MODULES_USE_TEMPLATE,$(1),$(call MODULES_Locate,$(1)),$(call MODULES_VariablePrefix,$(1))))$(MAKERY_TRACEEND1)
+$(MAKERY_TRACEBEGIN2)$(eval $(call MODULES_USE_TEMPLATE,$(1),$(call MODULES_Locate,$(1)),$(call MODULES_VariablePrefix,$(1)),$(2)))$(MAKERY_TRACEEND2)
 #
 # $1 - Module name
 # $2 - Module dir
 # $3 - Module variable prefix
+# $4 - Build dependency type
 #
 define MODULES_USE_TEMPLATE
+
+#
+# Remember build dependency
+#
+ifeq ($(4),requires)
+MODULES_requiredby_$$(call first,$$(MODULES_CONTEXT)) := $$(MODULES_requiredby_$$(call first,$$(MODULES_CONTEXT)))
+MODULES_requiredby_$$(call first,$$(MODULES_CONTEXT)) += $(1)
+endif
+ifeq ($(4),requiredby)
+MODULES_requiredby_$(1) := $$(MODULES_requiredby_$(1))
+MODULES_requiredby_$(1) += $$(call first,$$(MODULES_CONTEXT))
+endif
 
 #
 # Dependencies
 #
 $$(call MAKERY_TraceBegin,-include $(2)/depends.mk)
+MODULES_CONTEXT := $(1) $$(MODULES_CONTEXT)
 -include $(call MAKE_EncodePath,$(2)/depends.mk)
+MODULES_CONTEXT := $$(call rest,$$(MODULES_CONTEXT))
 $$(call MAKERY_TraceEnd,-include $(2)/depends.mk)
 
 #

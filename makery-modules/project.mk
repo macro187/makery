@@ -30,3 +30,8 @@ MODULES_outdirs_DESC ?= \
 $(call PROJ_DeclareVar,MODULES_outdirs)
 MODULES_outdirs = $(foreach m,$(MODULES_proj),$($(call MODULES_VariablePrefix,$(m))_outdir))
 
+
+# Variables to hold module dependencies
+#
+PROJ_vars += $(foreach mod,$(MODULES_proj),MODULES_requiredby_$(call MAKE_DecodeWord,$(mod)))
+
