@@ -139,6 +139,26 @@ $(shell $(1))
 endif
 
 
+# $(eval) alias to permit tracing and debugging
+ifdef MAKERYTRACE
+MAKE_Eval = \
+$(info [begin] MAKE_Eval())$(info $(call MAKE_EVAL_DUMP,$(1)))$(eval $(1))$(info [end]   MAKE_Eval())
+else
+MAKE_Eval = \
+$(call MAKE_EVAL_DUMP,$(1))$(eval $(1))
+endif
+
+ifdef MAKERYDEBUG
+define MAKE_EVAL_DUMP
+[debug] MAKE_Eval()
+--------------------------------------------------------------------------------
+$1
+--------------------------------------------------------------------------------
+endef
+else
+endif
+
+
 # Disable Built-in Rules
 #
 MAKEFLAGS += -r
