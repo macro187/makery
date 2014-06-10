@@ -50,7 +50,9 @@ $(call MODULES_Use,out)
 
 
 $(foreach mod,$(MODULES_use),$(call MODULES_Use,$(mod)))
+ifeq ($(MAKERYIGNORECACHE),)
 $(call PROJ_LoadVarCache)
+endif
 $(call PROJ_FlattenVars)
 $(call PROJ_SaveVarCache)
 $(call PROJ_DebugPrintVarInfo)
