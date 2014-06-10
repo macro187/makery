@@ -33,8 +33,3 @@ Phony target to clean output directory
 $(call PROJ_DeclareVar,OUT_cleantarget)
 OUT_cleantarget_DEFAULT = $(OUT_dir)/out/clean
 
-
-# Hook to clean
-#
-CLEAN_reqs += $(call MAKE_EncodeWord,$(OUT_cleantarget))
-

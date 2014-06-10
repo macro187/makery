@@ -28,6 +28,7 @@ $(call PROJ_Rule)
 
 RULE_TARGET := $(OUT_cleantarget)
 RULE_PHONY := 1
+RULE_REQDBY := $(CLEAN_dotfile)
 
 define RULE_COMMANDS
 	rm -rf $$(call SYSTEM_ShellEscape,$$(OUT_dir))
