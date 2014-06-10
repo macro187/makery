@@ -19,6 +19,7 @@ RULE_TARGET := $(DOTNETEXE_dotfile)
 RULE_REQS := $(DOTNETASSEMBLY_all_abs)
 RULE_REQS += $(call PROJ_GetMultiRecursive,DOTNETASSEMBLY_all_abs,DOTNETREFERENCES_proj)
 RULE_OREQ := $(DOTNETEXE_outdir)
+RULE_REQDBY := $(RUN_dotfile)
 
 define RULE_COMMANDS
 	-rm -rf $(call SYSTEM_ShellEscape,$(DOTNETEXE_outdir))/*

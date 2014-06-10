@@ -15,20 +15,7 @@
 # ------------------------------------------------------------------------------
 
 
-RULE_TARGET := $(RUN_target)
-RULE_PHONY := 1
-RULE_REQS := $(RUN_reqs)
-RULE_REQDBYS := runnableall
-RULE_REQDBYS += $(if $(PROJ_ismain),runnable)
-RULE_REQDBYS += $(EVERYTHING_dotfile)
-
-$(call PROJ_Rule)
-
-
-
-RULE_TARGET := $(PROJ_dir)/run
-RULE_PHONY := 1
-RULE_REQ := $(RUN_target)
+RULE_TARGET := $(RUN_dotfile)
 RULE_REQDBYS := runall
 RULE_REQDBYS += $(if $(PROJ_ismain),run)
 RULE_REQDBYS += $(EVERYTHING_dotfile)

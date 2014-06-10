@@ -14,18 +14,6 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
-
-RUN_target_DESC := \
-The phony runnable target
-$(call PROJ_DeclareVar,RUN_target)
-RUN_target_DEFAULT = $(PROJ_dir)/runnable
-
-
-RUN_reqs_DESC := \
-Prerequisites for the project to be runnable in-place (list)
-$(call PROJ_DeclareVar,RUN_reqs)
-
-
 RUN_run_DESC := \
 Pre-escaped shell command to run the project in-place
 $(call PROJ_DeclareVar,RUN_run)

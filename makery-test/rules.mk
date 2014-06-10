@@ -16,8 +16,7 @@
 
 
 RULE_TARGET := $(TEST_target)
-RULE_PHONY := 1
-RULE_REQS := $(TEST_reqs)
+RULE_REQS := $(call PROJ_GetVar,RUN_dotfile,$(TEST_project))
 RULE_REQDBYS := testall
 RULE_REQDBYS += $(if $(PROJ_ismain),test)
 RULE_REQDBYS += $(EVERYTHING_dotfile)

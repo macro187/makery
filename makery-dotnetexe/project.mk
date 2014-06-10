@@ -23,9 +23,6 @@ DOTNETEXE_exe = $(DOTNETEXE_outdir)/$(DOTNETASSEMBLY_primary)
 
 # Hook up to run
 #
-RUN_reqs += \
-$(call MAKE_EncodeWord,$(DOTNETEXE_dotfile))
-
 RUN_run = \
 $(DOTNETFRAMEWORK_exec) $(call SYSTEM_ShellEscape,$(DOTNETEXE_exe))
 

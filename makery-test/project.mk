@@ -21,22 +21,10 @@ $(call PROJ_DeclareVar,TEST_project)
 TEST_project_DEFAULT = $(PROJ_name).Test
 
 
-TEST_projectdir_DESC := \
-(internal) The dir of the runnable project that acts as a test for this one
-$(call PROJ_DeclareVar,TEST_projectdir)
-TEST_projectdir = $(call PROJ_Locate,$(TEST_project))
-
-
 TEST_target_DESC := \
 The phony test target
 $(call PROJ_DeclareVar,TEST_target)
 TEST_target = $(PROJ_dir)/test
-
-
-TEST_reqs_DESC := \
-Prerequisites for testing (list)
-$(call PROJ_DeclareVar,TEST_reqs)
-TEST_reqs_DEFAULT = $(call MAKE_EncodeWord,$(TEST_projectdir)/run)
 
 
 # Pull in the test project

@@ -17,6 +17,8 @@
 
 RULE_TARGET := $(HTDOCS_RUN_browse)
 RULE_PHONY := 1
+RULE_REQ := $(HTDOCS_dotfile)
+RULE_REQDBY := $(RUN_dotfile)
 
 define RULE_COMMANDS
 	$(call SYSTEM_DesktopOpen,http://localhost:$(HTDOCS_RUN_port)/)

@@ -36,7 +36,5 @@ HTDOCS_RUN_browse = $(OUT_dir)/htdocs-run-browse
 
 # Hook up to run
 #
-RUN_reqs += $(call MAKE_EncodeWord,$(HTDOCS_dotfile))
-RUN_reqs += $(call MAKE_EncodeWord,$(HTDOCS_RUN_browse))
 RUN_run = $(HTDOCS_RUN_$(call uc,$(HTDOCS_RUN_module))_run)
 

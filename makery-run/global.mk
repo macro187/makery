@@ -34,17 +34,9 @@ RUN_ArgPathAbs = \
 $(if $(call PROJ_GetVar,RUN_argpathabsfunc,$(if $(2),$(2),$(PROJ_name))),,$(error No RUN_argpathabsfunc for $(if $(2),$(2),$(PROJ_name)), perhaps its not runnable?))$(call $(call PROJ_GetVar,RUN_argpathabsfunc,$(if $(2),$(2),$(PROJ_name))),$(1))
 
 
-# Build a runnable version of the current project / all runnable projects
-#
-.PHONY: runnable runnableall
-runnable runnableall:
-	$(MAKERY_TARGETHEADING)
-
-
 # Run the current project / all runnable projects
 #
 .PHONY: run runall
 run runall:
 	$(MAKERY_TARGETHEADING)
-
 
