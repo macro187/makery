@@ -461,9 +461,8 @@ $(foreach r,$(RULE_REQS) $(call MAKE_EncodeWord,$(RULE_REQ)),\$(MAKE_CHAR_NEWLIN
 \
 $(if $(RULE_OREQS)$(RULE_OREQ),\$(MAKE_CHAR_NEWLINE)| $(foreach r,$(RULE_OREQS) $(call MAKE_EncodeWord,$(RULE_OREQ)),\$(MAKE_CHAR_NEWLINE)$(call MAKE_EncodePath,$(call MAKE_DecodeWord,$(r)))))
 
-	$$(MAKERY_TARGETHEADING)
-
-$(RULE_COMMANDS)
+$(if $(RULE_COMMANDS),$(MAKE_CHAR_TAB)$$(MAKERY_TARGETHEADING))
+$(if $(RULE_COMMANDS),$(RULE_COMMANDS))
 
 $$(call MAKE_ClearVarsWithPrefix,RULE_)
 endef
