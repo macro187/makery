@@ -14,11 +14,8 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
-
 RULE_TARGET := $(EVERYTHING_dotfile)
 RULE_REQDBYS := everythingall
 RULE_REQDBYS += $(if $(PROJ_ismain),everything)
-RULE_PHONY := 1
-
 $(call PROJ_Rule)
 

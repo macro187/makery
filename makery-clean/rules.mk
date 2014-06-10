@@ -14,11 +14,8 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
-
 RULE_TARGET := $(CLEAN_dotfile)
 RULE_REQDBYS := cleanall
 RULE_REQDBYS += $(if $(PROJ_ismain),clean)
-RULE_PHONY := 1
-
 $(call PROJ_Rule)
 
