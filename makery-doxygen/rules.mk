@@ -15,26 +15,16 @@
 # ------------------------------------------------------------------------------
 
 
-RULE_TARGET := $(DOXYGEN_target)
-RULE_PHONY := 1
-RULE_REQ := $(DOXYGEN_configfile)
+RULE_TARGET := $(DOXYGEN_dotfile)
+RULE_REQS += $(call PROJ_GetVarRecursive,DOXYGEN_dotfile,DOXYGEN_tagprojects)
+RULE_OREQ := $(DOXYGEN_outdir)
 RULE_REQDBYS := doxygenall
 RULE_REQDBYS += $(if $(PROJ_ismain),doxygen)
 RULE_REQDBYS += $(EVERYTHING_dotfile)
 
-$(call PROJ_Rule)
-
-
-
-RULE_TARGET := $(DOXYGEN_configfile)
-RULE_REQS := $(DOXYGEN_depends)
-RULE_REQS += $(call PROJ_GetVarRecursive,DOXYGEN_configfile,DOXYGEN_tagprojects)
-RULE_OREQ := $(DOXYGEN_outdir)
-
 define RULE_COMMANDS
 	@echo ""
 	@echo "=> Cleaning old doxygen output..."
-	rm -f $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	rm -rf $(call SYSTEM_ShellEscape,$(DOXYGEN_outdir))/*
 	@echo "=> ...done"
 
@@ -192,6 +182,7 @@ else
 	@echo "=> Doxygen not available, not generating documentation"
 endif
 
+	touch $(call SYSTEM_ShellEscape,$(DOXYGEN_dotfile))
 endef
 
 $(call PROJ_Rule)

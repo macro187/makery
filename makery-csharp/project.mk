@@ -94,7 +94,6 @@ DOTNETASSEMBLY_all += $(call MAKE_EncodeWord,$(CSHARP_debuginfo))
 # Hook up doxygen
 #
 DOXYGEN_srcs += $(SRCS_files)
-DOXYGEN_depends += $(call MAKE_EncodeWord,$(DOTNETASSEMBLY_primary_abs))
 DOXYGEN_defines += $(CSHARP_defines)
 DOXYGEN_tagprojects += $(DOTNETREFERENCES_proj)
 

@@ -15,17 +15,6 @@
 # ------------------------------------------------------------------------------
 
 
-DOXYGEN_target_DESC := \
-The doxygen phony target
-$(call PROJ_DeclareVar,DOXYGEN_target)
-DOXYGEN_target_DEFAULT = $(PROJ_dir)/doxygen
-
-
-DOXYGEN_depends_DESC := \
-(append-only) Prerequisites for generating doxygen documentation (list)
-$(call PROJ_DeclareVar,DOXYGEN_depends)
-
-
 DOXYGEN_srcs_DESC := \
 Source code files to document (list)
 $(call PROJ_DeclareTargetVar,DOXYGEN_srcs)
@@ -52,7 +41,7 @@ DOXYGEN_outdir_html_DEFAULT = $(DOXYGEN_outdir)/html
 DOXYGEN_configfile_DESC := \
 (read-only) Output doxygen config file
 $(call PROJ_DeclareVar,DOXYGEN_configfile)
-DOXYGEN_configfile_DEFAULT = $(DOXYGEN_outdir)/doxygen.config
+DOXYGEN_configfile = $(DOXYGEN_outdir)/doxygen.config
 
 
 DOXYGEN_tagbase_DESC := \
