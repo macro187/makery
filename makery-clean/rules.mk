@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------------------
 
 
-RULE_TARGET := $(CLEAN_target)
+RULE_TARGET := $(CLEAN_dotfile)
 RULE_REQS := $(CLEAN_reqs)
 RULE_REQDBYS := cleanall
 RULE_REQDBYS += $(if $(PROJ_ismain),clean)

@@ -15,12 +15,6 @@
 # ------------------------------------------------------------------------------
 
 
-CLEAN_target_DESC := \
-The phony clean target, which cleans everything in the project
-$(call PROJ_DeclareVar,CLEAN_target)
-CLEAN_target_DEFAULT = $(PROJ_dir)/clean
-
-
 CLEAN_reqs_DESC := \
 Targets to be hooked to the clean target
 $(call PROJ_DeclareVar,CLEAN_reqs)
