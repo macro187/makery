@@ -15,9 +15,7 @@
 # ------------------------------------------------------------------------------
 
 
-RULE_TARGET := $(BUILD_target)
-RULE_PHONY := 1
-RULE_REQS := $(BUILD_reqs)
+RULE_TARGET := $(BUILD_dotfile)
 RULE_REQDBYS := buildall
 RULE_REQDBYS += $(if $(PROJ_ismain),build)
 RULE_REQDBYS += $(EVERYTHING_dotfile)

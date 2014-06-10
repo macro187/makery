@@ -14,14 +14,8 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
+RULE_TARGETS := $(DOTNETASSEMBLY_all_abs)
+RULE_REQDBY := $(BUILD_dotfile)
 
-BUILD_target_DESC := \
-The phony build target, which builds a default set of targets for the project
-$(call PROJ_DeclareVar,BUILD_target)
-BUILD_target_DEFAULT = $(PROJ_dir)/build
-
-
-BUILD_reqs_DESC := \
-Targets to be hooked to the build target
-$(call PROJ_DeclareVar,BUILD_reqs)
+$(call PROJ_Rule)
 

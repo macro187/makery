@@ -19,6 +19,7 @@ RULE_TARGET := $(HTDOCS_dotfile)
 RULE_REQS = $(HTDOCS_files_abs)
 RULE_REQS += $(call PROJ_GetVarRecursive,HTDOCS_dotfile,HTDOCS_include)
 RULE_OREQ := $(HTDOCS_outdir)
+RULE_REQDBY := $(BUILD_dotfile)
 
 define RULE_COMMANDS
 	-rm -rf $(call SYSTEM_ShellEscape,$(HTDOCS_outdir))/*

@@ -58,8 +58,3 @@ HTDOCS_files_abs_DESC ?= \
 $(call PROJ_DeclareVar,HTDOCS_files_abs)
 HTDOCS_files_abs = $(foreach f,$(HTDOCS_files),$(call MAKE_EncodeWord,$(HTDOCS_dir))/$(f))
 
-
-# Hook up to the build target
-#
-BUILD_reqs += $(HTDOCS_dotfile)
-

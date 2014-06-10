@@ -87,8 +87,3 @@ DOTNETFRAMEWORK_generation_VALIDATE += Max|$(DOTNET_maxgeneration)
 DOTNETASSEMBLY_dir = $(DOTNET_outdir)
 DOTNETASSEMBLY_primary = $(DOTNET_name).$(DOTNET_ext)
 
-
-# Hook up to build
-#
-BUILD_reqs += $(DOTNETASSEMBLY_all_abs)
-
