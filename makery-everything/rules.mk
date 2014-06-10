@@ -15,8 +15,7 @@
 # ------------------------------------------------------------------------------
 
 
-RULE_TARGET := $(EVERYTHING_target)
-RULE_REQS := $(EVERYTHING_reqs)
+RULE_TARGET := $(EVERYTHING_dotfile)
 RULE_REQDBYS := everythingall
 RULE_REQDBYS += $(if $(PROJ_ismain),everything)
 RULE_PHONY := 1

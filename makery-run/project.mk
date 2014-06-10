@@ -43,8 +43,3 @@ Name of function to be called on all command-line arguments that are full paths
 $(call PROJ_DeclareVar,RUN_argpathabsfunc)
 RUN_argpathabsfunc_DEFAULT = MAKE_Identity
 
-
-# Hook "runnable" to "everything"
-#
-EVERYTHING_reqs += $(call MAKE_EncodeWord,$(RUN_target))
-

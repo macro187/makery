@@ -74,8 +74,3 @@ $(call PROJ_DeclareVar,DOXYGEN_tagprojects)
 
 PROJ_required += $(DOXYGEN_tagprojects)
 
-
-# Hook to everything
-#
-EVERYTHING_reqs += $(call MAKE_EncodeWord,$(DOXYGEN_target))
-

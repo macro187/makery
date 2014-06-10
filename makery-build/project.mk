@@ -25,8 +25,3 @@ BUILD_reqs_DESC := \
 Targets to be hooked to the build target
 $(call PROJ_DeclareVar,BUILD_reqs)
 
-
-# Hook "build" to "everything"
-#
-EVERYTHING_reqs += $(call MAKE_EncodeWord,$(BUILD_target))
-

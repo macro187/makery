@@ -20,6 +20,7 @@ RULE_PHONY := 1
 RULE_REQS := $(TEST_reqs)
 RULE_REQDBYS := testall
 RULE_REQDBYS += $(if $(PROJ_ismain),test)
+RULE_REQDBYS += $(EVERYTHING_dotfile)
 
 $(call PROJ_Rule)
 

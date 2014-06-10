@@ -20,6 +20,7 @@ RULE_PHONY := 1
 RULE_REQ := $(DOXYGEN_configfile)
 RULE_REQDBYS := doxygenall
 RULE_REQDBYS += $(if $(PROJ_ismain),doxygen)
+RULE_REQDBYS += $(EVERYTHING_dotfile)
 
 $(call PROJ_Rule)
 

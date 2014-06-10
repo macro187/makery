@@ -43,8 +43,3 @@ TEST_reqs_DEFAULT = $(call MAKE_EncodeWord,$(TEST_projectdir)/run)
 #
 PROJ_required += $(TEST_project)
 
-
-# Hook "test" to "everything"
-#
-EVERYTHING_reqs += $(call MAKE_EncodeWord,$(TEST_target))
-
