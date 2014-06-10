@@ -16,7 +16,6 @@
 
 
 $(call MODULES_Use,build)
-$(call MODULES_Use,out)
 $(call MODULES_Use,dotnetframework)
 $(call MODULES_Use,dotnetassembly)
 

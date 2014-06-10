@@ -15,7 +15,6 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,out)
 $(call MODULES_Use,dotnetassembly)
 $(call MODULES_Use,dotnetframework)
 $(call MODULES_Use,run)
