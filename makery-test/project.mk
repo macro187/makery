@@ -21,12 +21,6 @@ $(call PROJ_DeclareVar,TEST_project)
 TEST_project_DEFAULT = $(PROJ_name).Test
 
 
-TEST_target_DESC := \
-The phony test target
-$(call PROJ_DeclareVar,TEST_target)
-TEST_target = $(PROJ_dir)/test
-
-
 # Pull in the test project
 #
 PROJ_required += $(TEST_project)
