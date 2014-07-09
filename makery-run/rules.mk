@@ -16,16 +16,17 @@
 
 
 RULE_TARGET := $(RUN_dotfile)
+RULE_REQ := $(RUNNABLE_dotfile)
 RULE_REQDBYS := runall
 RULE_REQDBYS += $(if $(PROJ_ismain),run)
 RULE_REQDBYS += $(EVERYTHING_dotfile)
 
 define RULE_COMMANDS
-ifneq ($$(RUN_run),)
-	$$(RUN_run)
+ifneq ($$(RUNNABLE_run),)
+	$$(RUNNABLE_run)
 else
 	@echo ""
-	@echo "=> No RUN_run command defined, unable to run"
+	@echo "=> No RUNNABLE_run command defined, unable to run"
 endif
 endef
 

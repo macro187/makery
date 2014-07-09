@@ -14,27 +14,20 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
-
-HTDOCS_RUN_module_DESC ?= \
-Web server module to use
-$(call PROJ_DeclareVar,HTDOCS_RUN_module)
-HTDOCS_RUN_module_OPTIONS = $(HTDOCS_RUN_MODULES)
-HTDOCS_RUN_module_VALIDATE = Required
+RUNNABLE_run_DESC := \
+Pre-escaped command to run the project in-place
+$(call PROJ_DeclareVar,RUNNABLE_run)
 
 
-HTDOCS_RUN_port_DESC ?= \
-Port to serve the project from
-$(call PROJ_DeclareVar,HTDOCS_RUN_port)
-HTDOCS_RUN_port_DEFAULT = 8080
+RUNNABLE_argpathfunc_DESC := \
+Name of function to be called on all command-line arguments that are path \
+fragments
+$(call PROJ_DeclareVar,RUNNABLE_argpathfunc)
+RUNNABLE_argpathfunc_DEFAULT = MAKE_Identity
 
 
-HTDOCS_RUN_browse_DESC ?= \
-(read-only) Phony target that opens a web browser to the project
-$(call PROJ_DeclareVar,HTDOCS_RUN_browse)
-HTDOCS_RUN_browse = $(OUT_dir)/htdocs-run-browse
-
-
-# Hook up to run
-#
-RUNNABLE_run = $(HTDOCS_RUN_$(call uc,$(HTDOCS_RUN_module))_run)
+RUNNABLE_argpathabsfunc_DESC := \
+Name of function to be called on all command-line arguments that are full paths
+$(call PROJ_DeclareVar,RUNNABLE_argpathabsfunc)
+RUNNABLE_argpathabsfunc_DEFAULT = MAKE_Identity
 

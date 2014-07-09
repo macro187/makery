@@ -8,7 +8,7 @@
     This modules assembles a directory containing everything necessary to
     run the program in-place, and hooks it up to the "run" module so the
     program can be run in a generic fashion with the "run" target or the
-    "RUN_run" shell command.
+    "RUNNABLE_run" shell command.
 
 
 

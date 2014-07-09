@@ -17,5 +17,5 @@
 
 $(call MODULES_Use,dotnetassembly)
 $(call MODULES_Use,dotnetframework)
-$(call MODULES_Use,run)
+$(call MODULES_Use,runnable)
 

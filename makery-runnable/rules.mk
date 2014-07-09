@@ -14,20 +14,10 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
-RUN_run_DESC := \
-Pre-escaped shell command to run the project in-place
-$(call PROJ_DeclareVar,RUN_run)
 
-
-RUN_argpathfunc_DESC := \
-Name of function to be called on all command-line arguments that are path \
-fragments
-$(call PROJ_DeclareVar,RUN_argpathfunc)
-RUN_argpathfunc_DEFAULT = MAKE_Identity
-
-
-RUN_argpathabsfunc_DESC := \
-Name of function to be called on all command-line arguments that are full paths
-$(call PROJ_DeclareVar,RUN_argpathabsfunc)
-RUN_argpathabsfunc_DEFAULT = MAKE_Identity
+RULE_TARGET := $(RUNNABLE_dotfile)
+define RULE_COMMANDS
+	touch $(call SYSTEM_ShellEscape,$(RUNNABLE_dotfile))
+endef
+$(call PROJ_Rule)
 

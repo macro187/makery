@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,run)
+$(call MODULES_Use,runnable)
 $(call MODULES_Use,htdocs)
 $(call MODULES_Use,htdocs-run-null)
 $(call MODULES_Use,htdocs-run-xsp)
