@@ -1,24 +1,22 @@
 # ------------------------------------------------------------------------------
-# GNU Make Standard Library (GMSL)
+# GNU Make Standard Library (GMSL) v1.1.6
 #
 # A library of functions to be used with GNU Make's $(call) that provides
 # functionality not available in standard GNU Make.
-#
-# Copyright (c) 2005-2006 John Graham-Cumming
-#
-# Full GMSL distribution available at:
-# http://gmsl.sourceforge.net/
-#
 #
 # Adapted for use in Makery by Ron MacNeil <macro@hotmail.com>
 #
 # This file contains the full contents of the "gmsl" and "__gmsl" files
 # from the GMSL distribution, with minor modifications.
+#
+# Full GMSL distribution available at:
+# http://gmsl.sourceforge.net/
 # ------------------------------------------------------------------------------
 
 
 
 # From file "gmsl":
+
 # ----------------------------------------------------------------------------
 #
 # GNU Make Standard Library (GMSL)
@@ -26,7 +24,7 @@
 # A library of functions to be used with GNU Make's $(call) that
 # provides functionality not available in standard GNU Make.
 #
-# Copyright (c) 2005-2006 John Graham-Cumming
+# Copyright (c) 2005-2013 John Graham-Cumming
 #
 # This file is part of GMSL
 #
@@ -36,7 +34,7 @@
 #
 # Redistributions of source code must retain the above copyright
 # notice, this list of conditions and the following disclaimer.
-# 
+#
 # Redistributions in binary form must reproduce the above copyright
 # notice, this list of conditions and the following disclaimer in the
 # documentation and/or other materials provided with the distribution.
@@ -87,14 +85,17 @@ not = $(if $1,$(false),$(true))
 # include /foo/gmsl then extract the /foo/ so that __gmsl gets
 # included transparently
 
+#__gmsl_root :=
+
+#ifneq ($(MAKEFILE_LIST),)
 #__gmsl_root := $(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST))
 
 # If there are any spaces in the path in __gmsl_root then give up
 
 #ifeq (1,$(words $(__gmsl_root)))
 #__gmsl_root := $(patsubst %gmsl,%,$(__gmsl_root))
-#else
-#__gmsl_root :=
+#endif
+
 #endif
 
 #include $(__gmsl_root)__gmsl
@@ -104,6 +105,7 @@ not = $(if $1,$(false),$(true))
 
 
 # From file "__gmsl":
+
 # ----------------------------------------------------------------------------
 #
 # GNU Make Standard Library (GMSL)
@@ -111,7 +113,7 @@ not = $(if $1,$(false),$(true))
 # A library of functions to be used with GNU Make's $(call) that
 # provides functionality not available in standard GNU Make.
 #
-# Copyright (c) 2005-2006 John Graham-Cumming
+# Copyright (c) 2005-2014 John Graham-Cumming
 #
 # This file is part of GMSL
 #
@@ -148,21 +150,24 @@ not = $(if $1,$(false),$(true))
 # This is the GNU Make Standard Library version number as a list with
 # three items: major, minor, revision
 
-gmsl_version := 1 0 7
+gmsl_version := 1 1 6
+
+__gmsl_name := GNU Make Standard Library
 
 # Used to output warnings and error from the library, it's possible to
 # disable any warnings or errors by overriding these definitions
 # manually or by setting GMSL_NO_WARNINGS or GMSL_NO_ERRORS
 
-__gmsl_name := GNU Make Standard Library
-__gmsl_warning = $(warning $(__gmsl_name): $1)
-__gmsl_error = $(error $(__gmsl_name): $1)
-
 ifdef GMSL_NO_WARNINGS
 __gmsl_warning :=
+else
+__gmsl_warning = $(if $1,$(warning $(__gmsl_name): $1))
 endif
+
 ifdef GMSL_NO_ERRORS
 __gmsl_error :=
+else
+ __gmsl_error = $(if $1,$(error $(__gmsl_name): $1))
 endif
 
 # If GMSL_TRACE is enabled then calls to the library functions are
@@ -178,6 +183,14 @@ __gmsl_tr2 :=
 __gmsl_tr3 :=
 endif
 
+# See if spaces are valid in variable names (this was the case until
+# GNU Make 3.82)
+ifeq ($(MAKE_VERSION),3.82)
+__gmsl_spaced_vars := $(false)
+else
+__gmsl_spaced_vars := $(true)
+endif
+
 # Figure out whether we have $(eval) or not (GNU Make 3.80 and above)
 # if we do not then output a warning message, if we do then some
 # functions will be enabled.
@@ -185,26 +198,45 @@ endif
 __gmsl_have_eval := $(false)
 __gmsl_ignore := $(eval __gmsl_have_eval := $(true))
 
+# If this is being run with Electric Cloud's emake then warn that
+# their $(eval) support is incomplete in 1.x, 2.x, 3.x, 4.x and 5.0,
+# 5.1, 5.2 and 5.3
+
+ifdef ECLOUD_BUILD_ID
+__gmsl_emake_major := $(word 1,$(subst ., ,$(EMAKE_VERSION)))
+__gmsl_emake_minor := $(word 2,$(subst ., ,$(EMAKE_VERSION)))
+ifneq ("$(findstring $(__gmsl_emake_major),1 2 3 4)$(findstring $(__gmsl_emake_major)$(__gmsl_emake_minor),50 51 52 53)","")
+$(warning You are using a version of Electric Cloud's emake which has incomplete $$(eval) support)
+__gmsl_have_eval := $(false)
+endif
+endif
+
 # See if we have $(lastword) (GNU Make 3.81 and above)
 
 __gmsl_have_lastword := $(lastword $(false) $(true))
 
 # See if we have native or and and (GNU Make 3.81 and above)
 
-__gmsl_have_or := $(or $(true),$(false))
-__gmsl_have_and := $(and $(true),$(true))
+__gmsl_have_or := $(if $(filter-out undefined,  \
+    $(origin or)),$(call or,$(true),$(false)))
+__gmsl_have_and := $(if $(filter-out undefined, \
+    $(origin and)),$(call and,$(true),$(true)))
 
 ifneq ($(__gmsl_have_eval),$(true))
-$(call __gmsl_warning,GNU Make $(MAKE_VERSION) does not support $$(eval): some functions disabled)
+$(call __gmsl_warning,Your make version $(MAKE_VERSION) does not support $$$$(eval): some functions disabled)
 endif
 
+__gmsl_dollar := $$
+__gmsl_hash := \#
+
+# ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 # Function:  gmsl_compatible
 # Arguments: List containing the desired library version number (maj min rev)
 # Returns:   $(true) if this version of the library is compatible
 #            with the requested version number, otherwise $(false)
 # ----------------------------------------------------------------------------
-gmsl_compatible =                                                         \
+gmsl_compatible = $(strip                                                 \
     $(if $(call gt,$(word 1,$1),$(word 1,$(gmsl_version))),               \
         $(false),                                                         \
         $(if $(call lt,$(word 1,$1),$(word 1,$(gmsl_version))),           \
@@ -213,7 +245,7 @@ gmsl_compatible =                                                         \
                 $(false),                                                 \
                 $(if $(call lt,$(word 2,$1),$(word 2,$(gmsl_version))),   \
                     $(true),                                              \
-                    $(call lte,$(word 3,$1),$(word 3,$(gmsl_version)))))))
+                    $(call lte,$(word 3,$1),$(word 3,$(gmsl_version))))))))
 
 # ###########################################################################
 # LOGICAL OPERATORS
@@ -318,8 +350,8 @@ map = $(__gmsl_tr2)$(strip $(foreach a,$2,$(call $1,$a)))
 #            3: Second list to iterate over calling the function in 1
 # Returns:   The list after calling the function on each pair of elements
 # ----------------------------------------------------------------------------
-pairmap = $(__gmsl_tr3)\
-          $(strip $(if $2$3,$(call $1,$(call first,$2),$(call first,$3))     \
+pairmap = $(strip $(__gmsl_tr3)\
+          $(if $2$3,$(call $1,$(call first,$2),$(call first,$3))     \
                         $(call pairmap,$1,$(call rest,$2),$(call rest,$3))))
 
 # ----------------------------------------------------------------------------
@@ -352,14 +384,16 @@ lne = $(__gmsl_tr2)$(call not,$(call leq,$1,$2))
 # Arguments: 1: A list to reverse
 # Returns:   The list with its elements in reverse order
 # ----------------------------------------------------------------------------
-reverse =$(__gmsl_tr1)$(if $1,$(call reverse,$(call rest,$1)) $(call first,$1))
+reverse =$(__gmsl_tr1)$(strip $(if $1,$(call reverse,$(call rest,$1)) \
+                        $(call first,$1)))
 
 # ----------------------------------------------------------------------------
 # Function:  uniq
 # Arguments: 1: A list from which to remove repeated elements
 # Returns:   The list with duplicate elements removed without reordering
 # ----------------------------------------------------------------------------
-uniq = $(__gmsl_tr1)$(if $1,$(call uniq,$(call chop,$1)) $(if $(filter $(call last,$1),$(call chop,$1)),,$(call last,$1)))
+uniq = $(strip $(__gmsl_tr1) $(if $1,$(firstword $1) \
+                               $(call uniq,$(filter-out $(firstword $1),$1))))
 
 # ----------------------------------------------------------------------------
 # Function:  length
@@ -383,7 +417,7 @@ __gmsl_make_bool = $(if $(strip $1),$(true),$(false))
 #            2: ...this string
 # Returns:   Returns $(true) if the two strings are identical
 # ----------------------------------------------------------------------------
-seq = $(__gmsl_tr2)$(if $(filter-out xx,x$(subst $1,,$2)$(subst $2,,$1)x),$(false),$(true))
+seq = $(__gmsl_tr2)$(if $(subst x$1,,x$2)$(subst x$2,,x$1),$(false),$(true))
 
 # ----------------------------------------------------------------------------
 # Function:  sne
@@ -421,7 +455,8 @@ ifdef __gmsl_have_eval
 #            3: The text to translate
 # Returns:   Returns the text after translating characters
 # ----------------------------------------------------------------------------
-tr = $(__gmsl_tr3)$(strip $(eval __gmsl_t := $3)                          \
+tr = $(strip $(__gmsl_tr3)$(call assert_no_dollar,$0,$1$2$3)              \
+     $(eval __gmsl_t := $3)                                               \
      $(foreach c,                                                         \
          $(join $(addsuffix :,$1),$2),                                    \
          $(eval __gmsl_t :=                                               \
@@ -442,14 +477,55 @@ tr = $(__gmsl_tr3)$(strip $(eval __gmsl_t := $3)                          \
 # Arguments: 1: Text to upper case
 # Returns:   Returns the text in upper case
 # ----------------------------------------------------------------------------
-uc = $(__gmsl_tr1)$(call tr,$([a-z]),$([A-Z]),$1)
+uc = $(__gmsl_tr1)$(call assert_no_dollar,$0,$1)$(call tr,$([a-z]),$([A-Z]),$1)
 
 # ----------------------------------------------------------------------------
 # Function:  lc
 # Arguments: 1: Text to lower case
 # Returns:   Returns the text in lower case
 # ----------------------------------------------------------------------------
-lc = $(__gmsl_tr1)$(call tr,$([A-Z]),$([a-z]),$1)
+lc = $(__gmsl_tr1)$(call assert_no_dollar,$0,$1)$(call tr,$([A-Z]),$([a-z]),$1)
+
+# ----------------------------------------------------------------------------
+# Function:  strlen
+# Arguments: 1: A string
+# Returns:   Returns the length of the string
+# ----------------------------------------------------------------------------
+__gmsl_characters := A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+__gmsl_characters += a b c d e f g h i j k l m n o p q r s t u v w x y z
+__gmsl_characters += 0 1 2 3 4 5 6 7 8 9
+__gmsl_characters += ` ~ ! @ \# $$ % ^ & * ( ) - _ = +
+__gmsl_characters += { } [ ] \ : ; ' " < > , . / ? |
+
+# This results in __gmsl_space containing just a space
+
+__gmsl_space := 
+__gmsl_space +=
+
+strlen = $(__gmsl_tr1)$(call assert_no_dollar,$0,$1)$(strip $(eval __temp := $(subst $(__gmsl_space),x,$1))$(foreach a,$(__gmsl_characters),$(eval __temp := $$(subst $$a,x,$(__temp))))$(eval __temp := $(subst x,x ,$(__temp)))$(words $(__temp)))
+
+# This results in __gmsl_newline containing just a newline
+
+define __gmsl_newline
+
+
+endef
+
+# This results in __gmsl_tab containing a tab
+
+__gmsl_tab :=	#
+
+# ----------------------------------------------------------------------------
+# Function:  substr
+# Arguments: 1: A string
+#            2: Start position (first character is 1)
+#            3: End position (inclusive)
+# Returns:   A substring.  
+# Note:      The string in $1 must not contain a §
+# ----------------------------------------------------------------------------
+
+substr = $(if $2,$(__gmsl_tr3)$(call assert_no_dollar,$0,$1$2$3)$(strip $(eval __temp := $$(subst $$(__gmsl_space),§ ,$$1))$(foreach a,$(__gmsl_characters),$(eval __temp := $$(subst $$a,$$a$$(__gmsl_space),$(__temp))))$(eval __temp := $(wordlist $2,$3,$(__temp))))$(subst §,$(__gmsl_space),$(subst $(__gmsl_space),,$(__temp))))
+
 endif # __gmsl_have_eval
 
 # ###########################################################################
@@ -492,7 +568,7 @@ set_remove = $(__gmsl_tr2)$(filter-out $1,$2)
 #            2: A set
 # Returns:   Returns $(true) if the element is in the set
 # ----------------------------------------------------------------------------
-set_is_member = $(if $(filter $1,$2),$(true),$(false))
+set_is_member = $(__gmsl_tr2)$(if $(filter $1,$2),$(true),$(false))
 
 # ----------------------------------------------------------------------------
 # Function:  set_union
@@ -500,7 +576,7 @@ set_is_member = $(if $(filter $1,$2),$(true),$(false))
 #            2: Another set
 # Returns:   Returns the union of the two sets
 # ----------------------------------------------------------------------------
-set_union = $(sort $1 $2)
+set_union = $(__gmsl_tr2)$(sort $1 $2)
 
 # ----------------------------------------------------------------------------
 # Function:  set_intersection
@@ -508,7 +584,7 @@ set_union = $(sort $1 $2)
 #            2: Another set
 # Returns:   Returns the intersection of the two sets
 # ----------------------------------------------------------------------------
-set_intersection = $(filter $1,$2)
+set_intersection = $(__gmsl_tr2)$(filter $1,$2)
 
 # ----------------------------------------------------------------------------
 # Function:  set_is_subset
@@ -516,7 +592,7 @@ set_intersection = $(filter $1,$2)
 #            2: Another set
 # Returns:   Returns $(true) if the first set is a subset of the second
 # ----------------------------------------------------------------------------
-set_is_subset = $(call set_equal,$(call set_intersection,$1,$2),$1)
+set_is_subset = $(__gmsl_tr2)$(call set_equal,$(call set_intersection,$1,$2),$1)
 
 # ----------------------------------------------------------------------------
 # Function:  set_equal
@@ -524,22 +600,14 @@ set_is_subset = $(call set_equal,$(call set_intersection,$1,$2),$1)
 #            2: Another set
 # Returns:   Returns $(true) if the two sets are identical
 # ----------------------------------------------------------------------------
-set_equal = $(call seq,$1,$2)
+set_equal = $(__gmsl_tr2)$(call seq,$1,$2)
 
 # ###########################################################################
 # ARITHMETIC LIBRARY
 # ###########################################################################
 
 # Integers a represented by lists with the equivalent number of x's.
-# For example the number 4 is x x x x.  The maximum integer that the
-# library can handle as _input_ is __gmsl_input_int which is defined
-# here as 65536
-
-__gmsl_sixteen := x x x x x x x x x x x x x x x
-__gmsl_input_int := $(foreach a,$(__gmsl_sixteen),         \
-                        $(foreach b,$(__gmsl_sixteen),     \
-                            $(foreach c,$(__gmsl_sixteen), \
-                                $(__gmsl_sixteen)))))
+# For example the number 4 is x x x x. 
 
 # ----------------------------------------------------------------------------
 # Function:  int_decode
@@ -554,7 +622,9 @@ int_decode = $(__gmsl_tr1)$(words $1)
 # Arguments: 1: A number in human-readable integer form
 # Returns:   Returns the integer encoded as a string of x's
 # ----------------------------------------------------------------------------
-int_encode = $(__gmsl_tr1)$(wordlist 1,$1,$(__gmsl_input_int))
+__int_encode = $(if $1,$(if $(call seq,$(words $(wordlist 1,$1,$2)),$1),$(wordlist 1,$1,$2),$(call __int_encode,$1,$(if $2,$2 $2,x))))
+__strip_leading_zero = $(if $1,$(if $(call seq,$(patsubst 0%,%,$1),$1),$1,$(call __strip_leading_zero,$(patsubst 0%,%,$1))),0)
+int_encode = $(__gmsl_tr1)$(call __int_encode,$(call __strip_leading_zero,$1))
 
 # The arithmetic library functions come in two forms: one form of each
 # function takes integers as arguments and the other form takes the
@@ -583,7 +653,7 @@ __gmsl_int_wrap2 = $(call $1,$(call int_encode,$2),$(call int_encode,$3))
 #            2: Another number in x's represntation
 # Returns:   Returns the sum of the two numbers in x's representation
 # ----------------------------------------------------------------------------
-int_plus = $(__gmsl_tr2)$1 $2
+int_plus = $(strip $(__gmsl_tr2)$1 $2)
 
 # ----------------------------------------------------------------------------
 # Function:  plus (wrapped version of int_plus)
@@ -600,9 +670,9 @@ plus = $(__gmsl_tr2)$(call __gmsl_int_wrap,int_plus,$1,$2)
 # Returns:   Returns the difference of the two numbers in x's representation,
 #            or outputs an error on a numeric underflow
 # ----------------------------------------------------------------------------
-int_subtract = $(__gmsl_tr2)$(if $(call int_gte,$1,$2),       \
-                $(filter-out xx,$(join $1,$2)),               \
-                $(call __gmsl_warning,Subtraction underflow))
+int_subtract = $(strip $(__gmsl_tr2)$(if $(call int_gte,$1,$2), \
+                $(filter-out xx,$(join $1,$2)),                 \
+                $(call __gmsl_warning,Subtraction underflow)))
 
 # ----------------------------------------------------------------------------
 # Function:  subtract (wrapped version of int_subtract)
@@ -619,7 +689,7 @@ subtract = $(__gmsl_tr2)$(call __gmsl_int_wrap,int_subtract,$1,$2)
 #            2: Another number in x's represntation
 # Returns:   Returns the product of the two numbers in x's representation
 # ----------------------------------------------------------------------------
-int_multiply = $(__gmsl_tr2)$(foreach a,$1,$2)
+int_multiply = $(strip $(__gmsl_tr2)$(foreach a,$1,$2))
 
 # ----------------------------------------------------------------------------
 # Function:  multiply (wrapped version of int_multiply)
@@ -636,10 +706,10 @@ multiply = $(__gmsl_tr2)$(call __gmsl_int_wrap,int_multiply,$1,$2)
 # Returns:   Returns the result of integer division of argument 1 divided
 #            by argument 2 in x's representation
 # ----------------------------------------------------------------------------
-int_divide = $(__gmsl_tr2)$(if $2,                                         \
+int_divide = $(__gmsl_tr2)$(strip $(if $1,$(if $2,                         \
                  $(if $(call int_gte,$1,$2),                               \
                      x $(call int_divide,$(call int_subtract,$1,$2),$2),), \
-                 $(call __gmsl_error,Division by zero))
+                 $(call __gmsl_error,Division by zero))))
 
 # ----------------------------------------------------------------------------
 # Function:  divide (wrapped version of int_divide)
@@ -723,7 +793,7 @@ ne = $(__gmsl_tr2)$(call __gmsl_int_wrap2,int_ne,$1,$2)
 # Arguments: 1: A number in x's representation
 # Returns:   The number incremented by 1 in x's representation
 # ----------------------------------------------------------------------------
-int_inc = $(__gmsl_tr1)$1 x
+int_inc = $(strip $(__gmsl_tr1)$1 x)
 
 # ----------------------------------------------------------------------------
 # Function:  inc
@@ -737,9 +807,9 @@ inc = $(__gmsl_tr1)$(call __gmsl_int_wrap1,int_inc,$1)
 # Arguments: 1: A number in x's representation
 # Returns:   The number decremented by 1 in x's representation
 # ----------------------------------------------------------------------------
-int_dec = $(__gmsl_tr1)$(strip $(if $(call sne,0,$(words $1)), \
-              $(wordlist 2,$(words $1),$1),                    \
-              $(call __gmsl_warning,Decrement underflow)))
+int_dec = $(__gmsl_tr1)$(strip                        \
+          $(if $(call sne,0,$(words $1)),             \
+          $(wordlist 2,$(words $1),$1)))
 
 # ----------------------------------------------------------------------------
 # Function:  dec
@@ -755,7 +825,7 @@ dec = $(__gmsl_tr1)$(call __gmsl_int_wrap1,int_dec,$1)
 # Arguments: 1: A number in x's representation
 # Returns:   The number doubled (i.e. * 2) and returned in x's representation
 # ----------------------------------------------------------------------------
-int_double = $(__gmsl_tr1)$1 $1
+int_double = $(strip $(__gmsl_tr1)$1 $1)
 
 # ----------------------------------------------------------------------------
 # Function:  double
@@ -779,19 +849,61 @@ int_halve = $(__gmsl_tr1)$(strip $(subst xx,x,$(filter-out xy x y, \
 # ----------------------------------------------------------------------------
 halve = $(__gmsl_tr1)$(call __gmsl_int_wrap1,int_halve,$1)
 
+# ----------------------------------------------------------------------------
+# Function:  sequence
+# Arguments: 1: An integer
+#            2: An integer
+# Returns:   The sequence [arg1, arg2] of integers if arg1 < arg2 or
+#            [arg2, arg1] if arg2 > arg1. If arg1 == arg1 return [arg1]
+# ----------------------------------------------------------------------------
+sequence = $(__gmsl_tr2)$(strip $(if $(call lte,$1,$2),          \
+         $(call __gmsl_sequence_up,$1,$2),                       \
+         $(call __gmsl_sequence_dn,$2,$1)))
+
+__gmsl_sequence_up = $(if $(call seq,$1,$2),$1,$1 $(call __gmsl_sequence_up,$(call inc,$1),$2))
+__gmsl_sequence_dn = $(if $(call seq,$1,$2),$1,$2 $(call __gmsl_sequence_dn,$1,$(call dec,$2)))
+
+# ----------------------------------------------------------------------------
+# Function:  dec2hex, dec2bin, dec2oct
+# Arguments: 1: An integer
+# Returns:   The decimal argument converted to hexadecimal, binary or
+#            octal
+# ----------------------------------------------------------------------------
+
+__gmsl_digit = $(subst 15,f,$(subst 14,e,$(subst 13,d,$(subst 12,c,$(subst 11,b,$(subst 10,a,$1))))))
+
+dec2hex = $(call __gmsl_dec2base,$(call int_encode,$1),$(call int_encode,16))
+dec2bin = $(call __gmsl_dec2base,$(call int_encode,$1),$(call int_encode,2))
+dec2oct = $(call __gmsl_dec2base,$(call int_encode,$1),$(call int_encode,8))
+
+__gmsl_base_divide = $(subst $2,X ,$1)
+__gmsl_q = $(strip $(filter X,$1))
+__gmsl_r = $(words $(filter x,$1))
+
+__gmsl_dec2base = $(eval __gmsl_temp := $(call __gmsl_base_divide,$1,$2))$(call __gmsl_dec2base_,$(call __gmsl_q,$(__gmsl_temp)),$(call __gmsl_r,$(__gmsl_temp)),$2)
+__gmsl_dec2base_ = $(if $1,$(call __gmsl_dec2base,$(subst X,x,$1),$3))$(call __gmsl_digit,$2)
+
 ifdef __gmsl_have_eval
 # ###########################################################################
 # ASSOCIATIVE ARRAYS
 # ###########################################################################
+
+# Magic string that is very unlikely to appear in a key or value
+
+__gmsl_aa_magic := faf192c8efbc25c27992c5bc5add390393d583c6
 
 # ----------------------------------------------------------------------------
 # Function:  set
 # Arguments: 1: Name of associative array
 #            2: The key value to associate
 #            3: The value associated with the key
-# Returns:   None
+# Returns:   Nothing
 # ----------------------------------------------------------------------------
-set = $(__gmsl_tr3)$(eval __gmsl_aa_$1_$2 = $3)
+set = $(__gmsl_tr3)$(call assert_no_space,$0,$1$2)$(call assert_no_dollar,$0,$1$2$3)$(eval __gmsl_aa_$1_$(__gmsl_aa_magic)_$2_gmsl_aa_$1 := $3)
+
+# Only used internally by memoize function
+
+__gmsl_set = $(call set,$1,$2,$3)$3
 
 # ----------------------------------------------------------------------------
 # Function:  get
@@ -799,15 +911,15 @@ set = $(__gmsl_tr3)$(eval __gmsl_aa_$1_$2 = $3)
 #            2: The key to retrieve
 # Returns:   The value stored in the array for that key
 # ----------------------------------------------------------------------------
-get = $(__gmsl_tr2)$(__gmsl_aa_$1_$2)
+get = $(strip $(__gmsl_tr2)$(call assert_no_space,$0,$1$2)$(call assert_no_dollar,$0,$1$2)$(__gmsl_aa_$1_$(__gmsl_aa_magic)_$2_gmsl_aa_$1))
 
 # ----------------------------------------------------------------------------
 # Function:  keys
 # Arguments: 1: Name of associative array
 # Returns:   Returns a list of all defined keys in the array
 # ----------------------------------------------------------------------------
-keys = $(__gmsl_tr1)$(sort $(patsubst __gmsl_aa_$1_%,%, \
-                  $(filter __gmsl_aa_$1_%,$(.VARIABLES))))
+keys = $(__gmsl_tr1)$(call assert_no_space,$0,$1)$(call assert_no_dollar,$0,$1)$(sort $(patsubst __gmsl_aa_$1_$(__gmsl_aa_magic)_%_gmsl_aa_$1,%, \
+                  $(filter __gmsl_aa_$1_$(__gmsl_aa_magic)_%_gmsl_aa_$1,$(.VARIABLES))))
 
 # ----------------------------------------------------------------------------
 # Function:  defined
@@ -815,7 +927,7 @@ keys = $(__gmsl_tr1)$(sort $(patsubst __gmsl_aa_$1_%,%, \
 #            2: The key to test
 # Returns:   Returns true if the key is defined (i.e. not empty)
 # ----------------------------------------------------------------------------
-defined = $(__gmsl_tr2)$(call sne,$(call get,$1,$2),)
+defined = $(__gmsl_tr2)$(call assert_no_space,$0,$1$2)$(call assert_no_dollar,$0,$1$2)$(call sne,$(call get,$1,$2),)
 
 endif # __gmsl_have_eval
 
@@ -831,29 +943,54 @@ ifdef __gmsl_have_eval
 #               a space)
 # Returns:   None
 # ----------------------------------------------------------------------------
-push = $(__gmsl_tr2)$(eval __gmsl_stack_$1 := $2 $(__gmsl_stack_$1))
+push = $(__gmsl_tr2)$(call assert_no_space,$0,$1$2)$(call assert_no_dollar,$0,$1$2)$(eval __gmsl_stack_$1 := $2 $(if $(filter-out undefined,\
+    $(origin __gmsl_stack_$1)),$(__gmsl_stack_$1)))
 
 # ----------------------------------------------------------------------------
 # Function:  pop
 # Arguments: 1: Name of stack
 # Returns:   Top element from the stack after removing it
 # ----------------------------------------------------------------------------
-pop = $(__gmsl_tr1)$(call first,$(__gmsl_stack_$1))                  \
-          $(eval __gmsl_stack_$1 := $(call rest,$(__gmsl_stack_$1)))
+pop = $(__gmsl_tr1)$(call assert_no_space,$0,$1)$(call assert_no_dollar,$0,$1)$(strip $(if $(filter-out undefined,$(origin __gmsl_stack_$1)), \
+    $(call first,$(__gmsl_stack_$1))                                       \
+    $(eval __gmsl_stack_$1 := $(call rest,$(__gmsl_stack_$1)))))
 
 # ----------------------------------------------------------------------------
 # Function:  peek
 # Arguments: 1: Name of stack
 # Returns:   Top element from the stack without removing it
 # ----------------------------------------------------------------------------
-peek = $(__gmsl_tr1)$(call first,$(__gmsl_stack_$1))
+peek = $(__gmsl_tr1)$(call assert_no_space,$0,$1)$(call assert_no_dollar,$0,$1)$(call first,$(__gmsl_stack_$1))
 
 # ----------------------------------------------------------------------------
 # Function:  depth
 # Arguments: 1: Name of stack
 # Returns:   Number of items on the stack
 # ----------------------------------------------------------------------------
-depth = $(__gmsl_tr1)$(words $(__gmsl_stack_$1))
+depth = $(__gmsl_tr1)$(call assert_no_space,$0,$1)$(call assert_no_dollar,$0,$1)$(words $(__gmsl_stack_$1))
+
+endif # __gmsl_have_eval
+
+ifdef __gmsl_have_eval
+# ###########################################################################
+# STRING CACHE
+# ###########################################################################
+
+# ----------------------------------------------------------------------------
+# Function:  memoize
+# Arguments: 1. Name of the function to be called if the string
+#               has not been previously seen
+#            2. A string
+# Returns:   Returns the result of a memo function (which the user must
+#            define) on the passed in string and remembers the result.
+#
+# Example:   Set memo = $(shell echo "$1" | md5sum) to make a cache
+#            of MD5 hashes of strings. $(call memoize,memo,foo bar baz)
+# ----------------------------------------------------------------------------
+__gmsl_memoize = $(subst $(__gmsl_space),§,$1)cc2af1bb7c4482f2ba75e338b963d3e7$(subst $(__gmsl_space),§,$2)
+memoize = $(__gmsl_tr2)$(strip $(if $(call defined,__gmsl_m,$(__gmsl_memoize)),\
+                  $(call get,__gmsl_m,$(__gmsl_memoize)),                      \
+                  $(call __gmsl_set,__gmsl_m,$(__gmsl_memoize),$(call $1,$2))))
 
 endif # __gmsl_have_eval
 
@@ -877,7 +1014,7 @@ gmsl-print-%: ; @echo $* = $($*)
 #            2: The message to print with the assertion
 # Returns:   None
 # ----------------------------------------------------------------------------
-assert = $(if $1,,$(call __gmsl_error,Assertion failure: $2))
+assert = $(if $2,$(if $1,,$(call __gmsl_error,Assertion failure: $2)))
 
 # ----------------------------------------------------------------------------
 # Function:  assert_exists
@@ -885,5 +1022,24 @@ assert = $(if $1,,$(call __gmsl_error,Assertion failure: $2))
 #               will be generated
 # Returns:   None
 # ----------------------------------------------------------------------------
-assert_exists = $(call assert,$(wildcard $1),file '$1' missing)
+assert_exists = $(if $0,$(call assert,$(wildcard $1),file '$1' missing))
 
+# ----------------------------------------------------------------------------
+# Function:  assert_no_dollar
+# Arguments: 1: Name of a function being executd
+#            2: Arguments to check
+# Returns:   None
+# ----------------------------------------------------------------------------
+assert_no_dollar = $(call __gmsl_tr2)$(call assert,$(call not,$(findstring $(__gmsl_dollar),$2)),$1 called with a dollar sign in argument)
+
+# ----------------------------------------------------------------------------
+# Function:  assert_no_space
+# Arguments: 1: Name of a function being executd
+#            2: Arguments to check
+# Returns:   None
+# ----------------------------------------------------------------------------
+ifeq ($(__gmsl_spaced_vars),$(false))
+assert_no_space = $(call assert,$(call not,$(findstring $(__gmsl_aa_magic),$(subst $(__gmsl_space),$(__gmsl_aa_magic),$2))),$1 called with a space in argument)
+else
+assert_no_space =
+endif
