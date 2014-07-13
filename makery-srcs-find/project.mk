@@ -60,6 +60,17 @@ $(call PROJ_DeclareVar,SRCS_FIND_preq)
 SRCS_FIND_preq = $(SRCS_FIND_files)
 
 
+#
 # Hook up to srcs-preprocess
-SRCS_PREPROCESS_pipeline += SRCS_FIND
+#
+SRCS_PREPROCESS_pipeline := srcs-find $(SRCS_PREPROCESS_pipeline)
+
+$(call PROJ_DeclareVar,SRCS_FIND_ppdir)
+SRCS_FIND_ppdir = $(SRCS_FIND_dir)
+
+$(call PROJ_DeclareVar,SRCS_FIND_ppfiles)
+SRCS_FIND_ppfiles = $(SRCS_FIND_rel)
+
+$(call PROJ_DeclareVar,SRCS_FIND_pppreqs)
+SRCS_FIND_pppreqs = $(SRCS_FIND_preq)
 

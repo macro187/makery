@@ -30,9 +30,9 @@ Providing Information to Downstream Modules
 Modules expose information in specially-named project variables for use by
 downstream modules:
 
-`<MODULE>_dir`, the root directory of output source code files
+`<MODULE>_ppdir`, the root directory of output source code files
 
-`<MODULE>_rel`, output source code files relative to `<MODULE>_dir`
+`<MODULE>_ppfiles`, output source code files relative to `<MODULE>_dir`
 
-`<MODULE>_preq`, prerequisites representing output source code files
+`<MODULE>_pppreqs`, prerequisites representing output source code files
 
