@@ -87,5 +87,5 @@ cd $(call SYSTEM_ShellEscape,$(SRCS_PREPROCESS_dir)) && find * -type f \
 SRCS_files = \
 $(foreach f,$(SRCS_PREPROCESS_srcs),$(call MAKE_EncodeWord,$(SRCS_PREPROCESS_srcdir))/$(f))
 
-SRCS_files_preq = $(SRCS_PREPROCESS_srcpreq)
+SRCS_preqs = $(SRCS_PREPROCESS_srcpreq)
 

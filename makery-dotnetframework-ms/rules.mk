@@ -20,7 +20,7 @@ ifneq ($(filter ms,$(DOTNETFRAMEWORK_implementation)),)
 
 RULE_TARGET := $(DOTNETASSEMBLY_primary_abs)
 RULE_REQDBY := $(CSHARP_debuginfo_abs)
-RULE_REQS := $(SRCS_files_preq)
+RULE_REQS := $(SRCS_preqs)
 RULE_REQS += $(DOTNET_resources)
 RULE_REQS += $(call PROJ_GetVarMulti,DOTNETASSEMBLY_primary_abs,$(DOTNETREFERENCES_proj))
 RULE_OREQS := $(call MAKE_EncodeWord,$(DOTNET_outdir))

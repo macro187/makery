@@ -20,7 +20,7 @@ Source code files (list)
 $(call PROJ_DeclareTargetVar,SRCS_files)
 
 
-SRCS_files_preq_DESC := \
-Files to be used as rule prerequisites (list)
-$(call PROJ_DeclareVar,SRCS_files_preq)
+SRCS_preqs_DESC := \
+Prerequisite(s) representing SRCS_files (list)
+$(call PROJ_DeclareVar,SRCS_preqs)
 
