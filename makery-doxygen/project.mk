@@ -45,16 +45,10 @@ $(call PROJ_DeclareVar,DOXYGEN_configfile)
 DOXYGEN_configfile = $(DOXYGEN_outdir)/doxygen.config
 
 
-DOXYGEN_tagbase_DESC := \
-Unique filename base for doxygen tag file
-$(call PROJ_DeclareVar,DOXYGEN_tagbase)
-DOXYGEN_tagbase_DEFAULT = $(PROJ_name)
-
-
 DOXYGEN_tagfile_DESC := \
 (read-only) Output doxygen tag file
 $(call PROJ_DeclareVar,DOXYGEN_tagfile)
-DOXYGEN_tagfile_DEFAULT = $(DOXYGEN_outdir)/$(DOXYGEN_tagbase).tag
+DOXYGEN_tagfile_DEFAULT = $(DOXYGEN_outdir)/$(PROJ_name).tag
 
 
 DOXYGEN_tagprojects_DESC := \
