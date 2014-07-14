@@ -22,14 +22,15 @@ $(call PROJ_DeclareTargetVar,DOXYGEN_srcs)
 
 DOXYGEN_defines_DESC := \
 Preprocessor vars to treat as defined when parsing source files (list)
+#
+# Preprocessor variables default to DOXYGEN_DEFINE_DEFAULT.  To set a
+# preproessor variable to something else:
+#
+#   DOXYGEN_define_<VARNAME> = <VALUE>
+#
 $(call PROJ_DeclareVar,DOXYGEN_defines)
 
 PROJ_vars += $(foreach d,$(DOXYGEN_defines),DOXYGEN_define_$(d))
-
-# If you want a variable's value to be something other than
-# DOXYGEN_DEFINE_DEFAULT, add it's varname and also do this:
-#DOXYGEN_define_<VARNAME> = <VALUE>
-#PROJ_vars += DOXYGEN_define_<VARNAME>
 
 
 DOXYGEN_outdir_html_DESC := \
