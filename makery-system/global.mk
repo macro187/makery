@@ -209,19 +209,52 @@ endif
 endif
 
 
-# Windows "Program Files" directory
+# Windows "Program Files" directories
+#
+# Depending on the edition of Windows, one or the other or both may be present
 #
 SYSTEM_PROGRAMFILES :=
+SYSTEM_PROGRAMFILESx86 :=
 
 ifneq ($(SYSTEM_ISWINDOWS),)
-
 ifneq ($(programfiles),)
 SYSTEM_PROGRAMFILES := $(call SYSTEM_PosixPathAbs,$(programfiles))
-
 else ifneq ($(PROGRAMFILES),)
 SYSTEM_PROGRAMFILES := $(call SYSTEM_PosixPathAbs,$(PROGRAMFILES))
-
 endif
+SYSTEM_PROGRAMFILES := $(subst Program Files (x86),Program Files,$(SYSTEM_PROGRAMFILES))
+SYSTEM_PROGRAMFILESx86 := $(subst Program Files,Program Files (x86),$(SYSTEM_PROGRAMFILES))
+endif
+
+
+# Find a file under one of the "Program Files" directories
+#
+# Case-insensitive.
+# Prefers 64-bit (i.e. "Program Files\").
+#
+# $1 - Path to file under "Program Files\" or "Program Files (x86)\"
+#
+# Returns the full path to the file if found, otherwise nothing
+#
+ifneq ($(SYSTEM_ISWINDOWS),)
+SYSTEM_FindProgramFilesFile = \
+$(call MAKE_DecodeWord,$(lastword $(if $(SYSTEM_PROGRAMFILESx86),$(sort $(call SYSTEM_FindFiles,$(SYSTEM_PROGRAMFILESx86)/$(1)))) $(if $(SYSTEM_PROGRAMFILES),$(sort $(call SYSTEM_FindFiles,$(SYSTEM_PROGRAMFILES)/$(1))))))
+endif
+
+
+# Find a directory under one of the "Program Files" directories
+#
+# Case-insensitive.
+# Prefers 64-bit (i.e. "Program Files\") and last alphabetically.
+#
+# $1 - Path to directory under "Program Files\" or "Program Files (x86)\",
+#      final component can be a shell pattern
+#
+# Returns the full path to the directory if found, otherwise nothing
+#
+ifneq ($(SYSTEM_ISWINDOWS),)
+SYSTEM_FindProgramFilesDir = \
+$(call MAKE_DecodeWord,$(lastword $(if $(SYSTEM_PROGRAMFILESx86),$(sort $(call SYSTEM_FindDirs,$(SYSTEM_PROGRAMFILESx86)/$(1)))) $(if $(SYSTEM_PROGRAMFILES),$(sort $(call SYSTEM_FindDirs,$(SYSTEM_PROGRAMFILES)/$(1))))))
 endif
 
 
