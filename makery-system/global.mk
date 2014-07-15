@@ -61,8 +61,10 @@ $(subst $(MAKE_CHAR_LB),\$(MAKE_CHAR_LB),$(subst $(MAKE_CHAR_RB),\$(MAKE_CHAR_RB
 #
 # $1 - Path of directory
 #
+# Returns $1 if directory exists, otherwise nothing
+#
 SYSTEM_DirExists = \
-$(findstring EXISTS,$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && echo EXISTS))
+$(if $(findstring EXISTS,$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && echo EXISTS)),$(1),)
 
 
 # Find a single file in a particular directory
