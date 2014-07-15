@@ -57,33 +57,45 @@ SYSTEM_ShellEscape = \
 $(subst $(MAKE_CHAR_LB),\$(MAKE_CHAR_LB),$(subst $(MAKE_CHAR_RB),\$(MAKE_CHAR_RB),$(subst $(MAKE_CHAR_DOLLAR),\$(MAKE_CHAR_DOLLAR),$(subst <,\<,$(subst >,\>,$(subst $(MAKE_CHAR_QUOTE),\$(MAKE_CHAR_QUOTE),$(subst $(MAKE_CHAR_APOS),\$(MAKE_CHAR_APOS),$(subst $(MAKE_CHAR_SPACE),\$(MAKE_CHAR_SPACE),$(subst \,\\,$(1))))))))))
 
 
-# Determine whether a file exists
+# Find a file (case-sensitive)
 #
 # $1 - Path of file
 #
 # Returns $1 if file exists, otherwise nothing
 #
-SYSTEM_FileExists = \
+SYSTEM_FindFile = \
 $(if $(findstring EXISTS,$(call MAKE_Shell,test -f $(call SYSTEM_ShellEscape,$(1)) && echo EXISTS)),$(1),)
 
 
-# Determine whether a directory exists
+# Find a file (case-insensitive)
+#
+# $1 - Path of file
+#
+# Returns the file's path in it's actual case if it exists, otherwise nothing
+#
+SYSTEM_FindFileI = \
+$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type f -maxdepth 1 -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(2))) | $(SYSTEM_SHELL_CLEANPATH))
+
+
+# Find a directory (case-sensitive)
 #
 # $1 - Path of directory
 #
 # Returns $1 if directory exists, otherwise nothing
 #
-SYSTEM_DirExists = \
+SYSTEM_FindDir = \
 $(if $(findstring EXISTS,$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && echo EXISTS)),$(1),)
 
 
-# Find a single file in a particular directory
+# Find a directory (case-insensitive)
 #
-# $1 - Directory to look in
-# $2 - Filename to find (case-insensitive)
+# $1 - Path of directory
 #
-SYSTEM_FindFile = \
-$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(1)) -type f -maxdepth 1 -iname $(call SYSTEM_ShellEscape,$(2)) | $(SYSTEM_SHELL_CLEANPATH))
+# Returns the directory's path in it's actual case if it exists, otherwise
+# nothing
+#
+SYSTEM_FindDirI = \
+$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type d -maxdepth 1 -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(2))) | $(SYSTEM_SHELL_CLEANPATH))
 
 
 # Find files recursively under a directory

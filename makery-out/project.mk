@@ -21,7 +21,7 @@ $(call PROJ_DeclareVar,OUT_dir)
 OUT_dir_DEFAULT = $(PROJ_dir)/out
 
 ifdef MAKERYOUT
-ifeq ($(call SYSTEM_DirExists,$(MAKERYOUT)),)
+ifeq ($(call SYSTEM_FindDir,$(MAKERYOUT)),)
 $(error Non-existent MAKERYOUT directory specified: '$(MAKERYOUT)')
 endif
 OUT_dir_DEFAULT = $(call SYSTEM_DirToAbs,$(MAKERYOUT))/$(PROJ_name)
