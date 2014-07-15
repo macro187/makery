@@ -107,6 +107,26 @@ MAKE_EncodePath = \
 $(subst $(MAKE_CHAR_SPACE),\$(MAKE_CHAR_SPACE),$(1))
 
 
+# Get the directory part of a path
+#
+# Same as Make's built in $(dir) function except handles spaces
+#
+# $1 - Path (may include spaces)
+#
+MAKE_Dir = \
+$(call MAKE_DecodeWord,$(dir $(call MAKE_EncodeWord,$(1))))
+
+
+# Get the non-directory part of a path
+#
+# Same as Make's built in $(notdir) function except handles spaces
+#
+# $1 - Path (may include spaces)
+#
+MAKE_NotDir = \
+$(call MAKE_DecodeWord,$(notdir $(call MAKE_EncodeWord,$(1))))
+
+
 # Get a path's parent dir name (not full path)
 #
 # $1 - MAKE_EncodeWord'ed path(s)
