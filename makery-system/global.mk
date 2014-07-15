@@ -57,45 +57,64 @@ SYSTEM_ShellEscape = \
 $(subst ?,\?,$(subst *,\*,$(subst [,\[,$(subst ],\],$(subst $(MAKE_CHAR_LB),\$(MAKE_CHAR_LB),$(subst $(MAKE_CHAR_RB),\$(MAKE_CHAR_RB),$(subst $(MAKE_CHAR_DOLLAR),\$(MAKE_CHAR_DOLLAR),$(subst <,\<,$(subst >,\>,$(subst $(MAKE_CHAR_QUOTE),\$(MAKE_CHAR_QUOTE),$(subst $(MAKE_CHAR_APOS),\$(MAKE_CHAR_APOS),$(subst $(MAKE_CHAR_SPACE),\$(MAKE_CHAR_SPACE),$(subst \,\\,$(1))))))))))))))
 
 
-# Find a file (case-sensitive)
+# Find a file
 #
-# $1 - Path of file
+# Case-insensitive on Windows.
 #
-# Returns $1 if file exists, otherwise nothing
+# $1 - Path to file(s), final component may be a shell pattern
+#
+# Returns the path of the first (alphabetically) matching file if found,
+# otherwise nothing
 #
 SYSTEM_FindFile = \
-$(if $(findstring EXISTS,$(call MAKE_Shell,test -f $(call SYSTEM_ShellEscape,$(1)) && echo EXISTS)),$(1))
+$(call MAKE_DecodeWord,$(firstword $(sort $(call SYSTEM_FindFiles,$(1)))))
 
 
-# Find a file (case-insensitive)
+# Find files
 #
-# $1 - Path of file
+# Case-insensitive on Windows.
 #
-# Returns the file's path in it's actual case if it exists, otherwise nothing
+# $1 - Path to file(s), final component may be a shell pattern
 #
-SYSTEM_FindFileI = \
-$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type f -maxdepth 1 -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(2))) | $(SYSTEM_SHELL_CLEANPATH))
+# Returns MAKE_EncodeWord()ed paths of matching files
+#
+ifneq ($(SYSTEM_ISWINDOWS),)
+SYSTEM_FindFiles = \
+$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type f -maxdepth 1 -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(2))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
+else
+SYSTEM_FindFiles = \
+$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type f -maxdepth 1 -name $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(2))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
+endif
 
 
-# Find a directory (case-sensitive)
+# Find a directory
 #
-# $1 - Path of directory
+# Case-insensitive on Windows.
 #
-# Returns $1 if directory exists, otherwise nothing
+# $1 - Path to directory(s), final component may be a shell pattern
+#
+# Returns the path of the first (alphabetically) matching directory if found,
+# otherwise nothing
 #
 SYSTEM_FindDir = \
-$(if $(findstring EXISTS,$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && echo EXISTS)),$(1))
+$(call MAKE_DecodeWord,$(firstword $(sort $(call SYSTEM_FindDirs,$(1)))))
 
 
-# Find a directory (case-insensitive)
+# Find directories
 #
-# $1 - Path of directory
+# Case-insensitive on Windows.
 #
-# Returns the directory's path in it's actual case if it exists, otherwise
-# nothing
+# $1 - Path to directory(s), final component may be a shell pattern
 #
-SYSTEM_FindDirI = \
-$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type d -maxdepth 1 -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(2))) | $(SYSTEM_SHELL_CLEANPATH))
+# Returns MAKE_EncodeWord()ed paths of matching directories
+#
+ifneq ($(SYSTEM_ISWINDOWS),)
+SYSTEM_FindDirs = \
+$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type d -maxdepth 1 -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(2))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
+else
+SYSTEM_FindDirs = \
+$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type d -maxdepth 1 -name $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(2))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
+endif
 
 
 # Find files recursively under a directory
