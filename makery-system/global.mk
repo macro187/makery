@@ -64,7 +64,7 @@ $(subst $(MAKE_CHAR_LB),\$(MAKE_CHAR_LB),$(subst $(MAKE_CHAR_RB),\$(MAKE_CHAR_RB
 # Returns $1 if file exists, otherwise nothing
 #
 SYSTEM_FindFile = \
-$(if $(findstring EXISTS,$(call MAKE_Shell,test -f $(call SYSTEM_ShellEscape,$(1)) && echo EXISTS)),$(1),)
+$(if $(findstring EXISTS,$(call MAKE_Shell,test -f $(call SYSTEM_ShellEscape,$(1)) && echo EXISTS)),$(1))
 
 
 # Find a file (case-insensitive)
@@ -84,7 +84,7 @@ $(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type f 
 # Returns $1 if directory exists, otherwise nothing
 #
 SYSTEM_FindDir = \
-$(if $(findstring EXISTS,$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && echo EXISTS)),$(1),)
+$(if $(findstring EXISTS,$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && echo EXISTS)),$(1))
 
 
 # Find a directory (case-insensitive)
@@ -105,7 +105,7 @@ $(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type d 
 # $3 - Subdirectories to avoid (list) (optional)
 #
 SYSTEM_FindFiles = \
-$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && find * $(foreach dir,$(3),-name $(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(3))) -prune -o) -type f $(if $(2),-name \*.$(2),) -print | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
+$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && find * $(foreach dir,$(3),-name $(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(3))) -prune -o) -type f $(if $(2),-name \*.$(2)) -print | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
 
 
 # Determine a directory's canonical absolute path
