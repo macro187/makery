@@ -57,6 +57,16 @@ SYSTEM_ShellEscape = \
 $(subst $(MAKE_CHAR_LB),\$(MAKE_CHAR_LB),$(subst $(MAKE_CHAR_RB),\$(MAKE_CHAR_RB),$(subst $(MAKE_CHAR_DOLLAR),\$(MAKE_CHAR_DOLLAR),$(subst <,\<,$(subst >,\>,$(subst $(MAKE_CHAR_QUOTE),\$(MAKE_CHAR_QUOTE),$(subst $(MAKE_CHAR_APOS),\$(MAKE_CHAR_APOS),$(subst $(MAKE_CHAR_SPACE),\$(MAKE_CHAR_SPACE),$(subst \,\\,$(1))))))))))
 
 
+# Determine whether a file exists
+#
+# $1 - Path of file
+#
+# Returns $1 if file exists, otherwise nothing
+#
+SYSTEM_FileExists = \
+$(if $(findstring EXISTS,$(call MAKE_Shell,test -f $(call SYSTEM_ShellEscape,$(1)) && echo EXISTS)),$(1),)
+
+
 # Determine whether a directory exists
 #
 # $1 - Path of directory
