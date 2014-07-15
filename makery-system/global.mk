@@ -80,10 +80,10 @@ $(call MAKE_DecodeWord,$(firstword $(sort $(call SYSTEM_FindFiles,$(1)))))
 #
 ifneq ($(SYSTEM_ISWINDOWS),)
 SYSTEM_FindFiles = \
-$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type f -maxdepth 1 -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(2))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
+$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type f -maxdepth 1 -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
 else
 SYSTEM_FindFiles = \
-$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type f -maxdepth 1 -name $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(2))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
+$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type f -maxdepth 1 -name $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
 endif
 
 
@@ -110,10 +110,10 @@ $(call MAKE_DecodeWord,$(firstword $(sort $(call SYSTEM_FindDirs,$(1)))))
 #
 ifneq ($(SYSTEM_ISWINDOWS),)
 SYSTEM_FindDirs = \
-$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type d -maxdepth 1 -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(2))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
+$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type d -maxdepth 1 -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
 else
 SYSTEM_FindDirs = \
-$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type d -maxdepth 1 -name $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(2))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
+$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type d -maxdepth 1 -name $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
 endif
 
 
