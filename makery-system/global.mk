@@ -104,7 +104,7 @@ $(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -type d 
 # $2 - Filename extension to find (optional)
 # $3 - Subdirectories to avoid (list) (optional)
 #
-SYSTEM_FindFiles = \
+SYSTEM_FindFilesUnder = \
 $(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && find * $(foreach dir,$(3),-name $(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(3))) -prune -o) -type f $(if $(2),-name \*.$(2)) -print | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
 
 

@@ -44,7 +44,7 @@ SRCS_FIND_rel_DESC := \
 (read-only) Located source code files, relative to _dir (list)
 $(call PROJ_DeclareVar,SRCS_FIND_rel)
 SRCS_FIND_rel = \
-$(filter-out $(SRCS_FIND_exclude),$(call SYSTEM_FindFiles,$(SRCS_FIND_dir),$(SRCS_FIND_extension),$(SRCS_FIND_excludedirs)))
+$(filter-out $(SRCS_FIND_exclude),$(call SYSTEM_FindFilesUnder,$(SRCS_FIND_dir),$(SRCS_FIND_extension),$(SRCS_FIND_excludedirs)))
 
 
 SRCS_FIND_files_DESC := \

@@ -44,7 +44,7 @@ HTDOCS_excludedirs_DEFAULT = out
 HTDOCS_files_DESC ?= \
 (read-only) Web files, relative to HTDOCS_dir (list)
 $(call PROJ_DeclareVar,HTDOCS_files)
-HTDOCS_files = $(filter-out $(HTDOCS_exclude),$(call SYSTEM_FindFiles,$(HTDOCS_dir),,$(HTDOCS_excludedirs)))
+HTDOCS_files = $(filter-out $(HTDOCS_exclude),$(call SYSTEM_FindFilesUnder,$(HTDOCS_dir),,$(HTDOCS_excludedirs)))
 
 
 HTDOCS_dirs_DESC ?= \
