@@ -38,7 +38,7 @@ XDGOPEN := $(strip $(call MAKE_Shell,which xdg-open 2>&-))
 # Pipe commands that return multiple items, one per line, to this
 #
 define SYSTEM_SHELL_ENCODEWORD
-sed -e s/\ /\<space\>/g | sed -e s/:/\<colon\>/g
+sed -e s/\ /\<SPACE\>/g | sed -e s/:/\<COLON\>/g
 endef
 
 
