@@ -20,11 +20,6 @@ DOXYGEN_DOXYGEN := $(call MAKE_Shell,which doxygen 2>&-)
 endif
 
 
-ifndef DOXYGEN_DOT
-DOXYGEN_DOT := $(call MAKE_Shell,which dot 2>&-)
-endif
-
-
 # Default value for preprocessor variables
 #
 DOXYGEN_DEFINE_DEFAULT := 1

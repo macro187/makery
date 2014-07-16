@@ -15,6 +15,19 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,graphviz)
-$(call MODULES_Use,everything)
+ifeq ($(strip $(GRAPHVIZ_DOT)),)
+GRAPHVIZ_DOT := $(call MAKE_Shell,which dot 2>&-)
+endif
+
+
+ifneq ($(SYSTEM_ISWINDOWS),)
+
+GRAPHVIZ_ROOT := $(call SYSTEM_FindProgramFilesDir,Graphviz[0-9].[0-9][0-9])
+GRAPHVIZ_BIN := $(if $(GRAPHVIZ_ROOT),$(call SYSTEM_FindDir,$(GRAPHVIZ_ROOT)/bin))
+
+ifeq ($(strip $(GRAPHVIZ_DOT)),)
+GRAPHVIZ_DOT := $(if $(GRAPHVIZ_BIN),$(call SYSTEM_FindFile,$(GRAPHVIZ_BIN)/dot.exe))
+endif
+
+endif
 

@@ -15,6 +15,11 @@
 # ------------------------------------------------------------------------------
 
 
+DOXYGEN_tagprojects_DESC := \
+Projects whose doxygen documentation should be referenced (list)
+$(call PROJ_DeclareVar,DOXYGEN_tagprojects)
+
+
 DOXYGEN_srcs_DESC := \
 Source code files to document (list)
 $(call PROJ_DeclareTargetVar,DOXYGEN_srcs)
@@ -49,11 +54,6 @@ DOXYGEN_tagfile_DESC := \
 (read-only) Output doxygen tag file
 $(call PROJ_DeclareVar,DOXYGEN_tagfile)
 DOXYGEN_tagfile_DEFAULT = $(DOXYGEN_outdir)/$(PROJ_name).tag
-
-
-DOXYGEN_tagprojects_DESC := \
-(append-only) Projects whose doxygen documentation should be referenced (list)
-$(call PROJ_DeclareVar,DOXYGEN_tagprojects)
 
 
 PROJ_required += $(DOXYGEN_tagprojects)

@@ -120,9 +120,13 @@ define RULE_COMMANDS
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 
 # Graphviz options
-ifneq ($$(DOXYGEN_DOT),)
+ifneq ($$(GRAPHVIZ_DOT),)
 	@echo "HAVE_DOT=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+ifneq ($$(GRAPHVIZ_BIN),)
+	@echo "DOT_PATH=\"$$(call SYSTEM_WinPathAbs,$$(GRAPHVIZ_BIN))\"" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+endif
 	@echo "DOT_IMAGE_FORMAT=svg" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "INTERACTIVE_SVG=YES" $(MAKE_CHAR_BS)
