@@ -163,6 +163,10 @@ $(call MAKE_Shell,cygpath -w $(call SYSTEM_ShellEscape,$(1)))
 else ifneq ($(SYSTEM_ISINTERIX),)
 SYSTEM_WinPathAbs = \
 $(call MAKE_Shell,unixpath2win $(call SYSTEM_ShellEscape,$(1)))
+
+else ifneq ($(SYSTEM_ISMSYS),)
+SYSTEM_WinPathAbs = \
+$(call SYSTEM_WinPath,$(call MAKE_DecodeWord,$(patsubst /E/%,E:/%,$(patsubst /e/%,e:/%,$(patsubst /D/%,D:/%,$(patsubst /d/%,d:/%,$(patsubst /C/%,C:/%,$(patsubst /c/%,c:/%,$(call MAKE_EncodeWord,$(1))))))))))
 endif
 
 
@@ -188,9 +192,14 @@ $(call SYSTEM_PosixPath,$(1))
 ifneq ($(SYSTEM_ISCYGWIN),)
 SYSTEM_PosixPathAbs = \
 $(call MAKE_Shell,cygpath -u $(call SYSTEM_ShellEscape,$(1)))
+
 else ifneq ($(SYSTEM_ISINTERIX),)
 SYSTEM_PosixPathAbs = \
 $(call MAKE_Shell,winpath2unix $(call SYSTEM_ShellEscape,$(1)))
+
+else ifneq ($(SYSTEM_ISMSYS),)
+SYSTEM_PosixPathAbs = \
+$(call SYSTEM_PosixPath,$(call MAKE_DecodeWord,$(patsubst E$(MAKE_CHAR_COLON_TOKEN)%,/E%,$(patsubst e$(MAKE_CHAR_COLON_TOKEN)%,/e%,$(patsubst D$(MAKE_CHAR_COLON_TOKEN)%,/D%,$(patsubst d$(MAKE_CHAR_COLON_TOKEN)%,/d%,$(patsubst C$(MAKE_CHAR_COLON_TOKEN)%,/C%,$(patsubst c$(MAKE_CHAR_COLON_TOKEN)%,/c%,$(call MAKE_EncodeWord,$(1))))))))))
 endif
 
 
