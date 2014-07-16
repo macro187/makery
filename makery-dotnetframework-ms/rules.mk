@@ -37,13 +37,13 @@ define RULE_COMMANDS
 	-warn:$(CSHARP_warn) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(CSHARP_werror)),-warnaserror+,-warnaserror-) $(MAKE_CHAR_BS)
 	$(foreach d,$(CSHARP_defines), $(MAKE_CHAR_BS)$(MAKE_CHAR_NEWLINE)	-define:$(d)) $(MAKE_CHAR_BS)
-	$(foreach r,$(DOTNET_resources), $(MAKE_CHAR_BS)$(MAKE_CHAR_NEWLINE)	-resource:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPathAbs,$(call MAKE_DecodeWord,$(r))))) $(MAKE_CHAR_BS)
+	$(foreach r,$(DOTNET_resources), $(MAKE_CHAR_BS)$(MAKE_CHAR_NEWLINE)	-resource:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPath,$(call MAKE_DecodeWord,$(r))))) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNETREFERENCES_nostdlib)),-nostdlib+,-nostdlib-) $(MAKE_CHAR_BS)
 	-noconfig $(MAKE_CHAR_BS)
 	$$(foreach lib,$$(DOTNETREFERENCES_gac_recursive), $$(MAKE_CHAR_BS)$$(MAKE_CHAR_NEWLINE)-r:$$(call SYSTEM_ShellEscape,$$(call MAKE_DecodeWord,$$(lib)))) $(MAKE_CHAR_BS)
-	$$(foreach lib,$$(DOTNETREFERENCES_proj_primary_recursive), $$(MAKE_CHAR_BS)$$(MAKE_CHAR_NEWLINE)-r:$$(call SYSTEM_ShellEscape,$$(call SYSTEM_WinPathAbs,$$(call MAKE_DecodeWord,$$(lib))))) $(MAKE_CHAR_BS)
-	-out:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPathAbs,$(DOTNETASSEMBLY_primary_abs))) $(MAKE_CHAR_BS)
-	$$(foreach src,$$(SRCS_files), $$(MAKE_CHAR_BS)$$(MAKE_CHAR_NEWLINE)$$(call SYSTEM_ShellEscape,$$(call SYSTEM_WinPathAbs,$$(call MAKE_DecodeWord,$$(src)))))
+	$$(foreach lib,$$(DOTNETREFERENCES_proj_primary_recursive), $$(MAKE_CHAR_BS)$$(MAKE_CHAR_NEWLINE)-r:$$(call SYSTEM_ShellEscape,$$(call SYSTEM_WinPath,$$(call MAKE_DecodeWord,$$(lib))))) $(MAKE_CHAR_BS)
+	-out:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPath,$(DOTNETASSEMBLY_primary_abs))) $(MAKE_CHAR_BS)
+	$$(foreach src,$$(SRCS_files), $$(MAKE_CHAR_BS)$$(MAKE_CHAR_NEWLINE)$$(call SYSTEM_ShellEscape,$$(call SYSTEM_WinPath,$$(call MAKE_DecodeWord,$$(src)))))
 endef
 
 

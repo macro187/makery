@@ -20,5 +20,5 @@ HTDOCS_RUN_CASSINIDEV_run_DESC ?= \
 Command to serve htdocs
 $(call PROJ_DeclareVar,HTDOCS_RUN_CASSINIDEV_run)
 HTDOCS_RUN_CASSINIDEV_run = \
-$(call SYSTEM_ShellEscape,$(HTDOCS_RUN_CASSINIDEV_EXE)) -portMode:Specific -port:$(HTDOCS_RUN_port) -path:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPathAbs,$(HTDOCS_outdir)))
+$(call SYSTEM_ShellEscape,$(HTDOCS_RUN_CASSINIDEV_EXE)) -portMode:Specific -port:$(HTDOCS_RUN_port) -path:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPath,$(HTDOCS_outdir)))
 

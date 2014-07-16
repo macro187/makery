@@ -27,8 +27,8 @@ RUNNABLE_run = \
 $(DOTNETFRAMEWORK_exec) $(call SYSTEM_ShellEscape,$(DOTNETEXE_exe))
 
 RUNNABLE_argpathfragmentfunc = \
-$(if $(filter ms,$(DOTNET_implementation)),SYSTEM_WinPath,MAKE_Identity)
+$(if $(filter ms,$(DOTNET_implementation)),SYSTEM_WinPathFragment,MAKE_Identity)
 
 RUNNABLE_argpathfunc = \
-$(if $(filter ms,$(DOTNET_implementation)),SYSTEM_WinPathAbs,MAKE_Identity)
+$(if $(filter ms,$(DOTNET_implementation)),SYSTEM_WinPath,MAKE_Identity)
 

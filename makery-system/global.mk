@@ -137,14 +137,14 @@ SYSTEM_DirToAbs = \
 $(MAKERY_TRACEBEGIN1)$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && $(PWD) | $(SYSTEM_SHELL_CLEANPATH))$(MAKERY_TRACEEND1)
 
 
-# Convert a posix-style path (forward-slashes) to a Windows-style path
-# (backslashes)
+# Convert a posix-style path fragment (with forward-slashes) to a Windows-style
+# path fragment (with backslashes)
 #
 # This function does no mapping, it just changes separators
 #
 # $1 - A posix-style path
 #
-SYSTEM_WinPath = \
+SYSTEM_WinPathFragment = \
 $(subst /,\,$(1))
 
 
@@ -153,20 +153,20 @@ $(subst /,\,$(1))
 #
 # $1 - A posix path
 #
-SYSTEM_WinPathAbs = \
-$(call SYSTEM_WinPath,$(1))
+SYSTEM_WinPath = \
+$(call SYSTEM_WinPathFragment,$(1))
 
 ifneq ($(SYSTEM_ISCYGWIN),)
-SYSTEM_WinPathAbs = \
+SYSTEM_WinPath = \
 $(call MAKE_Shell,cygpath -w $(call SYSTEM_ShellEscape,$(1)))
 
 else ifneq ($(SYSTEM_ISINTERIX),)
-SYSTEM_WinPathAbs = \
+SYSTEM_WinPath = \
 $(call MAKE_Shell,unixpath2win $(call SYSTEM_ShellEscape,$(1)))
 
 else ifneq ($(SYSTEM_ISMSYS),)
-SYSTEM_WinPathAbs = \
-$(call SYSTEM_WinPath,$(call MAKE_DecodeWord,$(patsubst /E/%,E:/%,$(patsubst /e/%,e:/%,$(patsubst /D/%,D:/%,$(patsubst /d/%,d:/%,$(patsubst /C/%,C:/%,$(patsubst /c/%,c:/%,$(call MAKE_EncodeWord,$(1))))))))))
+SYSTEM_WinPath = \
+$(call SYSTEM_WinPathFragment,$(call MAKE_DecodeWord,$(patsubst /E/%,E:/%,$(patsubst /e/%,e:/%,$(patsubst /D/%,D:/%,$(patsubst /d/%,d:/%,$(patsubst /C/%,C:/%,$(patsubst /c/%,c:/%,$(call MAKE_EncodeWord,$(1))))))))))
 endif
 
 
