@@ -32,7 +32,7 @@ define RULE_COMMANDS
 	@echo "=> Generating doxygen config file..."
 
 # Outdir
-	@echo "OUTPUT_DIRECTORY = \"$(DOXYGEN_outdir)\"" $(MAKE_CHAR_BS)
+	@echo OUTPUT_DIRECTORY = \"$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPathOnWin,$(DOXYGEN_outdir)))\" $(MAKE_CHAR_BS)
 		> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 
 # General options
@@ -42,10 +42,10 @@ define RULE_COMMANDS
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 
 # Tags
-	@echo "GENERATE_TAGFILE = \"$(call SYSTEM_ShellEscape,$(DOXYGEN_tagfile))\"" $(MAKE_CHAR_BS)
+	@echo GENERATE_TAGFILE = \"$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPathOnWin,$(DOXYGEN_tagfile)))\" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 
-	$$(if $$(sort $$(DOXYGEN_tagprojects)),$$(MAKE_CHAR_NEWLINE)	@echo "TAGFILES = \\" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))$$(foreach p,$(DOXYGEN_tagprojects),$$(MAKE_CHAR_NEWLINE)	@echo "	\"$$(call SYSTEM_ShellEscape,$$(call PROJ_GetVar,DOXYGEN_tagfile,$$(p)))=$$(call SYSTEM_ShellEscape,$$(call PROJ_GetVar,DOXYGEN_outdir_html,$$(p)))/\" \\" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))$$(MAKE_CHAR_NEWLINE)	@echo "" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))
+	$$(if $$(sort $$(DOXYGEN_tagprojects)),$$(MAKE_CHAR_NEWLINE)	@echo "TAGFILES = \\" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))$$(foreach p,$(DOXYGEN_tagprojects),$$(MAKE_CHAR_NEWLINE)	@echo "	"\"$$(call SYSTEM_ShellEscape,$$(call SYSTEM_WinPathOnWin,$$(call PROJ_GetVar,DOXYGEN_tagfile,$$(p))))\"=\"$$(call SYSTEM_ShellEscape,$$(call SYSTEM_WinPathOnWin,$$(call PROJ_GetVar,DOXYGEN_outdir_html,$$(p))))\" \\ >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))$$(MAKE_CHAR_NEWLINE)	@echo "" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))
 
 # Project options
 	@echo "PROJECT_NAME=\"\"" $(MAKE_CHAR_BS)
@@ -124,7 +124,7 @@ ifneq ($$(GRAPHVIZ_DOT),)
 	@echo "HAVE_DOT=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 ifneq ($$(GRAPHVIZ_BIN),)
-	@echo "DOT_PATH=\"$$(call SYSTEM_WinPathAbs,$$(GRAPHVIZ_BIN))\"" $(MAKE_CHAR_BS)
+	@echo DOT_PATH=\"$$(call SYSTEM_ShellEscape,$$(call SYSTEM_WinPathOnWin,$$(GRAPHVIZ_BIN)))\" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 endif
 	@echo "DOT_IMAGE_FORMAT=svg" $(MAKE_CHAR_BS)
@@ -155,7 +155,7 @@ endif
 # Input files
 	@echo "INPUT = \\" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
-	$$(foreach src,$$(DOXYGEN_srcs),$$(MAKE_CHAR_NEWLINE)	@echo "	\"$$(call MAKE_DecodeWord,$$(src))\" \\" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))
+	$$(foreach src,$$(DOXYGEN_srcs),$$(MAKE_CHAR_NEWLINE)	@echo "	"\"$$(call SYSTEM_ShellEscape,$$(call SYSTEM_WinPathOnWin,$$(call MAKE_DecodeWord,$$(src))))\" \\ >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))
 	@echo "" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 
@@ -179,7 +179,7 @@ $(MAKE_CHAR_NEWLINE)	@echo "" \
 ifneq ($$(DOXYGEN_DOXYGEN),)
 	@echo ""
 	@echo "=> Executing doxygen..."
-	$(call SYSTEM_ShellEscape,$(DOXYGEN_DOXYGEN)) $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	$(call SYSTEM_ShellEscape,$(DOXYGEN_DOXYGEN)) $(call SYSTEM_ShellEscape,$(call SYSTEM_WinPathOnWin,$(DOXYGEN_configfile)))
 	@echo "=> ...done"
 else
 	@echo ""
