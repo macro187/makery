@@ -26,9 +26,9 @@ DOTNETEXE_exe = $(DOTNETEXE_outdir)/$(DOTNETASSEMBLY_primary)
 RUNNABLE_run = \
 $(DOTNETFRAMEWORK_exec) $(call SYSTEM_ShellEscape,$(DOTNETEXE_exe))
 
-RUNNABLE_argpathfunc = \
+RUNNABLE_argpathfragmentfunc = \
 $(if $(filter ms,$(DOTNET_implementation)),SYSTEM_WinPath,MAKE_Identity)
 
-RUNNABLE_argpathabsfunc = \
+RUNNABLE_argpathfunc = \
 $(if $(filter ms,$(DOTNET_implementation)),SYSTEM_WinPathAbs,MAKE_Identity)
 

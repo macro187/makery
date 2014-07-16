@@ -19,15 +19,15 @@ Pre-escaped command to run the project in-place
 $(call PROJ_DeclareVar,RUNNABLE_run)
 
 
-RUNNABLE_argpathfunc_DESC := \
+RUNNABLE_argpathfragmentfunc_DESC := \
 Name of function to be called on all command-line arguments that are path \
 fragments
+$(call PROJ_DeclareVar,RUNNABLE_argpathfragmentfunc)
+RUNNABLE_argpathfragmentfunc_DEFAULT = MAKE_Identity
+
+
+RUNNABLE_argpathfunc_DESC := \
+Name of function to be called on all command-line arguments that are full paths
 $(call PROJ_DeclareVar,RUNNABLE_argpathfunc)
 RUNNABLE_argpathfunc_DEFAULT = MAKE_Identity
-
-
-RUNNABLE_argpathabsfunc_DESC := \
-Name of function to be called on all command-line arguments that are full paths
-$(call PROJ_DeclareVar,RUNNABLE_argpathabsfunc)
-RUNNABLE_argpathabsfunc_DEFAULT = MAKE_Identity
 

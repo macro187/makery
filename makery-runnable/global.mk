@@ -20,8 +20,8 @@
 # $1 - Path
 # $2 - The runnable program's name (optional, defaults to current)
 #
-RUNNABLE_ArgPath = \
-$(if $(call PROJ_GetVar,RUNNABLE_argpathfunc,$(if $(2),$(2),$(PROJ_name))),,$(error No RUNNABLE_argpathfunc for $(if $(2),$(2),$(PROJ_name)), perhaps its not runnable?))$(call $(call PROJ_GetVar,RUNNABLE_argpathfunc,$(if $(2),$(2),$(PROJ_name))),$(1))
+RUNNABLE_ArgPathFragment = \
+$(if $(call PROJ_GetVar,RUNNABLE_argpathfragmentfunc,$(if $(2),$(2),$(PROJ_name))),,$(error No RUNNABLE_argpathfunc for $(if $(2),$(2),$(PROJ_name)), perhaps its not runnable?))$(call $(call PROJ_GetVar,RUNNABLE_argpathfunc,$(if $(2),$(2),$(PROJ_name))),$(1))
 
 
 # Convert and map a full path for use as a command-line argument to the program
@@ -30,8 +30,8 @@ $(if $(call PROJ_GetVar,RUNNABLE_argpathfunc,$(if $(2),$(2),$(PROJ_name))),,$(er
 # $2 - The runnable program's name (optional, defaults to current)
 #
 #
-RUNNABLE_ArgPathAbs = \
-$(MAKERY_TRACEBEGIN2)$(if $(call PROJ_GetVar,RUNNABLE_argpathabsfunc,$(if $(2),$(2),$(PROJ_name))),,$(error No RUNNABLE_argpathabsfunc for $(if $(2),$(2),$(PROJ_name)), perhaps its not runnable?))$(call $(call PROJ_GetVar,RUNNABLE_argpathabsfunc,$(if $(2),$(2),$(PROJ_name))),$(1))$(MAKERY_TRACEEND2)
+RUNNABLE_ArgPath = \
+$(MAKERY_TRACEBEGIN2)$(if $(call PROJ_GetVar,RUNNABLE_argpathfunc,$(if $(2),$(2),$(PROJ_name))),,$(error No RUNNABLE_argpathfunc for $(if $(2),$(2),$(PROJ_name)), perhaps its not runnable?))$(call $(call PROJ_GetVar,RUNNABLE_argpathfunc,$(if $(2),$(2),$(PROJ_name))),$(1))$(MAKERY_TRACEEND2)
 
 
 .PHONY: runnable runnableall
