@@ -170,6 +170,18 @@ $(call SYSTEM_WinPathFragment,$(call MAKE_DecodeWord,$(patsubst /E/%,E:/%,$(pats
 endif
 
 
+# Map a posix path to an absolute Windows-style path to the same location from
+# the perspective of native Windows programs IF running on Windows
+#
+# $1 - A posix path
+#
+SYSTEM_WinPathOnWin = $(1)
+ifneq ($(SYSTEM_ISWINDOWS),)
+SYSTEM_WinPathOnWin = \
+$(call SYSTEM_WinPath,$(1))
+endif
+
+
 # Convert a Windows-style path (backslashes) to a posix-style path
 # (forward-slashes)
 #
