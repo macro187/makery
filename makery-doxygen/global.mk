@@ -15,8 +15,17 @@
 # ------------------------------------------------------------------------------
 
 
-ifndef DOXYGEN_DOXYGEN
+ifeq ($(strip $(DOXYGEN_DOXYGEN)),)
 DOXYGEN_DOXYGEN := $(call MAKE_Shell,which doxygen 2>&-)
+endif
+
+
+ifneq ($(SYSTEM_ISWINDOWS),)
+ifeq ($(strip $(DOXYGEN_DOXYGEN)),)
+DOXYGEN_ROOT := $(call SYSTEM_FindProgramFilesDir,doxygen)
+DOXYGEN_DOXYGEN := $(if $(DOXYGEN_ROOT),$(call SYSTEM_FindFile,$(DOXYGEN_ROOT)/bin/doxygen.exe))
+endif
+
 endif
 
 
