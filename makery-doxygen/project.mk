@@ -44,6 +44,13 @@ $(call PROJ_DeclareVar,DOXYGEN_project_name)
 DOXYGEN_project_name_DEFAULT = $(PROJ_name)
 
 
+DOXYGEN_html_extra_stylesheet_DESC := \
+Full path to custom CSS stylesheet
+$(call PROJ_DeclareVar,DOXYGEN_html_extra_stylesheet)
+DOXYGEN_html_extra_stylesheet_DEFAULT = \
+$(call MODULES_Locate,doxygen)/html-extra-stylesheet.css
+
+
 DOXYGEN_outdir_html_DESC := \
 Directory to output html documentation to
 $(call PROJ_DeclareVar,DOXYGEN_outdir_html)

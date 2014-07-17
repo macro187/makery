@@ -17,6 +17,7 @@
 
 RULE_TARGET := $(DOXYGEN_dotfile)
 RULE_REQS += $(call PROJ_GetVarRecursive,DOXYGEN_dotfile,DOXYGEN_tagprojects)
+RULE_REQS += $(call MAKE_EncodeWord,$(DOXYGEN_html_extra_stylesheet))
 RULE_OREQ := $(DOXYGEN_outdir)
 RULE_REQDBYS := doxygenall
 RULE_REQDBYS += $(if $(PROJ_ismain),doxygen)
@@ -118,6 +119,10 @@ define RULE_COMMANDS
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "GENERATE_TREEVIEW=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+ifneq ($$(DOXYGEN_html_extra_stylesheet),)
+	@echo HTML_EXTRA_STYLESHEET=\"$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPathOnWin,$(DOXYGEN_html_extra_stylesheet)))\" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+endif
 
 # Graphviz options
 ifneq ($$(GRAPHVIZ_DOT),)
