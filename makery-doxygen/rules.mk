@@ -48,7 +48,7 @@ define RULE_COMMANDS
 	$$(if $$(sort $$(DOXYGEN_tagprojects)),$$(MAKE_CHAR_NEWLINE)	@echo "TAGFILES = \\" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))$$(foreach p,$(DOXYGEN_tagprojects),$$(MAKE_CHAR_NEWLINE)	@echo "	"\"$$(call SYSTEM_ShellEscape,$$(call SYSTEM_WinPathOnWin,$$(call PROJ_GetVar,DOXYGEN_tagfile,$$(p))))\"=\"$$(call SYSTEM_ShellEscape,$$(call SYSTEM_WinPathOnWin,$$(call PROJ_GetVar,DOXYGEN_outdir_html,$$(p))))\" \\ >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))$$(MAKE_CHAR_NEWLINE)	@echo "" >> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile)))
 
 # Project options
-	@echo "PROJECT_NAME=\"\"" $(MAKE_CHAR_BS)
+	@echo PROJECT_NAME=\"$(DOXYGEN_project_name)\" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "PROJECT_BRIEF=\"\"" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))

@@ -38,6 +38,12 @@ $(call PROJ_DeclareVar,DOXYGEN_defines)
 PROJ_vars += $(foreach d,$(DOXYGEN_defines),DOXYGEN_define_$(d))
 
 
+DOXYGEN_project_name_DESC := \
+Name of project to use in output
+$(call PROJ_DeclareVar,DOXYGEN_project_name)
+DOXYGEN_project_name_DEFAULT = $(PROJ_name)
+
+
 DOXYGEN_outdir_html_DESC := \
 Directory to output html documentation to
 $(call PROJ_DeclareVar,DOXYGEN_outdir_html)
