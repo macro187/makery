@@ -117,6 +117,8 @@ define RULE_COMMANDS
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "HTML_DYNAMIC_SECTIONS=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
+	@echo "DISABLE_INDEX=YES" $(MAKE_CHAR_BS)
+		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 	@echo "GENERATE_TREEVIEW=YES" $(MAKE_CHAR_BS)
 		>> $(call SYSTEM_ShellEscape,$(DOXYGEN_configfile))
 ifneq ($$(DOXYGEN_html_extra_stylesheet),)
