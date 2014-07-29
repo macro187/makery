@@ -42,7 +42,16 @@
     standard command-line tools.
 
 
-    Well-Tested
+    Definitely
+
+    -   Windows 8 (MSYS)
+
+    -   Windows 8 (Cygwin)
+
+    -   FreeBSD
+
+
+    Probably
 
     -   Windows XP (MSYS)
 
@@ -50,14 +59,9 @@
 
     -   Gentoo Linux
 
-
-    Known To Work
-
     -   Ubuntu Linux
 
     -   Fedora Linux
-
-    -   FreeBSD
 
     -   Mac OSX
 
@@ -86,6 +90,8 @@
     -   Libraries
 
     -   Console applications
+
+    -   ASP.NET
 
 
     Documentation
