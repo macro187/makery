@@ -209,9 +209,14 @@ x.  Variables
         example, var2's value stays the same even though we later change
         var1:
 
-            var1 := hello
-            var2 := $(var1) world
-            var1 := something else
+            var1 = hello
+
+            var2 = $(var1) world
+            # var2 is "hello world"
+
+            var1 = goodbye
+            # var2 is still "hello world"
+
 
 
     x.  Deferred Variables
@@ -221,11 +226,10 @@ x.  Variables
         "deferred" until you actually use them, and that final value may
         change in subsequent uses if referenced variables change:
 
-            var2 = $(var1) world
-            # var2 is now " world"
-
             var1 = hello
-            # var2 is now "hello world"
+
+            var2 = $(var1) world
+            # var2 is "hello world"
 
             var1 = goodbye
             # var2 is now "goodbye world"
