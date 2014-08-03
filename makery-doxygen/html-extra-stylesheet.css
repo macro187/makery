@@ -16,11 +16,544 @@
 
 
 /*
+ * Base font
+ */
+body
+{
+    font-size: 12pt;
+    font-family: Calibri, Helvetica, sans-serif;
+    color: #333;
+    line-height: normal;
+}
+
+a,
+a:active,
+a:hover,
+a:link,
+a:visited
+{
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+}
+
+table,
+table.directory,
+div,
+p,
+dl
+{
+    font-size: inherit;
+    font-family: inherit;
+    line-height: inherit;
+    color: inherit;
+}
+
+
+/*
+ * Monospace font
+ */
+code,
+.memberdecls .memItemLeft,
+.memberdecls .memItemRight,
+a.el,
+a.code,
+div.line,
+.memname,
+.navpath li.navelem,
+.SRSymbol
+{
+    font-family: Consolas, monospace;
+}
+
+code,
+.memberdecls .memItemLeft,
+.memberdecls .memItemRight,
+a.el,
+a.code,
+div.line,
+.memname,
+.navpath li.navelem
+{
+    font-size: 90%;
+    line-height: normal;
+    font-weight: normal;
+}
+
+code a.el,
+div.line a.code,
+div.line a.el,
+.memname .memname,
+.memname a.el,
+.memberdecls .memItemLeft a.el,
+.memberdecls .memItemRight a.el
+{
+    font-size: inherit;
+}
+
+
+
+/*
+ * Title bar
+ */
+#top
+{
+    background-color: #DDD;
+}
+#titlearea
+{
+    border-bottom: 1px solid #CCC;
+}
+#titlearea tr
+{
+    height: auto !important;
+}
+#titlearea td:first-of-type
+{
+    padding-top: .2em;
+    padding-bottom: .2em;
+}
+#projectname
+{
+    color: #888;
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: bold;
+    font-stretch: inherit;
+    font-style: inherit;
+    font-variant: inherit;
+    padding: 0px;
+}
+
+
+/*
+ * Search box
+ */
+#MSearchBox
+{
+    top: .3em;
+}
+
+
+/*
+ * Side nav
+ */
+#side-nav,
+#nav-tree
+{
+    background-color: #EEE;
+    background-image: none;
+}
+
+#side-nav
+{
+    padding-right: 0px;
+    padding-left: 6px;
+}
+
+#nav-tree
+{
+    padding-right: 6px;
+}
+
+#nav-tree .label
+{
+    font: inherit;
+    vertical-align: middle;
+}
+
+#nav-tree .label a,
+#nav-tree .selected,
+#nav-tree .selected a
+{
+    font-size: 10pt;
+    color: #888;
+}
+
+#nav-tree .selected
+{
+    background-color: #CCC;
+    background-image: none;
+    text-shadow: none;
+}
+
+.ui-resizable-e
+{
+    width: 1px;
+    background-color: #CCC;
+    background-image: none;
+}
+
+
+/*
+ * Header
+ */
+div.header
+{
+    background-color: #EEE;
+    padding: 5px 10px;
+    margin: 0px;
+    border-bottom: 1px solid #CCC;
+    background-image: none;
+}
+div.summary,
+div.summary a
+{
+    font-size: 10pt;
+}
+div.summary a
+{
+    color: #888;
+}
+div.summary
+{
+    color: #CCC;
+    text-align: left;
+    padding: 0px;
+    margin: 0px;
+    float: none;
+}
+div.headertitle
+{
+    padding: 0px;
+}
+.title,
+div.title
+{
+    font-size: 20pt;
+    font-family: inherit;
+    font-weight: lighter;
+    line-height: normal;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+/*
+ * Contents
+ */
+div.contents
+{
+    padding: 10px;
+    margin: 0px;
+}
+div.contents>:first-child
+{
+    margin-top: 0px;
+}
+div.contents>:last-child
+{
+    margin-bottom: 0px;
+}
+
+
+/*
  * Hide "More..." links
  */
 .contents a[href$="#details"],
-.mdescRight a
+.mdescRight>a:last-of-type
 {
     display: none;
+}
+
+
+/*
+ * Expandable diagrams and graphical version links
+ */
+div.dynheader,
+.contents .textblock a[href="inherits.html"]
+{
+    font-size: 10pt;
+    color: #888;
+    margin-top: 0px;
+}
+.contents .textblock a[href="inherits.html"]
+{
+    display: inline;
+}
+.contents .textblock a[href="inherits.html"]:after
+{
+    white-space: pre;
+    content: "\A  \A";
+}
+
+
+/*
+ * Member information
+ */
+.memproto
+{
+    background-color: #EEE;
+    color: inherit;
+    font-weight: inherit;
+    text-shadow: none;
+    background-image: none;
+}
+.memname
+{
+    font-weight: inherit;
+}
+.memdoc
+{
+    padding: 10px;
+    background-image: none;
+    box-shadow: none;
+}
+/*
+.memdoc>p:first-of-type
+{
+    font-size: 10pt;
+    color: #888;
+}
+*/
+.memitem
+{
+    transition: box-shadow 0s linear 0s;
+}
+.memitem.glow
+{
+    box-shadow: none;
+}
+
+
+/*
+ * Group Headers
+ */
+h2.groupheader,
+tr.heading h2
+{
+    font-size: 20pt;
+    color: inherit;
+    font-weight: lighter;
+    font-style: inherit;
+    border-bottom: none;
+    margin-top: 25px;
+    margin-bottom: 6pt;
+    padding: 0px;
+    width: auto;
+}
+
+
+/*
+ * Member Lists
+ */
+table.memberdecls
+{
+    margin-top: 25px;
+}
+table.memberdecls>tbody:first-of-type tr.heading h2
+{
+    margin-top: 0px;
+}
+
+table.memberdecls tr[class^="separator:"]
+{
+    display: none;
+}
+
+table.memberdecls tr[class^="memitem:"] td
+{
+    border-top: 5px solid #FFF;
+}
+table.memberdecls tr[class^="memitem:"]:first-of-type td,
+table.memberdecls tr.heading+tr[class^="memitem:"] td
+{
+    border-top: none;
+}
+
+.mdescLeft,
+.memItemLeft,
+.memTemplItemLeft,
+.mdescRight,
+.memItemRight,
+.memTemplItemRight
+{
+    background-color: #EEE;
+    margin: 0px;
+}
+
+.mdescLeft,
+.memItemLeft,
+.memTemplItemLeft
+{
+    padding: 2px 0px 2px 4px;
+}
+.mdescRight,
+.memItemRight,
+.memTemplItemRight
+{
+    padding: 2px 4px 2px 0px;
+}
+
+.memItemRight a:first-child
+{
+    font-weight: bold;
+}
+
+.mdescLeft,
+.mdescRight
+{
+    color: inherit;
+}
+
+.memberdecls td,
+.fieldtable tr
+{
+    transition-property: initial;
+    transition-duration: initial;
+}
+
+
+/*
+ * Code fragment
+ */
+div.fragment
+{
+    padding: 0px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+div.line
+{
+    white-space: pre;
+    word-wrap: normal;
+    min-height: initial;
+}
+.lineno
+{
+    color: #888;
+}
+
+
+/*
+ * Content
+ */
+p,
+ul
+{
+    margin: 1em 0px;
+}
+
+p+ul
+{
+    margin-top: -0.5em;
+}
+
+li
+{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+    transition: initial;
+    margin-right: 0px;
+}
+h1
+{
+    font-size: 16pt;
+    font-weight: lighter;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+h2
+{
+    font-size: 12pt;
+    font-weight: normal;
+    font-style: italic;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+h3, h4, h5, h6
+{
+    font-size: 12pt;
+    font-weight: normal;
+    font-style: normal;
+    margin-top: 5px;
+    margin-bottom: 2px;
+}
+
+p:first-child,
+ul:first-child,
+li:first-child,
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child,
+h1+p,
+h2+p,
+h3+p,
+h4+p,
+h5+p,
+h6+p,
+h1+ul,
+h2+ul,
+h3+ul,
+h4+ul,
+h5+ul,
+h6+ul,
+h2.groupheader+h1
+{
+    margin-top: 0px;
+}
+p:last-child,
+ul:last-child,
+li:last-child
+{
+    margin-bottom: 0px;
+}
+
+
+/*
+ * Footer
+ */
+.navpath ul
+{
+    color: #888;
+    background-color: #EEE;
+    border: 1px solid #DDD;
+    padding: 0.2em 0.5em;
+    background-image: none;
+    font-size: inherit;
+    margin: 0px;
+    height: auto;
+    line-height: normal;
+}
+.navpath li
+{
+    color: inherit;
+    margin: 0px;
+    padding: 0px;
+    vertical-align: middle;
+}
+.navpath li.navelem
+{
+    padding-right: 15px;
+    margin-right: 10px;
+}
+.navpath li.navelem a
+{
+    color: inherit;
+    font-family: inherit;
+    height: auto;
+    text-shadow: none;
+    text-decoration: none;
+}
+.navpath li.navelem a:hover
+{
+    color: inherit;
+}
+.navpath li.footer
+{
+    color: inherit;
+    font-size: 90%;
+    padding: 0px;
+}
+.navpath li.footer a img
+{
+    height: 1em;
 }
 
