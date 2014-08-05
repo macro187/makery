@@ -8,19 +8,34 @@
     -   Lightweight.  Requires only a shell, GNU Make, and standard
         command-line tools.
 
-    -   Multi-project.  Handles multiple projects within a single Make
-        invocation. [1]
-
-    -   Modular.  Functionality is implemented in modules, which can
+    -   Modular.  Build functionality is implemented in modules, which can
         depend on one another.
 
-
-    [1] See http://miller.emu.id.au/pmiller/books/rmch/
+    -   Multi-project.  Can build multiple projects with inter-project
+        dependencies in a single invocation.
 
 
 
 --------------------------------------------------------------------------------
-    Installation
+    Development Status
+--------------------------------------------------------------------------------
+
+    Makery is in an alpha state.  It is fully-functional but subject to
+    frequent change.
+
+
+    Open tasks:
+
+    -   Optimise, especially on Windows where process forking is really slow
+
+    -   User guide / documentation
+
+    -   More modules for building more stuff
+
+
+
+--------------------------------------------------------------------------------
+    Quick Start
 --------------------------------------------------------------------------------
 
     -   Get Makery:
@@ -35,37 +50,72 @@
 
 
 --------------------------------------------------------------------------------
-    Platform Support
+    Microsoft Windows
 --------------------------------------------------------------------------------
 
-    Any system with a recent version of GNU Make, a Bourne shell, and
-    standard command-line tools.
+    Makery has first-class support for Microsoft Windows, despite being
+    implemented in Make and sh which are associated with unix-like systems.
+
+
+    To run Makery on Windows, there are two options:
+
+    -   Cygwin.  A complete unix-like environment.  Works just like any
+        other unix-like operating system, so nothing special required.
+
+
+    -   MSYS.  A minimal unix-like environment, and the more
+        "Windows-native" option.
+
+        An easy way to get a Makery-capable MSYS environment is to
+        install Git for Windows and use its "Git Bash".
+
+        The only additional requirement is GNU Make, which can be
+        downloaded from
+
+            http://sourceforge.net/projects/mingw/files/MSYS/Base/
+
+        Download Make plus its required libraries, which (at present)
+        means
+
+        -   make/make-<latest>/make-<latest>-msys-<latest>-bin.tar.lzma
+
+        -   gettext/gettext-<latest>/libintl-<latest>-dll-<x>.tar.lzma
+
+        -   libiconv/libiconv-<latest>/libiconv-<latest>-dll-<x>.tar.lzma
+
+        Extract the contents into %USERPROFILE%\bin\.
+
+
+
+--------------------------------------------------------------------------------
+    Operating System Support
+--------------------------------------------------------------------------------
+
+    Systems with
+
+    -   A Bash shell (or similar)
+
+    -   Standard command-line tools
+
+    -   A recent version of GNU Make
 
 
     Definitely
 
-    -   Windows 8 (MSYS)
+    -   Microsoft Windows (Cygwin)
 
-    -   Windows 8 (Cygwin)
+    -   Microsoft Windows (MSYS)
 
     -   FreeBSD
 
 
     Probably
 
-    -   Windows XP (MSYS)
+    -   Most (if not all) Linux distros
 
-    -   Windows XP (Cygwin)
-
-    -   Gentoo Linux
-
-    -   Ubuntu Linux
-
-    -   Fedora Linux
+    -   Most (it not all) BSDs
 
     -   Mac OSX
-
-    -   Windows XP (SFU) (unmaintained)
 
 
 
@@ -115,29 +165,23 @@
     Projects
 --------------------------------------------------------------------------------
 
-    Projects are the logical units that one builds with Makery.  Generally,
-    a project consists of a Makefile plus source materials for building one
-    or more closely-related output artifacts such as an executable or a
-    library.
+    Projects are the logical units that Makery builds.  Generally, projects
+    consist of a Makefile plus source materials for building one or more
+    closely-related artifact(s) such as an executable, a library, or a
+    website.  If you've used an IDE such as Visual Studio or Eclipse, you
+    know what a project is.
 
-    Because Makery is designed to be extended through its module system to
-    build all kinds of different artifacts, the exact definition of a
-    project varies.  Typical examples of kinds of projects might include:
+    Projects can depend on other projects.  Projects declare their direct
+    dependencies, and Makery figures out the rest.
 
-    -   A docbook book
+    Projects live in subdirectories whose names double as unique project
+    names.  Required projects are searched for by name under any paths
+    specified in the colon-separated MAKERYPATH environment variable.
 
-    -   A .NET library written in C#
-
-    -   A program written in C
-
-    -   A suite of related C# programs, each implemented in its own
-        project, distributed together as a package
-
-    Often, projects depend on other projects.  For example, a program may
-    require one or more libraries.  Those libraries may themselves require
-    other libraries, and so on.  Projects declare their direct requirements,
-    and Makery includes a mechanism that recursively resolves dependencies
-    and sources all required projects.
+    Regardless of the number of projects involved in a build, Makery uses a
+    single Make invocation.  It does not run Make recursively.  See
+    http://miller.emu.id.au/pmiller/books/rmch/ for a discussion of this
+    issue.
 
 
 
@@ -145,9 +189,8 @@
     Modules
 --------------------------------------------------------------------------------
 
-    Modules group related build functionality into self-contained, reusable,
-    redistributable packages.  For example, different modules might contain
-    functionality to:
+    A module is a single piece of Makery build functionality.  Examples of
+    the types of things modules might do:
 
     -   Locate source code files
 
@@ -168,19 +211,11 @@
     -   Package artifacts from multiple projects into distribution
         archives
 
-    Modules may depend on functionality from other modules.  Each module
-    declares its direct requirements, and Makery recursively resolves
-    dependencies and sources the required modules.
+    Modules can declare direct dependencies on other modules, and Makery
+    figures out the rest.
 
-
-
---------------------------------------------------------------------------------
-    More Information
---------------------------------------------------------------------------------
-
-    README.GNUMAKE is a quick review of how GNU Make works.
-
-    README.HACKING which explains how Makery works and how to hack on it.
+    Modules are just projects named according to the pattern
+    makery-<modulename>, so they are located and distributed the same way.
 
 
 
