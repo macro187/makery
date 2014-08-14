@@ -55,9 +55,10 @@ override MAKERYIGNORECACHE := $(strip $(MAKERYIGNORECACHE))
 MAKERY_GLOBALS += MAKERYIGNORECACHE
 
 
-# Global variable list
-#
+MAKERYIGNORECACHE_DESC ?= \
+List of global variable names
 MAKERY_GLOBALS := $(MAKERY_GLOBALS)
+MAKERY_GLOBALS += MAKERY_GLOBALS
 
 
 # Produce a heading message
