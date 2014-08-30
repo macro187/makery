@@ -95,5 +95,5 @@ DOTNETASSEMBLY_all += $(call MAKE_EncodeWord,$(CSHARP_debuginfo))
 #
 DOXYGEN_srcs += $(SRCS_files)
 DOXYGEN_defines += $(CSHARP_defines)
-DOXYGEN_tagprojects += $(DOTNETREFERENCES_proj)
+DOXYGEN_tagprojects += $(foreach p,$(DOTNETREFERENCES_proj),$(if $(PROJ_GetVar,DOXYGEN_tagfile,$(p)),$(p)))
 
