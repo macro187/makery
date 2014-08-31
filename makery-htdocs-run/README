@@ -20,7 +20,7 @@
         HTDOCS_RUN_MODULES
 
     -   In its project.mk, the submodule defines a HTDOCS_RUN_<NAME>_run
-        variable containing the shell command to launch the web browser
+        variable containing the shell command to launch the web server
 
 
     Refer to the 'htdocs-run-null' module for an example.
