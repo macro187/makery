@@ -23,13 +23,8 @@ HTDOCS_RUN_MODULES := cassinidev $(HTDOCS_RUN_MODULES)
 HTDOCS_RUN_CASSINIDEV_EXE :=
 
 ifneq ($(SYSTEM_ISWINDOWS),)
-
 HTDOCS_RUN_CASSINIDEV_EXE := \
-$(SYSTEM_PROGRAMFILES)/CassiniDev/deploy/Debug/CassiniDev4-console.exe
-ifneq ($(call MAKE_Shell, test -f "$(HTDOCS_RUN_CASSINIDEV_EXE)" && echo 1),1)
-HTDOCS_RUN_CASSINIDEV_EXE :=
-endif
-
+$(call SYSTEM_FindProgramFilesFile,CassiniDev/deploy/Debug/CassiniDev4-console.exe)
 endif
 
 
