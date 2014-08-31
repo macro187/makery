@@ -286,11 +286,8 @@ endif
 #
 SYSTEM_DesktopOpen = @echo Pretending to open '$(1)'
 
-ifneq ($(SYSTEM_ISCYGWIN),)
-SYSTEM_DesktopOpen = cmd /c start $(1)
-
-else ifneq ($(SYSTEM_ISMSYS),)
-SYSTEM_DesktopOpen = cmd //c start $(1)
+ifneq ($(SYSTEM_ISCYGWIN)$(SYSTEM_ISMSYS),)
+SYSTEM_DesktopOpen = start "" $(1)
 
 else ifneq ($(XDGOPEN),)
 SYSTEM_DesktopOpen = $(XDGOPEN) $(1) 2>&1 >&-
