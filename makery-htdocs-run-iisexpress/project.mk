@@ -15,10 +15,10 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,runnable)
-$(call MODULES_Use,htdocs)
-$(call MODULES_Use,htdocs-run-null)
-$(call MODULES_Use,htdocs-run-xsp)
-$(call MODULES_Use,htdocs-run-cassinidev)
-$(call MODULES_Use,htdocs-run-iisexpress)
+
+HTDOCS_RUN_IISEXPRESS_run_DESC ?= \
+Command to serve htdocs
+$(call PROJ_DeclareVar,HTDOCS_RUN_IISEXPRESS_run)
+HTDOCS_RUN_IISEXPRESS_run = \
+$(call SYSTEM_ShellEscape,$(HTDOCS_RUN_IISEXPRESS_EXE)) -systray:false -port:$(HTDOCS_RUN_port) -path:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPath,$(HTDOCS_outdir)))
 

@@ -15,10 +15,18 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,runnable)
-$(call MODULES_Use,htdocs)
-$(call MODULES_Use,htdocs-run-null)
-$(call MODULES_Use,htdocs-run-xsp)
-$(call MODULES_Use,htdocs-run-cassinidev)
-$(call MODULES_Use,htdocs-run-iisexpress)
+HTDOCS_RUN_MODULES := iisexpress $(HTDOCS_RUN_MODULES)
+
+
+HTDOCS_RUN_IISEXPRESS_EXE :=
+
+ifneq ($(SYSTEM_ISWINDOWS),)
+HTDOCS_RUN_IISEXPRESS_EXE := \
+$(call SYSTEM_FindProgramFilesFile,IIS Express/iisexpress.exe)
+endif
+
+
+ifeq ($(HTDOCS_RUN_IISEXPRESS_EXE),)
+HTDOCS_RUN_module_MASK += iisexpress
+endif
 
