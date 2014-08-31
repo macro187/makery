@@ -20,6 +20,5 @@ HTDOCS_RUN_NULL_run_DESC ?= \
 Command to (pretend to) serve htdocs
 $(call PROJ_DeclareVar,HTDOCS_RUN_NULL_run)
 HTDOCS_RUN_NULL_run = \
-@echo If a real dev web server was available, this is where it would start serving \'$(HTDOCS_outdir)\' on port \'$(HTDOCS_RUN_port)\'
-
+echo && echo ===\> If a dev web server was available, this is where it would start serving && echo ===\> \'$(HTDOCS_outdir)\' && echo ===\> on port \'$(HTDOCS_RUN_port)\' && echo
 
