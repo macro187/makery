@@ -60,12 +60,6 @@ CSHARP_debuginfo = \
 $(DOTNETFRAMEWORK_$(call uc,$(DOTNETFRAMEWORK_implementation))_csharp_debuginfo)
 
 
-CSHARP_debuginfo_abs_DESC := \
-(read-only) Absolute path to debugging information file
-$(call PROJ_DeclareVar,CSHARP_debuginfo_abs)
-CSHARP_debuginfo_abs = $(if $(CSHARP_debuginfo),$(DOTNET_outdir)/$(CSHARP_debuginfo))
-
-
 # Defines
 #
 CSHARP_defines += $(if $(filter 1,$(DOTNET_debug)),DEBUG)

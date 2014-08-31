@@ -19,11 +19,10 @@ ifneq ($(filter mono,$(DOTNETFRAMEWORK_implementation)),)
 
 
 RULE_TARGET := $(DOTNETASSEMBLY_primary_abs)
-RULE_REQDBY := $(CSHARP_debuginfo_abs)
 RULE_REQS := $(SRCS_preqs)
 RULE_REQS += $(DOTNET_resources)
-RULE_REQS += $(call PROJ_GetVarMulti,DOTNETASSEMBLY_primary_abs,$(DOTNETREFERENCES_proj))
-RULE_OREQS := $(call MAKE_EncodeWord,$(DOTNET_outdir))
+RULE_REQS += $(call MAKE_EncodeWord,$(DOTNETREFERENCES_dotfile))
+RULE_OREQ := $(DOTNET_outdir)
 
 
 define RULE_COMMANDS

@@ -75,6 +75,7 @@ DOTNET_ext_DEFAULT = $(if $(filter exe,$(DOTNET_type)),exe,dll)
 #
 DOTNETFRAMEWORK_debug = $(DOTNET_debug)
 DOTNETFRAMEWORK_optimize = $(DOTNET_optimize)
+
 #
 # XXX Better way to do these?  Mask?
 #

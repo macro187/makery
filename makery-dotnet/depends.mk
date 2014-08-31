@@ -18,4 +18,5 @@
 $(call MODULES_Use,build)
 $(call MODULES_Use,dotnetframework)
 $(call MODULES_Use,dotnetassembly)
+$(call MODULES_Use,dotnetreferences)
 

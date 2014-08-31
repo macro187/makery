@@ -16,5 +16,4 @@
 
 
 $(call MODULES_Use,htdocs)
-$(call MODULES_Use,htdocs-run)
 

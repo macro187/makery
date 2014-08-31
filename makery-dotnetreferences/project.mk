@@ -31,11 +31,6 @@ $(call PROJ_DeclareVar,DOTNETREFERENCES_nostdlib)
 DOTNETREFERENCES_nostdlib_OPTIONS = 0 1
 
 
-DOTNETREFERENCES_reqs_DESC := \
-Additional requirements for DOTNETREFERENCES_dotfile (list)
-$(call PROJ_DeclareVar,DOTNETREFERENCES_reqs)
-
-
 DOTNETREFERENCES_proj_primary_recursive_DESC := \
 (readonly) Absolute paths of primary assembly files from project references, recursive (list)
 $(call PROJ_DeclareTargetVar,DOTNETREFERENCES_proj_primary_recursive)

@@ -15,8 +15,6 @@
 # ------------------------------------------------------------------------------
 
 
-$(call MODULES_Use,runnable)
-$(call MODULES_Use,htdocs)
 $(call MODULES_Use,htdocs-run-null)
 $(call MODULES_Use,htdocs-run-xsp)
 $(call MODULES_Use,htdocs-run-cassinidev)

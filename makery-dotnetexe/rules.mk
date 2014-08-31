@@ -16,18 +16,15 @@
 
 
 RULE_TARGET := $(DOTNETEXE_dotfile)
-RULE_REQS := $(DOTNETASSEMBLY_all_abs)
-RULE_REQS += $(call PROJ_GetMultiRecursive,DOTNETASSEMBLY_all_abs,DOTNETREFERENCES_proj)
+RULE_REQS += $(call MAKE_EncodeWord,$(DOTNETASSEMBLY_dotfile))
+RULE_REQS += $(call MAKE_EncodeWord,$(DOTNETREFERENCES_dotfile))
 RULE_OREQ := $(DOTNETEXE_outdir)
 RULE_REQDBY := $(RUNNABLE_dotfile)
 
 define RULE_COMMANDS
 	-rm -rf $(call SYSTEM_ShellEscape,$(DOTNETEXE_outdir))/*
-
-	$(foreach d,$(sort $(DOTNETASSEMBLY_subdirs) $(call PROJ_GetMultiRecursive,DOTNETASSEMBLY_subdirs,DOTNETREFERENCES_proj)),$(MAKE_CHAR_NEWLINE)	mkdir -p $(call SYSTEM_ShellEscape,$(DOTNETEXE_outdir)/$(call MAKE_DecodeWord,$(d))))
-
-	$(foreach n,$(sort $(PROJ_name) $(call PROJ_GetVarRecursive,PROJ_name,DOTNETREFERENCES_proj)),$(foreach f,$(call PROJ_GetVar,DOTNETASSEMBLY_all,$(n)),$(MAKE_CHAR_NEWLINE)	cp $(call SYSTEM_ShellEscape,$(call PROJ_GetVar,DOTNETASSEMBLY_dir,$(n))/$(call MAKE_DecodeWord,$(f))) $(call SYSTEM_ShellEscape,$(DOTNETEXE_outdir)/$(call MAKE_DecodeWord,$(f)))))
-
+	-cp -vr $(call SYSTEM_ShellEscape,$(DOTNETREFERENCES_outdir))/* $(call SYSTEM_ShellEscape,$(DOTNETEXE_outdir))/
+	-cp -vr $(call SYSTEM_ShellEscape,$(DOTNETASSEMBLY_outdir))/* $(call SYSTEM_ShellEscape,$(DOTNETEXE_outdir))/
 	touch $(call SYSTEM_ShellEscape,$(DOTNETEXE_dotfile))
 endef
 

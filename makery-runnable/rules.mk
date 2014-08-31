@@ -16,6 +16,9 @@
 
 
 RULE_TARGET := $(RUNNABLE_dotfile)
+RULE_REQDBYS := runnableall
+RULE_REQDBYS += $(if $(PROJ_ismain),runnable)
+RULE_REQDBYS += $(EVERYTHING_dotfile)
 define RULE_COMMANDS
 	touch $(call SYSTEM_ShellEscape,$(RUNNABLE_dotfile))
 endef

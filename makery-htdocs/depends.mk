@@ -16,4 +16,6 @@
 
 
 $(call MODULES_Use,build)
+$(call MODULES_Use,runnable)
+$(call MODULES_Use,htdocs-run)
 

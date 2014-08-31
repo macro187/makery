@@ -16,11 +16,12 @@
 
 
 RULE_TARGET := $(ASPNET_dotfile)
-RULE_REQ := $(DOTNETREFERENCES_dotfile)
-RULE_OREQ := $(ASPNET_outdir)
-RULE_REQDBY := $(HTDOCS_dotfile)
+RULE_REQS += $(call MAKE_EncodeWord,$(DOTNETREFERENCES_dotfile))
+RULE_REQS += $(call MAKE_EncodeWord,$(HTDOCS_dotfile))
+RULE_REQDBY := $(RUNNABLE_dotfile)
 
 define RULE_COMMANDS
+	rm -rf $(call SYSTEM_ShellEscape,$(HTDOCS_outdir)/bin)
 	cp -rf $(call SYSTEM_ShellEscape,$(DOTNETREFERENCES_outdir)) $(call SYSTEM_ShellEscape,$(HTDOCS_outdir)/bin)
 	touch $(call SYSTEM_ShellEscape,$(ASPNET_dotfile))
 endef

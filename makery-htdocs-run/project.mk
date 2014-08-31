@@ -28,13 +28,8 @@ $(call PROJ_DeclareVar,HTDOCS_RUN_port)
 HTDOCS_RUN_port_DEFAULT = 8080
 
 
-HTDOCS_RUN_browse_DESC ?= \
-(read-only) Phony target that opens a web browser to the project
-$(call PROJ_DeclareVar,HTDOCS_RUN_browse)
-HTDOCS_RUN_browse = $(OUT_dir)/htdocs-run-browse
-
-
 # Hook up to run
 #
-RUNNABLE_run = $(HTDOCS_RUN_$(call uc,$(HTDOCS_RUN_module))_run)
+RUNNABLE_run = \
+$(call SYSTEM_DesktopOpen,http://localhost:$(HTDOCS_RUN_port)/) && $(HTDOCS_RUN_$(call uc,$(HTDOCS_RUN_module))_run)
 
