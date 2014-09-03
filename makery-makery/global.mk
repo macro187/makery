@@ -49,10 +49,10 @@ override MAKERYOUT := $(strip $(MAKERYOUT))
 MAKERY_GLOBALS += MAKERYOUT
 
 
-MAKERYIGNORECACHE_DESC := \
-Ignore cached variables?
-override MAKERYIGNORECACHE := $(strip $(MAKERYIGNORECACHE))
-MAKERY_GLOBALS += MAKERYIGNORECACHE
+MAKERYUSECACHE_DESC := \
+Use cached variable values to speed up repeat builds?
+override MAKERYUSECACHE := $(strip $(MAKERYUSECACHE))
+MAKERY_GLOBALS += MAKERYUSECACHE
 
 
 MAKERY_GLOBALS_DESC ?= \

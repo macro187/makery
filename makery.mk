@@ -76,7 +76,7 @@ $(foreach mod,$(MODULES_use),$(call MODULES_Use,$(mod)))
 #
 # Load cached per-project variable values from previous run (if present)
 #
-ifeq ($(MAKERYIGNORECACHE),)
+ifneq ($(MAKERYUSECACHE),)
 $(call PROJ_LoadVarCache)
 endif
 
