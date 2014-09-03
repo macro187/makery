@@ -35,6 +35,18 @@ endif
 XDGOPEN := $(strip $(call MAKE_Shell,which xdg-open 2>&-))
 
 
+SYSTEM_TMPDIR := $(strip $(TMP))
+ifeq ($(SYSTEM_TMPDIR),)
+SYSTEM_TMPDIR := $(strip $(TEMP))
+endif
+ifeq ($(SYSTEM_TMPDIR),)
+SYSTEM_TMPDIR := $(strip $(TMPDIR))
+endif
+ifeq ($(SYSTEM_TMPDIR),)
+$(error Cant determine temp directory location, TMP, TEMP, and TMPDIR are all blank)
+endif
+
+
 # Pipe commands that return multiple items, one per line, to this
 #
 define SYSTEM_SHELL_ENCODEWORD
