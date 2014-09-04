@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------------------
 
 
-DOTNETFRAMEWORK_MS_GENERATIONS := 40 35 30 20 11 10
+DOTNETFRAMEWORK_MS_GENERATIONS := 45 40 35 30 20 11 10
 
 
 ifdef SYSTEM_ISWINDOWS
@@ -32,6 +32,9 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR)) \
 -name "v4.0*" \
 | $(SYSTEM_SHELL_CLEANPATH) \
 )
+
+DOTNETFRAMEWORK_MS_DIR_45 := \
+$(DOTNETFRAMEWORK_MS_DIR_40)
 
 DOTNETFRAMEWORK_MS_DIR_35 := \
 $(call MAKE_Shell,find \
@@ -87,6 +90,9 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_40)) \
 | $(SYSTEM_SHELL_CLEANPATH) \
 )
 
+DOTNETFRAMEWORK_MS_CSC_45 := \
+$(DOTNETFRAMEWORK_MS_CSC_40)
+
 DOTNETFRAMEWORK_MS_CSC_35 := \
 $(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_35)) \
@@ -126,6 +132,15 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_10)) \
 -name "csc.exe" \
 | $(SYSTEM_SHELL_CLEANPATH) \
 )
+
+
+DOTNETFRAMEWORK_HAVE_45 := \
+$(if $(strip $(call MAKE_Shell,reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Client" -v Version 2>/dev/null)),1)
+
+ifeq ($(DOTNETFRAMEWORK_HAVE_45),)
+DOTNETFRAMEWORK_MS_DIR_45 :=
+DOTNETFRAMEWORK_MS_CSC_45 :=
+endif
 
 
 endif
