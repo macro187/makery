@@ -20,3 +20,9 @@
 DOTNETFRAMEWORK_GENERATIONS := 10 11 20 30 35 40 45
 
 
+# Produce a pre-escaped shell command to execute the specified .NET executable
+# as appropriate for the framework in use
+#
+DOTNETFRAMEWORK_Exec = \
+$(strip $(DOTNETFRAMEWORK_exec))$(if $(strip $(DOTNETFRAMEWORK_exec)), )$(call SYSTEM_ShellEscape,$(1))
+
