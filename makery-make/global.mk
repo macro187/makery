@@ -183,6 +183,11 @@ else
 endif
 
 
+# Process ID of the Make process
+#
+MAKE_PID := $(call MAKE_Shell,echo $$PPID)
+
+
 # Disable Built-in Rules
 #
 MAKEFLAGS += -r
