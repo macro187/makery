@@ -35,14 +35,14 @@ endif
 XDGOPEN := $(strip $(call MAKE_Shell,which xdg-open 2>&-))
 
 
-SYSTEM_TMPDIR := $(strip $(TMP))
-ifeq ($(SYSTEM_TMPDIR),)
-SYSTEM_TMPDIR := $(strip $(TEMP))
+SYSTEM_TEMPDIR := $(strip $(TMP))
+ifeq ($(SYSTEM_TEMPDIR),)
+SYSTEM_TEMPDIR := $(strip $(TEMP))
 endif
-ifeq ($(SYSTEM_TMPDIR),)
-SYSTEM_TMPDIR := $(strip $(TMPDIR))
+ifeq ($(SYSTEM_TEMPDIR),)
+SYSTEM_TEMPDIR := $(strip $(TMPDIR))
 endif
-ifeq ($(SYSTEM_TMPDIR),)
+ifeq ($(SYSTEM_TEMPDIR),)
 $(error Cant determine temp directory location, TMP, TEMP, and TMPDIR are all blank)
 endif
 
