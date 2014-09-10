@@ -14,41 +14,16 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ------------------------------------------------------------------------------
 
-DOTNETASSEMBLY_dir_DESC := \
-Directory where assembly and associated files are located
-$(call PROJ_DeclareVar,DOTNETASSEMBLY_dir)
-DOTNETASSEMBLY_dir_DEFAULT =
-
-
-DOTNETASSEMBLY_all_DESC := \
-Binary plus related files, relative to DOTNETASSEMBLY_dir (list)
-$(call PROJ_DeclareVar,DOTNETASSEMBLY_all)
-
-
-DOTNETASSEMBLY_all_abs_DESC := \
-(read-only) Absolute paths to DOTNETASSEMBLY_all (list)
-$(call PROJ_DeclareVar,DOTNETASSEMBLY_all_abs)
-DOTNETASSEMBLY_all_abs = \
-$(foreach f,$(DOTNETASSEMBLY_all),$(call MAKE_EncodeWord,$(DOTNETASSEMBLY_dir))/$(f))
-
 
 DOTNETASSEMBLY_primary_DESC := \
-Primary assembly file (.exe or .dll), relative to DOTNETASSEMBLY_dir
+Primary assembly file (.exe or .dll)
 $(call PROJ_DeclareVar,DOTNETASSEMBLY_primary)
-DOTNETASSEMBLY_primary_DEFAULT =
-
-DOTNETASSEMBLY_all += $(DOTNETASSEMBLY_primary)
+DOTNETASSEMBLY_primary_VALIDATE = required
 
 
 DOTNETASSEMBLY_primary_abs_DESC := \
 (read-only) Absolute path to DOTNETASSEMBLY_primary
 $(call PROJ_DeclareVar,DOTNETASSEMBLY_primary_abs)
-DOTNETASSEMBLY_primary_abs = $(DOTNETASSEMBLY_dir)/$(DOTNETASSEMBLY_primary)
+DOTNETASSEMBLY_primary_abs = $(DOTNETASSEMBLY_outdir)/$(DOTNETASSEMBLY_primary)
 
-
-DOTNETASSEMBLY_subdirs_DESC := \
-(read-only) Any subdirectories involved in DOTNETASSEMBLY_all
-$(call PROJ_DeclareVar,DOTNETASSEMBLY_subdirs)
-DOTNETASSEMBLY_subdirs = \
-$(filter-out ./,$(dir $(DOTNETASSEMBLY_all)))
 

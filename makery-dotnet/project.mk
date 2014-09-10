@@ -71,20 +71,11 @@ $(call PROJ_DeclareVar,DOTNET_ext)
 DOTNET_ext_DEFAULT = $(if $(filter exe,$(DOTNET_type)),exe,dll)
 
 
-# Hook up to DOTNETFRAMEWORK
-#
-DOTNETFRAMEWORK_debug = $(DOTNET_debug)
-DOTNETFRAMEWORK_optimize = $(DOTNET_optimize)
-
-#
-# XXX Better way to do these?  Mask?
-#
-DOTNETFRAMEWORK_generation_VALIDATE += Min|$(DOTNET_mingeneration)
-DOTNETFRAMEWORK_generation_VALIDATE += Max|$(DOTNET_maxgeneration)
+DOTNET_filename_DESC ?= \
+(read-only) Assembly filename
+$(call PROJ_DeclareVar,DOTNET_filename)
+DOTNET_filename = $(DOTNET_name).$(DOTNET_ext)
 
 
-# Provide dotnetassembly
-#
-DOTNETASSEMBLY_dir = $(DOTNET_outdir)
-DOTNETASSEMBLY_primary = $(DOTNET_name).$(DOTNET_ext)
+DOTNETASSEMBLY_primary = $(DOTNET_filename)
 

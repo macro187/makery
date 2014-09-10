@@ -18,14 +18,17 @@
 ifneq ($(filter ms,$(DOTNETFRAMEWORK_implementation)),)
 
 
-RULE_TARGET := $(DOTNETASSEMBLY_primary_abs)
-RULE_REQS := $(SRCS_preqs)
+RULE_TARGET := $(DOTNET_dotfile)
+RULE_REQS += $(SRCS_preqs)
 RULE_REQS += $(DOTNET_resources)
 RULE_REQS += $(call MAKE_EncodeWord,$(DOTNETREFERENCES_dotfile))
-RULE_OREQS := $(call MAKE_EncodeWord,$(DOTNET_outdir))
+RULE_OREQS += $(call MAKE_EncodeWord,$(DOTNET_outdir))
+RULE_OREQS += $(call MAKE_EncodeWord,$(DOTNETASSEMBLY_outdir))
+RULE_REQDBY := $(DOTNETASSEMBLY_dotfile)
 
 
 define RULE_COMMANDS
+	rm -rf $(call SYSTEM_ShellEscape,$(DOTNET_outdir))/*
 	$(CSHARP_compiler) $(MAKE_CHAR_BS)
 	-nologo $(MAKE_CHAR_BS)
 	-fullpaths $(MAKE_CHAR_BS)
@@ -41,8 +44,12 @@ define RULE_COMMANDS
 	-noconfig $(MAKE_CHAR_BS)
 	$$(foreach lib,$$(DOTNETREFERENCES_gac_recursive), $$(MAKE_CHAR_BS)$$(MAKE_CHAR_NEWLINE)$$(MAKE_CHAR_TAB)-r:$$(call SYSTEM_ShellEscape,$$(call MAKE_DecodeWord,$$(lib)))) $(MAKE_CHAR_BS)
 	$$(foreach lib,$$(DOTNETREFERENCES_proj_primary_recursive), $$(MAKE_CHAR_BS)$$(MAKE_CHAR_NEWLINE)$$(MAKE_CHAR_TAB)-r:$$(call SYSTEM_ShellEscape,$$(call SYSTEM_WinPath,$$(call MAKE_DecodeWord,$$(lib))))) $(MAKE_CHAR_BS)
-	-out:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPath,$(DOTNETASSEMBLY_primary_abs))) $(MAKE_CHAR_BS)
+	-out:$(call SYSTEM_ShellEscape,$(call SYSTEM_WinPath,$(DOTNET_outdir)/$(DOTNET_filename))) $(MAKE_CHAR_BS)
 	$$(foreach src,$$(SRCS_files), $$(MAKE_CHAR_BS)$$(MAKE_CHAR_NEWLINE)$$(MAKE_CHAR_TAB)$$(call SYSTEM_ShellEscape,$$(call SYSTEM_WinPath,$$(call MAKE_DecodeWord,$$(src)))))
+	touch $(call SYSTEM_ShellEscape,$(DOTNET_dotfile))
+	
+	rm -rf $(call SYSTEM_ShellEscape,$(DOTNETASSEMBLY_outdir))/*
+	cp -rv $(call SYSTEM_ShellEscape,$(DOTNET_outdir))/* $(call SYSTEM_ShellEscape,$(DOTNETASSEMBLY_outdir))/
 endef
 
 

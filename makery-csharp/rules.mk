@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------------------
 
 
-RULE_TARGET := $(DOTNETASSEMBLY_primary_abs)
+RULE_TARGET := $(DOTNET_dotfile)
 RULE_REQDBY := $(DOXYGEN_dotfile)
 $(call PROJ_Rule)
 

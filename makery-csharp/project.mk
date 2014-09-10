@@ -78,13 +78,6 @@ $(if $(DOTNETFRAMEWORK_generation),$(foreach gen,$(DOTNETFRAMEWORK_GENERATIONS),
 SRCS_FIND_extension = cs
 
 
-# Hook up makery-dotnetassembly
-#
-DOTNETASSEMBLY_dir = $(DOTNET_outdir)
-DOTNETASSEMBLY_all += $(notdir $(DOTNET_outfiles))
-DOTNETASSEMBLY_all += $(call MAKE_EncodeWord,$(CSHARP_debuginfo))
-
-
 # Hook up doxygen
 #
 DOXYGEN_srcs += $(SRCS_files)

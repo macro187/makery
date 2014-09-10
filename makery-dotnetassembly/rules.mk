@@ -16,15 +16,9 @@
 
 
 RULE_TARGET := $(DOTNETASSEMBLY_dotfile)
-RULE_REQS := $(DOTNETASSEMBLY_all_abs)
-RULE_OREQ := $(DOTNETASSEMBLY_outdir)
 RULE_REQDBY := $(BUILD_dotfile)
 
 define RULE_COMMANDS
-	$(foreach d,$(DOTNETASSEMBLY_subdirs),$(MAKE_CHAR_NEWLINE)	mkdir -p $(call SYSTEM_ShellEscape,$(DOTNETASSEMBLY_outdir)/$(call MAKE_DecodeWord,$(d))))
-
-	$(foreach f,$(DOTNETASSEMBLY_all),$(MAKE_CHAR_NEWLINE)	cp $(call SYSTEM_ShellEscape,$(DOTNETASSEMBLY_dir)/$(call MAKE_DecodeWord,$(f))) $(call SYSTEM_ShellEscape,$(DOTNETASSEMBLY_outdir)/$(call MAKE_DecodeWord,$(f))))
-
 	touch $(call SYSTEM_ShellEscape,$(DOTNETASSEMBLY_dotfile))
 endef
 
