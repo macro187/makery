@@ -136,7 +136,7 @@
 
     Dotnet Generations
 
-    -   1.0 through 4.0
+    -   1.0 through 4.5
 
 
     Project Types
@@ -146,6 +146,13 @@
     -   Console applications
 
     -   ASP.NET
+
+    -   Libraries from NuGet packages
+
+
+    NuGet
+
+    -   Download, extract, and use contents of NuGet packages
 
 
     Documentation
