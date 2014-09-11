@@ -54,44 +54,6 @@
 
 
 --------------------------------------------------------------------------------
-    Microsoft Windows
---------------------------------------------------------------------------------
-
-    Makery has first-class support for Microsoft Windows, despite being
-    implemented in Make and sh which are associated with unix-like systems.
-
-
-    To run Makery on Windows, there are two options:
-
-    -   Cygwin.  A complete unix-like environment.  Works just like any
-        other unix-like operating system, so nothing special required.
-
-
-    -   MSYS.  A minimal unix-like environment, and the more
-        "Windows-native" option.
-
-        An easy way to get a Makery-capable MSYS environment is to
-        install Git for Windows and use its "Git Bash".
-
-        The only additional requirement is GNU Make, which can be
-        downloaded from
-
-            http://sourceforge.net/projects/mingw/files/MSYS/Base/
-
-        Download Make plus its required libraries, which (at present)
-        means
-
-        -   make/make-<latest>/make-<latest>-msys-<latest>-bin.tar.lzma
-
-        -   gettext/gettext-<latest>/libintl-<latest>-dll-<x>.tar.lzma
-
-        -   libiconv/libiconv-<latest>/libiconv-<latest>-dll-<x>.tar.lzma
-
-        Extract the contents into %USERPROFILE%\bin\.
-
-
-
---------------------------------------------------------------------------------
     Operating System Support
 --------------------------------------------------------------------------------
 
@@ -169,6 +131,44 @@
 
     -   Using Resbian tool from Halfdecent Sharp
         (http://github.com/macro187/halfdecentsharp)
+
+
+
+--------------------------------------------------------------------------------
+    Microsoft Windows
+--------------------------------------------------------------------------------
+
+    Makery has first-class support for Microsoft Windows, despite being
+    implemented in Make and sh which are associated with unix-like systems.
+
+
+    To run Makery on Windows, there are two options:
+
+    -   Cygwin.  A complete unix-like environment.  Works just like any
+        other unix-like operating system, so nothing special required.
+
+
+    -   MSYS.  A minimal unix-like environment, and the more
+        "Windows-native" option.
+
+        An easy way to get a Makery-capable MSYS environment is to
+        install Git for Windows and use its "Git Bash".
+
+        The only additional requirement is GNU Make, which can be
+        downloaded from
+
+            http://sourceforge.net/projects/mingw/files/MSYS/Base/
+
+        Download Make plus its required libraries, which (at present)
+        means
+
+        -   make/make-<latest>/make-<latest>-msys-<latest>-bin.tar.lzma
+
+        -   gettext/gettext-<latest>/libintl-<latest>-dll-<x>.tar.lzma
+
+        -   libiconv/libiconv-<latest>/libiconv-<latest>-dll-<x>.tar.lzma
+
+        Extract the contents into %USERPROFILE%\bin\.
 
 
 
