@@ -43,6 +43,9 @@ ifeq ($(SYSTEM_TEMPDIR),)
 SYSTEM_TEMPDIR := $(strip $(TMPDIR))
 endif
 ifeq ($(SYSTEM_TEMPDIR),)
+SYSTEM_TEMPDIR := $(realpath /tmp)
+endif
+ifeq ($(SYSTEM_TEMPDIR),)
 $(error Cant determine temp directory location, TMP, TEMP, and TMPDIR are all blank)
 endif
 
