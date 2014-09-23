@@ -65,3 +65,5 @@ DOTNETFRAMEWORK_MONO_csharp_debuginfo = \
 $(if $(filter 1,$(DOTNET_debug)),$(DOTNETASSEMBLY_primary).mdb)
 
 
+CSHARP_defines += $(if $(filter mono,$(DOTNETFRAMEWORK_implementation)),MONO)
+
