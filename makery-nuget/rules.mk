@@ -27,6 +27,7 @@ define RULE_COMMANDS
 	test -f $(call SYSTEM_ShellEscape,$(NUGET_SHARED)) || curl -s -L -f $(call SYSTEM_ShellEscape,$(NUGET_URL)) > $(call SYSTEM_ShellEscape,$(TEMPDIR_TEMPDIR))/nuget.$(MAKE_PID).exe
 	test -f $(call SYSTEM_ShellEscape,$(TEMPDIR_TEMPDIR))/nuget.$(MAKE_PID).exe && mv -f $(call SYSTEM_ShellEscape,$(TEMPDIR_TEMPDIR))/nuget.$(MAKE_PID).exe $(call SYSTEM_ShellEscape,$(NUGET_SHARED))
 	find $(call SYSTEM_ShellEscape,$(NUGET_SHARED)) -mtime +1 && cp -f $(call SYSTEM_ShellEscape,$(NUGET_SHARED)) $(TEMPDIR_TEMPDIR)/nuget.$(MAKE_PID).exe
+	chmod u+x $(call SYSTEM_ShellEscape,$(TEMPDIR_TEMPDIR))/nuget.$(MAKE_PID).exe
 	-test -f $(call SYSTEM_ShellEscape,$(TEMPDIR_TEMPDIR))/nuget.$(MAKE_PID).exe && $(call DOTNETFRAMEWORK_Exec,$(TEMPDIR_TEMPDIR)/nuget.$(MAKE_PID).exe) update -self
 	test -f $(call SYSTEM_ShellEscape,$(TEMPDIR_TEMPDIR))/nuget.$(MAKE_PID).exe && mv -f $(call SYSTEM_ShellEscape,$(TEMPDIR_TEMPDIR))/nuget.$(MAKE_PID).exe $(call SYSTEM_ShellEscape,$(NUGET_SHARED))
 endef
@@ -45,6 +46,7 @@ define RULE_COMMANDS
 	rm -rf $(call SYSTEM_ShellEscape,$(NUGET_outdir))/*
 	mkdir $(call SYSTEM_ShellEscape,$(NUGET_outdir))/work
 	cp $(call SYSTEM_ShellEscape,$(NUGET_SHARED)) $(call SYSTEM_ShellEscape,$(NUGET_outdir))/work/nuget.exe
+	chmod u+x $(call SYSTEM_ShellEscape,$(NUGET_outdir))/work/nuget.exe
 	$(call DOTNETFRAMEWORK_Exec,$(NUGET_outdir)/work/nuget.exe) install $(call SYSTEM_ShellEscape,$(NUGET_packagename)) -Version $(NUGET_packageversion) -OutputDirectory $(call SYSTEM_ShellEscape,$(call SYSTEM_WinPathOnWin,$(NUGET_outdir)/work))
 	mv -v $(call SYSTEM_ShellEscape,$(NUGET_outdir))/work/$(NUGET_packagename).$(NUGET_packageversion)/* $(call SYSTEM_ShellEscape,$(NUGET_outdir))/
 	rm -rf $(call SYSTEM_ShellEscape,$(NUGET_outdir))/work
