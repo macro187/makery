@@ -31,7 +31,7 @@ $(foreach d,$(ALLSUBDIRS_subdirs),$(if $(call MAKE_Shell,test -e $(call SYSTEM_S
 
 # Prepend this project's directory to MAKERYPATH
 #
-MAKERYPATH := $(call MAKE_EncodeWord,$(PROJ_dir)) $(MAKERYPATH)
+override MAKERYPATH := $(call MAKE_EncodeWord,$(PROJ_dir)) $(MAKERYPATH)
 
 
 # Pull in all project subdirectory projects
