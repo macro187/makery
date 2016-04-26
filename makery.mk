@@ -90,7 +90,9 @@ $(call PROJ_FlattenVars)
 #
 # Cache final values of per-project variables
 #
+ifneq ($(MAKERYUSECACHE),)
 $(call PROJ_SaveVarCache)
+endif
 
 
 $(call PROJ_DebugPrintVarInfo)
