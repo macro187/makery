@@ -149,7 +149,7 @@ $(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_Sh
 # Returns absolute path, or blank if the dir doesn't exist
 #
 SYSTEM_DirToAbs = \
-$(MAKERY_TRACEBEGIN1)$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && $(PWD) | $(SYSTEM_SHELL_CLEANPATH))$(MAKERY_TRACEEND1)
+$(call MAKE_Shell,realpath -e $(call SYSTEM_ShellEscape,$(1)) 2>&-)
 
 
 # Convert a posix-style path fragment (with forward-slashes) to a Windows-style
