@@ -30,7 +30,6 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR)) \
 -maxdepth 1 \
 -type d \
 -name "v4.0*" \
-| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNETFRAMEWORK_MS_DIR_45 := \
@@ -42,7 +41,6 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR)) \
 -maxdepth 1 \
 -type d \
 -name "v3.5*" \
-| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNETFRAMEWORK_MS_DIR_30 := \
@@ -51,7 +49,6 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR)) \
 -maxdepth 1 \
 -type d \
 -name "v3.0*" \
-| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNETFRAMEWORK_MS_DIR_20 := \
@@ -60,7 +57,6 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR)) \
 -maxdepth 1 \
 -type d \
 -name "v2.0*" \
-| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNETFRAMEWORK_MS_DIR_11 := \
@@ -69,7 +65,6 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR)) \
 -maxdepth 1 \
 -type d \
 -name "v1.1*" \
-| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 DOTNETFRAMEWORK_MS_DIR_10 := \
@@ -78,7 +73,6 @@ $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR)) \
 -maxdepth 1 \
 -type d \
 -name "v1.0*" \
-| $(SYSTEM_SHELL_CLEANPATH) \
 )
 
 
@@ -89,7 +83,6 @@ $(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_40)) \
 -maxdepth 1 \
 -name "csc.exe" \
-| $(SYSTEM_SHELL_CLEANPATH) \
 )
 endif
 
@@ -103,7 +96,6 @@ $(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_35)) \
 -maxdepth 1 \
 -name "csc.exe" \
-| $(SYSTEM_SHELL_CLEANPATH) \
 )
 endif
 
@@ -114,7 +106,6 @@ $(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_30)) \
 -maxdepth 1 \
 -name "csc.exe" \
-| $(SYSTEM_SHELL_CLEANPATH) \
 )
 endif
 
@@ -125,7 +116,6 @@ $(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_20)) \
 -maxdepth 1 \
 -name "csc.exe" \
-| $(SYSTEM_SHELL_CLEANPATH) \
 )
 endif
 
@@ -136,7 +126,6 @@ $(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_11)) \
 -maxdepth 1 \
 -name "csc.exe" \
-| $(SYSTEM_SHELL_CLEANPATH) \
 )
 endif
 
@@ -147,7 +136,6 @@ $(call MAKE_Shell,find \
 $(call SYSTEM_ShellEscape,$(DOTNETFRAMEWORK_MS_DIR_10)) \
 -maxdepth 1 \
 -name "csc.exe" \
-| $(SYSTEM_SHELL_CLEANPATH) \
 )
 endif
 

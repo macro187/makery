@@ -37,7 +37,7 @@ $(or $($(call MODULES_VariablePrefix,$(or $(1),$(call SRCS_PREPROCESS_GetUpstrea
 #      default: SRCS_PREPROCESS_GetUpstream()
 #
 SRCS_PREPROCESS_GetFiles = \
-$(or $($(call MODULES_VariablePrefix,$(or $(1),$(call SRCS_PREPROCESS_GetUpstream)))_ppfiles),$(call MAKE_Shell,cd $(call SYSTEM_ShellEscape,$(call SRCS_PREPROCESS_GetDir,$(1))) && find * -type f | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD)))
+$(or $($(call MODULES_VariablePrefix,$(or $(1),$(call SRCS_PREPROCESS_GetUpstream)))_ppfiles),$(call MAKE_Shell,cd $(call SYSTEM_ShellEscape,$(call SRCS_PREPROCESS_GetDir,$(1))) && find * -type f | $(SYSTEM_SHELL_ENCODEWORD)))
 
 
 # Get prerequisites representing a preprocessor module's output source code

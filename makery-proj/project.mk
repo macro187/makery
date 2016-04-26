@@ -37,7 +37,7 @@ $(error BUG - Non-main project, PROJ_dir should have been pre-set)
 endif
 endif
 ifeq ($(strip $(PROJ_dir)),)
-PROJ_dir := $(call MAKE_Shell,$(PWD) | $(SYSTEM_SHELL_CLEANPATH))
+PROJ_dir := $(call MAKE_Shell,$(PWD))
 endif
 
 

@@ -57,13 +57,6 @@ sed -e s/\ /\<SPACE\>/g | sed -e s/:/\<COLON\>/g
 endef
 
 
-# Pipe commands that return paths to this
-#
-define SYSTEM_SHELL_CLEANPATH
-sed -e s/\\\\/\\//g
-endef
-
-
 # Escape special characters in a string for use in the shell
 #
 # $1 - The string
@@ -95,10 +88,10 @@ $(call MAKE_DecodeWord,$(firstword $(sort $(call SYSTEM_FindFiles,$(1)))))
 #
 ifneq ($(SYSTEM_ISWINDOWS),)
 SYSTEM_FindFiles = \
-$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) && find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -maxdepth 1 -type f -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
+$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) && find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -maxdepth 1 -type f -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) | $(SYSTEM_SHELL_ENCODEWORD))
 else
 SYSTEM_FindFiles = \
-$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) && find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -maxdepth 1 -type f -name $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
+$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) && find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -maxdepth 1 -type f -name $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) | $(SYSTEM_SHELL_ENCODEWORD))
 endif
 
 
@@ -125,10 +118,10 @@ $(call MAKE_DecodeWord,$(firstword $(sort $(call SYSTEM_FindDirs,$(1)))))
 #
 ifneq ($(SYSTEM_ISWINDOWS),)
 SYSTEM_FindDirs = \
-$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) && find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -maxdepth 1 -type d -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
+$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) && find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -maxdepth 1 -type d -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) | $(SYSTEM_SHELL_ENCODEWORD))
 else
 SYSTEM_FindDirs = \
-$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) && find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -maxdepth 1 -type d -name $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
+$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) && find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -maxdepth 1 -type d -name $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) | $(SYSTEM_SHELL_ENCODEWORD))
 endif
 
 
@@ -139,7 +132,7 @@ endif
 # $3 - Subdirectories to avoid (list) (optional)
 #
 SYSTEM_FindFilesUnder = \
-$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && find * $(foreach dir,$(3),-name $(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(3))) -prune -o) -type f $(if $(2),-name \*.$(2)) -print | $(SYSTEM_SHELL_CLEANPATH) | $(SYSTEM_SHELL_ENCODEWORD))
+$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && cd $(call SYSTEM_ShellEscape,$(1)) && find * $(foreach dir,$(3),-name $(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(3))) -prune -o) -type f $(if $(2),-name \*.$(2)) -print | $(SYSTEM_SHELL_ENCODEWORD))
 
 
 # Determine a directory's canonical absolute path
