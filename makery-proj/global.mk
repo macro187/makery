@@ -138,17 +138,15 @@ endif
 define PROJ_DebugPrintVarInfo_TEMPLATE
 $$(call MAKERY_Debug,$(1))
 ifneq ($$($(1)_DESC),)
-$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) Description)
-$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   $$($(1)_DESC))
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) $$($(1)_DESC))
 endif
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) '$$($(1))')
 ifneq ($$($(1)_OPTIONS),)
-$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) Options)
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) All Options)
 $$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   $$($(1)_OPTIONS))
 $$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) Available Options)
 $$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   $$($(1)_AVAIL))
 endif
-$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) Value)
-$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   '$$($(1))')
 endef
 
 
