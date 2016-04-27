@@ -166,7 +166,8 @@ $(call SYSTEM_WinPathFragment,$(1))
 
 ifneq ($(SYSTEM_ISCYGWIN),)
 SYSTEM_WinPath = \
-$(call MAKE_Shell,cygpath -w $(call SYSTEM_ShellEscape,$(1)))
+$(subst /,\,$(subst /cygdrive/d,E:,$(subst /cygdrive/d,D:,$(subst /cygdrive/c,C:,$(1)))))
+#$(call MAKE_Shell,cygpath -w $(call SYSTEM_ShellEscape,$(1)))
 
 else ifneq ($(SYSTEM_ISINTERIX),)
 SYSTEM_WinPath = \
