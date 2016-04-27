@@ -15,6 +15,15 @@
 # ------------------------------------------------------------------------------
 
 
+# Scan and cache locations of all projects in $(MAKERYPATH) locations
+#
+define PROJ_SCAN_TEMPLATE
+$(foreach p,$(call reverse,$(MAKERYPATH)),$(foreach d,$(filter-out .git,$(notdir $(call SYSTEM_FindDirs,$(call MAKE_DecodeWord,$(p))/*))),$(MAKE_CHAR_NEWLINE)PROJ_LOCATION_$(d) := $$(call MAKE_DecodeWord,$(p)/$(d))#))$(MAKE_CHAR_NEWLINE)
+endef
+
+$(eval $(PROJ_SCAN_TEMPLATE))
+
+
 # Locate a project in $(MAKERYPATH)
 #
 # $1 - Directory name of project to find
@@ -22,23 +31,7 @@
 # Error if the project cannot be found under one of the directories in PROJ_PATH
 #
 PROJ_Locate = \
-$(MAKERY_TRACEBEGIN1)$(call PROJ_Locate_Internal,$(1),$(call MAKE_EncodeWord,$(1)))$(MAKERY_TRACEEND1)
-
-PROJ_Locate_Internal = \
-$(MAKERY_TRACEBEGIN2)$(or $(call PROJ_Locate_Get,$(1),$(2)),$(call PROJ_Locate_Set,$(1),$(2))$(call PROJ_Locate_Get,$(1),$(2)))$(MAKERY_TRACEEND2)
-
-PROJ_Locate_Get = \
-$(PROJ_LOCATION_$(2))
-
-PROJ_Locate_Set = \
-$(eval $(call PROJ_Locate_Set_TEMPLATE,$(1),$(2)))
-
-define PROJ_Locate_Set_TEMPLATE
-$(foreach d,$(MAKERYPATH),$(MAKE_CHAR_NEWLINE)ifndef PROJ_LOCATION_$(2)$(MAKE_CHAR_NEWLINE)PROJ_LOCATION_$(2) := $$(call SYSTEM_DirToAbs,$(d)/$(1))#$(MAKE_CHAR_NEWLINE)endif)
-ifndef PROJ_LOCATION_$(2)
-$$(error Can not find project '$(1)' in MAKERYPATH)
-endif
-endef
+$(MAKERY_TRACEBEGIN1)$(or $(PROJ_LOCATION_$(call MAKE_EncodeWord,$(1))),$(error Project '$(1)' not found in MAKERYPATH))$(MAKERY_TRACEEND1)
 
 
 # List of locations of processed projects
