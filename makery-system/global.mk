@@ -27,10 +27,6 @@ SYSTEM_ISWINDOWS := $(strip $(findstring Windows,$(SYSTEM_NAME))$(SYSTEM_ISCYGWI
 
 PWD := pwd
 
-ifneq ($(SYSTEM_ISMSYS),)
-PWD := pwd -W
-endif
-
 
 XDGOPEN := $(strip $(call MAKE_Shell,which xdg-open 2>&-))
 
