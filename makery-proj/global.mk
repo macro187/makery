@@ -428,7 +428,7 @@ $(MAKE_CHAR_BS)$(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_TAB)$(1)
 PROJ_Rule = \
 $(MAKERY_TRACEBEGIN) \
 $(if $(RULE_TARGET)$(RULE_TARGETS), \
-$(call MAKERY_Debug,Rule$(MAKE_CHAR_NEWLINE)$(PROJ_Rule_DUMP)) \
+$(call MAKERY_Debug,Rule:$(MAKE_CHAR_NEWLINE)$(PROJ_Rule_DUMP)) \
 $(call MAKE_Eval,$(call PROJ_Rule_TEMPLATE,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(call MAKE_CallForEach,MAKE_EncodePath,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET))))) \
 )$(MAKERY_TRACEEND)
 
@@ -463,22 +463,14 @@ endef
 #
 ifdef MAKERYDEBUG
 define PROJ_Rule_DUMP
---------------------------------------------------------------------------------
-Targets:$(if $(RULE_TARGETS)(RULE_TARGET),$(foreach t,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(MAKE_CHAR_NEWLINE)$(call MAKE_DecodeWord,$(t))),$(MAKE_CHAR_NEWLINE)(none))
-
-Phony:
-$(if $(RULE_PHONY),yes,no)
-
-Prerequisites:$(if $(RULE_REQS)$(RULE_REQ),$(foreach p,$(RULE_REQS) $(call MAKE_EncodeWord,$(RULE_REQ)),$(MAKE_CHAR_NEWLINE)$(call MAKE_DecodeWord,$(p))),$(MAKE_CHAR_NEWLINE)(none))
-
-Order-only Prerequisites:$(if $(RULE_OREQS)$(RULE_OREQ),$(foreach p,$(RULE_OREQS) $(call MAKE_EncodeWord,$(RULE_OREQ)),$(MAKE_CHAR_NEWLINE)$(call MAKE_DecodeWord,$(p))),$(MAKE_CHAR_NEWLINE)(none))
-
-Prerequisite of:$(if $(RULE_REQDBYS)$(RULE_REQDBY),$(foreach r,$(RULE_REQDBYS) $(call MAKE_EncodeWord,$(RULE_REQDBY)),$(MAKE_CHAR_NEWLINE)$(call MAKE_DecodeWord,$(r))),$(MAKE_CHAR_NEWLINE)(none))
-
-Commands:
-$(if $(RULE_COMMANDS),$(RULE_COMMANDS),(none))
---------------------------------------------------------------------------------
-
+  Targets:$(if $(RULE_TARGETS)$(RULE_TARGET),$(foreach t,$(RULE_TARGETS) $(call MAKE_EncodeWord,$(RULE_TARGET)),$(MAKE_CHAR_NEWLINE)    $(call MAKE_DecodeWord,$(t))),$(MAKE_CHAR_NEWLINE)    (none))
+  Phony:
+    $(if $(RULE_PHONY),yes,no)
+  Prerequisites:$(if $(RULE_REQS)$(RULE_REQ),$(foreach p,$(RULE_REQS) $(call MAKE_EncodeWord,$(RULE_REQ)),$(MAKE_CHAR_NEWLINE)    $(call MAKE_DecodeWord,$(p))),$(MAKE_CHAR_NEWLINE)    (none))
+  Order-only Prerequisites:$(if $(RULE_OREQS)$(RULE_OREQ),$(foreach p,$(RULE_OREQS) $(call MAKE_EncodeWord,$(RULE_OREQ)),$(MAKE_CHAR_NEWLINE)    $(call MAKE_DecodeWord,$(p))),$(MAKE_CHAR_NEWLINE)    (none))
+  Prerequisite of:$(if $(RULE_REQDBYS)$(RULE_REQDBY),$(foreach r,$(RULE_REQDBYS) $(call MAKE_EncodeWord,$(RULE_REQDBY)),$(MAKE_CHAR_NEWLINE)    $(call MAKE_DecodeWord,$(r))),$(MAKE_CHAR_NEWLINE)    (none))
+  Commands:
+$(if $(strip $(RULE_COMMANDS)),$(subst quickbrownfox$(MAKE_CHAR_NEWLINE),,$(subst $(MAKE_CHAR_TAB),    ,$(subst $(MAKE_CHAR_NEWLINE),$(MAKE_CHAR_NEWLINE)    ,$(subst $(MAKE_CHAR_NEWLINE)$(MAKE_CHAR_TAB),$(MAKE_CHAR_NEWLINE),quickbrownfox$(MAKE_CHAR_NEWLINE)$(RULE_COMMANDS))))),    (none))
 endef
 else
 define PROJ_Rule_DUMP
