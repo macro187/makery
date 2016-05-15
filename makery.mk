@@ -48,6 +48,12 @@ include $(MAKERY)/makery-modules/global.mk
 MODULES_GLOBAL += modules
 include $(MAKERY)/makery-proj/global.mk
 MODULES_GLOBAL += proj
+$(call MODULES_DebugPrintGlobals,gmsl)
+$(call MODULES_DebugPrintGlobals,make)
+$(call MODULES_DebugPrintGlobals,makery)
+$(call MODULES_DebugPrintGlobals,system)
+$(call MODULES_DebugPrintGlobals,modules)
+$(call MODULES_DebugPrintGlobals,proj)
 
 
 MAKERY_BOOTSTRAP := 1

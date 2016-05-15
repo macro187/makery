@@ -136,16 +136,16 @@ PROJ_DebugPrintVarInfo = $(MAKERY_TRACEBEGIN)$(call MAKERY_Debug,Project Variabl
 endif
 
 define PROJ_DebugPrintVarInfo_TEMPLATE
-$$(call MAKERY_Debug,$(1))
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) $(1))
 ifneq ($$($(1)_DESC),)
-$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) $$($(1)_DESC))
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   $$($(1)_DESC))
 endif
-$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) '$$($(1))')
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   '$$($(1))')
 ifneq ($$($(1)_OPTIONS),)
-$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) All Options)
-$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   $$($(1)_OPTIONS))
-$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) Available Options)
-$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   $$($(1)_AVAIL))
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   All Options)
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)     $$($(1)_OPTIONS))
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   Available Options)
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)     $$($(1)_AVAIL))
 endif
 endef
 

@@ -112,6 +112,8 @@ $$(call MAKERY_TraceEnd,-include $(2)/global.mk)
 
 MODULES_GLOBAL += $(call MAKE_EncodeWord,$(1))
 
+$$(call MODULES_DebugPrintGlobals,$(1))
+
 endif
 
 #
@@ -135,4 +137,29 @@ MODULES_proj += $(call MAKE_EncodeWord,$(1))
 endif
 
 endef
+
+
+# Debug print names and values of a module's global variables
+#
+# $1 - Module name
+#
+MODULES_DebugPrintGlobals =
+ifdef MAKERYDEBUG
+MODULES_DebugPrintGlobals = $(MAKERY_TRACEBEGIN1)$(call MAKERY_Debug,$(1) module globals:)$(foreach v,$(filter $(call uc,$(1))_%,$(MAKERY_GLOBALS)),$(eval $(call MODULES_DebugPrintGlobals_TEMPLATE,$(v))))$(MAKERY_TRACEEND1)
+endif
+
+define MODULES_DebugPrintGlobals_TEMPLATE
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE) $(1))
+ifneq ($$($(1)_DESC),)
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   $$($(1)_DESC))
+endif
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   '$$($(1))')
+ifneq ($$($(1)_OPTIONS),)
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   All Options)
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)     $$($(1)_OPTIONS))
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)   Available Options)
+$$(call MAKERY_Debug,$$(MAKE_CHAR_SPACE)     $$($(1)_AVAIL))
+endif
+endef
+
 
