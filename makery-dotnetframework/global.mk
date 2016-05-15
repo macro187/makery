@@ -17,7 +17,7 @@
 
 # All generations
 #
-DOTNETFRAMEWORK_GENERATIONS := 10 11 20 30 35 40 45
+DOTNETFRAMEWORK_GENERATIONS := 10 11 20 30 35 40 45 46
 
 
 # Produce a pre-escaped shell command to execute the specified .NET executable
