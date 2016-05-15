@@ -15,22 +15,44 @@
 # ------------------------------------------------------------------------------
 
 
-
-# Operating System
-#
+SYSTEM_NAME_DESC ?= \
+Operating system name
+MAKERY_GLOBALS += SYSTEM_NAME
 SYSTEM_NAME := $(call MAKE_Shell,uname -s)
+
+SYSTEM_ISCYGWIN_DESC ?= \
+Running in Cygwin?
+MAKERY_GLOBALS += SYSTEM_ISCYGWIN
 SYSTEM_ISCYGWIN := $(strip $(findstring CYGWIN,$(SYSTEM_NAME)))
+
+SYSTEM_ISMSYS_DESC ?= \
+Running in MSys?
+MAKERY_GLOBALS += SYSTEM_ISMSYS
 SYSTEM_ISMSYS := $(strip $(findstring MINGW,$(SYSTEM_NAME)))
+
+SYSTEM_ISINTERIX_DESC ?= \
+Running in Interix/Microsoft SFU?
+MAKERY_GLOBALS += SYSTEM_ISINTERIX
 SYSTEM_ISINTERIX := $(strip $(findstring Interix,$(SYSTEM_NAME)))
+
+SYSTEM_ISWINDOWS_DESC ?= \
+Running on Microsoft Windows of any kind?
+MAKERY_GLOBALS += SYSTEM_ISWINDOWS
 SYSTEM_ISWINDOWS := $(strip $(findstring Windows,$(SYSTEM_NAME))$(SYSTEM_ISCYGWIN)$(SYSTEM_ISMSYS)$(SYSTEM_ISINTERIX))
 
 
 PWD := pwd
 
 
+XDGOPEN_DESC ?= \
+Program to open a document on the desktop in Unix
+MAKERY_GLOBALS += XDGOPEN
 XDGOPEN := $(strip $(call MAKE_Shell,which xdg-open 2>&-))
 
 
+SYSTEM_TEMPDIR_DESC ?= \
+Temp directory
+MAKERY_GLOBALS += SYSTEM_TEMPDIR
 SYSTEM_TEMPDIR := $(strip $(TMP))
 ifeq ($(SYSTEM_TEMPDIR),)
 SYSTEM_TEMPDIR := $(strip $(TEMP))
