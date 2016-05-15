@@ -66,18 +66,18 @@ MAKERY_GLOBALS += MAKERY_GLOBALS
 # $1 - Heading
 #
 MAKERY_Heading = \
-===> $(1)
+=> $(1)
 
 
 # Shell command(s), for use in rules, to print a heading for the current target
 #
 ifndef MAKERYDEBUG
 define MAKERY_TARGETHEADING
-	@echo ===\> Building \'$@\'
+	@echo =\> Building \'$@\'
 endef
 else
 define MAKERY_TARGETHEADING
-	@echo ===\> Building \'$@\'
+	@echo =\> Building \'$@\'
 	@echo [debug] Newer prerequisites: \'$?\'
 endef
 endif
