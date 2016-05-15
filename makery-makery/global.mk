@@ -90,8 +90,14 @@ MAKERY_Debug =
 endif
 
 
+MAKERY_STACK :=
+MAKERY_STACK_PUSH = $(eval MAKERY_STACK := $(MAKERY_STACK) =)
+MAKERY_STACK_POP = $(eval MAKERY_STACK := $(wordlist 2, 999, $(MAKERY_STACK)))
+MAKERY_PREFIX = $(subst $(MAKE_CHAR_SPACE),,$(MAKERY_STACK))>
+
+
 ifdef MAKERYTRACE
-MAKERY_TraceBegin = $(info [begin] $(1))
+MAKERY_TraceBegin = $(MAKERY_STACK_PUSH)$(info $(MAKERY_PREFIX) Begin $(1))
 MAKERY_TRACEBEGIN = $(call MAKERY_TraceBegin,$(0)())
 MAKERY_TRACEBEGIN1 = $(call MAKERY_TraceBegin,$(0)($(1)))
 MAKERY_TRACEBEGIN2 = $(call MAKERY_TraceBegin,$(0)($(1),$(2)))
@@ -105,7 +111,7 @@ MAKERY_TRACEBEGIN3 =
 endif
 
 ifdef MAKERYTRACE
-MAKERY_TraceEnd = $(info [end]   $(1))
+MAKERY_TraceEnd = $(info $(MAKERY_PREFIX) End   $(1))$(MAKERY_STACK_POP)
 MAKERY_TRACEEND = $(call MAKERY_TraceEnd,$(0)())
 MAKERY_TRACEEND1 = $(call MAKERY_TraceEnd,$(0)($(1)))
 MAKERY_TRACEEND2 = $(call MAKERY_TraceEnd,$(0)($(1),$(2)))

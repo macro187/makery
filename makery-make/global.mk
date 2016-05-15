@@ -152,11 +152,17 @@ $(foreach v,$(filter $(1)%,$(.VARIABLES)),$(MAKE_CHAR_NEWLINE)$(v) :=#)
 endef
 
 
+#
+# Just until Makery module is loaded
+#
+MAKERY_PREFIX = =>
+
+
 # $(shell) alias to permit tracing etc.
 #
 ifdef MAKERYTRACE
 MAKE_Shell = \
-$(info [begin] MAKE_Shell($(1)))$(shell $(1))$(info [end]   MAKE_Shell($(1)))
+$(MAKERY_STACK_PUSH)$(info $(MAKERY_PREFIX) Begin MAKE_Shell($(1)))$(shell $(1))$(info $(MAKERY_PREFIX) End   MAKE_Shell($(1)))$(MAKERY_STACK_POP)
 else
 MAKE_Shell = \
 $(shell $(1))
@@ -166,20 +172,10 @@ endif
 # $(eval) alias to permit tracing and debugging
 ifdef MAKERYTRACE
 MAKE_Eval = \
-$(info [begin] MAKE_Eval())$(info $(call MAKE_EVAL_DUMP,$(1)))$(eval $(1))$(info [end]   MAKE_Eval())
+$(MAKERY_STACK_PUSH)$(info $(MAKERY_PREFIX) Begin MAKE_Eval())$(if $(MAKERYTRACE),$(info $(1)))$(eval $(1))$(info $(MAKERY_PREFIX) End   MAKE_Eval())$(MAKERY_STACK_POP)
 else
 MAKE_Eval = \
 $(call MAKE_EVAL_DUMP,$(1))$(eval $(1))
-endif
-
-ifdef MAKERYDEBUG
-define MAKE_EVAL_DUMP
-[debug] MAKE_Eval()
---------------------------------------------------------------------------------
-$1
---------------------------------------------------------------------------------
-endef
-else
 endif
 
 
