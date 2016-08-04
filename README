@@ -28,15 +28,6 @@
     frequent change.
 
 
-    Open tasks:
-
-    -   Optimise, especially on Windows where process forking is really slow
-
-    -   User guide / documentation
-
-    -   More modules for building more stuff
-
-
 
 --------------------------------------------------------------------------------
     Quick Start
