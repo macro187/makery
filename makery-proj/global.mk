@@ -18,7 +18,7 @@
 # Scan and cache locations of all projects in $(MAKERYPATH) locations
 #
 define PROJ_SCAN_TEMPLATE
-$(foreach p,$(call reverse,$(MAKERYPATH)),$(foreach d,$(filter-out .git,$(notdir $(call SYSTEM_FindDirs,$(call MAKE_DecodeWord,$(p))/*))),$(MAKE_CHAR_NEWLINE)PROJ_LOCATION_$(d) := $$(call MAKE_DecodeWord,$(p)/$(d))#))$(MAKE_CHAR_NEWLINE)
+$(foreach p,$(call reverse,$(MAKERYPATH)),$(foreach d,$(filter-out .git,$(notdir $(call SYSTEM_FindDirs,$(call MAKE_DecodeWord,$(p))/*))),$(MAKE_CHAR_NEWLINE)PROJ_LOCATION_$(d) := $$(realpath $$(call MAKE_DecodeWord,$(p)/$(d)))#))$(MAKE_CHAR_NEWLINE)
 endef
 
 $(eval $(PROJ_SCAN_TEMPLATE))
