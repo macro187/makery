@@ -136,10 +136,10 @@ $(call MAKE_DecodeWord,$(firstword $(sort $(call SYSTEM_FindDirs,$(1)))))
 #
 ifneq ($(SYSTEM_ISWINDOWS),)
 SYSTEM_FindDirs = \
-$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -maxdepth 1 -type d -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) 2>&- | $(SYSTEM_SHELL_ENCODEWORD))
+$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) ! -path $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -maxdepth 1 -type d -iname $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) 2>&- | $(SYSTEM_SHELL_ENCODEWORD))
 else
 SYSTEM_FindDirs = \
-$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -maxdepth 1 -type d -name $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) 2>&- | $(SYSTEM_SHELL_ENCODEWORD))
+$(call MAKE_Shell,find $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) ! -path $(call SYSTEM_ShellEscape,$(call MAKE_Dir,$(1))) -maxdepth 1 -type d -name $(call SYSTEM_ShellEscape,$(call MAKE_NotDir,$(1))) 2>&- | $(SYSTEM_SHELL_ENCODEWORD))
 endif
 
 
