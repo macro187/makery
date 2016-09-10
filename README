@@ -15,13 +15,13 @@
         dependencies in a single invocation.
 
 
-    Think of Makery as solutions/projects from IDEs like Visual Studio or
-    Eclipse, but with more convention-over-configuration.
+    Think of Makery as the solutions and projects from Visual Studio or Eclipse,
+    but without the IDE, and with more convention-over-configuration.
 
 
 
 --------------------------------------------------------------------------------
-    Development Status
+    Status
 --------------------------------------------------------------------------------
 
     Makery is in an alpha state.  It is fully-functional but subject to
@@ -89,7 +89,7 @@
 
     Dotnet Generations
 
-    -   1.0 through 4.5
+    -   1.0 through 4.6
 
 
     Project Types
@@ -151,7 +151,7 @@
             https://sourceforge.net/projects/msys2/files/REPOS/MSYS2/
 
         Download the "make" package for your architecture and extract the
-        make.exe binary from it into %USERPROFILE%\bin\.
+        make.exe binary into %USERPROFILE%\bin\.
 
 
 
