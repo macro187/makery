@@ -21,7 +21,7 @@
 # ------------------------------------------------------------------------------
 
 
-$(info => Configuring $(if $(PROJ_dir),$(PROJ_dir),.))
+$(info => Configuring $(realpath $(if $(PROJ_dir),$(PROJ_dir),.)))
 
 
 ifndef MAKERY_BOOTSTRAP
