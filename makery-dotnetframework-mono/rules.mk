@@ -30,7 +30,6 @@ RULE_REQDBY := $(DOTNETASSEMBLY_dotfile)
 define RULE_COMMANDS
 	rm -rf $(call SYSTEM_ShellEscape,$(DOTNET_outdir))/*
 	$(CSHARP_compiler) $(MAKE_CHAR_BS)
-	$(DOTNETFRAMEWORK_MONO_LANGVERSIONSWITCH_$(DOTNETFRAMEWORK_generation)) $(MAKE_CHAR_BS)
 	-target:$(if $(filter exe,$(DOTNET_type)),exe,library) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_debug)),-debug+,-debug-) $(MAKE_CHAR_BS)
 	$(if $(filter 1,$(DOTNET_optimize)),-optimize+,-optimize-) $(MAKE_CHAR_BS)
