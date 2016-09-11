@@ -63,12 +63,12 @@
 
     -   Microsoft Windows (MSYS)
 
-    -   FreeBSD
+    -   Gentoo Linux
 
 
     Probably
 
-    -   Most (if not all) Linux distros
+    -   Most (if not all) Linux distributions
 
     -   Most (it not all) BSDs
 
@@ -82,14 +82,9 @@
 
     Frameworks
 
-    -   Microsoft .NET
+    -   Microsoft .NET v1.1 through v4.6
 
-    -   Mono
-
-
-    Dotnet Generations
-
-    -   1.0 through 4.6
+    -   Mono 4.x
 
 
     Project Types
