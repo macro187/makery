@@ -15,18 +15,14 @@
 # ------------------------------------------------------------------------------
 
 
-ALLSUBDIRS_subdirs_DESC := \
-All subdirectories
-$(call PROJ_DeclareVar,ALLSUBDIRS_subdirs)
-ALLSUBDIRS_subdirs = $(call SYSTEM_FindDirs,$(PROJ_dir)/*)
+# ------------------------------------------------------------------------------
+# Include this file from solution Makefiles
+# ------------------------------------------------------------------------------
 
 
-ALLSUBDIRS_projsubdirs_DESC := \
-All subdirectories containing a Makefile
-$(call PROJ_DeclareVar,ALLSUBDIRS_projsubdirs)
-ALLSUBDIRS_projsubdirs = \
-$(foreach d,$(ALLSUBDIRS_subdirs),$(if $(wildcard $(call MAKE_DecodeWord,$(d))/Makefile),$(d),))
+PROJ_WORKSPACE := $(realpath ..)
 
+MODULES_use += allsubdirs
 
-PROJ_required += $(notdir $(ALLSUBDIRS_projsubdirs))
+include $(MAKERY)/makery-project.mk
 

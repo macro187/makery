@@ -156,26 +156,70 @@
 
 
 --------------------------------------------------------------------------------
+    Directory Structure
+--------------------------------------------------------------------------------
+
+        /my/workspace/
+            solution1/
+                Makefile
+                project1a/
+                    Makefile
+                    foo.cs
+                project1b/
+                    Makefile
+                    bar.cs
+                    bat.cs
+            solution2/
+                Makefile
+                project2a/
+                    Makefile
+                    baz.cs
+
+    Figure 1. A workspace containing solution(s) containing project(s)
+
+
+--------------------------------------------------------------------------------
     Projects
 --------------------------------------------------------------------------------
 
-    Projects are the logical units that Makery builds.  Generally, projects
-    consist of a Makefile plus source materials for building one or more
-    closely-related artifact(s) such as an executable, a library, or a
-    website.  If you've used an IDE such as Visual Studio or Eclipse, you
-    know what a project is.
+    A project is the logical unit that Makery builds.  Projects consist of a
+    directory containing a Makefile plus source materials for building one
+    or more closely-related artifact(s) such as an executable, a library, or
+    a website.  The Makefile declares information about the project.  The
+    name of the directory serves as the project's unique name.
 
-    Projects can depend on other projects.  Projects declare their direct
-    dependencies, and Makery figures out the rest.
-
-    Projects live in subdirectories whose names double as unique project
-    names.  Required projects are searched for by name under any paths
-    specified in the colon-separated MAKERYPATH environment variable.
+    Projects can depend on other projects.  Direct dependencies are declared
+    by name, and Makery automatically works out transitive ones.
 
     Regardless of the number of projects involved in a build, Makery uses a
     single Make invocation.  It does not run Make recursively.  See
     http://miller.emu.id.au/pmiller/books/rmch/ for a discussion of this
     issue.
+
+
+
+--------------------------------------------------------------------------------
+    Solutions
+--------------------------------------------------------------------------------
+
+    A solution is a container for projects.  Solutions are directories that
+    contain one or more project subdirectories, plus a Makefile that enables
+    build actions across all of them.
+
+    Solutions usually correspond to Git (or other) source code repositories.
+
+
+
+--------------------------------------------------------------------------------
+    Workspace
+--------------------------------------------------------------------------------
+
+    The workspace is the container for solutions.  It's just the parent
+    directory containing all your solution subdirectories.
+
+    Makery automatically discovers all projects in all solutions in whatever
+    workspace it's being run in, so projects can depend on any other project
+    as long as it's somewhere in the same workspace.
 
 
 
@@ -205,11 +249,13 @@
     -   Package artifacts from multiple projects into distribution
         archives
 
-    Modules can declare direct dependencies on other modules, and Makery
-    figures out the rest.
+    Modules can depend on other modules.  Direct dependencies are declared
+    by name, and Makery automatically works out transitive ones.
 
-    Modules are just projects named according to the pattern
-    makery-<modulename>, so they are located and distributed the same way.
+    Makery modules are named according to the pattern makery-<modulename>
+    and are located by name just like any other project.  This means
+    additional modules that extend the build functionality provided
+    out-of-the-box by Makery can be distributed and used across solutions.
 
 
 

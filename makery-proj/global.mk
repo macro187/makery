@@ -15,13 +15,43 @@
 # ------------------------------------------------------------------------------
 
 
-# Scan and cache locations of all projects in $(MAKERYPATH) locations
+PROJ_WORKSPACE_DESC ?= \
+Absolute path to directory containing Makery repositories
+MAKERY_GLOBALS += PROJ_WORKSPACE
+ifndef PROJ_WORKSPACE
+PROJ_WORKSPACE := $(realpath ../..)
+endif
+
+
+PROJ_REPOSITORIES_DESC ?= \
+Absolute paths to directories containing Makery projects
+MAKERY_GLOBALS += PROJ_REPOSITORIES
+PROJ_REPOSITORIES := $(call SYSTEM_FindDirs,$(PROJ_WORKSPACE)/*)
+
+
+PROJ_PROJECTS_DESC ?= \
+Absolute paths to makery projects
+MAKERY_GLOBALS += PROJ_PROJECTS
+
+# Repository subdirectories
+PROJ_PROJECTS := $(foreach r,$(PROJ_REPOSITORIES),$(filter-out %/.git,$(call SYSTEM_FindDirs,$(call MAKE_DecodeWord,$(r))/*)))
+
+# ...containing a Makefile or named `makery-*`
+PROJ_PROJECTS := $(foreach p,$(PROJ_PROJECTS),$(if $(wildcard $(call MAKE_DecodeWord,$(p))/Makefile),$(p),)) $(foreach p,$(PROJ_PROJECTS),$(if $(filter makery-%,$(notdir $(call MAKE_DecodeWord,$(p)))),$(p),))
+
+# ...plus the initial project, if it isn't in there already
+ifeq ($(filter $(call MAKE_EncodeWord,$(realpath $(or $(PROJ_dir),.))),$(PROJ_PROJECTS)),)
+PROJ_PROJECTS += $(call MAKE_EncodeWord,$(realpath $(or $(PROJ_dir),.)))
+endif
+
+
+# Cache project locations by name
 #
-define PROJ_SCAN_TEMPLATE
-$(foreach p,$(call reverse,$(MAKERYPATH)),$(foreach d,$(filter-out .git,$(notdir $(call SYSTEM_FindDirs,$(call MAKE_DecodeWord,$(p))/*))),$(MAKE_CHAR_NEWLINE)PROJ_LOCATION_$(d) := $$(realpath $$(call MAKE_DecodeWord,$(p)/$(d)))#))$(MAKE_CHAR_NEWLINE)
+define PROJ_CACHE_TEMPLATE
+$(foreach p,$(PROJ_PROJECTS),$(MAKE_CHAR_NEWLINE)PROJ_LOCATION_$(notdir $(call MAKE_DecodeWord,$(p))) := $(call MAKE_DecodeWord,$(p)#)$(MAKE_CHAR_NEWLINE)MAKERY_GLOBALS += PROJ_LOCATION_$(notdir $(call MAKE_DecodeWord,$(p))))$(MAKE_CHAR_NEWLINE)
 endef
 
-$(eval $(PROJ_SCAN_TEMPLATE))
+$(eval $(PROJ_CACHE_TEMPLATE))
 
 
 # Locate a project in $(MAKERYPATH)
@@ -36,7 +66,7 @@ $(MAKERY_TRACEBEGIN1)$(or $(PROJ_LOCATION_$(call MAKE_EncodeWord,$(1))),$(error 
 
 # List of locations of processed projects
 #
-PROJ_PROJECTS := $(PROJ_PROJECTS)
+PROJ_PROCESSED := $(PROJ_PROCESSED)
 
 
 # Declare a project variable
@@ -388,7 +418,7 @@ $(MAKERY_TRACEBEGIN1)$(eval $(call PROJ_IncludeRequired_TEMPLATE,$(1)))$(MAKERY_
 
 define PROJ_IncludeRequired_TEMPLATE
 PROJ_dir := $(call PROJ_Locate,$(1))
-ifeq ($$(filter $$(call MAKE_EncodeWord,$$(PROJ_dir)),$$(PROJ_PROJECTS)),)
+ifeq ($$(filter $$(call MAKE_EncodeWord,$$(PROJ_dir)),$$(PROJ_PROCESSED)),)
 include $$(call MAKE_EncodePath,$$(PROJ_dir))/Makefile
 else
 $$(call MAKERY_Debug,Refraining from re-processing '$$(PROJ_dir)')

@@ -24,7 +24,7 @@ PROJ_targetvars_DESC ?= (internal) Names of all target-time variables (list)
 
 
 $(call PROJ_DeclareVar,PROJ_ismain)
-PROJ_ismain := $(if $(PROJ_PROJECTS),,1)
+PROJ_ismain := $(if $(PROJ_PROCESSED),,1)
 PROJ_ismain_DESC ?= Is this the main project? (ie. where make was run)
 
 
@@ -48,7 +48,7 @@ PROJ_dir_asword := $(call MAKE_EncodeWord,$(PROJ_dir))
 
 # Add the project to the global processed projects list
 #
-PROJ_PROJECTS += $(PROJ_dir_asword)
+PROJ_PROCESSED += $(PROJ_dir_asword)
 
 
 PROJ_name_DESC ?= \

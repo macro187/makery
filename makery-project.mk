@@ -16,12 +16,11 @@
 
 
 # ------------------------------------------------------------------------------
-# This file is included from project Makefiles and is the "entry point" to
-# Makery.
+# Include this file from project Makefiles
 # ------------------------------------------------------------------------------
 
 
-$(info => Configuring $(realpath $(if $(PROJ_dir),$(PROJ_dir),.)))
+$(info => Configuring $(realpath $(or $(PROJ_dir),.)))
 
 
 ifndef MAKERY_BOOTSTRAP

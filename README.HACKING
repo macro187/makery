@@ -50,7 +50,7 @@ x.  Project Makefiles
         ...
 
         # Invoke Makery
-        include $(MAKERY)/makery.mk
+        include $(MAKERY)/makery-project.mk
 
     Consult the package/modules you're using for details on which modules
     you might want to use as well as available project-specific settings.
@@ -81,7 +81,7 @@ x.  Building projects
         |  MODULES_use = ModuleA                   |
         |  PROJ_requires = ../project2             |
         |                                          |
-        |  include $(MAKERY)/makery.mk             |
+        |  include $(MAKERY)/makery-project.mk     |
         |                                          |
         +------------------------------------------+
 
@@ -93,7 +93,7 @@ x.  Building projects
         |  MODULES_use = ModuleB                   |
         |  PROJ_requires = ../project3             |
         |                                          |
-        |  include $(MAKERY)/makery.mk             |
+        |  include $(MAKERY)/makery-project.mk     |
         |                                          |
         +------------------------------------------+
 
@@ -104,7 +104,7 @@ x.  Building projects
         |                                          |
         |  MODULES_use = ModuleC                   |
         |                                          |
-        |  include $(MAKERY)/makery.mk             |
+        |  include $(MAKERY)/makery-project.mk     |
         |                                          |
         +------------------------------------------+
 

@@ -36,11 +36,8 @@ MAKERY_GLOBALS += MAKERYTRACE
 
 MAKERYPATH_DESC := \
 Paths that PROJ_Locate() searches for projects in (list)
-override MAKERYPATH := \
-$(subst $(MAKE_CHAR_COLON_TOKEN), ,$(call MAKE_EncodeWord,$(MAKERYPATH)))
-MAKERY_GLOBALS += MAKERYPATH
-
 override MAKERYPATH := $(call MAKE_EncodeWord,$(MAKERY)) $(MAKERYPATH)
+MAKERY_GLOBALS += MAKERYPATH
 
 
 MAKERYOUT_DESC := \
