@@ -31,13 +31,11 @@ PROJ_ismain_DESC ?= Is this the main project? (ie. where make was run)
 PROJ_dir_DESC ?= \
 The absolute path to the project
 $(call PROJ_DeclareVar,PROJ_dir)
-ifeq ($(PROJ_ismain),)
 ifeq ($(PROJ_dir),)
+ifeq ($(PROJ_ismain),)
 $(error BUG - Non-main project, PROJ_dir should have been pre-set)
 endif
-endif
-ifeq ($(strip $(PROJ_dir)),)
-PROJ_dir := $(call MAKE_Shell,$(PWD))
+PROJ_dir := $(realpath .)
 endif
 
 

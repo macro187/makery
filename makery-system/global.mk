@@ -41,9 +41,6 @@ MAKERY_GLOBALS += SYSTEM_ISWINDOWS
 SYSTEM_ISWINDOWS := $(strip $(findstring Windows,$(SYSTEM_NAME))$(SYSTEM_ISCYGWIN)$(SYSTEM_ISMSYS)$(SYSTEM_ISINTERIX))
 
 
-PWD := pwd
-
-
 XDGOPEN_DESC ?= \
 Program to open a document on the desktop in Unix
 MAKERY_GLOBALS += XDGOPEN
@@ -151,16 +148,6 @@ endif
 #
 SYSTEM_FindFilesUnder = \
 $(call MAKE_Shell,cd $(call SYSTEM_ShellEscape,$(1)) 2>&- && find * $(foreach dir,$(3),-name $(call SYSTEM_ShellEscape,$(call MAKE_DecodeWord,$(3))) -prune -o) -type f $(if $(2),-name \*.$(2)) -print | $(SYSTEM_SHELL_ENCODEWORD))
-
-
-# Determine a directory's canonical absolute path
-#
-# $1 - Path
-#
-# Returns absolute path, or blank if the dir doesn't exist
-#
-SYSTEM_DirToAbs = \
-$(MAKERY_TRACEBEGIN1)$(call MAKE_Shell,test -d $(call SYSTEM_ShellEscape,$(1)) && realpath -m $(call SYSTEM_ShellEscape,$(1)) 2>&-)$(MAKERY_TRACEEND1)
 
 
 # Convert a posix-style path fragment (with forward-slashes) to a Windows-style
