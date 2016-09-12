@@ -59,20 +59,24 @@
 
     Definitely
 
-    -   Microsoft Windows (Cygwin)
+    -   Microsoft Windows 8.1 (Cygwin)
 
-    -   Microsoft Windows (MSYS)
+    -   Microsoft Windows 8.1 (MSYS)
 
     -   Gentoo Linux
+
+    -   Mac OSX 10.5
 
 
     Probably
 
-    -   Most (if not all) Linux distributions
+    -   Any other recent version of Microsoft Windows
 
-    -   Most (it not all) BSDs
+    -   Any other recent version of Mac OSX
 
-    -   Mac OSX
+    -   Any Linux distribution
+
+    -   Any BSD
 
 
 
@@ -84,7 +88,7 @@
 
     -   Microsoft .NET v1.1 through v4.6
 
-    -   Mono 4.x
+    -   Mono v2.10 through v4.x
 
 
     Project Types
