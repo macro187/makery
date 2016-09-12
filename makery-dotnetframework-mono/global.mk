@@ -20,6 +20,7 @@ DOTNETFRAMEWORK_MONO_GENERATIONS := 46 45 40
 
 DOTNETFRAMEWORK_MONO_MONO := $(strip $(call MAKE_Shell,which mono 2>&-))
 DOTNETFRAMEWORK_MONO_MCS := $(strip $(call MAKE_Shell,which mcs 2>&-))
+DOTNETFRAMEWORK_MONO_DMCS := $(strip $(call MAKE_Shell,which dmcs 2>&-))
 
 
 ifdef DOTNETFRAMEWORK_MONO_MCS
@@ -62,6 +63,6 @@ endif
 # Mono v2.10 or later => .NET 4.0
 #
 ifneq ($(findstring version 2.10,$(DOTNETFRAMEWORK_MONO_MCS_VERSION)),)
-DOTNETFRAMEWORK_MONO_MCS_40 := $(DOTNETFRAMEWORK_MONO_MCS)
+DOTNETFRAMEWORK_MONO_MCS_40 := $(DOTNETFRAMEWORK_MONO_DMCS)
 endif
 
