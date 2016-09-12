@@ -27,10 +27,13 @@ DOTNETFRAMEWORK_MONO_MCS_VERSION := $(strip $(call MAKE_Shell,mcs --version))
 endif
 
 
+#
+# Mono v4.4 or later => .NET 4.6
+# Mono v4.0 through v4.3 => .NET 4.5
+#
 ifneq ($(findstring version 4.,$(DOTNETFRAMEWORK_MONO_MCS_VERSION)),)
 DOTNETFRAMEWORK_MONO_MCS_46 := $(DOTNETFRAMEWORK_MONO_MCS)
 endif
-
 ifneq ($(findstring version 4.0.,$(DOTNETFRAMEWORK_MONO_MCS_VERSION)),)
 DOTNETFRAMEWORK_MONO_MCS_46 :=
 DOTNETFRAMEWORK_MONO_MCS_45 := $(DOTNETFRAMEWORK_MONO_MCS)
@@ -46,5 +49,19 @@ endif
 ifneq ($(findstring version 4.3.,$(DOTNETFRAMEWORK_MONO_MCS_VERSION)),)
 DOTNETFRAMEWORK_MONO_MCS_46 :=
 DOTNETFRAMEWORK_MONO_MCS_45 := $(DOTNETFRAMEWORK_MONO_MCS)
+endif
+
+#
+# Mono v3.x => .NET 4.5
+#
+ifneq ($(findstring version 3.,$(DOTNETFRAMEWORK_MONO_MCS_VERSION)),)
+DOTNETFRAMEWORK_MONO_MCS_45 := $(DOTNETFRAMEWORK_MONO_MCS)
+endif
+
+#
+# Mono v2.10 or later => .NET 4.0
+#
+ifneq ($(findstring version 2.10,$(DOTNETFRAMEWORK_MONO_MCS_VERSION)),)
+DOTNETFRAMEWORK_MONO_MCS_40 := $(DOTNETFRAMEWORK_MONO_MCS)
 endif
 
