@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------------------
 
 
-DOTNETFRAMEWORK_MONO_GENERATIONS := 46 45
+DOTNETFRAMEWORK_MONO_GENERATIONS := 46 45 40
 
 
 DOTNETFRAMEWORK_MONO_MONO := $(strip $(call MAKE_Shell,which mono 2>&-))
