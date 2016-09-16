@@ -310,17 +310,20 @@ endif
 #
 # $1 - Program, document, URL, etc.
 #
-SYSTEM_DesktopOpen = @echo Pretending to open '$(1)'
+SYSTEM_DesktopOpen = \
+@echo Pretending to open '$(1)'
 
-ifneq ($(SYSTEM_ISCYGWIN)$(SYSTEM_ISMSYS),)
-SYSTEM_DesktopOpen = start "" $(1)
+ifneq ($(SYSTEM_ISCYGWIN),)
+SYSTEM_DesktopOpen = \
+cygstart $(1)
+
+else ifneq ($(SYSTEM_ISMSYS),)
+SYSTEM_DesktopOpen = \
+start "" $(1)
 
 else ifneq ($(XDGOPEN),)
-SYSTEM_DesktopOpen = $(XDGOPEN) $(1) 2>&1 >&-
-
-else ifneq ($(SYSTEM_ISINTERIX),)
-#TODO
-
+SYSTEM_DesktopOpen = \
+$(XDGOPEN) $(1) 2>&1 >&-
 endif
 
 
