@@ -24,7 +24,7 @@ RULE_OREQ := $(TEMPDIR_TEMPDIR)
 # TODO Don't just assume curl is present
 #
 define RULE_COMMANDS
-	test -f $(call SYSTEM_ShellEscape,$(NUGET_SHARED)) || curl -s -L -f $(call SYSTEM_ShellEscape,$(NUGET_URL)) > $(call SYSTEM_ShellEscape,$(TEMPDIR_TEMPDIR))/nuget.$(MAKE_PID).exe
+	test -f $(call SYSTEM_ShellEscape,$(NUGET_SHARED)) || $(call SYSTEM_DownloadUrlCommand,$(NUGET_URL),$(TEMPDIR_TEMPDIR)/nuget.$(MAKE_PID).exe)
 	test -f $(call SYSTEM_ShellEscape,$(TEMPDIR_TEMPDIR))/nuget.$(MAKE_PID).exe && mv -f $(call SYSTEM_ShellEscape,$(TEMPDIR_TEMPDIR))/nuget.$(MAKE_PID).exe $(call SYSTEM_ShellEscape,$(NUGET_SHARED))
 	find $(call SYSTEM_ShellEscape,$(NUGET_SHARED)) -mtime +1 && cp -f $(call SYSTEM_ShellEscape,$(NUGET_SHARED)) $(TEMPDIR_TEMPDIR)/nuget.$(MAKE_PID).exe
 	chmod u+x $(call SYSTEM_ShellEscape,$(TEMPDIR_TEMPDIR))/nuget.$(MAKE_PID).exe
