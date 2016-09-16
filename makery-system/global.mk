@@ -47,6 +47,18 @@ MAKERY_GLOBALS += XDGOPEN
 XDGOPEN := $(strip $(call MAKE_Shell,which xdg-open 2>&-))
 
 
+SYSTEM_CURL_DESC ?= \
+Program for downloading files from the internet, if present
+MAKERY_GLOBALS += SYSTEM_CURL
+SYSTEM_CURL := $(strip $(call MAKE_Shell,which curl 2>&-))
+
+
+SYSTEM_POWERSHELL_DESC ?= \
+The powershell.exe program, if present
+MAKERY_GLOBALS += SYSTEM_POWERSHELL
+SYSTEM_POWERSHELL := $(strip $(call MAKE_Shell,which powershell 2>&-))
+
+
 SYSTEM_TEMPDIR_DESC ?= \
 Temp directory
 MAKERY_GLOBALS += SYSTEM_TEMPDIR
@@ -309,5 +321,23 @@ SYSTEM_DesktopOpen = $(XDGOPEN) $(1) 2>&1 >&-
 else ifneq ($(SYSTEM_ISINTERIX),)
 #TODO
 
+endif
+
+
+# Produce a command that will download a file from a URL
+#
+# $1 - URL
+# $2 - Output file path
+#
+SYSTEM_DownloadUrlCommand = \
+(echo "SYSTEM_DownloadUrlCommand: Don't know how to download files on this machine" && false)
+
+ifneq ($(SYSTEM_CURL),)
+SYSTEM_DownloadUrlCommand = \
+$(SYSTEM_CURL) -s -L -f $(call SYSTEM_ShellEscape,$(1)) -o $(call SYSTEM_ShellEscape,$(2))
+
+else ifneq ($(SYSTEM_POWERSHELL),)
+SYSTEM_DownloadUrlCommand = \
+$(SYSTEM_POWERSHELL) -command "& { Invoke-WebRequest '$(1)' -OutFile '$(call SYSTEM_WinPath,$(2))' }"
 endif
 
